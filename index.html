@@ -71,7 +71,7 @@
 
 		span.e1 { font-family: "Consolas", monospace, sans-serif; color: gray; display:inline; }
 		td.e2 span.e1 {color:#000;}
-		span.menu, div.menu, kbd.menu { cursor: pointer; background-color: Bisque/*antiquewhite*/; }
+		span.menu, div.menu, kbd.menu { cursor: pointer; background-color: Bisque; }
 		span.over, div.over, kbd.over { cursor: pointer; background-color: burlywood; }
 
 		input.text, textarea#inputText { border: solid 1px wheat; ime-mode: disabled; resize:vertical; }
@@ -81,7 +81,7 @@
 		div#manual {display:block;}
 		div#manual ul li  { text-align:left; text-indent:-100px;padding-left:100px; word-break:keep-all;}
 		div#manual, div#tab1, div#tab2, div#tab3 { width:585px; }
-		div#tab1 { padding:5px 0; }
+		div#tab1 { padding:5px 0 0 0; }
 		div#tab2 { height:1px; overflow:hidden; visibility:hidden;  }
 		div#tab2 #searchEngines { margin:14px auto; }
 		div#tab2 #searchEngines input.text { width:300px; }
@@ -91,13 +91,15 @@
 		div#tab3 ol, div#tab3 li  { margin:0 10px 5px 0;}
 
 		div#more_layouts { display:none; }
-		div#keyboardLayout {position:absolute; margin-bottom:2px;}
-		div#keyboardLayoutInfo {float:left; margin-left:5px;}
-		div#keyboardLayoutInfo a {text-decoration:none;}
-		#options {}
+
+		#options { height:2.2em; }
 		.option { float:right; }
 		.option label { font-size:12px; }
 		input.checkbox { margin-left:15px; vertical-align:middle; }
+
+		div#keyboardLayout { position:absolute; margin-bottom:2px; clear:both; }
+		div#keyboardLayoutInfo {float:left; margin-left:5px;}
+		div#keyboardLayoutInfo a {text-decoration:none;}
 		div.ref { padding:0.5em 0 0.5em 0; clear:both; }
 		div.ref p { text-indent:-0.7em; padding:0 0 0 1em; margin:3px 0; }
 		div.credit { font-family:Arial,sans-serif; font-size:10pt; color:tan; text-align:center; }
@@ -168,10 +170,6 @@
 						→ <kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-2012')" onmouseover="this.className='over'" onmouseout="this.className='menu'">신세벌식2012</kbd>
 						→ <kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기2015</kbd>】
 					</li>
-					<!--<li>
-						3벌식 옛한글 :
-						【<kbd class="menu" onclick="javascript:ohiChange('K3','3-2015py')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2015P 옛한글</kbd>】
-					</li>-->
 				</ul>
 				<a onclick="this.nextSibling.style.display='block';this.innerHTML='';" href="javascript:void(0)">[더 많은 한글 자판]</a><div id="more_layouts">
 				<a onclick="this.parentNode.style.display='none';this.parentNode.previousSibling.innerHTML='[더 많은 한글 자판]';" href="javascript:void(0)">[접기]</a>
@@ -242,9 +240,6 @@
 						</li>
 					</ul>
 				</div>
-				<!--<ul>	
-					<li>옛 자판 배열, 연구·설계안 : <a href="http://ohi-test.pat.im">http://ohi-test.pat.im</a></li>
-				</ul>-->
 			</div>
 			<div id="tab1">
 				<textarea id="inputText" cols="88" rows="16"></textarea>
@@ -395,8 +390,8 @@
 				</ul>
 			</div>
 
-			<div id="keyboardLayout"></div>
 			<div id="options"></div>
+			<div id="keyboardLayout"></div>
 			<div class="ref">
 				<p>※ Dvorak 또는 Colemak 배열을 쓸 때는 실제 자판의 Caps Lock이 적용되지 않습니다.</p>
 				<p>※ 배열표의 Caps Lock은 윗글 걸쇠(Shift Lock)로 구실합니다.</p>
