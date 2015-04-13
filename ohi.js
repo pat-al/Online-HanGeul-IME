@@ -1123,7 +1123,7 @@ function view_sublayout(v) {
 }
 
 function view_keyboard(type) {
-	var opts;
+	var opts, opt;
 	shift_click=0;
 	KE = ohi_KE_Status.substr(0,2);
 
@@ -1140,8 +1140,8 @@ function view_keyboard(type) {
 	else if(!type) {
 		option.layout_table_view = 0;
 		rows.innerHTML = '<div style="text-align:right"><span class="menu" onclick="option.layout_table_view=1;view_keyboard(1);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 보이기</span></div>';
-		opts = document.getElementById('options');
-		//opts.style.display = 'none';
+		opt = document.getElementById('sublayout_view');
+		if(opt) opt.style.display = 'none';
 		return false;
 	}
 
@@ -1389,14 +1389,14 @@ function view_keyboard(type) {
 	if(opts) {
 		opts.style.display = 'block';
 
-		var opt = document.getElementById('sublayout_view');
-		if(!opt) opt = appendChild(opts,'div','option','sublayout_view','<div class="option"><input name="sublayout_view" class="checkbox" onclick="view_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.sublayout_view ? ' checked="checked"' : '') + '><label>겹받침 확장 배열 보기</label></div>');
-		if(typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,3)!='3m-') opt.style.display = 'block';
-		else opt.style.display = 'none';
-
 		opt = document.getElementById('sign_extension');
 		if(!opt) opt = appendChild(opts,'div','option','sign_extension','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_sign_ext_enable(this.checked);inputText_focus()" type="checkbox"' + (option.sign_ext_enable ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
 		if(KE=='K3' && typeof current_layout.sign_extension_layout != 'undefined') opt.style.display = 'block';
+		else opt.style.display = 'none';
+			
+		opt = document.getElementById('sublayout_view');
+		if(!opt) opt = appendChild(opts,'div','option','sublayout_view','<div class="option"><input name="sublayout_view" class="checkbox" onclick="view_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.sublayout_view ? ' checked="checked"' : '') + '><label>겹받침 확장 배열 보기</label></div>');
+		if(option.layout_table_view && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,3)!='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('normal_typing');
@@ -1534,7 +1534,7 @@ function ohiChange(KE, layout) {
 	}
 
 	ohiStart();
-	if(option.layout_table_view) view_keyboard(KE=='En' ? En_type : KE=='K2' ? K2_type : K3_type);	
+	view_keyboard(KE=='En' ? En_type : KE=='K2' ? K2_type : K3_type);	
 }
 
 function ohiChange_KE(Ko) {	// 한·영 상태 바꾸기
