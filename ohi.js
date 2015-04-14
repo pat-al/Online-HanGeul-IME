@@ -43,7 +43,7 @@ function option() {
 	var NCR_value_show; // 문자 부호로 바꾼 것 보기
 }
 
-function NCR_options() {
+function NCR_option() {
 	var convert_only_CGG_encoding; // 첫가끝 조합형으로 들어간 한글만 바꾸기
 }
 
@@ -54,8 +54,8 @@ option.sign_ext_enable=1;
 option.normal_typing = 0;
 option.NCR_value_show = 0;
 
-var NCR_options=new NCR_options();
-NCR_options.convert_only_CGG_encoding=0;
+var NCR_option=new NCR_option();
+NCR_option.convert_only_CGG_encoding=0;
 
 var ohiQ = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 담는 배열 [첫,첫,가,가,끝,끝,끝]
 var ohiR = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
@@ -1140,7 +1140,7 @@ function show_NCR_values(v) { // 유니코드 부호값을 따르는 문자 참�
 	var opts = document.getElementById('NCR_options');
 	if(opts) {
 		opt = document.getElementById('NCR_option_convert_only_CGG_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_options.convert_only_CGG_encoding=this.checked;show_NCR_values();inputText_focus()" type="checkbox"' + (NCR_options.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_option.convert_only_CGG_encoding=this.checked;show_NCR_values();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
 	}
 
 	if(t && option.NCR_value_show) {
@@ -1159,7 +1159,7 @@ function show_NCR_values(v) { // 유니코드 부호값을 따르는 문자 참�
 	for(i=0;i<f.value.length;++i) {
 		char_code = f.value.charCodeAt(i);
 		ref_char = '&amp;#'+ char_code + ';';	
-		if(NCR_options.convert_only_CGG_encoding && unicode_hangeul_CGG_phoneme.indexOf(char_code)<0) {
+		if(NCR_option.convert_only_CGG_encoding && unicode_hangeul_CGG_phoneme.indexOf(char_code)<0) {
 		// 첫가끝 조합형 한글은 참조 형식으로 바꾸지 않기
 			ref_char = f.value.charAt(i);
 		}
@@ -1514,6 +1514,8 @@ function ohiStart() {
 				ohi.src = 'http://ohi.pat.im/ohi.js';
 				if(typeof(window.frames[i].document)!='unknown') window.frames[i].document.body.appendChild(ohi);
 			}*/
+			
+			show_NCR_values();
 		}
 	}
 	else ohiTimeout = setTimeout("ohiStart()",100);
@@ -1614,13 +1616,13 @@ function ohiChange_KBD_type(type) {	// 기준 자판 바꾸기
 }
 
 function ohiStatusBar(op) {	// 보람줄(상태 표시줄) 보이기/감추기
-	if(op=='off' || op=='0') {
+	if(op=='off' || op=='0' || !op) {
 		ohiStatus.style.display='none';
 	}
 	else {
 		ohiStatus.style.display='block';		
 	}
-	ohiStart();
+	//ohiStart();
 }
 
 function ohiChange_sign_ext_enable(op) {
@@ -1827,7 +1829,6 @@ function ohiKeyup(e) {
 		if(pressing_keys && !--pressing_keys) {
 			ohiHangeul3_moa(f,e);
 			pressed_keys=[];
-			//show_NCR_values();
 		}
 	}
 	if(f.id=='inputText') show_NCR_values();
@@ -1839,12 +1840,13 @@ function inputText_focus() {
 }
 
 function url_query() {
-	var field, value;
+	var field, value, TF;
 	var address = unescape(location.href); 
 	var fields = (address.slice(address.indexOf('?')+1,address.length)).split('&');
 	for(var i=0; i<fields.length; ++i){
 		field = fields[i].split('=')[0].toLowerCase();
 		value = fields[i].split('=')[1];
+		TF = !value || value=='0' || value.toLowerCase=='f' || value.toLowerCase=='false' ? 0 : 1;
 		if(value===undefined || !value) continue;
 		if(field == 'kbd') {
 			if(value.toUpperCase()=='QWERTY' || value.toUpperCase()=='QWERTZ' || value.toUpperCase()=='AZERTY')
@@ -1860,15 +1862,19 @@ function url_query() {
 			ohiChange('K3',value.toLowerCase());
 		}
 		else if(field == 'status') {
-			if(!value.length) value=1;
-			ohiStatusBar(value);
+			ohiStatusBar(tf);
 		}
 		else if(field == 'sign_ext') {
-			if(!value.length) value=1;
-			ohiChange_sign_ext_enable(value);
+			ohiChange_sign_ext_enable(TF);
 		}
 		else if(field == 'normal_typing') {
-			option.normal_typing = value=='1' || value.toLowerCase=='true' ? 1 : 0;
+			option.normal_typing = TF;
+		}
+		else if(field == 'ncr') {
+			option.NCR_value_show = TF;
+		}
+		else if(field == 'ncr_only_cgg') {
+			NCR_option.convert_only_CGG_encoding = TF;
 		}
 	}
 }
@@ -1894,7 +1900,7 @@ function tableKey_pressed(key) {
 		
 	var key_td;
 	for(j=0;j<dkey.length;++j) {
-		if(j==41 || j==52/* || j==16*/) continue;
+		if(j==41 || j==52) continue;
 		key_td = document.getElementById('key'+j);
 		key_td.className = key_td.className.replace(/ clicked| pressed/,'');
 		if(key==dkey[j] || key==ukey[j] || (layout_name.substr(0,3)=='3m-' && !option.normal_typing && pressed_keys.indexOf(dkey[j])>=0)) {
