@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/13
+ * Last Update : 2015/04/15
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -40,7 +40,7 @@ function option() {
 	var sublayout_show; // 보조(겹받침 확장) 배열표 보기 --> show_sublayout() 함수로 값을 바꿈
 	var sign_ext_enable; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_sign_ext_enable() 함수로 값을 바꿈
 	var normal_typing; // 모아치기 자판을 일반 타자법(이어치기)으로 치기
-	var NCR_value_show; // 문자 부호로 바꾼 것 보기
+	var NCR; // 문자 참조 보기
 }
 
 function NCR_option() {
@@ -52,7 +52,7 @@ option.layout_table_show=1;
 option.sublayout_show=0;
 option.sign_ext_enable=1;
 option.normal_typing = 0;
-option.NCR_value_show = 0;
+option.NCR = 0;
 
 var NCR_option=new NCR_option();
 NCR_option.convert_only_CGG_encoding=0;
@@ -1130,27 +1130,27 @@ function show_sublayout(v) {
 	show_keyboard();
 }
 
-function show_NCR_values(v) { // 유니코드 부호값을 따르는 문자 참조(Numeric Character Reference) 형식으로 보여 주기
+function show_NCR(v) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
 	if(typeof v != 'undefined') {
-		if(v) option.NCR_value_show=1;
-		else option.NCR_value_show=0;
+		if(v) option.NCR=1;
+		else option.NCR=0;
 	}
 	
-	var t = document.getElementById('NCR_values');
+	var t = document.getElementById('NCR');
 	var opts = document.getElementById('NCR_options');
 	if(opts) {
 		opt = document.getElementById('NCR_option_convert_only_CGG_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_option.convert_only_CGG_encoding=this.checked;show_NCR_values();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_option.convert_only_CGG_encoding=this.checked;show_NCR();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
 	}
 
-	if(t && option.NCR_value_show) {
+	if(t && option.NCR) {
 		t.style.display='block';
 		opts.style.display='block';
 	}
 	else {
 		t.style.display='none';
 		opts.style.display='none';
-		option.NCR_value_show=0;
+		option.NCR=0;
 		return;
 	}
 
@@ -1160,7 +1160,7 @@ function show_NCR_values(v) { // 유니코드 부호값을 따르는 문자 참�
 		char_code = f.value.charCodeAt(i);
 		ref_char = '&amp;#'+ char_code + ';';	
 		if(NCR_option.convert_only_CGG_encoding && unicode_hangeul_CGG_phoneme.indexOf(char_code)<0) {
-		// 첫가끝 조합형 한글은 참조 형식으로 바꾸지 않기
+		// 첫가끝 조합형 한글은 바꾸지 않기
 			ref_char = f.value.charAt(i);
 		}
 		ref_text += ref_char;
@@ -1175,8 +1175,8 @@ function show_options() {
 	if(opts) {
 		opts.style.display = 'block';
 
-		opt = document.getElementById('option_NCR_value');
-		if(!opt) opt = appendChild(opts,'div','option','option_NCR_value','<div class="option"><input name="NCR_values_show" class="checkbox" onclick="show_NCR_values(this.checked);inputText_focus()" type="checkbox"' + (option.NCR_value_show ? ' checked="checked"' : '') + '><label>HTML 부호값 참조</label></div>');
+		opt = document.getElementById('option_NCR');
+		if(!opt) opt = appendChild(opts,'div','option','option_NCR','<div class="option"><input name="NCR" class="checkbox" onclick="show_NCR(this.checked);inputText_focus()" type="checkbox"' + (option.NCR ? ' checked="checked"' : '') + '><label>HTML 문자 참조</label></div>');
 
 		opt = document.getElementById('option_sign_ext_enable');
 		if(!opt) opt = appendChild(opts,'div','option','option_sign_ext_enable','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_sign_ext_enable(this.checked);inputText_focus()" type="checkbox"' + (option.sign_ext_enable ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
@@ -1515,7 +1515,7 @@ function ohiStart() {
 				if(typeof(window.frames[i].document)!='unknown') window.frames[i].document.body.appendChild(ohi);
 			}*/
 			
-			show_NCR_values();
+			show_NCR();
 		}
 	}
 	else ohiTimeout = setTimeout("ohiStart()",100);
@@ -1721,7 +1721,7 @@ function ohiKeypress(e) {
 
 	if(key_pressed) {		
 		if(option.layout_table_show) tableKey_pressed(c);
-		if(f.id=='inputText') show_NCR_values();
+		if(f.id=='inputText') show_NCR();
 	}
 
 	return false;
@@ -1818,7 +1818,7 @@ function ohiKeydown(e) {
 			prev_combined_phoneme.splice(0);
 		}	
 	}
-	if(f.id=='inputText') show_NCR_values();
+	if(f.id=='inputText') show_NCR();
 }
 
 function ohiKeyup(e) {
@@ -1831,7 +1831,7 @@ function ohiKeyup(e) {
 			pressed_keys=[];
 		}
 	}
-	if(f.id=='inputText') show_NCR_values();
+	if(f.id=='inputText') show_NCR();
 }
 
 function inputText_focus() {
@@ -1871,7 +1871,7 @@ function url_query() {
 			option.normal_typing = TF;
 		}
 		else if(field == 'ncr') {
-			option.NCR_value_show = TF;
+			option.NCR = TF;
 		}
 		else if(field == 'ncr_only_cgg') {
 			NCR_option.convert_only_CGG_encoding = TF;
