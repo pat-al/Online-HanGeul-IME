@@ -40,14 +40,22 @@ function option() {
 	var sublayout_show; // 보조(겹받침 확장) 배열표 보기 --> show_sublayout() 함수로 값을 바꿈
 	var sign_ext_enable; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_sign_ext_enable() 함수로 값을 바꿈
 	var normal_typing; // 모아치기 자판을 일반 타자법(이어치기)으로 치기
+	var NCR_value_show; // 문자 부호로 바꾼 것 보기
+}
+
+function NCR_options() {
+	var convert_only_CGG_encoding; // 첫가끝 조합형으로 들어간 한글만 바꾸기
 }
 
 var option=new option();
-
 option.layout_table_show=1;
 option.sublayout_show=0;
 option.sign_ext_enable=1;
 option.normal_typing = 0;
+option.NCR_value_show = 0;
+
+var NCR_options=new NCR_options();
+NCR_options.convert_only_CGG_encoding=0;
 
 var ohiQ = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 담는 배열 [첫,첫,가,가,끝,끝,끝]
 var ohiR = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
@@ -77,7 +85,7 @@ var hangeul_combination_table_default, hangeul_combination_table_full;
 var ohiHangeul3_HanExtKey=0;
 
 var ohi_cheot, ohi_ga, ohi_ggeut, ohi_hotbatchim;
-var unicode_hangeul = [], unicode_cheot = [], unicode_ga = [], unicode_ggeut=[];
+var unicode_hangeul_CGG_phoneme = [], unicode_cheot = [], unicode_ga = [], unicode_ggeut=[];
 var unicode_modern_cheot = [], unicode_modern_ga = [], unicode_modern_ggeut = [];
 var compatibility_cheot = [], compatibility_ga = [], compatibility_ggeut = [];
 
@@ -512,7 +520,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		if(ch) {
 			if(ohiQ[4]) {
 				if(!ohiQ[5]) ohiQ[5]=convert_into_ohi_hangeul_phoneme(ch)-ohiQ[4];
-				else { // 3타로 넣는 받침이 들어갔을 때(새 순아래 자판의 ㄹ+ㅁ+ㅁ→ㄿ)
+				else { // 3타로 넣는 받침이 들어갔을 때(순아래 2014 자판의 ㄹ+ㅁ+ㅁ→ㄿ)
 					ohiQ[6]=convert_into_ohi_hangeul_phoneme(ch)-(ohiQ[4]+ohiQ[5]);
 				}
 			}
@@ -588,8 +596,8 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return;
 	}
 
-	// 옛한글 자판 상태 또는 요즘한글 자판의 첫가끝 상태
 	if(K3_type.substr(-1)=='y' || prev_phoneme.length) {
+	// 옛한글 자판
 		Hangeul_Gong3_yes(f,c,cc);
 	}
 	else ohiInsert(f,0,cc);
@@ -1122,24 +1130,66 @@ function show_sublayout(v) {
 	show_keyboard();
 }
 
+function show_NCR_values(v) { // 유니코드 부호값을 따르는 문자 참조(Numeric Character Reference) 형식으로 보여 주기
+	if(typeof v != 'undefined') {
+		if(v) option.NCR_value_show=1;
+		else option.NCR_value_show=0;
+	}
+	
+	var t = document.getElementById('NCR_values');
+	var opts = document.getElementById('NCR_options');
+	if(opts) {
+		opt = document.getElementById('NCR_option_convert_only_CGG_encoding');
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_options.convert_only_CGG_encoding=this.checked;show_NCR_values();inputText_focus()" type="checkbox"' + (NCR_options.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
+	}
+
+	if(t && option.NCR_value_show) {
+		t.style.display='block';
+		opts.style.display='block';
+	}
+	else {
+		t.style.display='none';
+		opts.style.display='none';
+		option.NCR_value_show=0;
+		return;
+	}
+
+	var f = document.getElementById('inputText');
+	var ref_char, char_code, ref_text='';
+	for(i=0;i<f.value.length;++i) {
+		char_code = f.value.charCodeAt(i);
+		ref_char = '&amp;#'+ char_code + ';';	
+		if(NCR_options.convert_only_CGG_encoding && unicode_hangeul_CGG_phoneme.indexOf(char_code)<0) {
+		// 첫가끝 조합형 한글은 참조 형식으로 바꾸지 않기
+			ref_char = f.value.charAt(i);
+		}
+		ref_text += ref_char;
+	}
+	if(ref_text=='') ref_text='&nbsp;';
+	t.innerHTML = ref_text;
+}
+
 function show_options() {
 	var opts = document.getElementById('options'), opt;
 
 	if(opts) {
 		opts.style.display = 'block';
 
-		opt = document.getElementById('sign_extension');
-		if(!opt) opt = appendChild(opts,'div','option','sign_extension','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_sign_ext_enable(this.checked);inputText_focus()" type="checkbox"' + (option.sign_ext_enable ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
+		opt = document.getElementById('option_NCR_value');
+		if(!opt) opt = appendChild(opts,'div','option','option_NCR_value','<div class="option"><input name="NCR_values_show" class="checkbox" onclick="show_NCR_values(this.checked);inputText_focus()" type="checkbox"' + (option.NCR_value_show ? ' checked="checked"' : '') + '><label>HTML 부호값 참조</label></div>');
+
+		opt = document.getElementById('option_sign_ext_enable');
+		if(!opt) opt = appendChild(opts,'div','option','option_sign_ext_enable','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_sign_ext_enable(this.checked);inputText_focus()" type="checkbox"' + (option.sign_ext_enable ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
 		if(KE=='K3' && typeof current_layout.sign_extension_layout != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
-		opt = document.getElementById('sublayout_show');
-		if(!opt) opt = appendChild(opts,'div','option','sublayout_show','<div class="option"><input name="sublayout_show" class="checkbox" onclick="show_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.sublayout_show ? ' checked="checked"' : '') + '><label>겹받침 확장 배열 보기</label></div>');
+		opt = document.getElementById('option_sublayout_show');
+		if(!opt) opt = appendChild(opts,'div','option','option_sublayout_show','<div class="option"><input name="sublayout_show" class="checkbox" onclick="show_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.sublayout_show ? ' checked="checked"' : '') + '><label>겹받침 확장 배열 보기</label></div>');
 		if(option.layout_table_show && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,3)!='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
-		opt = document.getElementById('normal_typing');
-		if(!opt) opt = appendChild(opts,'div','option','normal_typing','<div class="option"><input name="normal_typing" class="checkbox" onclick="option.normal_typing=this.checked;inputText_focus()" type="checkbox"' + (option.normal_typing ? ' checked="checked"' : '') + '><label>이어치기</label></div>');
+		opt = document.getElementById('option_normal_typing');
+		if(!opt) opt = appendChild(opts,'div','option','option_normal_typing','<div class="option"><input name="normal_typing" class="checkbox" onclick="option.normal_typing=this.checked;inputText_focus()" type="checkbox"' + (option.normal_typing ? ' checked="checked"' : '') + '><label>이어치기</label></div>');
 		if(KE=='K3' && K3_type.substr(0,3)=='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
@@ -1165,7 +1215,7 @@ function show_keyboard(type) {
 	else if(!type) {
 		option.layout_table_show = 0;
 		rows.innerHTML = '<div style="text-align:right"><span class="menu" onclick="option.layout_table_show=1;show_keyboard(1);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 보이기</span></div>';
-		opt = document.getElementById('sublayout_show');
+		opt = document.getElementById('option_sublayout_show');
 		if(opt) opt.style.display = 'none';
 		return false;
 	}
@@ -1667,8 +1717,9 @@ function ohiKeypress(e) {
 		}
 	}
 
-	if(key_pressed && option.layout_table_show) {		
-		tableKey_pressed(c);
+	if(key_pressed) {		
+		if(option.layout_table_show) tableKey_pressed(c);
+		if(f.id=='inputText') show_NCR_values();
 	}
 
 	return false;
@@ -1763,8 +1814,9 @@ function ohiKeydown(e) {
 			if(browser != "Firefox") ohiInsert(f,0,0);
 			prev_phoneme.splice(0);
 			prev_combined_phoneme.splice(0);
-		}		
+		}	
 	}
+	if(f.id=='inputText') show_NCR_values();
 }
 
 function ohiKeyup(e) {
@@ -1775,8 +1827,10 @@ function ohiKeyup(e) {
 		if(pressing_keys && !--pressing_keys) {
 			ohiHangeul3_moa(f,e);
 			pressed_keys=[];
+			//show_NCR_values();
 		}
 	}
+	if(f.id=='inputText') show_NCR_values();
 }
 
 function inputText_focus() {
@@ -1959,7 +2013,7 @@ function basic_layouts_info() {
 	i=0x11A8;	while(i<=0x11FF) unicode_ggeut.push(i++);
 	i=0xD7CB;	while(i<=0xD7FB) unicode_ggeut.push(i++);
 
-	unicode_hangeul.concat(unicode_cheot,unicode_ga,unicode_ggeut);
+	unicode_hangeul_CGG_phoneme = unicode_cheot.concat(unicode_ga,unicode_ggeut,[0x115F,0x1160]);
 
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheot.push(i++);
 	i=0x1161;	while(i<=0x1175) unicode_modern_ga.push(i++);

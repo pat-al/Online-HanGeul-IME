@@ -93,13 +93,17 @@
 		div#more_layouts { display:none; }
 
 		#options { height:2.2em; }
+		#NCR_options { height:1em; display:none; }
 		.option { float:right; }
 		.option label { font-size:12px; }
-		input.checkbox { margin-left:15px; vertical-align:middle; }
+		.option input.checkbox { margin-left:15px; vertical-align:middle; }
 
 		div#keyboardLayout { position:absolute; margin-bottom:2px; clear:both; }
 		div#keyboardLayoutInfo {float:left; margin-left:5px;}
 		div#keyboardLayoutInfo a {text-decoration:none;}
+
+		div#NCR_values { background-color:#FFF9F3; display:none; width:580px; border: solid 2px wheat; margin-top:10px; word-break: break-all; }
+
 		div.ref { padding:0.5em 0 0.5em 0; clear:both; }
 		div.ref p { text-indent:-0.7em; padding:0 0 0 1em; margin:3px 0; }
 		div.credit { font-family:Arial,sans-serif; font-size:10pt; color:tan; text-align:center; }
@@ -243,6 +247,8 @@
 			</div>
 			<div id="tab1">
 				<textarea id="inputText" cols="88" rows="16"></textarea>
+				<div id="NCR_options"></div>
+				<div id="NCR_values"></div>
 			</div>
 
 			<div id="tab2">
@@ -389,7 +395,6 @@
 					</li>
 				</ul>
 			</div>
-
 			<div id="options"></div>
 			<div id="keyboardLayout"></div>
 			<div class="ref">
