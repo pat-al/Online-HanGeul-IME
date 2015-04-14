@@ -1158,7 +1158,7 @@ function show_NCR(v) { // 문자를 유니코드 부호값과 맞대어 나타�
 	var ref_char, char_code, ref_text='';
 	for(i=0;i<f.value.length;++i) {
 		char_code = f.value.charCodeAt(i);
-		ref_char = '&amp;#'+ char_code + ';';	
+		ref_char = '&amp;#x'+ char_code.toString(16).toUpperCase() + ';';	
 		if(NCR_option.convert_only_CGG_encoding && unicode_hangeul_CGG_phoneme.indexOf(char_code)<0) {
 		// 첫가끝 조합형 한글은 바꾸지 않기
 			ref_char = f.value.charAt(i);
