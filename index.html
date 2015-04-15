@@ -45,7 +45,8 @@
 		div.content { margin:5px auto 0 auto; display:table; }
 		.ohi_table { border-spacing: 0; border-collapse: separate; }
 		th, td, input, textarea { font-size: 10pt; }
-		th.menu, th.this, th.none { font-size: 11pt; width: 81px; padding: 1px; }
+		th.menu, th.this, th.none { font-size: 11pt; padding: 1px; }
+		th.menu, th.this { width: 70px; }
 		th.menu { cursor: pointer; border: solid 2px oldlace; background-color: snow; }
 		th.this { border: solid 2px wheat; background-color: wheat; }
 		th.none { border: solid 2px white; background-color: white; }
@@ -121,13 +122,13 @@
 	<table class="ohi_table">
 	<tr>
 		<th class="this" id="menu1" onclick="gotoTab(1)">
-			<div onmouseover="this.className='over'" onmouseout="this.className=''">한글 입력</div>
+			<div onmouseover="this.className='over'" onmouseout="this.className=''">글 넣기</div>
 		</th>
 		<th class="menu" id="menu2" onclick="gotoTab(2)">
-			<div onmouseover="this.className='over'" onmouseout="this.className=''">한글 검색</div>
+			<div onmouseover="this.className='over'" onmouseout="this.className=''">찾기</div>
 		</th>
 		<th class="menu" id="menu3" onclick="gotoTab(3)">
-			<div onmouseover="this.className='over'" onmouseout="this.className=''">추가 정보</div>
+			<div onmouseover="this.className='over'" onmouseout="this.className=''">정보</div>
 		</th>
 		<th class="none">
 			<div>&nbsp;</div>
@@ -319,26 +320,26 @@
 
 			<div id="tab3">
 				<h2>I. 즐겨찾기에 넣어서 다른 그물집에서도 온라인 한글 입력기를 불러 쓰세요!</h2>
-				<ol>
+				<ul>
 					<li>
-						<strong>OHI</strong>를 띄우는 <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s)})()" style="font-weight:bold;">스크립트</a>를
-						마우스 오른쪽 단추로 딸깍하여 <strong>즐겨찾기(Favorite)</strong> 또는 <strong>책갈피(Bookmark)</strong>에 넣으면, 다른 그물집에서도 온라인 한글 입력기를 불러 쓸 수 있습니다.
+						<strong>OHI</strong>를 띄우는 <a title="OHI" href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s)})()" style="font-weight:bold;">스크립트</a>를
+						마우스 오른쪽 단추로 딸깍하여 <strong>즐겨찾기(Favorite)</strong> 또는 <strong>책갈피(Bookmark)</strong>에 복사해 넣으면, 다른 그물집에서도 온라인 한글 입력기를 불러 쓸 수 있습니다.
 						즐겨찾기 항목을 눈에 잘 띄는 도구 막대(Toolbar)로 넣어 두면 더욱 편리합니다.<br />
 					</li>
 					<li>
 						기준 자판과 
-						<a href="javascript:javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s);setTimeout(function(){ohiChange_KE('K2');},1000)})()">두벌식 한·영</a>, 
-						<a href="javascript:javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s);setTimeout(function(){ohiChange_KE('K3');},1000)})()">세벌식 한·영</a> 
+						<a href="javascript:javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange_KE('K2');},1000)})()">두벌식 한·영</a>, 
+						<a href="javascript:javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange_KE('K3');},1000)})()">세벌식 한·영</a> 
 						상태도 즐겨찾기에 넣어 바꿀 수 있습니다.<br />
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type();},1000)})()">기준 자판</a> : 
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type('QWERTY');},1000)})()">QWERTY</a>, 
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type('QWERTZ');},1000)})()">QWERTZ</a>, 
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='http://ohi.pat.im/ohi.js';if(typeof ohiStart===undefined) document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type('AZERTY');},1000)})()">AZERTY</a>
+						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type();},1000)})()">기준 자판</a> : 
+						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type('QWERTY');},1000)})()">QWERTY</a>, 
+						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type('QWERTZ');},1000)})()">QWERTZ</a>, 
+						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange_KBD_type('AZERTY');},1000)})()">AZERTY</a>
 					</li>
 					<li>
 						특정 자판 배열을 즐겨찾기에 넣어 바로 불러 쓸 수도 있습니다.<br />
  						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','');},1000)})()">영문 자판</a> :
- 					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','qwerty');},1000)})()">Qwerty</a>,
+ 					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','qwerty');},1000)})()">QWERTY</a>,
  					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','dvorak');},1000)})()">Dvorak</a>,
  					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','colemak');},1000)})()">Colemak</a>
 						<br />
@@ -360,25 +361,29 @@
 						<kbd class="status" style="color:#Gold">En</kbd>을 딸깍하면 기준 자판(QWERTY, QWERTZ, AZERTY)이 바뀝니다.
 						두벌식/세벌식/영문 배열 이름을 딸깍하면 자판 배열 종류를 바뀝니다.
 					</li>
-				</ol>
+				</ul>
 				<h2>II. 자바스크립트로 어디서든 한글을 넣을 수 있게 하세요!</h2>
 				<ul>
 					<li>
 						HTML 문서에 다음 내용을 끼워 넣으면 <strong>OHI</strong>가 작동합니다.<br />
-						<kbd>&lt;script type=&quot;text/javascript&quot; src=&quot;http://ohi.pat.im/ohi.js&quot;&gt; &lt;/script&gt;</kbd>
+						<kbd>&lt;script type=&quot;text/javascript&quot; src=&quot;//ohi.pat.im/ohi.js&quot;&gt; &lt;/script&gt;</kbd>
 					</li>
 					<li>
-						그 아래에 다음 내용을 더 넣으면 <strong>AZERTY 자판</strong>을 기준 자판으로 하여 <strong>드보락 자판</strong>, <strong>조선 2벌식 자판</strong>, <strong>3-90 자판</strong>을 고른 상태가 됩니다.
+						그 아래에 다음을 더 넣으면 <strong>AZERTY 자판</strong>을 기준 자판으로 하여 <strong>드보락 자판</strong>, <strong>조선 2벌식 자판</strong>, <strong>3-90 자판</strong>을 고른 상태가 됩니다.
 						(마지막에 바꾼 3-90 자판을 쓰는 상태가 됨)<br />
 						<kbd>&lt;script type=&quot;text/javascript&quot;&gt;<br />
 						&nbsp;ohiChange_KBD_type('AZERTY');<br />
-						&nbsp;ohiChange('En','dvorak');<br />
-						&nbsp;ohiChange('K2','kps9256');<br />
+						&nbsp;ohiChange('En','Dvorak');<br />
+						&nbsp;ohiChange('K2','KPS9256');<br />
 						&nbsp;ohiChange('K3','3-90');<br />
-						&lt;/script&gt;</kbd></li>
+						&lt;/script&gt;</kbd>
+					</li>
+				</ul>
+				<h2>III. 그밖의 정보</h3>
+				<ul>
 					<li>
-						<strong>OHI</strong>의 onkeypress 또는 onkeydown 이벤트 핸들러가  다른 자바스크립트의 것과 부딛히면 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
-						그런 때는 자바스크립트를 고쳐야 합니다. 운영체제 기본 입력기가 아닌 다른 입력기를 쓸 때에도 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
+						<strong>OHI</strong>의 onkeypress, onkeydown, onkeyup 이벤트 핸들러가 다른 자바스크립트와 부딛히면 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
+						웹 누비개 안에서 다른 입력기가 작동할 때에도 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
 					</li>
 					<li>
 						<a href="http://ohi.pat.im/?kbd=azerty&amp;en=dvorak&amp;k2=kps9256&amp;k3=3-90" target="_blank">http://ohi.pat.im/?kbd=azerty&amp;en=dvorak&amp;k2=kps9256&amp;k3=3-90</a>처럼 매개변수를 넣은 주소로 자판 배열을 미리 고른 입력기 화면을 바로 띄울 수 있습니다.
@@ -400,7 +405,7 @@
 			<div class="ref">
 				<p>※ Dvorak 또는 Colemak 배열을 쓸 때는 실제 자판의 Caps Lock이 적용되지 않습니다.</p>
 				<p>※ 배열표의 Caps Lock은 윗글 걸쇠(Shift Lock)로 구실합니다.</p>
-				<p>※ 모아치기 자판을 쓸 때는 글쇠를 눌렀다가 모두 떼었을 때 글짜가 들어갑니다.</p>
+				<p>※ 모아치기 자판을 쓸 때는 글쇠를 눌렀다가 모두 떼었을 때 문자가 들어갑니다.</p>
 			</div>
 		</td>
 	</tr>

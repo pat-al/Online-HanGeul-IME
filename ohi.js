@@ -1447,7 +1447,9 @@ function show_keyboard(type) {
 	if(KE=='K3' && K3_type=='3m-Moa2015') {
 		document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('uh39').innerHTML = Moachigi_modifier_tag;
-		document.getElementById('uh45').innerHTML = Moachigi_modifier_tag;
+		document.getElementById('ue45').removeAttribute('class');
+		document.getElementById('ue45').style.float = 'left';
+		document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 	}
 	
 	if(KE=='K3' && K3_type=='3m-Moa2014') {
