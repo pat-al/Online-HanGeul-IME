@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/15
+ * Last Update : 2015/04/16
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -36,7 +36,7 @@ var initial_layout = initial_layout_type=='En' ? En_type : initial_layout_type==
 var ohi_KE_Status = initial_layout_type;
 
 function option() {
-	var layout_table_show; // 1: 자판 배열표 보기  0: 자판 배열표 감추기 --> show_keyboard() 함수로 값을 바꿈
+	var layout_table_show; // 1: 자판 배열표 보기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var sublayout_show; // 보조(겹받침 확장) 배열표 보기 --> show_sublayout() 함수로 값을 바꿈
 	var sign_ext_enable; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_sign_ext_enable() 함수로 값을 바꿈
 	var normal_typing; // 모아치기 자판을 일반 타자법(이어치기)으로 치기
@@ -305,7 +305,7 @@ function esc_ext_layout() {
 		if(KE=='K3') {
 			Hangeul_SignExtKey1=Hangeul_SignExtKey2=0;
 			ohiHangeul3_HanExtKey=0;
-			show_keyboard(K3_type);
+			show_keyboard_layout(K3_type);
 		}
 	}
 	Hangeul_SignExtKey1=Hangeul_SignExtKey2=0;
@@ -656,7 +656,7 @@ function Hangeul_Gong3_sign(f,e,c) {
 		if(!Hangeul_SignExtKey2) ++Hangeul_SignExtKey1;
 		else Hangeul_SignExtKey1+=2;
 		if(Hangeul_SignExtKey1+Hangeul_SignExtKey2>3)	Hangeul_SignExtKey1=Hangeul_SignExtKey2=0;
-		show_keyboard(K3_type);
+		show_keyboard_layout(K3_type);
 		return 1;
 	}
 	else if(option.sign_ext_enable && ((c==56&&(K3_type=='3-2011' || K3_type=='3-2012')))
@@ -665,7 +665,7 @@ function Hangeul_Gong3_sign(f,e,c) {
  		if(!Hangeul_SignExtKey1) ++Hangeul_SignExtKey2;
 		else Hangeul_SignExtKey2+=2;
 		if(Hangeul_SignExtKey1+Hangeul_SignExtKey2>3)	Hangeul_SignExtKey1=Hangeul_SignExtKey2=0;
-		show_keyboard(K3_type);
+		show_keyboard_layout(K3_type);
 		return 1;
 	}
 	else if(option.sign_ext_enable && !ohiHangeul3_HanExtKey
@@ -683,13 +683,13 @@ function Hangeul_Gong3_sign(f,e,c) {
 				Hangeul_SignExtKey2=0;
 				++Hangeul_SignExtKey1;
 				if(Hangeul_SignExtKey1>3) esc_ext_layout();
-				else show_keyboard(K3_type);
+				else show_keyboard_layout(K3_type);
 			}
 			if(c==0x39) {	// 윗기호 글쇠(오른쪽 ㅜ)가 눌렸을 때
 				Hangeul_SignExtKey1=0;
 				++Hangeul_SignExtKey2;
 				if(Hangeul_SignExtKey2>5) esc_ext_layout();
-				else show_keyboard(K3_type);
+				else show_keyboard_layout(K3_type);
 			}
 		}
 		return 1;
@@ -735,13 +735,13 @@ function Hangeul_Gong3_yes(f,c,cc) {	// 공세벌식 옛한글 처리
 			if(ohiHangeul3_HanExtKey%0x10==2 || ohiHangeul3_HanExtKey==0x11) { esc_ext_layout(); convert_into_modern_hangeul_syllable(f); return false;}
 			if(ohiHangeul3_HanExtKey>0x10) {esc_ext_layout(); return false;}
 			ohiHangeul3_HanExtKey = (ohiHangeul3_HanExtKey&&ohiHangeul3_HanExtKey)*0x10+1;
-			show_keyboard('3-2012y_han_ext');
+			show_keyboard_layout('3-2012y_han_ext');
 			return false;
 		} else if(c==56 || cc==0x1174) { // 두째 한글 확장 글쇠(ㅢ 자리 글쇠)가 눌렸을 때
 			if(ohiHangeul3_HanExtKey%0x10==1 || ohiHangeul3_HanExtKey==0x12) { esc_ext_layout(); convert_into_modern_hangeul_syllable(f); return false;}
 			if(ohiHangeul3_HanExtKey>0x10) {esc_ext_layout(); return false;}
 			ohiHangeul3_HanExtKey = (ohiHangeul3_HanExtKey&&ohiHangeul3_HanExtKey)*0x10+2;
-			show_keyboard('3-2012y_han_ext');
+			show_keyboard_layout('3-2012y_han_ext');
 			return false;
 		}
 
@@ -849,7 +849,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		if(cc==128) Hangeul_SignExtKey1=1;
 		else if(cc==151) Hangeul_SignExtKey1=2;
 		else if(cc==145) Hangeul_SignExtKey1=3;
-		show_keyboard('Sin3-ext');
+		show_keyboard_layout('Sin3-ext');
 		return -1;
 	}
 	else if(Sin3_sublayout && !no_shift(c) && typeof Sin3_sublayout[c-33]!='undefined' && Sin3_sublayout[c-33]
@@ -1127,7 +1127,7 @@ function show_sublayout(v) {
 	if(v===undefined || v==1) option.sublayout_show=1;
 	else option.sublayout_show=0;
 
-	show_keyboard();
+	show_keyboard_layout();
 }
 
 function show_NCR(v) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
@@ -1195,7 +1195,7 @@ function show_options() {
 	}
 }
 
-function show_keyboard(type) {
+function show_keyboard_layout(type) {
 	var opts, opt;
 	shift_click=0;
 	KE = ohi_KE_Status.substr(0,2);
@@ -1214,7 +1214,7 @@ function show_keyboard(type) {
 	}
 	else if(!type) {
 		option.layout_table_show = 0;
-		rows.innerHTML = '<div style="text-align:right"><span class="menu" onclick="option.layout_table_show=1;show_keyboard(1);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 보이기</span></div>';
+		rows.innerHTML = '<div style="text-align:right"><span class="menu" onclick="option.layout_table_show=1;show_keyboard_layout(1);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 보이기</span></div>';
 		opt = document.getElementById('option_sublayout_show');
 		if(opt) opt.style.display = 'none';
 		return false;
@@ -1315,7 +1315,7 @@ function show_keyboard(type) {
 	ue.push(['영문','2벌식','3벌식','Space','2벌식','3벌식','기준']);
 	de.push(['바꿈','바꿈','바꿈','','한/영','한/영','자판']);
 
-	rows.innerHTML += '<div id="keyboardLayoutInfo" style=""></div><div style="text-align:right"><span class="menu" onclick="show_keyboard(0);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span></div>';
+	rows.innerHTML += '<div id="keyboardLayoutInfo" style=""></div><div style="text-align:right"><span class="menu" onclick="show_keyboard_layout(0);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span></div>';
 	rows.innerHTML += '<div id="keyboardLayoutTable">';
 	rows.innerHTML += '<table style="border-collapse:collapse;">';
 	rows.innerHTML += '<tr><td><table><tr id="row0"></tr></table></td></tr>';
@@ -1592,7 +1592,7 @@ function ohiChange(KE, layout) {
 	}
 
 	ohiStart();
-	show_keyboard(KE=='En' ? En_type : KE=='K2' ? K2_type : K3_type);
+	show_keyboard_layout(KE=='En' ? En_type : KE=='K2' ? K2_type : K3_type);
 }
 
 function ohiChange_KE(Ko) {	// 한·영 상태 바꾸기
@@ -1614,7 +1614,7 @@ function ohiChange_KBD_type(type) {	// 기준 자판 바꾸기
 		KBD_type = type;
 		ohiStart();
 	}
-	show_keyboard(option.layout_table_show);
+	show_keyboard_layout(option.layout_table_show);
 }
 
 function ohiStatusBar(op) {	// 보람줄(상태 표시줄) 보이기/감추기
@@ -1630,7 +1630,7 @@ function ohiStatusBar(op) {	// 보람줄(상태 표시줄) 보이기/감추기
 function ohiChange_sign_ext_enable(op) {
 	if(op=='off' || op=='0') option.sign_ext_enable = 0;
 	else option.sign_ext_enable = 1;
-	show_keyboard(option.layout_table_show);
+	show_keyboard_layout(option.layout_table_show);
 }
 
 function ohiKeyswap(c,e) {
