@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/16
+ * Last Update : 2015/04/17
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -116,8 +116,8 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'K3', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
 	basic_layouts.push({KE: 'K3', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
 	basic_layouts.push({KE: 'K3', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, sign_extension_layout: K3_2012_sign_extension_layout, link: 'http://pat.im/938'});
-	basic_layouts.push({KE: 'K3', type_name: '3-sun1990', full_name: '순아래 1990', layout: K3_sun1990_layout, link: ''});
-	basic_layouts.push({KE: 'K3', type_name: '3-sun2014', full_name: '순아래 2014', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
+	basic_layouts.push({KE: 'K3', type_name: '3-sun1990', full_name: '순아래 1990 (안종혁)', layout: K3_sun1990_layout, link: ''});
+	basic_layouts.push({KE: 'K3', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
 	basic_layouts.push({KE: 'K3', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, sign_extension_layout: K3_2012y_sign_extension_layout, link: 'http://pat.im/1090'});
 
 	basic_layouts.push({KE: 'K3', type_name: '3-93y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
@@ -478,8 +478,8 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		cc=Hangeul_Sin3(f,c);
 		if(cc<0) return;
 	}
-	else if(K3_type.substr(0,2)=='4-') { // 네벌식 타자기 자판
-		cc=hangeul_4typewriter(f,c);
+	else if(K3_type.substr(1,2)=='t-') { // 타자기 자판
+		cc=hangeul_typewriter(f,c);
 		if(cc<0) return;
 	}
 	
@@ -509,8 +509,8 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		if(cc<0) return;
 	}
 
-	if(K3_type.substr(-1)!='y' && combination_table)	{
-	// 옛한글 자판이 아닐 때 낱자 결합 규칙 적용하기
+	if(K3_type.substr(-1)!='y' && K3_type.substr(1,2)!='t-' && combination_table)	{
+	// 옛한글 자판이 아니고 타자기 자판이 아닐 때 낱자 결합 규칙 적용하기
 		var ch;
 		if(ohiQ[4]) ch=ohiQ[4]+ohiQ[5];
 		else if(ohiQ[2]) ch=ohiQ[2]+ohiQ[3]+35;
@@ -584,21 +584,20 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return;
 	}
 	else if(!prev_phoneme.length && cc>65 && cc<87) { // Jung
-		if((!ohiQ[3] || !(ohiQ[2]=-1)) && !(K3_type.substr(0,2)=='4-' && ohiR[2]+ohiR[3]>1)) ohiQ[3]=ohiDoubleJamo(1,ohiQ[2],cc-35);
+		if((!ohiQ[3] || !(ohiQ[2]=-1)) && !(K3_type.substr(1,2)=='t-' && ohiR[2]+ohiR[3]>1)) ohiQ[3]=ohiDoubleJamo(1,ohiQ[2],cc-35);
 		if((!ohiQ[0] || ohiQ[2]) && (!ohiQ[3] || ohiQ[4]) || ohiQ[2]<0) ohiInsert(f,ohiQ,ohiQ=[0,0,cc-35,0,0,0,0]);
 		else if(ohiQ[2]=ohiQ[2]||cc-35) ohiInsert(f,0,ohiQ);
 		return;
 	}
 	else if(!prev_phoneme.length && cc<31) { // Jong
-		if((!ohiQ[5] || !(ohiQ[4]=-1))) ohiQ[5]=ohiDoubleJamo(2,ohiQ[4],cc);
-		if(!ohiQ[0] || !ohiQ[2] || ohiQ[4] && !ohiQ[5] || ohiQ[4]<0 || (K3_type.substr(0,2)=='4-' && ohiR[2]+ohiR[3]>0)) ohiInsert(f,ohiQ,ohiQ=[0,0,0,0,cc,0,0]);
+		if(!combination_table && (!ohiQ[5] || !(ohiQ[4]=-1))) ohiQ[5]=ohiDoubleJamo(2,ohiQ[4],cc);
+		if(!ohiQ[0] || !ohiQ[2] || ohiQ[4] && !ohiQ[5] || ohiQ[4]<0 || (K3_type.substr(0,3)=='4t-' && ohiR[2]+ohiR[3]>0)) ohiInsert(f,ohiQ,ohiQ=[0,0,0,0,cc,0,0]);
 		else if(ohiQ[4]=ohiQ[4]||cc) ohiInsert(f,0,ohiQ);
 		return;
 	}
 
 	if(K3_type.substr(-1)=='y' || prev_phoneme.length) {
-	// 옛한글 자판
-		Hangeul_Gong3_yes(f,c,cc);
+		Hangeul_Gong3_yes(f,c,cc); // 옛한글 자판
 	}
 	else ohiInsert(f,0,cc);
 }
@@ -1014,24 +1013,26 @@ function Hangeul_Gong3_gm(f,c) {
 	return cc;
 }
 
-function hangeul_4typewriter(f,c) { // 네벌식 타자기 자판
+function hangeul_typewriter(f,c) { // 타자기 자판
 	var layout=current_layout.layout;
 	var cc=convert_into_ohi_hangeul_phoneme(layout[c-33]);
 	
 	if(K3_type.substr(-1)!='y')	cc=(cc);
 	
-	if(ohiQ[2]==68-35 && !ohiQ[3] && (!ohiR[2]&&cc==86 || ohiR[2]==1&&cc==0x3163)) {
-	// ㅑ+ㅣ→ㅒ
-		ohiQ[3]=1;
-		ohiInsert(f,0,ohiQ);
-		return -1;
-	}
+	if(K3_type=='4t-Pyojun') {
+		if(ohiQ[2]==68-35 && !ohiQ[3] && (!ohiR[2]&&cc==86 || ohiR[2]==1&&cc==0x3163)) {
+		// ㅑ+ㅣ→ㅒ
+			ohiQ[3]=1;
+			ohiInsert(f,0,ohiQ);
+			return -1;
+		}
 	
-	if(ohiQ[2]==72-35 && !ohiQ[3] && !ohiR[2]&&cc==86) {
-	// ㅕ+ㅣ→ㅖ
-		ohiQ[3]=1;
-		ohiInsert(f,0,ohiQ);
-		return -1;
+		if(ohiQ[2]==72-35 && !ohiQ[3] && !ohiR[2]&&cc==86) {
+		// ㅕ+ㅣ→ㅖ
+			ohiQ[3]=1;
+			ohiInsert(f,0,ohiQ);
+			return -1;
+		}
 	}
 
 	if(compatibility_ga.indexOf(cc)>=0) { // 받침 안 붙는 홀소리
@@ -1342,7 +1343,7 @@ function show_keyboard_layout(type) {
 						tdclass = 'h1';
 						dh[i][j] = String.fromCharCode(compatibility_cheot[unicode_modern_cheot.indexOf(charCode)]);
 				}
-				else if(K3_type.substr(0,2)=='4-' && charCode>=0x314F && charCode<0x3164) {
+				else if(K3_type.substr(1,2)=='t-' && charCode>=0x314F && charCode<0x3164) {
 						tdclass = 'h2 gin-hol'; 
 				}
 				else if(unicode_modern_ga.indexOf(charCode)>=0) {
@@ -1455,13 +1456,18 @@ function show_keyboard_layout(type) {
 	if(KE=='K3' && K3_type=='3m-Moa2014') {
 		document.getElementById('uh38').innerHTML += Moachigi_modifier_tag;
 	}
+	
+	if(KE=='K3' && K3_type=='3t-Oesol') {
+		document.getElementById('ue41').innerHTML = 'Shift(받침)';
+		document.getElementById('ue52').innerHTML = 'Shift(받침)';
+	}
 
 	if(capslock_click) {
 		var capslock = document.getElementById('key28');
 		capslock.style.backgroundColor = 'orange';
 	}
 
-	viewStateBar();
+	show_keyboard_layout_info();
 }
 
 function ohiStart() {
@@ -1523,24 +1529,24 @@ function ohiStart() {
 	else ohiTimeout = setTimeout("ohiStart()",100);
 }
 
-function viewStateBar() {
-	var KBD=ohi_KE_Status.substr(2,7);
+function show_keyboard_layout_info() {
 	var KE=ohi_KE_Status.substr(0,2);
+	var kbd = KBD_type=='QWERTY' ? '' : ':'+KBD_type;
 
 	var name='', keyboardLayoutInfo = document.getElementById('keyboardLayoutInfo');
 	if(keyboardLayoutInfo) {
 		if(KE=='En') {
-			name = '<strong>[영문' + KBD + ']</strong> ';
+			name = '<strong>[영문' + kbd + ']</strong> ';
 			if(En_type=='QWERTY') name += '쿼티 (QWERTY)';
 			else if(En_type=='Dvorak') name += '드보락 (Dvorak)';
 			else if(En_type=='Colemak') name += '콜맥 (Colemak)';
 		}
 		else {
-			if(KE=='K2') name = '<strong>[한글 2벌식' + KBD +  ']</strong> '
-			if(KE=='K3') name = '<strong>[한글 3벌식' + KBD + ']</strong> ';
+			var beol = '3';
+			if(KE=='K2') beol = '2';
+			name = '<strong>[한글 ' + beol + '벌식' + kbd + ']</strong> ';
 			if(typeof current_layout.full_name != 'undefined') name += current_layout.full_name;
-			if(K3_type=='3-2011' || K3_type=='3-91') name+=' (문장 입력용)';
-			
+			if(KE=='K3' && (K3_type=='3-2011' || K3_type=='3-91')) name+=' (문장 입력용)';
 			if(typeof current_layout.link != 'undefined' && current_layout.link) name += ' <a href="'+current_layout.link+'" target="_blank">ⓘ</a>';
 		}
 
@@ -1597,7 +1603,6 @@ function ohiChange(KE, layout) {
 
 function ohiChange_KE(Ko) {	// 한·영 상태 바꾸기
 	var KE = ohi_KE_Status.substr(0,2);
-	var KBD = ohi_KE_Status.substr(3);
 	if(KE=='En') {
 		if(Ko=='K2') ohiChange('K2',K2_type);
 		if(Ko=='K3') ohiChange('K3',K3_type);
@@ -1634,11 +1639,10 @@ function ohiChange_sign_ext_enable(op) {
 }
 
 function ohiKeyswap(c,e) {
-	var KBD=ohi_KE_Status.substr(3);
 	var i=0;
 	var swaped = [];
-	if(KBD=='QWERTZ') swaped=[89,90,90,89,121,122,122,121];
-	if(KBD=='AZERTY') swaped=[65,81,81,65,87,90,90,87,97,113,113,97,119,122,122,119,77,58,109,59,44,109,58,46,59,44];
+	if(KBD_type=='QWERTZ') swaped=[89,90,90,89,121,122,122,121];
+	if(KBD_type=='AZERTY') swaped=[65,81,81,65,87,90,90,87,97,113,113,97,119,122,122,119,77,58,109,59,44,109,58,46,59,44];
 
 	while(swaped[i] && swaped[i]!=c) i+=2;
 	if(i!=swaped.length) c=swaped[i+1];
@@ -1735,7 +1739,6 @@ function ohiKeydown(e) {
 	var i=0;
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	var KE = ohi_KE_Status.substr(0,2);
-	var KBD=ohi_KE_Status.substr(3);
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if(e.keyCode>=96 && e.keyCode<=111) { // 오른쪽 숫자판(키패드) 글쇠일 때
@@ -1922,7 +1925,6 @@ function clickTableKey(e, key_num, dk, uk){
 	var n=f.nodeName||f.tagName;
 	if(!f || n!='TEXTAREA') return false;
 
-	KBD=ohi_KE_Status.substr(3);
 	KE=ohi_KE_Status.substr(0,2);
 
 	var capslock = document.getElementById('key28');
@@ -2021,7 +2023,7 @@ function basic_layouts_info() {
 	i=0x11A8;	while(i<=0x11FF) unicode_ggeut.push(i++);
 	i=0xD7CB;	while(i<=0xD7FB) unicode_ggeut.push(i++);
 
-	unicode_hangeul_CGG_phoneme = unicode_cheot.concat(unicode_ga,unicode_ggeut,[0x115F,0x1160]);
+	unicode_hangeul_CGG_phoneme = unicode_cheot.concat(unicode_ga,unicode_ggeut,[0x115F,0x1160],[0x302E,0x302F]);
 
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheot.push(i++);
 	i=0x1161;	while(i<=0x1175) unicode_modern_ga.push(i++);
@@ -2852,7 +2854,7 @@ function basic_layouts_info() {
 		0x0000,	/* 0x55 U */
 		0x11aa,	/* 0x56 V: jongseong gieug-sieus */
 		0x11b0,	/* 0x57 W: jongseong lieul-gieug */
-		0x11a9,	/* 0x58 X: jongseong ssanggieug  */
+		0x11a9,	/* 0x58 X: jongseong ssanggieug */
 		0x0000,	/* 0x59 Y */
 		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
 		0x0000,	/* 0x3A colon */
@@ -2886,7 +2888,7 @@ function basic_layouts_info() {
 		0x11b0,	/* 0x77 w: jongseong lieul-gieug */
 		0x11a9,	/* 0x78 x: jongseong ssanggieug */
 		0x0000,	/* 0x79 y */
-		0x11b1,	/* 0x7A z:  jongseong lieul-mieum */
+		0x11b1,	/* 0x7A z: jongseong lieul-mieum */
 		0x0000,	/* 0x7B braceleft */
 		0x0000,	/* 0x7C bar */
 		0x0000,	/* 0x7D braceright */
