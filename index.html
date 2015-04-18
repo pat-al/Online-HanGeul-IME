@@ -4,14 +4,16 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>온라인 한글 입력기 (Online Hangeul IME)</title>
 	<meta name="Description" content="두벌식·세벌식 한글 자판과 드보락·콜맥 영문 자판을 쓸 수 있는 자바스크립트 화상 자판 입력기(Javascript on-screen keyboard IME)" />
-	<meta name="Keywords" content="Javascript, IME, Hangeul, on-screen, keyboard, layout, 세벌식, 두벌식, 한글, 옛한글, 자판, 화상 자판" />
+	<meta name="Keywords" content="Javascript, IME, Hangeul, on-screen, keyboard, layout, 한글, 자판 배열, 화상 자판, 세벌식, 두벌식, 옛한글, 타자기" />
 	<script type="text/javascript" src="additional_layouts.js"></script>
 	<script type="text/javascript" src="ohi.js"></script>
 
 	<script type="text/javascript">
 	<!--
+		var ohi_menu_num;
 		function gotoTab(n) {
-			for (i=1; i<=3; i++) {
+			ohi_menu_num = n;
+			for(var i=1; i<=3; i++) {
 				document.getElementById('menu'+i).className = (i==n) ? 'this' : 'menu';
 				document.getElementById('tab'+i).style.height = (i==n) ? 'auto' : '1px';
 				document.getElementById('tab'+i).style.position = (i==n) ? '' : 'absolute';
@@ -19,15 +21,16 @@
 				document.getElementById('tab'+i).style.visibility = (i==n) ? 'visible' : 'hidden';
 			}
 			document.getElementById('manual').style.display = (n!=3) ? 'block' : 'none';
+			show_keyboard_layout();
 		}
 
 		function appendChild(parentNode,nodeName,className,idName,innerHTML,width,padding) {
 			var childNode = document.createElement(nodeName);
-				if (className) childNode.className = className;
-				if (idName) childNode.id = idName;
-				if (innerHTML) childNode.innerHTML = innerHTML;
-				if (width) childNode.style.width = width;
-				if (padding) childNode.style.padding = padding;
+				if(className) childNode.className = className;
+				if(idName) childNode.id = idName;
+				if(innerHTML) childNode.innerHTML = innerHTML;
+				if(width) childNode.style.width = width;
+				if(padding) childNode.style.padding = padding;
 				parentNode.appendChild(childNode);
 				return childNode;
 		}
@@ -47,11 +50,11 @@
 		div.menu, div.this { display:inline; width:auto; font-size: 11pt; font-weight:bold; margin-right:-2px; padding:1px 14px 1px 16px; border:2px wheat solid;}
 		div.menu { cursor: pointer; background-color:snow; }
 		div.this { background-color:bisque; }
-		div.over, span.over, kbd.over { cursor: pointer; background-color: burlywood; }
+		div.over, span.over, kbd.over { cursor:pointer; background-color:burlywood; }
 
 		div#ohi_content { border: solid 2px wheat; background-color: oldlace; padding:0 10px; margin-top:1px; }
 
-		input.text, textarea#inputText { border: solid 1px wheat; ime-mode: disabled; resize:vertical; }
+		input.text, textarea#inputText { border: solid 1px wheat; ime-mode:disable; resize:vertical; }
 		textarea#inputText { width:580px; height:160px; }
 		form { margin: 0; padding: 0; }
 
@@ -78,21 +81,26 @@
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
 
 		div#keyboardLayout { position:absolute; margin-bottom:2px; clear:both; }
-		div#keyboardLayoutInfo {float:left; margin-left:5px;}
+		div#keyboardLayoutInfo { float:left; margin-left:5px; }
 		div#keyboardLayoutInfo a {text-decoration:none;}
+		div#keyboardLayoutVisibility { float:right; }
+		div#keyboardLayout span.menu { float:right; }
 
 		#NCR_options { height:1em; display:none; }
 
+		table#keyboardLayoutTable { clear:both; }
+		table#keyboardLayoutTable table { margin:-2px; }
+		table#keyboardLayoutTable .row {}
 		td.e1, td.e2, td.e3, td.h1, td.h2, td.h3 { font-size: 13px; height: 34px; padding-top:0; padding-bottom:0; border: outset 1px wheat; cursor:pointer;}
-		td.e1 { background-color: wheat; }
-		td.e2 { background-color: #C5D2E7;}
-		td.e3 { background-color: antiquewhite;}
-		td.h1 { background-color: lightblue; }
-		td.h2 { background-color: lightpink; }
-		td.gin-hol { background-color: #ccbbff; }
-		td.h3 { background-color: lightgreen; }/*#D1C0E9*/
-		td.e1:hover, td.e2:hover, td.e3:hover, td.h1:hover, td.h2:hover, td.h3:hover { background-color: #EBF4FA; }
-		td.e1:active, td.e2:active, td.e3:active, td.h1:active, td.h2:active, td.h3:active { border: inset 1px wheat; }
+		td.e1 { background-color:wheat; }
+		td.e2 { background-color:#C5D2E7;}
+		td.e3 { background-color:antiquewhite;}
+		td.h1 { background-color:lightblue; }
+		td.h2 { background-color:lightpink; }
+		td.gin-hol { background-color:#ccbbff; }
+		td.h3 { background-color:lightgreen; }
+		td.e1:hover, td.e2:hover, td.e3:hover, td.h1:hover, td.h2:hover, td.h3:hover { background-color:#EBF4FA; }
+		td.e1:active, td.e2:active, td.e3:active, td.h1:active, td.h2:active, td.h3:active { border:inset 1px wheat; }
 		td.pressed { background-color: lightyellow; }
 		td:hover.clicked {}
 		kbd { font-family: "Courier New", monospace; }
@@ -133,7 +141,7 @@
 		</div>
 		<div id="ohi_content">
 			<div id="manual">
-				<p>&nbsp; <strong>온라인 한글 입력기</strong>는 웹에서 바로 쓸 수 있는 화상 자판 입력기입니다.</p>
+				<p>&nbsp; <strong>온라인 한글 입력기(OHI)</strong>는 웹에서 바로 쓸 수 있는 화상 자판 입력기입니다.</p>
 				<ul>
 					<li>
 						한·영 상태 : 

@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/17
+ * Last Update : 2015/04/18
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -36,6 +36,7 @@ var initial_layout = initial_layout_type=='En' ? En_type : initial_layout_type==
 var ohi_KE_Status = initial_layout_type;
 
 function option() {
+	var OHI_off; // OHI 끄기
 	var layout_table_show; // 1: 자판 배열표 보기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var sublayout_show; // 보조(겹받침 확장) 배열표 보기 --> show_sublayout() 함수로 값을 바꿈
 	var sign_ext_enable; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_sign_ext_enable() 함수로 값을 바꿈
@@ -48,6 +49,7 @@ function NCR_option() {
 }
 
 var option=new option();
+option.OHI_off=0;
 option.layout_table_show=1;
 option.sublayout_show=0;
 option.sign_ext_enable=1;
@@ -1136,7 +1138,7 @@ function show_NCR(v) { // 문자를 유니코드 부호값과 맞대어 나타�
 		if(v) option.NCR=1;
 		else option.NCR=0;
 	}
-	
+
 	var t = document.getElementById('NCR');
 	var opts = document.getElementById('NCR_options');
 	if(opts) {
@@ -1176,8 +1178,17 @@ function show_options() {
 	if(opts) {
 		opts.style.display = 'block';
 
+		if(ohi_menu_num === undefined) ohi_menu_num=0;
+
+		opt = document.getElementById('option_OHI_off');
+		if(!opt) opt = appendChild(opts,'div','option','option_OHI_off','<div class="option"><input name="OHI_off" class="checkbox" onclick="option.OHI_off=this.checked;ohiStart();inputText_focus()" type="checkbox"' + (option.OHI_off ? ' checked="checked"' : '') + '><label>OHI 끄기</label></div>');
+		if(ohi_menu_num<3) opt.style.display = 'block';
+		else opt.style.display = 'none';
+
 		opt = document.getElementById('option_NCR');
 		if(!opt) opt = appendChild(opts,'div','option','option_NCR','<div class="option"><input name="NCR" class="checkbox" onclick="show_NCR(this.checked);inputText_focus()" type="checkbox"' + (option.NCR ? ' checked="checked"' : '') + '><label>HTML 문자 참조</label></div>');
+		if(ohi_menu_num<2) opt.style.display = 'block';
+		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_sign_ext_enable');
 		if(!opt) opt = appendChild(opts,'div','option','option_sign_ext_enable','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_sign_ext_enable(this.checked);inputText_focus()" type="checkbox"' + (option.sign_ext_enable ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
@@ -1185,7 +1196,7 @@ function show_options() {
 		else opt.style.display = 'none';
 			
 		opt = document.getElementById('option_sublayout_show');
-		if(!opt) opt = appendChild(opts,'div','option','option_sublayout_show','<div class="option"><input name="sublayout_show" class="checkbox" onclick="show_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.sublayout_show ? ' checked="checked"' : '') + '><label>겹받침 확장 배열 보기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_sublayout_show','<div class="option"><input name="sublayout_show" class="checkbox" onclick="show_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.sublayout_show ? ' checked="checked"' : '') + '><label>겹받침 확장 보기</label></div>');
 		if(option.layout_table_show && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,3)!='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
@@ -1198,27 +1209,31 @@ function show_options() {
 
 function show_keyboard_layout(type) {
 	var opts, opt;
+	var inner_html='';
 	shift_click=0;
 	KE = ohi_KE_Status.substr(0,2);
-
+	if(typeof ohi_menu_num=='undefined') ohi_menu_num=0;
 	show_options();
 
 	var rows = document.getElementById('keyboardLayout');
 	if(!rows || !option.layout_table_show) return false;
-	rows.style.position = "relative";
-	rows.innerHTML = '';
+	rows.style.position = 'relative';
+	rows.style.display = 'block';
 
-	if(type===undefined || type==1) {
-		if(KE=='K2') type = K2_type;
-		else if(KE=='K3') type = K3_type;
-		else type = En_type;
-	}
-	else if(!type) {
+	if(typeof type=='undefined' || type==1) type = current_layout.type_name;
+
+	if(!type) {
 		option.layout_table_show = 0;
 		rows.innerHTML = '<div style="text-align:right"><span class="menu" onclick="option.layout_table_show=1;show_keyboard_layout(1);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 보이기</span></div>';
 		opt = document.getElementById('option_sublayout_show');
 		if(opt) opt.style.display = 'none';
 		return false;
+	}
+	
+	if(ohi_menu_num>2) {
+		rows.style.display = 'none';
+		opts = document.getElementById('options');
+		opts.style.display = 'none';
 	}
 
 	var ue_qwerty=[
@@ -1316,16 +1331,16 @@ function show_keyboard_layout(type) {
 	ue.push(['영문','2벌식','3벌식','Space','2벌식','3벌식','기준']);
 	de.push(['바꿈','바꿈','바꿈','','한/영','한/영','자판']);
 
-	rows.innerHTML += '<div id="keyboardLayoutInfo" style=""></div><div style="text-align:right"><span class="menu" onclick="show_keyboard_layout(0);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span></div>';
-	rows.innerHTML += '<div id="keyboardLayoutTable">';
-	rows.innerHTML += '<table style="border-collapse:collapse;">';
-	rows.innerHTML += '<tr><td><table><tr id="row0"></tr></table></td></tr>';
-	rows.innerHTML += '<tr><td><table><tr id="row1"></tr></table></td></tr>';
-	rows.innerHTML += '<tr><td><table><tr id="row2"></tr></table></td></tr>';
-	rows.innerHTML += '<tr><td><table><tr id="row3"></tr></table></td></tr>';
-	rows.innerHTML += '<tr><td><table style="margin:0 0px 0 0px"><tr id="row4"></tr></table></td></tr>';
-	rows.innerHTML += '</table>';
-	rows.innerHTML += '</div>';
+	inner_html += '<div id="keyboardLayoutInfo"></div><span class="menu" onclick="show_keyboard_layout(0);inputText_focus()" onmouseover="this.className=\'menu over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span>';
+	inner_html += '<table id="keyboardLayoutTable">';
+	inner_html += '<tr><td><table><tr id="row0" class="row"></tr></table></td></tr>';
+	inner_html += '<tr><td><table><tr id="row1" class="row"></tr></table></td></tr>';
+	inner_html += '<tr><td><table><tr id="row2" class="row"></tr></table></td></tr>';
+	inner_html += '<tr><td><table><tr id="row3" class="row"></tr></table></td></tr>';
+	inner_html += '<tr><td><table><tr id="row4" class="row"></tr></table></td></tr>';
+	inner_html += '</table>';
+	
+	rows.innerHTML = inner_html;
 
 	for(i=0, k=-1; ue[i]; i++) {
 		var row = document.getElementById('row'+i);
@@ -1471,6 +1486,20 @@ function show_keyboard_layout(type) {
 }
 
 function ohiStart() {
+	var i;
+	var textarea=document.getElementById('inputText');
+	var inputs=document.getElementsByTagName("INPUT");
+	if(option.OHI_off) {
+		ohiStatusBar(0);	// 보람줄(상태 표시줄) 감추기
+		if(textarea) textarea.style.imeMode = 'active';
+		if(inputs) {
+			for(i=0;i<inputs.length;++i) {
+				if(inputs[i].className=='text') inputs[i].style.imeMode = 'active';
+			}
+		}
+		return;
+	}
+	
 	if(current_layout.KE === undefined || !current_layout.KE) {
 		ohiChange(initial_layout_type, initial_layout);
 	}
@@ -1484,6 +1513,14 @@ function ohiStart() {
 	 + ' / <a href="javascript:ohiChange_KE(\'K3\');" style="color:Gold">K3</a>:<a href="javascript:ohiChange(\'K3\',\'\')" style="color:Aquamarine">' + K3_type + '</a>&nbsp;';
 
 	if(document.body) {
+		ohiStatusBar(1);
+		if(textarea) {textarea.style.imeMode = 'disabled';}
+		if(inputs) {
+			for(i=0;i<inputs.length;++i) {
+				if(inputs[i].className=='text') inputs[i].style.imeMode = 'disabled';
+			}
+		}
+
 		if(document.all) {
 			ohiStatus.style.position = 'fixed';
 			ohiStatus.style.right = -(document.body.scrollLeft||document.documentElement.scrollLeft)+'px';
@@ -1653,6 +1690,7 @@ function ohiKeyswap(c,e) {
 }
 
 function ohiKeypress(e) {
+	if(option.OHI_off) return false;
 	var KE=ohi_KE_Status.substr(0,2);
 	if(keypress_skip) return false;
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
@@ -1734,6 +1772,7 @@ function ohiKeypress(e) {
 }
 
 function ohiKeydown(e) {
+	if(option.OHI_off) return false;
 	keypress_skip=0; // 참이면 ohiKeypress()를 건너뜀
 	keyup_skip=0; // 참이면 ohiKeyup()를 건너뜀
 	var i=0;
@@ -1759,19 +1798,17 @@ function ohiKeydown(e) {
 		}
 
 		if(e.keyCode==13) { // Enter (한글 조합 상태)
-			ohiR[2]=0;
-			if(ohiQ[0] || ohiQ[2] || ohiQ[4]) { // 요즘한글 조합 상태
-				ohiInsert(f,0,0);
+			if((ohiQ[0] || ohiQ[2] || ohiQ[4])) { // 요즘한글 조합 상태
+				ohiInsert(f,0,13);
 			}
 			else if((K3_type.substr(-1)=='y') && browser == "Firefox") { // 옛한글 자판
 				convert_into_modern_hangeul_syllable(f);
-				ohiInsert(f,0,0);
+				ohiInsert(f,0,13);
 			}
 			keyup_skip=1;
 		}
 
 		if(e.keyCode==32) { // Space
-			ohiR[2]=0;
 			if((K3_type.substr(-1)=='y') && browser == "Firefox") {
 				convert_into_modern_hangeul_syllable(f);
 				prev_phoneme.splice(0);
@@ -1827,6 +1864,7 @@ function ohiKeydown(e) {
 }
 
 function ohiKeyup(e) {
+	if(option.OHI_off) return false;
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	var KE = ohi_KE_Status.substr(0,2);
 
