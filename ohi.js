@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/18
+ * Last Update : 2015/04/19
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -1139,7 +1139,11 @@ function show_NCR(v) { // 문자를 유니코드 부호값과 맞대어 나타�
 		else option.NCR=0;
 	}
 
+	var f = document.getElementById('inputText');
 	var t = document.getElementById('NCR');
+	
+	if(!f || !t) return;
+	
 	var opts = document.getElementById('NCR_options');
 	if(opts) {
 		opt = document.getElementById('NCR_option_convert_only_CGG_encoding');
@@ -1157,7 +1161,6 @@ function show_NCR(v) { // 문자를 유니코드 부호값과 맞대어 나타�
 		return;
 	}
 
-	var f = document.getElementById('inputText');
 	var ref_char, char_code, ref_text='';
 	for(i=0;i<f.value.length;++i) {
 		char_code = f.value.charCodeAt(i);
@@ -1772,7 +1775,10 @@ function ohiKeypress(e) {
 }
 
 function ohiKeydown(e) {
-	if(option.OHI_off) return false;
+	if(option.OHI_off) {
+		show_NCR();
+		return false;
+	}
 	keypress_skip=0; // 참이면 ohiKeypress()를 건너뜀
 	keyup_skip=0; // 참이면 ohiKeyup()를 건너뜀
 	var i=0;
@@ -1864,7 +1870,10 @@ function ohiKeydown(e) {
 }
 
 function ohiKeyup(e) {
-	if(option.OHI_off) return false;
+	if(option.OHI_off) {
+		show_NCR();
+		return false;
+	}
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	var KE = ohi_KE_Status.substr(0,2);
 
