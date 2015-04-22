@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/20
+ * Last Update : 2015/04/22
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -26,7 +26,7 @@
 */
 
 var En_type = 'QWERTY';
-var K2_type = 'KSX5002';
+var K2_type = '2-KSX5002';
 var K3_type = 'Sin3-2012';
 var KBD_type = 'QWERTY'; // 기준 자판 종류 (QWERTY/QWERTZ/AZERTY, ohiChange_KBD_type 함수로 바꿈)
 
@@ -35,6 +35,42 @@ var initial_layout_type = 'K3'; // 처음에 두벌식, 세벌식, 영문 가운
 var initial_layout = initial_layout_type=='En' ? En_type : initial_layout_type=='K2' ? K2_type : K3_type;
 
 ohi_KE_Status = initial_layout_type;
+
+function basic_layouts() {
+	var KE = '';
+	var type_name = ''
+	var full_name = '';
+	var layout = null;
+	var sublayout = null;	// 갈마들이 방식 자판들이 덧붙여 쓰는 배열	
+	var sign_extension_layout = null;	// 기호 확장 배열
+	var hangeul_extension_layout = null;	// 한글 확장 배열
+	var hangeul_combination_table = null;	// 한글 낱자 결합 규칙
+	var link = '';
+}
+
+function basic_layouts_info_push() {
+	basic_layouts.push({KE: 'En', type_name: 'QWERTY', full_name: 'QWERTY'});
+	basic_layouts.push({KE: 'En', type_name: 'Dvorak', full_name: 'Dvorak', layout:En_Dvorak_layout});
+	basic_layouts.push({KE: 'En', type_name: 'Colemak', full_name: 'Colemak', layout:En_Colemak_layout});
+
+	basic_layouts.push({KE: 'K2', type_name: '2-KSX5002', full_name: '한국 표준 (KS X 5002)'});
+	basic_layouts.push({KE: 'K2', type_name: '2-KPS9256', full_name: '조선 국규 (KPS 9256)'});
+	basic_layouts.push({KE: 'K2', type_name: '2-sun-KSX5002', full_name: '두벌식 순아래 (꼬마집오리)', link: 'http://blog.daum.net/tinyduck/2111486'});
+
+	basic_layouts.push({KE: 'K3', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
+	basic_layouts.push({KE: 'K3', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
+	basic_layouts.push({KE: 'K3', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, sign_extension_layout: K3_2012_sign_extension_layout, link: 'http://pat.im/938'});
+	basic_layouts.push({KE: 'K3', type_name: '3-sun1990', full_name: '순아래 1990 (안종혁, 한 손 자판, no-shift)', layout: K3_sun1990_layout, link: ''});
+	basic_layouts.push({KE: 'K3', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁, 한 손 자판, no-shift)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
+	basic_layouts.push({KE: 'K3', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, sign_extension_layout: K3_2012y_sign_extension_layout, link: 'http://pat.im/1090'});
+
+	basic_layouts.push({KE: 'K3', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
+	basic_layouts.push({KE: 'K3', type_name: '3-2012-y', full_name: '3-2012 옛한글', layout: K3_2012_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/938#4-2'});	
+	basic_layouts.push({KE: 'K3', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
+
+	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
+	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
+}
 
 function option() {
 	var OHI_off; // OHI를 통한 글쇠 입력 기능 끄기 (화상 자판은 그대로 씀)
@@ -97,42 +133,6 @@ var compatibility_cheot = [], compatibility_ga = [], compatibility_ggeut = [];
 
 var basic_layouts=[];
 var current_layout=[];
-
-function basic_layouts() {
-	var KE = '';
-	var type_name = ''
-	var full_name = '';
-	var layout = null;
-	var sublayout = null;	// 갈마들이 방식 자판들이 덧붙여 쓰는 배열	
-	var sign_extension_layout = null;	// 기호 확장 배열
-	var hangeul_extension_layout = null;	// 한글 확장 배열
-	var hangeul_combination_table = null;	// 한글 낱자 결합 규칙
-	var link = '';
-}
-
-function basic_layouts_info_push() {
-	basic_layouts.push({KE: 'En', type_name: 'QWERTY', full_name: 'QWERTY'});
-	basic_layouts.push({KE: 'En', type_name: 'Dvorak', full_name: 'Dvorak', layout:En_Dvorak_layout});
-	basic_layouts.push({KE: 'En', type_name: 'Colemak', full_name: 'Colemak', layout:En_Colemak_layout});
-
-	basic_layouts.push({KE: 'K2', type_name: 'KSX5002', full_name: '한국 표준 (KS X 5002)'});
-	basic_layouts.push({KE: 'K2', type_name: 'KPS9256', full_name: '조선 국규 (KPS 9256)'});
-	basic_layouts.push({KE: 'K2', type_name: '2-sun-KSX5002', full_name: '두벌식 순아래 (꼬마집오리)', link: 'http://blog.daum.net/tinyduck/2111486'});
-
-	basic_layouts.push({KE: 'K3', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
-	basic_layouts.push({KE: 'K3', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
-	basic_layouts.push({KE: 'K3', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, sign_extension_layout: K3_2012_sign_extension_layout, link: 'http://pat.im/938'});
-	basic_layouts.push({KE: 'K3', type_name: '3-sun1990', full_name: '순아래 1990 (안종혁)', layout: K3_sun1990_layout, link: ''});
-	basic_layouts.push({KE: 'K3', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
-	basic_layouts.push({KE: 'K3', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, sign_extension_layout: K3_2012y_sign_extension_layout, link: 'http://pat.im/1090'});
-
-	basic_layouts.push({KE: 'K3', type_name: '3-93y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
-	basic_layouts.push({KE: 'K3', type_name: '3-2012y', full_name: '3-2012 옛한글', layout: K3_2012_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/938#4-2'});	
-	basic_layouts.push({KE: 'K3', type_name: '3-2015Py', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
-
-	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
-	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
-}
 
 function browser_detect() {
 	var trident=navigator.userAgent.match(/Trident\/(\d\.\d)/i);
@@ -409,11 +409,11 @@ function ohiHangeul2(f,e,c) { // 2-Beolsik
 		else if(ohi_ggeut.indexOf(cc)>=0) cc-=127;
 	}
 	else {
-		if(K2_type.substr(-7)=='KSX5002')
+		if(K2_type.indexOf('KSX5002')>=0)
 		 	cc=[17,48,26,23,7,9,30,39,33,35,
  			    31,51,49,44,32,36,18,1,4,
  			    21,37,29,24,28,43,27][c%32-1];
-		else if(K2_type=='KPS9256')
+		else if(K2_type=='2-KPS9256')
 			cc=[/*a*/24,/*b*/48,/*c*/26,/*d*/23,/*e*/7,/*f*/4,/*g*/21,/*h*/39,
 			    /*i*/35,/*j*/31,/*k*/51,/*l*/49,/*m*/33,/*n*/43,/*o*/32,/*p*/36,
 			    /*q*/18,/*r*/9,/*s*/1,/*t*/30,/*u*/44,/*v*/29,/*w*/17,/*x*/28,
@@ -1315,8 +1315,8 @@ function show_keyboard_layout(type) {
 	var layout=[], uh=[], dh=[];
 
 	if(KE=='K2' && typeof current_layout.layout=='undefined') {
-		uh = type.substr(-7)=='KSX5002' ? u2_KSX5002 : type=='KPS9256' ? u2_KPS9256 : uh;
-		dh = type.substr(-7)=='KSX5002' ? d2_KSX5002 : type=='KPS9256' ? d2_KPS9256 : dh;
+		uh = type.indexOf('KSX5002')>=0 ? u2_KSX5002 : type=='2-KPS9256' ? u2_KPS9256 : uh;
+		dh = type.indexOf('KSX5002')>=0 ? d2_KSX5002 : type=='2-KPS9256' ? d2_KPS9256 : dh;
 	}
 	else if(KE!='En') {
 		if(Hangeul_SignExtKey1 || Hangeul_SignExtKey2) {
@@ -1366,7 +1366,7 @@ function show_keyboard_layout(type) {
 			var charCode;
 			if(dh[i] && dh[i][j]) {
 				charCode = convert_into_unicode_hangeul_phoneme(dh[i][j].charCodeAt(0));
-				if(charCode>0x3130) tdclass = (type.substr(0,1)=='2' || type.substr(-7)=='KSX5002' || type=='KPS9256' || j>5 && !(i<2&&j>10 || i==3&&j==10&&type.substr(0,4)!='Sin3')) ? 'h1':'h3';
+				if(charCode>0x3130) tdclass = (type.substr(0,1)=='2' || type.substr(-7)=='2-KSX5002' || type=='2-KPS9256' || j>5 && !(i<2&&j>10 || i==3&&j==10&&type.substr(0,4)!='Sin3')) ? 'h1':'h3';
 				if(charCode>0x314E) tdclass = 'h2';
 				if(i==3 && j==10 && type=='3-sun1990') tdclass = 'h3';
 
@@ -1625,7 +1625,7 @@ function ohiChange(KE, layout) {
 	if((layout===undefined || layout=='')) {
 		if(KE==ohi_KE_Status.substr(0,2)) {
 			if(KE=='En') En_type = En_type.toUpperCase()=='QWERTY' ? 'Dvorak' : En_type.toLowerCase=='dvorak' ? 'Colemak' : 'qwerty';
-			else if(KE=='K2') K2_type = K2_type.substr(-7).toUpperCase()=='KSX5002' ? 'KPS9256' : 'KSX5002';
+			else if(KE=='K2') K2_type = K2_type.substr(-7).toUpperCase()=='2-KSX5002' ? '2-KPS9256' : '2-KSX5002';
 			else if(KE=='K3') K3_type = K3_type.toUpperCase()=='3-2015P' ? 'Sin3-2012' : K3_type.toLowerCase()=='Sin3-2012' ? '3m-Moa2015' : '3-2015P';
 		}
 		layout = KE=='En' ? En_type : KE=='K2' ? K2_type : K3_type;
