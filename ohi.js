@@ -78,6 +78,7 @@ function option() {
 	var show_sublayout; // 보조(겹받침 확장) 배열표 보기 --> show_keyboard_sublayout() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
+	var input_only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
 	var NCR; // HTML 문자 참조 보기
 }
 
@@ -91,6 +92,7 @@ option.show_layout=1;
 option.show_sublayout=0;
 option.enable_sign_ext=1;
 option.force_normal_typing = 0;
+option.input_only_CGG_encoding = 0;
 option.NCR = 0;
 
 var NCR_option=new NCR_option();
@@ -336,6 +338,7 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 }
 
 function convert_into_modern_hangeul_syllable(f) { // 첫가끝 방식 낱내를 요즘한글 코드로 바꾸기
+	if(option.input_only_CGG_encoding) return;
 	var i;
 	if(unicode_modern_cheot.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[0])>=0
 	|| unicode_modern_cheot.indexOf(prev_combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(prev_combined_phoneme[0])>=0) {
@@ -1219,6 +1222,11 @@ function show_options() {
 		opt = document.getElementById('option_force_normal_typing');
 		if(!opt) opt = appendChild(opts,'div','option','option_force_normal_typing','<div class="option"><input name="force_normal_typing" class="checkbox" onclick="option.force_normal_typing=this.checked;inputText_focus()" type="checkbox"' + (option.force_normal_typing ? ' checked="checked"' : '') + '><label>이어치기</label></div>');
 		if(KE=='K3' && K3_type.substr(0,3)=='3m-') opt.style.display = 'block';
+		else opt.style.display = 'none';
+			
+		opt = document.getElementById('option_input_only_CGG_encoding');
+		if(!opt) opt = appendChild(opts,'div','option','option_input_only_CGG_encoding','<div class="option"><input name="input_only_CGG_encoding" class="checkbox" onclick="option.input_only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.input_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 방식으로만 넣기</label></div>');
+		if(current_layout.type_name.substr(-2)=='-y') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
 }
