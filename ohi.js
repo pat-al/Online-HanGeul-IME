@@ -385,17 +385,8 @@ function no_shift(c) {	// 윗글쇠를 누르지 않고 치는 글쇠인지
 }
 
 function ohiRoman(f,e,c) { // Roman keyboard layouts (Dvorak, Colemak)
-	var cc;
-
-	if(En_type=='QWERTY') {
-		if(c>64 && c<91 && !e.shiftKey) cc=c+32;
-		if(c>96 && c<123 && e.shiftKey) cc=c-32;
-	}
-	else {
-		cc=current_layout.layout[c-33];
-	}
-
-	ohiInsert(f,0,cc);
+	if(En_type!='QWERTY') c=current_layout.layout[c-33];
+	ohiInsert(f,0,c);
 }
 
 function ohiHangeul2(f,e,c) { // 2-Beolsik
@@ -1690,15 +1681,18 @@ function ohiChange_enable_sign_ext(op) {
 }
 
 function ohiKeyswap(c,e) {
-	var i=0;
-	var swaped = [];
+	var KE=ohi_KE_Status.substr(0,2);
+	var i=0, swaped = [];
 	if(KBD_type=='QWERTZ') swaped=[89,90,90,89,121,122,122,121];
 	if(KBD_type=='AZERTY') swaped=[65,81,81,65,87,90,90,87,97,113,113,97,119,122,122,119,77,58,109,59,44,109,58,46,59,44];
 
 	while(swaped[i] && swaped[i]!=c) i+=2;
 	if(i!=swaped.length) c=swaped[i+1];
-	if(c>64 && c<91 && !e.shiftKey) c+=32;
-	if(c>96 && c<123 && e.shiftKey) c-=32;
+	if(KE!='En' || En_type!='QWERTY') {
+	// 영문 쿼티 자판이 아니면 Caps Lock이 적용되지 않게 함
+		if(c>64 && c<91 && !e.shiftKey) c+=32;
+		if(c>96 && c<123 && e.shiftKey) c-=32;
+	}
 
 	return c;
 }
@@ -1745,8 +1739,8 @@ function ohiKeypress(e) {
 			key_pressed=0;
 		}
 		else if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
-			ohiRoman(f,e,c);
 			if(e.preventDefault) e.preventDefault();
+			ohiRoman(f,e,c);
 			key_pressed=1;
 		}
 		else if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
@@ -2049,7 +2043,7 @@ function clickTableKey(e, key_num, dk, uk){
 	if(dk==-13) ohiChange('K3',''); // 3벌식 자판 바꾸기 단추
 	
 	if((shift_click+capslock_click)%2) c=uk; else c=dk;
-	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,e,c);
+	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,0,c);
 	if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127) {
 		if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0];
 		if(f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1) ohiQ=[0,0,0,0,0,0,0];
