@@ -1705,8 +1705,9 @@ function ohiKeyswap(c,e) {
 
 function ohiKeypress(e) {
 	if(option.turn_off_OHI) return false;
-	var KE=ohi_KE_Status.substr(0,2);
 	if(onkeypress_skip) return false;
+	
+	var KE=ohi_KE_Status.substr(0,2);
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	var i=0,j;
@@ -1808,6 +1809,7 @@ function ohiKeydown(e) {
 		}
 
 		if(e.keyCode==8) {	// Backspace
+			tableKey_pressed(e.keyCode);
 			if(!ohiHangeul_backspace(f,e)) return false;
 			if(e.preventDefault) e.preventDefault();
 			ohiBackspace(f);
@@ -1824,9 +1826,12 @@ function ohiKeydown(e) {
 			}
 
 			onkeyup_skip=1;
+			tableKey_pressed(e.keyCode);
 		}
 
 		if(e.keyCode==32) { // Space
+			tableKey_pressed(e.keyCode);
+
 			if((K3_type.substr(-1)=='y') && browser == "Firefox") {
 				convert_into_modern_hangeul_syllable(f);
 				prev_phoneme.splice(0);
@@ -1846,6 +1851,7 @@ function ohiKeydown(e) {
 				}
 				esc_ext_layout();
 				onkeyup_skip=1;
+				tableKey_pressed(e.keyCode);
 				return false;
 			}
 
@@ -1853,10 +1859,14 @@ function ohiKeydown(e) {
 				esc_ext_layout();
 				ohiInsert(f,0,0);
 				onkeyup_skip=1;
+				tableKey_pressed(e.keyCode);
 				return false;
 			}
 		}
 		
+		if(e.keyCode==20) { // Caps Lock
+			tableKey_pressed(e.keyCode);
+		}
 /*
 		if(e.keyCode>=37 && e.keyCode<=40) { // 오른쪽 화살표 글쇠
 		}
