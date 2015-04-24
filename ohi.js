@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/24
+ * Last Update : 2015/04/25
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -109,8 +109,8 @@ var ohiTimeout = 0;
 var Hangeul_SignExtKey1 = 0; // 공병우 세벌식 자판의 첫째 기호 확장 글쇠 누른 횟수, 신세벌 확장 기호 상태
 var Hangeul_SignExtKey2 = 0; // 공병우 세벌식 자판의 두째 기호 확장 글쇠 누른 횟수
 
-var keypress_skip = 0; // 오른쪽 숫자판을 눌렀을 때 ohiKeypress() 처리를 건너뛰기
-var keyup_skip = 0; // ohiKeypress() 처리를 건너뛰기
+var onkeypress_skip = 0; // 오른쪽 숫자판을 눌렀을 때 ohiKeypress() 처리를 건너뛰기
+var onkeyup_skip = 0; // ohiKeypress() 처리를 건너뛰기
 
 var shift_click = 0; // 배열표에서 윗글쇠 누른 상태
 var capslock_click = 0; // 배열표에서 Caps Lock을 누른 상태
@@ -387,14 +387,14 @@ function no_shift(c) {	// 윗글쇠를 누르지 않고 치는 글쇠인지
 function ohiRoman(f,e,c) { // Roman keyboard layouts (Dvorak, Colemak)
 	var cc;
 
-	if(En_type=='QWERTY' || !e) cc=c;
+	if(En_type=='QWERTY') {
+		if(c>64 && c<91 && !e.shiftKey) cc=c+32;
+		if(c>96 && c<123 && e.shiftKey) cc=c-32;
+	}
 	else {
-		if(c>64 && c<91 && !e.shiftKey) c+=32;
-		if(c>96 && c<123 && e.shiftKey) c-=32;
+		cc=current_layout.layout[c-33];
 	}
 
-	if(En_type=='QWERTY') cc=c;
-	else cc=current_layout.layout[c-33];
 	ohiInsert(f,0,cc);
 }
 
@@ -1706,7 +1706,7 @@ function ohiKeyswap(c,e) {
 function ohiKeypress(e) {
 	if(option.turn_off_OHI) return false;
 	var KE=ohi_KE_Status.substr(0,2);
-	if(keypress_skip) return false;
+	if(onkeypress_skip) return false;
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	var i=0,j;
@@ -1778,7 +1778,7 @@ function ohiKeypress(e) {
 	}
 
 	if(key_pressed) {		
-		if(option.show_layout) tableKey_pressed(c);
+		tableKey_pressed(c);
 		if(f.id=='inputText') show_NCR();
 	}
 
@@ -1790,15 +1790,15 @@ function ohiKeydown(e) {
 		show_NCR();
 		return false;
 	}
-	keypress_skip=0; // 참이면 ohiKeypress()를 건너뜀
-	keyup_skip=0; // 참이면 ohiKeyup()를 건너뜀
+	onkeypress_skip=0; // 참이면 ohiKeypress() 처리를 건너뜀
+	onkeyup_skip=0; // 참이면 ohiKeyup() 처리를 건너뜀
 	var i=0;
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	var KE = ohi_KE_Status.substr(0,2);
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if(e.keyCode>=96 && e.keyCode<=111) { // 오른쪽 숫자판(키패드) 글쇠일 때
-			keypress_skip=1;
+			onkeypress_skip=1;
 			esc_ext_layout();
 			var cc=Array(/*0*/48,/*1*/49,/*2*/50,/*3*/51,/*4*/52,/*5*/53,/*6*/54,/*7*/55,/*8*/56,/*9*/57,
 			/***/42,/*+*/43,0,/*-*/45,/*.*/46,/*/*/47)[e.keyCode-96];
@@ -1811,7 +1811,7 @@ function ohiKeydown(e) {
 			if(!ohiHangeul_backspace(f,e)) return false;
 			if(e.preventDefault) e.preventDefault();
 			ohiBackspace(f);
-			keyup_skip=1;
+			onkeyup_skip=1;
 		}
 
 		if(e.keyCode==13) { // Enter (한글 조합 상태)
@@ -1822,7 +1822,8 @@ function ohiKeydown(e) {
 				convert_into_modern_hangeul_syllable(f);
 				ohiInsert(f,0,13);
 			}
-			keyup_skip=1;
+
+			onkeyup_skip=1;
 		}
 
 		if(e.keyCode==32) { // Space
@@ -1832,7 +1833,7 @@ function ohiKeydown(e) {
 				prev_combined_phoneme.splice(0);
 				if(Hangeul_SignExtKey1+Hangeul_SignExtKey2==0) ohiInsert(f,0,0);
 				esc_ext_layout();
-				keyup_skip=1;
+				onkeyup_skip=1;
 				return false;
 			}
 			
@@ -1844,17 +1845,18 @@ function ohiKeydown(e) {
 					ohiInsert(f,0,32);
 				}
 				esc_ext_layout();
-				keyup_skip=1;
+				onkeyup_skip=1;
 				return false;
 			}
 
 			if(ohiQ[0] || ohiQ[2] || ohiQ[4]) { // 요즘한글 조합 상태
 				esc_ext_layout();
 				ohiInsert(f,0,0);
-				keyup_skip=1;
+				onkeyup_skip=1;
 				return false;
 			}
 		}
+		
 /*
 		if(e.keyCode>=37 && e.keyCode<=40) { // 오른쪽 화살표 글쇠
 		}
@@ -1881,16 +1883,18 @@ function ohiKeydown(e) {
 }
 
 function ohiKeyup(e) {
-	var KE=ohi_KE_Status.substr(0,2);
 	var e=e||window.event, f=e.target||e.srcElement;
+	var KE=ohi_KE_Status.substr(0,2);
 
-	if(e.keyCode>46 && KE=='K3' && K3_type.substr(0,3)=='3m-'
-	 && !keyup_skip && !option.turn_off_OHI && !option.force_normal_typing) {
+	if(onkeyup_skip || option.turn_off_OHI || e.keyCode<47) return;
+
+	if(!option.force_normal_typing && KE=='K3' && K3_type.substr(0,3)=='3m-') {
 		if(pressing_keys && !--pressing_keys) {
 			ohiHangeul3_moa(f,e);
 			pressed_keys=[];
 		}
 	}
+
 	if(f.id=='inputText') show_NCR();
 }
 
@@ -2035,7 +2039,7 @@ function clickTableKey(e, key_num, dk, uk){
 	if(dk==-13) ohiChange('K3',''); // 3벌식 자판 바꾸기 단추
 	
 	if((shift_click+capslock_click)%2) c=uk; else c=dk;
-	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,c,0);
+	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,e,c);
 	if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127) {
 		if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0];
 		if(f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1) ohiQ=[0,0,0,0,0,0,0];
