@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/04/25
+ * Last Update : 2015/05/05
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -474,7 +474,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		cc2=layout[c-33-32];	// 윗글 자리
 	}
 
-	if(K3_type.substr(0,5)=='Sin3-') {	// 신세벌식 자판
+	if(K3_type.substr(0,4)=='Sin3') {	// 신세벌식 자판
 		cc=Hangeul_Sin3(f,c);
 		if(cc<0) return;
 	}
@@ -503,7 +503,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return;
 	}
 
-	if(K3_type.indexOf('_gm')>=0 || (K3_type=='3-2014' || K3_type=='3-2015' || K3_type=='3-2015P' || K3_type=='3-2015P')) {
+	if(K3_type.indexOf('_gm')>=0 || (K3_type.substr(0,2)=='3-' && Number(K3_type.substr(2,4))>=2014)) {
 	// 갈마들이 공세벌식 배열들을 위한 처리
 		cc=Hangeul_Gong3_gm(f,c);
 		if(cc<0) return;
@@ -536,11 +536,12 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 	}
 
 	// 공병우 세벌식 또는 신세벌식 자판에서 첫소리만 들어간 채로 [ 자리 글쇠가 눌렸을 때 아래아를 넣음
-	if((K3_type.substr(0,5)=='Sin3-' && K3_type!='Sin3-2015' && K3_type!='Sin3-M') || (K3_type.substr(0,2)=='3-' && K3_type!='3-sun1990')) {
+	if((K3_type.substr(0,4)=='Sin3' && (K3_type.substr(5,4)=='2003' || K3_type.substr(5,4)=='2012'))
+	 || (K3_type.substr(0,2)=='3-' && K3_type!='3-sun1990')) {
 		if(c==0x5B && ( (ohiQ[0]&&!ohiQ[2]&&!ohiQ[4] || unicode_cheot.indexOf(prev_combined_phoneme[0])>=0 ) || prev_combined_phoneme[0]==0x119E)) {
 			cc=0x119E;
-			// 기본 배열에 아래아가 있는 신세벌식 자판이면 겹홀소리(ᆢ 또는 ㆎ)를 조합할 수 있는 상태로 만듦
-			if(K3_type.substr(0,5)=='Sin3-' && layout.indexOf(0x119E)>=0) ohiR[2]=1;
+			// 신세벌식 자판이면 겹홀소리(ᆢ 또는 ㆎ)를 조합할 수 있는 상태로 만듦
+			if(K3_type.substr(0,4)=='Sin3'/* && layout.indexOf(0x119E)>=0*/) ohiR[2]=1;
 		}
 	}
 
@@ -812,10 +813,9 @@ function Hangeul_Gong3_yes(f,c,cc) {	// 공세벌식 옛한글 처리
 
 function Hangeul_Sin3(f,c) { // 신세벌식
 	var i,j,cc,cc2;
-	var layout,sublayout;
-	var Sin3_layout=Sin3_layout=current_layout.layout;
+	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var transform=0; // 홀소리를 아랫글 자리에 둔 변형 신세벌식 배열인지
+	var transform=0; // 홀소리를 아랫글 자리에 둔 변형 신세벌식 배열인지 나타내는 변수
 
 	if(no_shift(c)) {
 		cc=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33]);
@@ -827,12 +827,12 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	}
 
 	// 홀소리를 아랫글 자리에 두는 변형 신세벌식 자판을 처리하기 위한 작업
-	if(no_shift(c) && ohi_ga.indexOf(cc)>=0
-	 && (prev_phoneme.length || ohiQ[0]&&!ohiQ[2]&&!ohiQ[4] || ohiQ[0]&&ohiQ[2]&&!ohiQ[4] || ohiQ[0]&&ohiQ[2]&&ohiQ[4]&&!ohiQ[5])) {
+	if(no_shift(c) && ohi_ga.indexOf(cc)>=0 && (prev_phoneme.length || ohiQ[0]&&!ohiQ[2]&&!ohiQ[4] || ohiQ[0]&&ohiQ[2]&&!ohiQ[4] || ohiQ[0]&&ohiQ[2]&&ohiQ[4]&&!ohiQ[5])) {
+		transform=1;
 		i=cc;
 		cc=cc2;
 		cc2=i;
-		transform=1;
+		
 	}
 	
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
@@ -1365,7 +1365,7 @@ function show_keyboard_layout(type) {
 			var charCode;
 			if(dh[i] && dh[i][j]) {
 				charCode = convert_into_unicode_hangeul_phoneme(dh[i][j].charCodeAt(0));
-				if(charCode>0x3130) tdclass = (type.substr(0,1)=='2' || type.substr(-7)=='2-KSX5002' || type=='2-KPS9256' || j>5 && !(i<2&&j>10 || i==3&&j==10&&type.substr(0,5)!='Sin3-')) ? 'h1':'h3';
+				if(charCode>0x3130) tdclass = (type.substr(0,1)=='2' || type.substr(-7)=='2-KSX5002' || type=='2-KPS9256' || j>5 && !(i<2&&j>10 || i==3&&j==10&&type.substr(0,4)!='Sin3')) ? 'h1':'h3';
 				if(charCode>0x314E) tdclass = 'h2';
 				if(i==3 && j==10 && type=='3-sun1990') tdclass = 'h3';
 
@@ -1421,7 +1421,7 @@ function show_keyboard_layout(type) {
 					else uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
 					
 					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
-					if( (type.substr(0,6)=='3-2014' || type.substr(0,6)=='3-2015') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
+					if(K3_type.substr(0,2)=='3-' && Number(K3_type.substr(2,4))>=2014 && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
 						uh[i][j] = '<span style="color:gray;">'+uh[i][j]+'</span>';
 					}
 				}
@@ -1463,7 +1463,7 @@ function show_keyboard_layout(type) {
 			document.getElementById('uh8').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅡ)</span>';
 	}
 
-	if(KE=='K3' && K3_type.substr(0,5)=='Sin3-') {
+	if(KE=='K3' && K3_type.substr(0,4)=='Sin3') {
 		document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
 		if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
@@ -1472,7 +1472,10 @@ function show_keyboard_layout(type) {
 		}
 	}
 	
-	if(KE=='K3' && En_type!='Dvorak' && (K3_type.substr(0,5)=='Sin3-'&&K3_type!='Sin3-2015'&&K3_type!='Sin3-M' || K3_type.substr(0,6)=='3-2015' || K3_type.substr(0,6)=='3-2014' || K3_type.substr(0,6)=='3-2012' || K3_type=='3-90') && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey)
+	if(KE=='K3' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey
+	 && ((K3_type.substr(0,4)=='Sin3' && (K3_type.substr(5,4)=='2003' || K3_type.substr(5,4)=='2012'))
+	  || K3_type.substr(0,6)=='3-2014' || K3_type.substr(0,6)=='3-2012' || K3_type=='3-90')
+	)
 		document.getElementById('dh25').innerHTML = '<font size="1">(ㆍ)</font>';
 
 	if(KE=='K3' && K3_type=='3m-Moa2015') {
