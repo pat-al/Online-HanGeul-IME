@@ -103,7 +103,7 @@
 		td.e1:active, td.e2:active, td.e3:active, td.h1:active, td.h2:active, td.h3:active { border:inset 1px wheat; }
 		td.pressed { background-color: lightyellow; }
 		td:hover.clicked {}
-		kbd { font-family: "Courier New", monospace; }
+		kbd { font-family: "Courier New", monospace; word-spacing: -0.2em; }
 		kbd.status { font-family: "GulimChe", monospace; color: white; background-color: royalblue; }
 		td.h1 span, td.h2 span, td.h3 span, td.e1 span { float:right; }
 		td.h1 span.e1, td.h2 span.e1, td.h3 span.e1, td.e1 span.e1 { float:left; }
@@ -166,9 +166,9 @@
 					</li>
 					<li>
 						3벌식 :	<kbd class="menu" onclick="javascript:ohiChange('K3','')" onmouseover="this.className='over'" onmouseout="this.className='menu'">Alt+3</kbd>
-						【<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-2012')" onmouseover="this.className='over'" onmouseout="this.className='menu'">신세벌식2012</kbd>
+						【<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-2012')" onmouseover="this.className='over'" onmouseout="this.className='menu'">신세벌식 2012</kbd>
 						→ <kbd class="menu" onclick="javascript:ohiChange('K3','3-2015P')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2015P</kbd>
-						→ <kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기2015</kbd>】
+						→ <kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기 2015</kbd>】
 					</li>
 				</ul>
 				<a id="more_layouts_link" onclick="document.getElementById('more_layouts').style.display='block';this.style.display='none';" href="javascript:void(0)">[더 많은 한글 자판]</a>
@@ -206,13 +206,15 @@
 						<li>
 							공세벌식 옛한글 : 
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3-93-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-93</kbd>,
-							<kbd class="menu" onclick="javascript:ohiChange('K3','Gimguk-38A-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">김국38A</kbd>,
+							<kbd class="menu" onclick="javascript:ohiChange('K3','Gimguk-38A-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">김국 38A</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3-2011-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2011</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3-2012-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2012</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3-2014-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2014</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3-2015-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2015</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3-2015P-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2015P</kbd>
 						</li>
+					</ul>
+					<ul>
 						<li>
 							갈마들이 공세벌식 : 
 							<kbd class="menu" onclick="javascript:ohiChange('K3','314_proposal_gm')" onmouseover="this.className='over'" onmouseout="this.className='menu'">314</kbd>,
@@ -226,7 +228,8 @@
 						<li>
 							신세벌식 (원형) :	
 							<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-1995')" onmouseover="this.className='over'" onmouseout="this.className='menu'">1995</kbd>,
-							<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-2003')" onmouseover="this.className='over'" onmouseout="this.className='menu'">2003</kbd>,
+							<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-BGN')" onmouseover="this.className='over'" onmouseout="this.className='menu'">박경남</kbd>,
+							<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-2003')" onmouseover="this.className='over'" onmouseout="this.className='menu'">2003 박경남</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-2012')" onmouseover="this.className='over'" onmouseout="this.className='menu'">2012</kbd>,
 							<kbd class="menu" onclick="javascript:ohiChange('K3','Sin3-M')" onmouseover="this.className='over'" onmouseout="this.className='menu'">M</kbd>
 						</li>
@@ -240,8 +243,8 @@
 						<li>
 							모아치기 세벌식 :	
 							<kbd class="menu" onclick="javascript:ohiChange('K3','3m-Anmatae')" onmouseover="this.className='over'" onmouseout="this.className='menu'">안마태 소리 글판</kbd>,
-							<kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2014')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기2014</kbd>,
-							<kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기2015</kbd>
+							<kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2014')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기 2014</kbd>,
+							<kbd class="menu" onclick="javascript:ohiChange('K3','3m-Moa2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">모아치기 2015</kbd>
 						</li>
 					</ul>
 					<ul>

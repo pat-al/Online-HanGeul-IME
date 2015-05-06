@@ -38,6 +38,7 @@ additional_layouts.push({KE: 'K3', type_name: '3-2015-y', full_name: '3-2015 옛
 additional_layouts.push({KE: 'K3', type_name: '3-2015M', full_name: '3-2015M', layout: K3_2015M_layout, sublayout: K3_2015M_sublayout, hangeul_combination_table: K3_2015M_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/46'});
 
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout});
+additional_layouts.push({KE: 'K3', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3b-2015', full_name: '신세벌식 2015 (신세벌식 변형)', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/81'});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3b-M', full_name: '신세벌식 M (신세벌식 변형)', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
@@ -852,6 +853,20 @@ function additional_keyboard_layout_table_info() {
 		0x007d,	/* 0x7D braceright: right brace */
 		0x007e	/* 0x7E asciitilde: tilde */
 	];
+
+	// 박경남 신세벌식 자판
+	K3_Sin3_BGN_layout = [/*!*/0x203B,/*"*/183,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/155,/*(*/40,
+	/*)*/41,/***/42,/*+*/43,/*,*/44,/*-*/45,/*.*/46,/*/*/154,/*0*/48,
+	/*1*/49,/*2*/50,/*3*/51,/*4*/52,/*5*/53,/*6*/54,/*7*/55,/*8*/56,/*9*/57,
+	/*:*/58,/*;*/145,/*<*/60,/*=*/61,/*>*/62,/*?*/33,/*@*/64,
+	/*A*/83/*ㅠ*/,/*B*/79/*ㅜ*/,/*C*/71/*ㅔ*/,/*D*/86/*ㅣ*/,/*E*/72/*ㅕ*/,/*F*/66/*ㅏ*/,/*G*/84/*ㅡ*/,/*H*/0,
+	/*I*/85/*ㅢ*/,/*J*/34,/*K*/59/*;*/,/*L*/39/*'*/,/*M*/47,/*N*/0,/*O*/79/*ㅜ*/,/*P*/74/*ㅗ*/,
+	/*Q*/69/*ㅒ*/,/*R*/67/*ㅐ*/,/*S*/73/*ㅖ*/,/*T*/70/*ㅓ*/,/*U*/0,/*V*/74/*ㅗ*/,/*W*/68/*ㅑ*/,/*X*/78/*ㅛ*/,
+	/*Y*/0,/*Z*/63,/*[*/91,/*\*/92,/*]*/93,/*^*/94,/*_*/95,/*`*/96,
+	/*a*/23,/*b*/27/*ㅋ*/,/*c*/26/*ㅊ*/,/*d*/7/*ㄷ*/,/*e*/18/*ㅂ*/,/*f*/22/*ㅆ*/,/*g*/24/*ㅈ*/,/*h*/131/*ㄴ*/,
+	/*i*/144,/*j*/150,/*k*/128,/*l*/151,/*m*/157,/*n*/148,/*o*/153,/*p*/156/*ㅍ*/,
+	/*q*/21/*ㅅ*/,/*r*/28/*ㅌ*/,/*s*/4/*ㄴ*/,/*t*/29/*ㅍ*/,/*u*/134,/*v*/30/*ㅎ*/,/*w*/9,/*x*/1,
+	/*y*/136,/*z*/17,/*{*/123,/*|*/124,/*}*/125,/*~*/126];
 
 	// 신세벌식 2015 자판 (신세벌식 변형)
 	K3_Sin3b_2015_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/155,/*(*/40,

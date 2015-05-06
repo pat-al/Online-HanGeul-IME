@@ -68,7 +68,7 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'K3', type_name: '3-2012-y', full_name: '3-2012 옛한글', layout: K3_2012_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/938#4-2'});	
 	basic_layouts.push({KE: 'K3', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 
-	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
+	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2003', full_name: '2003 박경남 수정 신세벌식', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
 	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
 }
 
@@ -1463,7 +1463,7 @@ function show_keyboard_layout(type) {
 			document.getElementById('uh8').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅡ)</span>';
 	}
 
-	if(KE=='K3' && K3_type.substr(0,4)=='Sin3') {
+	if(KE=='K3' && K3_type.substr(0,4)=='Sin3' && K3_type!='Sin3-BGN') {
 		document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
 		if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
