@@ -99,9 +99,9 @@ var NCR_option=new NCR_option();
 NCR_option.convert_only_CGG_encoding=0;
 
 var ohiQ = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 담는 배열 [첫,첫,가,가,끝,끝,끝]
-var ohiR = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
+var ohiRQ = [0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
 var backup_ohiQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 ohiQ를 복사해 두는 배열
-var backup_ohiR = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 ohiR를 복사해 두는 배열
+var backup_ohiRQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 ohiRQ를 복사해 두는 배열
 
 var ohiStatus = document.createElement('div');
 var ohiTimeout = 0;
@@ -121,10 +121,10 @@ var simultaneous_strokes = 0; // 같은 때에 함께 눌린 글쇠 수
 var browser = '', browser_ver = 0, nu = navigator.userAgent;
 var dkey, ukey;
 
-var pressed_keys = [];
-var pressing_keys = 0;
-var prev_phoneme = []; // 조합하고 있는 한글 낱내에 들어간 낱자(글쇠 기준)들을 담는 배열
-var prev_combined_phoneme = []; // 조합하고 있는 한글 낱내에 조합된 낱자들을 담는 배열
+var pressed_keys = []; // 함께 눌려 있는 글쇠들의 값
+var pressing_keys = 0; // 함께 눌려 있는 글쇠 수
+var prev_phoneme = []; // 조합하고 있는 한글 낱내에 들어간 낱자들을 담는 배열 (글쇠 기준)
+var prev_combined_phoneme = []; // 조합하고 있는 한글 낱내의 조합된 낱자들을 담는 배열
 var hangeul_combination_table_default, hangeul_combination_table_full;
 var ohiHangeul3_HanExtKey=0;
 
@@ -233,7 +233,7 @@ function ohiHangeul_backspace(f,e) {
 				for(i=prev_combined_phoneme.length;i>=0;--i) {
 					if(unicode_cheot.indexOf(prev_combined_phoneme[i])>=0) {
 						ohiQ = backup_ohiQ.slice();
-						ohiR = backup_ohiR.slice();
+						ohiRQ = backup_ohiRQ.slice();
 						ohiInsert(f,0,ohiQ);
 						break;
 					}
@@ -254,7 +254,7 @@ function ohiHangeul_backspace(f,e) {
 		if(e.preventDefault) e.preventDefault();
 		for(i=6; !ohiQ[i];) i--;
 		ohiInsert(f,ohiQ[i]=0,ohiQ);
-		ohiR[i]=0;
+		ohiRQ[i]=0;
 		
 		esc_ext_layout();
 		return false;
@@ -276,7 +276,7 @@ function ohiDoubleJamo(a,c,d) {
 
 function ohiInsert(f,m,c) { // Insert
 	if(!c && ohiQ=='0,0,0,0,0,0,0') return true;
-	if(c.length!=7) ohiQ=ohiR=[0,0,0,0,0,0,0];
+	if(c.length!=7) ohiQ = ohiRQ = [0,0,0,0,0,0,0];
 	else {
 		var m=m||'0,0,0,0,0,0,0', i=c[0]+c[1], j=c[2]+c[3], k=c[4]+c[5]+c[6];
 		c=i&&j?0xac00+(i-(i<3?1:i<5?2:i<10?4:i<20?11:12))*588+(j-31)*28+k-(k<8?0:k<19?1:k<25?2:3):0x3130+(i||j||k);
@@ -541,7 +541,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		if(c==0x5B && ( (ohiQ[0]&&!ohiQ[2]&&!ohiQ[4] || unicode_cheot.indexOf(prev_combined_phoneme[0])>=0 ) || prev_combined_phoneme[0]==0x119E)) {
 			cc=0x119E;
 			// 신세벌식 자판이면 겹홀소리(ᆢ 또는 ㆎ)를 조합할 수 있는 상태로 만듦
-			if(K3_type.substr(0,4)=='Sin3'/* && layout.indexOf(0x119E)>=0*/) ohiR[2]=1;
+			if(K3_type.substr(0,4)=='Sin3'/* && layout.indexOf(0x119E)>=0*/) ohiRQ[2]=1;
 		}
 	}
 
@@ -557,7 +557,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		}
 
 		backup_ohiQ = ohiQ.slice();
-		backup_ohiR = ohiR.slice();
+		backup_ohiRQ = ohiR.slice();
 
 		if(ohiQ[0] && !ohiQ[2] && !ohiQ[4])	{
 			prev_phoneme.unshift(cc,unicode_cheot[ohi_cheot.indexOf(ohiQ[0]+ohiQ[1]+127)]);
@@ -585,14 +585,14 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return;
 	}
 	else if(!prev_phoneme.length && cc>65 && cc<87) { // Jung
-		if((!ohiQ[3] || !(ohiQ[2]=-1)) && !(K3_type.substr(1,2)=='t-' && ohiR[2]+ohiR[3]>1)) ohiQ[3]=ohiDoubleJamo(1,ohiQ[2],cc-35);
+		if((!ohiQ[3] || !(ohiQ[2]=-1)) && !(K3_type.substr(1,2)=='t-' && ohiRQ[2]+ohiRQ[3]>1)) ohiQ[3]=ohiDoubleJamo(1,ohiQ[2],cc-35);
 		if((!ohiQ[0] || ohiQ[2]) && (!ohiQ[3] || ohiQ[4]) || ohiQ[2]<0) ohiInsert(f,ohiQ,ohiQ=[0,0,cc-35,0,0,0,0]);
 		else if(ohiQ[2]=ohiQ[2]||cc-35) ohiInsert(f,0,ohiQ);
 		return;
 	}
 	else if(!prev_phoneme.length && cc<31) { // Jong
 		if(!combination_table && (!ohiQ[5] || !(ohiQ[4]=-1))) ohiQ[5]=ohiDoubleJamo(2,ohiQ[4],cc);
-		if(!ohiQ[0] || !ohiQ[2] || ohiQ[4] && !ohiQ[5] || ohiQ[4]<0 || (K3_type.substr(0,3)=='4t-' && ohiR[2]+ohiR[3]>0)) ohiInsert(f,ohiQ,ohiQ=[0,0,0,0,cc,0,0]);
+		if(!ohiQ[0] || !ohiQ[2] || ohiQ[4] && !ohiQ[5] || ohiQ[4]<0 || (K3_type.substr(0,3)=='4t-' && ohiRQ[2]+ohiRQ[3]>0)) ohiInsert(f,ohiQ,ohiQ=[0,0,0,0,cc,0,0]);
 		else if(ohiQ[4]=ohiQ[4]||cc) ohiInsert(f,0,ohiQ);
 		return;
 	}
@@ -675,8 +675,8 @@ function Hangeul_Gong3_sign(f,e,c) {
 		&& ((unicode_cheot.indexOf(prev_phoneme[0])<0&&unicode_ga.indexOf(prev_phoneme[0])<0&&unicode_ggeut.indexOf(prev_phoneme[0])<0) || unicode_ga.indexOf(prev_phoneme[0])>=0 || unicode_ggeut.indexOf(prev_phoneme[0])>=0))) ) {
 	// 3-2011 옛한글, 3-2012 옛한글, 3-2014, 3-2014 옛한글, 3-2015P, 3-2015P 옛한글 자판의 기호 확장 글쇠가 눌린 횟수 더하기
 		if(c==0x2F || c==0x39) {	// 전환 글쇠가 눌렸을 때
-			if(ohiR[2]) {
-				ohiR[2]=0;
+			if(ohiRQ[2]) {
+				ohiRQ[2]=0;
 				ohiHangeul_backspace(f,e);
 			}
 			if(c==0x2F) {	// 밑기호 글쇠(오른쪽 ㅗ)가 눌렸을 때
@@ -858,13 +858,13 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	}
 	else if(no_shift(c) && ohiQ[0] && !ohiQ[2] && ohi_cheot.indexOf(cc)>=0 && ohi_ga.indexOf(cc2)>=0) {	// 첫소리가 들어갔을 때에 오른손 자리의 가운뎃소리(ㅗ, ㅜ, ㅢ) 넣기
 		cc=cc2;
-		ohiR[2]=1;
+		ohiRQ[2]=1;
 	}
 	else if((c==79 || c==80) && (cc==79 || cc==74) && !ohiQ[2]) {
 	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ) 넣기
-		ohiR[2]=1;
+		ohiRQ[2]=1;
 	}
-	else if((ohiR[2] || backup_ohiR[2]) && cc<31 && prev_phoneme[0]==0x119E && !(prev_phoneme.length>1 && unicode_ga.indexOf(prev_phoneme[1])>=0)) {
+	else if((ohiRQ[2] || backup_ohiRQ[2]) && cc<31 && prev_phoneme[0]==0x119E && !(prev_phoneme.length>1 && unicode_ga.indexOf(prev_phoneme[1])>=0)) {
 	// 아래아가 들어 있을 때에 ㆎ(아래애), ᆢ(쌍아래아) 조합하기
 		if(c==100) cc=0x1175; // ㆎ(아래애) 조합하기
 		else if(c==122 && prev_phoneme[1]!=0x119E) cc=0x119E; // 쌍아래아(ᆢ) 조합하기
@@ -880,7 +880,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 			}			
 		}
 	}
-	else if(ohiR[2] && cc<31 && (ohiQ[2]==74-35 || ohiQ[2]==79-35 || ohiQ[2]==84-35) && !ohiQ[3]) {
+	else if(ohiRQ[2] && cc<31 && (ohiQ[2]==74-35 || ohiQ[2]==79-35 || ohiQ[2]==84-35) && !ohiQ[3]) {
 		if(ohiQ[2]+35==74 && (cc2==66 || cc2==67 || cc2==86)) {
 		// 오른쪽 ㅗ와 겹홀소리를 이룰 수 있는 홑홀소리들
 			cc=cc2;
@@ -893,13 +893,13 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	else if(cc<31 && (ohiQ[0] && !ohiQ[2] && !ohiQ[4]) && (cc2>65 && cc2<87 || c==122)) { // 왼손 쪽 가운뎃소리 넣기
 		cc=cc2;
 		if(c==122 && (cc2==0x119E || cc2>157)) cc=0x119E; // Z 자리 아래아
-		ohiR[2]=0;
+		ohiRQ[2]=0;
 	}
 	else if(c==47 && ohiQ[0] && !ohiQ[2]) { // 오른손 쪽 ㅋ 자리에서 ㅗ 넣기
 		cc=74;
-		ohiR[2]=1;
+		ohiRQ[2]=1;
 	}
-	else if(Sin3_sublayout && !ohiR[2] && ohiQ[0] && ohiQ[2] && ohiQ[4] && !ohiQ[5] && cc==ohiQ[4] && (cc2=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]))) {
+	else if(Sin3_sublayout && !ohiRQ[2] && ohiQ[0] && ohiQ[2] && ohiQ[4] && !ohiQ[5] && cc==ohiQ[4] && (cc2=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]))) {
 	// 같은 글쇠를 거듭 눌러 겹받침 넣기
 		ohiQ[5]=cc2-ohiQ[4];
 		ohiInsert(f,0,ohiQ);
@@ -929,7 +929,7 @@ function Hangeul_Gong3_gm(f,c) {
 	cc=convert_into_ohi_hangeul_phoneme(layout[c-33]);
 	cc2=convert_into_ohi_hangeul_phoneme(layout[c-33-32]);	// 윗글 자리
 
-	if(!ohiQ[2]) ohiR[2]=0;
+	if(!ohiQ[2]) ohiRQ[2]=0;
 
 	if(ohiQ[2]==cc-35 && !ohiQ[3] && !ohiQ[4] && cc2>65 && cc2<87) {
 	// 윗글 자리에 홀소리가 있는 글쇠를 홀소리를 넣는 상태에서 거듭 눌렀을 때 (ㅐ+ㅐ→ㅒ 등)
@@ -938,11 +938,11 @@ function Hangeul_Gong3_gm(f,c) {
 		return -1;
 	}
 		
-	if(!ohiR[2] && ohiQ[0] && !ohiQ[2] && (c==0x2F&&cc==74 || c==0x39&&cc==79)) {
+	if(!ohiRQ[2] && ohiQ[0] && !ohiQ[2] && (c==0x2F&&cc==74 || c==0x39&&cc==79)) {
 	// 첫소리가 들어가고 홀소리는 들어가지 않은 상태에서 오른쪽 ㅗ 또는 오른쪽 ㅜ가 눌렸을 때
-		ohiR[2]=c;	
+		ohiRQ[2]=c;	
 	}
-	else if(ohiR[2] && !ohiQ[4]) {
+	else if(ohiRQ[2] && !ohiQ[4]) {
 	// ㅗ·ㅜ가 들어간 겹홀소리를 조합하는 상태이고 받침은 들어가지 않았을 때
 		if(ohiQ[2]+ohiQ[3]+35==74 && (cc==66 || cc==67 || cc==86)) {	// 오른쪽 ㅗ와 겹홀소리를 이룰 수 있는 홑홀소리들
 		}
@@ -1020,14 +1020,14 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 	if(K3_type.substr(-1)!='y')	cc=(cc);
 	
 	if(K3_type=='4t-Pyojun') {
-		if(ohiQ[2]==68-35 && !ohiQ[3] && (!ohiR[2]&&cc==86 || ohiR[2]==1&&cc==0x3163)) {
+		if(ohiQ[2]==68-35 && !ohiQ[3] && (!ohiRQ[2]&&cc==86 || ohiRQ[2]==1&&cc==0x3163)) {
 		// ㅑ+ㅣ→ㅒ
 			ohiQ[3]=1;
 			ohiInsert(f,0,ohiQ);
 			return -1;
 		}
 	
-		if(ohiQ[2]==72-35 && !ohiQ[3] && !ohiR[2]&&cc==86) {
+		if(ohiQ[2]==72-35 && !ohiQ[3] && !ohiRQ[2]&&cc==86) {
 		// ㅕ+ㅣ→ㅖ
 			ohiQ[3]=1;
 			ohiInsert(f,0,ohiQ);
@@ -1038,8 +1038,8 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 	if(compatibility_ga.indexOf(cc)>=0) { // 받침 안 붙는 홀소리
 		cc=ohi_ga[compatibility_ga.indexOf(cc)];
 		if(K3_type.substr(-1)=='y') cc=convert_into_unicode_hangeul_phoneme(cc);
-		if(!ohiQ[2]) ohiR[2]=1;
-		else ohiR[3]=1;
+		if(!ohiQ[2]) ohiRQ[2]=1;
+		else ohiRQ[3]=1;
 	}
 
 	return cc;
