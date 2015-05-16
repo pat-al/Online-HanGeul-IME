@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/05/05
+ * Last Update : 2015/05/16
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -68,7 +68,7 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'K3', type_name: '3-2012-y', full_name: '3-2012 옛한글', layout: K3_2012_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/938#4-2'});	
 	basic_layouts.push({KE: 'K3', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 
-	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2003', full_name: '2003 박경남 수정 신세벌식', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
+	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
 	basic_layouts.push({KE: 'K3', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
 }
 
@@ -474,7 +474,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		cc2=layout[c-33-32];	// 윗글 자리
 	}
 
-	if(K3_type.substr(0,4)=='Sin3') {	// 신세벌식 자판
+	if(K3_type.indexOf('Sin3')>=0) {	// 신세벌식 자판 또는 공-신 혼합형 세벌식 자판
 		cc=Hangeul_Sin3(f,c);
 		if(cc<0) return;
 	}
@@ -815,7 +815,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var transform=0; // 홀소리를 아랫글 자리에 둔 변형 신세벌식 배열인지 나타내는 변수
+	var transform=0; // 홀소리를 아랫글 자리에 둔 변형 신세벌식(공-신 세벌식) 배열인지 나타내는 변수
 
 	if(no_shift(c)) {
 		cc=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33]);

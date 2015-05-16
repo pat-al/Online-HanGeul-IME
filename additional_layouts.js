@@ -39,9 +39,9 @@ additional_layouts.push({KE: 'K3', type_name: '3-2015M', full_name: '3-2015M', l
 
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
-additional_layouts.push({KE: 'K3', type_name: 'Sin3b-2015', full_name: '신세벌식 2015 (신세벌식 변형)', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
+additional_layouts.push({KE: 'K3', type_name: 'Gong-Sin3-2015', full_name: '신세벌식 2015  (공병우-신광조 혼합형)', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/81'});
-additional_layouts.push({KE: 'K3', type_name: 'Sin3b-M', full_name: '신세벌식 M (신세벌식 변형)', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
+additional_layouts.push({KE: 'K3', type_name: 'Gong-Sin3-M', full_name: '신세벌식 M (공병우-신광조 혼합형)', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
 
 additional_layouts.push({KE: 'K3', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'K3', type_name: '3-Anmatae', full_name: '안마태 소리 글판 (이어치기 방식)', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
