@@ -1,6 +1,7 @@
 /*
 ※ 첫가끌 방식으로 한글을 조합하는 자판은 type_name 끝에 'y'를 붙인다.
 ※ 신세벌식 자판은 type_name 앞에 'Sin3-'를 붙인다.
+※ 공-신 복합 세벌식 자판(신세벌식의 변형)은 type_name 앞에 'Gong-Sin3-'를 붙인다.
 ※ 갈마들이 타법을 쓰는 공병우식 배열은 type_name 끝에 '_gm'을 붙인다.
 ※ 모아치기 방식으로 쓰는 세벌식 자판은 type_name 앞에 '3m-'를 붙인다.
 ※ 타자기 자판은 벌 수 다음에 't-'를 붙인다. ('3t-', 4t-')
@@ -30,18 +31,17 @@ additional_layouts.push({KE: 'K3', type_name: '3-2011-y', full_name: '3-2011 옛
 additional_layouts.push({KE: 'K3', type_name: 'Gimguk-38A-y', full_name: '김국 38A 옛한글', layout: K3_Gimguk_38Ay_layout, hangeul_combination_table: Gimguk38Ay_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
 
 additional_layouts.push({KE: 'K3', type_name: '314_proposal', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
-additional_layouts.push({KE: 'K3', type_name: '314_proposal_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이 타법)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
+additional_layouts.push({KE: 'K3', type_name: '314_proposal_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'K3', type_name: '3-2014', full_name: '3-2014', layout: K3_2014_layout, sublayout: K3_2014_sublayout, sign_extension_layout: K3_2012y_sign_extension_layout, link: 'http://pat.im/1088'});
 additional_layouts.push({KE: 'K3', type_name: '3-2014-y', full_name: '3-2014 옛한글', layout: K3_2014_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 additional_layouts.push({KE: 'K3', type_name: '3-2015', full_name: '3-2015', layout: K3_2015_layout, hangeul_combination_table: K3_2015_combination_table, sublayout: K3_2015_sublayout, link: 'http://cafe.daum.net/3bulsik/JMKX/34'});
 additional_layouts.push({KE: 'K3', type_name: '3-2015-y', full_name: '3-2015 옛한글', layout: K3_2015y_layout, hangeul_combination_table: K3_2015y_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/36'});
 additional_layouts.push({KE: 'K3', type_name: '3-2015M', full_name: '3-2015M', layout: K3_2015M_layout, sublayout: K3_2015M_sublayout, hangeul_combination_table: K3_2015M_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/46'});
 
-additional_layouts.push({KE: 'K3', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout});
+additional_layouts.push({KE: 'K3', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout, link:'http://pat.im/1104'});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
-additional_layouts.push({KE: 'K3', type_name: 'Gong-Sin3-2015', full_name: '신세벌식 2015  (공병우-신광조 혼합형)', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
+additional_layouts.push({KE: 'K3', type_name: 'Gong-Sin3-2015', full_name: '공-신 복합 세벌식 2015', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
 additional_layouts.push({KE: 'K3', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/81'});
-additional_layouts.push({KE: 'K3', type_name: 'Gong-Sin3-M', full_name: '신세벌식 M (공병우-신광조 혼합형)', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
 
 additional_layouts.push({KE: 'K3', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'K3', type_name: '3-Anmatae', full_name: '안마태 소리 글판 (이어치기 방식)', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});

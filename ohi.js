@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/05/16
+ * Last Update : 2015/05/20
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -61,7 +61,7 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'K3', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
 	basic_layouts.push({KE: 'K3', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, sign_extension_layout: K3_2012_sign_extension_layout, link: 'http://pat.im/938'});
 	basic_layouts.push({KE: 'K3', type_name: '3-sun1990', full_name: '순아래 1990 (안종혁, 한 손 자판, no-shift)', layout: K3_sun1990_layout, link: ''});
-	basic_layouts.push({KE: 'K3', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁, 한 손 자판, no-shift)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
+	basic_layouts.push({KE: 'K3', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
 	basic_layouts.push({KE: 'K3', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, sign_extension_layout: K3_2012y_sign_extension_layout, link: 'http://pat.im/1090'});
 
 	basic_layouts.push({KE: 'K3', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
