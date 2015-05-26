@@ -556,7 +556,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		}
 
 		backup_ohiQ = ohiQ.slice();
-		backup_ohiRQ = ohiR.slice();
+		backup_ohiRQ = ohiRQ.slice();
 
 		if(ohiQ[0] && !ohiQ[2] && !ohiQ[4])	{
 			prev_phoneme.unshift(cc,unicode_cheot[ohi_cheot.indexOf(ohiQ[0]+ohiQ[1]+127)]);
@@ -571,7 +571,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		// 가운뎃소리나 끝소리가 들어 있을 때
 			prev_phoneme.push(cc,0x115F);
 			prev_combined_phoneme.push(cc,0x115F);
-			ohiInsert(f,0,0x115F);
+			ohiInsert(f,0,0x115F); // 첫소리 채움 문자 넣음
 			ohiInsert(f,0,cc);
 			return;
 		}
@@ -1471,7 +1471,7 @@ function show_keyboard_layout(type) {
 		}
 	}
 	
-	if(KE=='K3' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey
+	if(KE=='Ko' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey
 	 && ((Ko_type.substr(0,4)=='Sin3' && (Ko_type.substr(5,4)=='2003' || Ko_type.substr(5,4)=='2012'))
 	  || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90')
 	)
