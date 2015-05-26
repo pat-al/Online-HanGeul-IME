@@ -487,7 +487,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return;
 	}
 
-	if(Ko_type.substr(-1)!='y') {
+	if(Ko_type.substr(-2)!='-y') {
 		// 요즘한글 자판일 때에 첫가끝 방식으로 처리하지 않게 함
 		cc=convert_into_ohi_hangeul_phoneme(cc);
 		cc2=convert_into_ohi_hangeul_phoneme(cc2);
@@ -502,13 +502,13 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return;
 	}
 
-	if(Ko_type.indexOf('_gm')>=0 || (Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014)) {
+	if(Ko_type.indexOf('_gm')>=0 || (Ko_type.substr(-2)!='-y' && Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014)) {
 	// 갈마들이 공세벌식 배열들을 위한 처리
 		cc=Hangeul_Gong3_gm(f,c);
 		if(cc<0) return;
 	}
 
-	if(Ko_type.substr(-1)!='y' && Ko_type.substr(1,2)!='t-' && combination_table)	{
+	if(Ko_type.substr(-2)!='-y' && Ko_type.substr(1,2)!='t-' && combination_table)	{
 	// 옛한글 자판이 아니고 타자기 자판이 아닐 때 낱자 결합 규칙 적용하기
 		var ch;
 		if(ohiQ[4]) ch=ohiQ[4]+ohiQ[5];
@@ -1448,21 +1448,21 @@ function show_keyboard_layout(type) {
 		document.getElementById('de8').innerHTML = sign_ext_tag;
 		document.getElementById('de45').innerHTML = sign_ext_tag;
 	}
-	else if(KE=='K3' && (Ko_type=='3-2011y' || Ko_type=='3-2012y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
+	else if(KE=='Ko' && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
 		if(option.enable_sign_ext) {
 			document.getElementById('uh9').innerHTML = sign_ext_tag2;
 			document.getElementById('uh51').innerHTML = sign_ext_tag1;
 		}
 	}
 
-	if(KE=='K3' && Ko_type.substr(-1)=='y' && (Ko_type=='3-2011y' || Ko_type=='3-2012y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
+	if(KE=='Ko' && Ko_type.substr(-2)=='-y' && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
 			document.getElementById('dh7').innerHTML = han_ext_tag1;
 			document.getElementById('dh8').innerHTML = han_ext_tag2;
 			document.getElementById('uh7').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅣ)</span>';
 			document.getElementById('uh8').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅡ)</span>';
 	}
 
-	if(KE=='K3' && Ko_type.substr(0,4)=='Sin3' && Ko_type!='Sin3-BGN') {
+	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3' && Ko_type!='Sin3-BGN') {
 		document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
 		if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
@@ -1473,11 +1473,11 @@ function show_keyboard_layout(type) {
 	
 	if(KE=='Ko' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey
 	 && ((Ko_type.substr(0,4)=='Sin3' && (Ko_type.substr(5,4)=='2003' || Ko_type.substr(5,4)=='2012'))
-	  || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90')
+	  || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90')
 	)
 		document.getElementById('dh25').innerHTML = '<font size="1">(ㆍ)</font>';
 
-	if(KE=='K3' && Ko_type=='3m-Moa2015') {
+	if(KE=='Ko' && Ko_type=='3m-Moa2015') {
 		document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('uh39').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('ue45').removeAttribute('class');
@@ -1485,11 +1485,11 @@ function show_keyboard_layout(type) {
 		document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 	}
 	
-	if(KE=='K3' && Ko_type=='3m-Moa2014') {
+	if(KE=='Ko' && Ko_type=='3m-Moa2014') {
 		document.getElementById('uh38').innerHTML += Moachigi_modifier_tag;
 	}
 	
-	if(KE=='K3' && Ko_type=='3t-Oesol') {
+	if(KE=='Ko' && Ko_type=='3t-Oesol') {
 		document.getElementById('ue41').innerHTML = 'Shift(받침)';
 		document.getElementById('ue52').innerHTML = 'Shift(받침)';
 	}
@@ -1920,7 +1920,7 @@ function ohiKeyup(e) {
 
 	if(onkeyup_skip || option.turn_off_OHI || e.keyCode<47) return;
 
-	if(!option.force_normal_typing && KE=='K3' && Ko_type.substr(0,3)=='3m-') {
+	if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {
 		if(pressing_keys && !--pressing_keys) {
 			ohiHangeul3_moa(f,e);
 			pressed_keys=[];
@@ -2075,8 +2075,10 @@ function clickTableKey(e, key_num, dk, uk){
 	if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127) {
 		if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0];
 		if(f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1) ohiQ=[0,0,0,0,0,0,0];
-		if(ohi_KE_Status.substr(0,2)=='K2') ohiHangeul2(f,e,c);
-		if(ohi_KE_Status.substr(0,2)=='K3') ohiHangeul3(f,e,c);
+		if(KE=='Ko') {
+			if(current_layout.type_name.substr(0,2)=='2-') ohiHangeul2(f,e,c);
+			else ohiHangeul3(f,e,c);
+		}
 	}
 
 	for(var j=0;j<dkey.length;++j) {
