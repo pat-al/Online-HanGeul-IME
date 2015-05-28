@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/05/26
+ * Last Update : 2015/05/29
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -199,7 +199,7 @@ function ohiHangeul_backspace(f,e) {
 		return false;
 	}
 
-	if(KE=='K3' && prev_phoneme.length) {	// 첫가끝 조합 상태
+	if(KE=='Ko' && prev_phoneme.length) {	// 첫가끝 조합 상태
 		if(!ohiHangeul3_HanExtKey) {
 			if(e.preventDefault) e.preventDefault();
 			i=prev_combined_phoneme.length; while(i--) ohiBackspace(f);					
@@ -309,7 +309,7 @@ function ohiInsert(f,m,c) { // Insert
 function esc_ext_layout() {
 	var KE = ohi_KE_Status.substr(0,2);
 	if(ohiHangeul3_HanExtKey || Hangeul_SignExtKey1+Hangeul_SignExtKey2) {
-		if(KE=='K3') {
+		if(KE=='Ko') {
 			Hangeul_SignExtKey1=Hangeul_SignExtKey2=0;
 			ohiHangeul3_HanExtKey=0;
 			show_keyboard_layout(Ko_type);
@@ -1201,7 +1201,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_sign_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
-		if(KE=='K3' && typeof current_layout.sign_extension_layout != 'undefined') opt.style.display = 'block';
+		if(KE=='Ko' && typeof current_layout.sign_extension_layout != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
 		opt = document.getElementById('option_show_sublayout');
@@ -1211,7 +1211,7 @@ function show_options() {
 
 		opt = document.getElementById('option_force_normal_typing');
 		if(!opt) opt = appendChild(opts,'div','option','option_force_normal_typing','<div class="option"><input name="force_normal_typing" class="checkbox" onclick="option.force_normal_typing=this.checked;inputText_focus()" type="checkbox"' + (option.force_normal_typing ? ' checked="checked"' : '') + '><label>이어치기</label></div>');
-		if(KE=='K3' && Ko_type.substr(0,3)=='3m-') opt.style.display = 'block';
+		if(KE=='Ko' && Ko_type.substr(0,3)=='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
 		opt = document.getElementById('option_input_only_CGG_encoding');
@@ -1444,7 +1444,7 @@ function show_keyboard_layout(type) {
 	var han_ext_tag2 = '<span style="margin:2px -2px 0 0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.8em;">한글②</span>';
 	var Moachigi_modifier_tag = '<span style="background:black;color:#fff;font-size:1em;">⇦</span>';
 
-	if(option.enable_sign_ext && KE=='K3' && (Ko_type=='3-2011' || Ko_type=='3-2012')) {
+	if(option.enable_sign_ext && KE=='Ko' && (Ko_type=='3-2011' || Ko_type=='3-2012')) {
 		document.getElementById('de8').innerHTML = sign_ext_tag;
 		document.getElementById('de45').innerHTML = sign_ext_tag;
 	}
@@ -1950,6 +1950,9 @@ function url_query() {
 		}
 		if(field == 'en')	{
 			ohiChange('En',value.toLowerCase());
+		}
+		else if(field == 'ko') {
+			ohiChange('Ko',value.toLowerCase());
 		}
 		else if(field == 'k2') {
 			ohiChange('K2',value.toLowerCase());
