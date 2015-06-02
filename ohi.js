@@ -447,7 +447,7 @@ function ohiHangeul2(f,e,c) { // 2-Beolsik
 	}
 	else { // Moum
 		if(Ko_type.substr(0,5)=='2-sun') {
-			if(ohiQ[3]==cc && !ohiQ[1] && (ohiQ[0]==1 || ohiQ[0]==7 || ohiQ[0]==18 || ohiQ[0]==21 || ohiQ[0]==24)) {
+			if(ohiQ[3]==cc && !ohiQ[1] && !ohiQ[6] && (ohiQ[0]==1 || ohiQ[0]==7 || ohiQ[0]==18 || ohiQ[0]==21 || ohiQ[0]==24)) {
 			// 홀소리 글쇠를 거듭 눌러 된소리 만들기
 				ohiQ[1]=1;
 				ohiInsert(f,0,ohiQ);
