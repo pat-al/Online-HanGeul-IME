@@ -327,6 +327,7 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 		for(i=0; i<combination_table.length; ++i) {
 			if(combination_table[i].phonemes.length!=2) continue;
 			if(combination_table[i].phonemes.indexOf(c1)<0 || combination_table[i].phonemes.indexOf(c2)<0) continue;
+			if(c1==c2 && combination_table[i].phonemes[0]!=combination_table[i].phonemes[1]) continue;
 			combined_phoneme=combination_table[i].char;
 			break;
 		}
