@@ -763,7 +763,7 @@ function Hangeul_Gong3_sign(f,e,c) {
 		return 1;
 	}
 	else if(option.enable_sign_ext && !ohiHangeul3_HanExtKey
-		&& (Ko_type=='3-2011y' || Ko_type=='3-2012y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')
+		&& (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')
 		&& (c==0x2F || c==0x39)
 		&& (((!ohiQ[0]&&!ohiQ[3] || ohiQ[3] || ohiQ[0]&&(c==0x2F || c==0x39) && Hangeul_SignExtKey1+Hangeul_SignExtKey2)
 		&& ((unicode_cheot.indexOf(prev_phoneme[0])<0&&unicode_ga.indexOf(prev_phoneme[0])<0&&unicode_ggeut.indexOf(prev_phoneme[0])<0) || unicode_ga.indexOf(prev_phoneme[0])>=0 || unicode_ggeut.indexOf(prev_phoneme[0])>=0))) ) {
@@ -797,7 +797,7 @@ function Hangeul_Gong3_sign(f,e,c) {
 		esc_ext_layout();
 		return 1;
 	}
-	else if(option.enable_sign_ext && (Hangeul_SignExtKey1 || Hangeul_SignExtKey2) && (Ko_type=='3-2011y' || Ko_type=='3-2012y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2015')) {
+	else if(option.enable_sign_ext && (Hangeul_SignExtKey1 || Hangeul_SignExtKey2) && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2015')) {
 	// 3-2011 옛한글, 3-2012 옛한글, 3-2015, 3-2015 옛한글 자판의 기호 확장 배열
 		if(Hangeul_SignExtKey1) cc=current_layout.sign_extension_layout[c-33][0][Hangeul_SignExtKey1-1];
 		if(Hangeul_SignExtKey2) cc=current_layout.sign_extension_layout[c-33][1][Hangeul_SignExtKey2-1];
@@ -824,7 +824,7 @@ function Hangeul_Gong3_sign(f,e,c) {
 function Hangeul_Gong3_yes(f,c,cc) {	// 공세벌식 옛한글 처리
 	if(Ko_type.substr(-1)!='y') cc=convert_into_unicode_hangeul_phoneme(cc);
 
-	if(Ko_type=='3-2011y' || Ko_type=='3-2012y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P') {
+	if(Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P') {
 		if(c==55 || cc==0x1168) {	// 첫째 한글 확장 글쇠(ㅖ 자리 글쇠)가 눌렸을 때
 			if(ohiHangeul3_HanExtKey%0x10==2 || ohiHangeul3_HanExtKey==0x11) { esc_ext_layout(); convert_into_modern_hangeul_syllable(f); return false;}
 			if(ohiHangeul3_HanExtKey>0x10) {esc_ext_layout(); return false;}
