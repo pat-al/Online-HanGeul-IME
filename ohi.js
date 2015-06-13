@@ -2732,7 +2732,7 @@ function basic_layouts_info() {
 		0x0000,	/* 0x2C comma: */
 		0x0000,	/* 0x2D minus: */
 		0x0000,	/* 0x2E period: */
-		0x0000,	/* 0x2F slash: */
+		0x119e,	/* 0x2F slash: jungseong araea */
 		0x0000,	/* 0x30 0 */
 		0x0000,	/* 0x31 1 */
 		0x0000,	/* 0x32 2 */
@@ -2776,7 +2776,7 @@ function basic_layouts_info() {
 		0x11A9,	/* 0x58 X: jongseong ssanggieug */
 		0x0000,	/* 0x59 Y */
 		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
-		0x119e,	/* 0x5B bracketleft: jungseong araea */
+		0x0000,	/* 0x5B bracketleft: */
 		0x0000,	/* 0x5C backslash: */
 		0x0000,	/* 0x5D bracketright: */
 		0x0000,	/* 0x5E asciicircum: */
