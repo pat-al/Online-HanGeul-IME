@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/06/17
+ * Last Update : 2015/06/21
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -394,12 +394,6 @@ function convert_into_unicode_hangeul_phoneme(c) {
 }
 
 function convert_into_compatibility_hangeul_phoneme(c) {
-/*
-	compatibility_cheot = [0x3131,0x3132,0x3134,0x3137,0x3138,0x3139,0x3141,0x3142,0x3143,0x3145,0x3146,0x3147,0x3148,0x3149,0x314A,0x314B,0x314C,0x314D,0x314E];
-	i=0x314F;	while(i<=0x3163) compatibility_ga.push(i++);
-	compatibility_ggeut = [0x3131,0x3132,0x3133,0x3134,0x3135,0x3136,0x3137,0x3139,0x313A,0x313B,0x313C,0x313D,0x313E,0x313F,0x3140,
-		0x3141,0x3142,0x3144,0x3145,0x3146,0x3147,0x3148,0x314A,0x314B,0x314C,0x314D,0x314E];
-*/
 	c=convert_into_unicode_hangeul_phoneme(c);
 	
 	if(unicode_modern_cheot.indexOf(c)>=0) {
@@ -410,12 +404,9 @@ function convert_into_compatibility_hangeul_phoneme(c) {
 	}
 	else if(unicode_modern_ggeut.indexOf(c)>=0) {
 		c=compatibility_ggeut[unicode_modern_ggeut.indexOf(c)];
-	}
-	//else dh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + dh[i][j];
-	
-	
-	
-	return c;//compatibility_cheot[unicode_modern_cheot.indexOf(c)];
+	}	
+
+	return c;
 }
 
 
@@ -581,7 +572,6 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 				}
 			}
 			else {
-//				ohiQ[1]=convert_into_ohi_hangeul_phoneme(ch)-ohiQ[0]-127;
 				if(!ohiQ[1]) ohiQ[1]=convert_into_ohi_hangeul_phoneme(ch)-ohiQ[0]-127;
 				else { // 3타로 넣는 첫소리가 들어갔을 때
 					ohiQ[2]=convert_into_ohi_hangeul_phoneme(ch)-(ohiQ[0]+ohiQ[1])-127;
@@ -756,9 +746,9 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		c=convert_into_unicode_hangeul_phoneme(layout[pressed_keys[i]-33]);
 		chars.push(c);
 	}
-	
+
 	for(i=0;i<chars.length;++i) {
-		c=chars[i];			
+		c=chars[i];
 		if(unicode_cheot.indexOf(c)>=0) {
 			if(!i && ohiQ[0]) ohiInsert(f,0,0);
 			cheot.push(chars[i]);
@@ -775,23 +765,23 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			etc.push(chars[i]);
 		}
 	}
-	
+
 	for(i=0;i<cheot.length;++i) {
 		ohiHangeul3(f,e,cheot[i]);
 	}
-	
+
 	for(i=0;i<ga.length;++i) {
 		ohiHangeul3(f,e,ga[i]);
 	}
-	
+
 	for(i=0;i<ggeut.length;++i) {
 		ohiHangeul3(f,e,ggeut[i]);
 	}
-	
+
 	for(i=0;i<etc.length;++i) {
 		ohiHangeul3(f,e,etc[i]);
 	}
-	
+
 	//ohiInsert(f,0,16);
 	//ohiBackspace(f);
 }
@@ -979,7 +969,6 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		i=cc;
 		cc=cc2;
 		cc2=i;
-		
 	}
 	
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
@@ -996,6 +985,12 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		else if(cc==151) Hangeul_SignExtKey1=2;
 		else if(cc==145) Hangeul_SignExtKey1=3;
 		show_keyboard_layout('Sin3-ext');
+		return -1;
+	}
+	else if(cc2<31 && !no_shift(c) && !ohiQ[0] && !ohiQ[3] && ohiQ[6] && !ohiQ[7] && ohiDoubleJamo(2,ohiQ[6],cc2)) {
+	// 홑받침만 들어갔는데 윗글쇠와 함께 왼쪽 글쇠가 눌렸을 때 겹받침 조합하기
+		ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],cc2);
+		ohiInsert(f,0,ohiQ);
 		return -1;
 	}
 	else if(Sin3_sublayout && !no_shift(c) && Sin3_sublayout[c-33] && Sin3_sublayout[c-33]
@@ -1063,15 +1058,8 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		ohiInsert(f,0,ohiQ);
 		return -1;
 	}
-	else if(cc2<31 && !no_shift(c) && !ohiQ[0] && !ohiQ[3] && ohiQ[6] && !ohiQ[7]) {
-	// 홑받침만 들어갔는데 윗글쇠와 함께 왼쪽 글쇠가 눌렸을 때 겹받침 조합하기
-		cc=cc2;
-		ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],cc)
-		ohiInsert(f,0,ohiQ);
-		return -1;
-	}
 	else if(transform && cc<31 && ohiQ[6] && !ohiQ[7]) {
-	// 받침을 위글 자리에 두는 변형 신세벌식 자판의 두번째 들어온 받침 처리
+	// 받침을 윗글 자리에 두는 변형 신세벌식 자판의 두번째 들어온 받침 처리
 		i=combine_unicode_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),convert_into_unicode_hangeul_phoneme(cc));
 		if(!i) cc=cc2;
 	}
