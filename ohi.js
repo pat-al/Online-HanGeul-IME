@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/06/21
+ * Last Update : 2015/06/26
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -71,7 +71,7 @@ function basic_layouts_info_push() {
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P (연구안 3)', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/93'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P (연구안 3)', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/94'});
 }
 
 function option() {
@@ -593,27 +593,22 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 	}
 	
 	// 3-91 순아래 자판
-	if(Ko_type=='3-91_noshift' || Ko_type=='3-91_noshift-y') {
+	if(Ko_type=='3-91_noshift') {
 		if(c==0x5B && ( (ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || unicode_ga.indexOf(prev_combined_phoneme[0])>=0) )) {
 		// 첫소리와 가운뎃소리까지 들어간 채로 [ 자리 글쇠가 눌렸을 때 
 			cc=0x11ff;
 		}
 	}
 
-
-
 	// 요즘한글 자판에 옛한글 낱자를 쓰는 변칙 낱자 조합
-	if(Ko_type.substr(-2)!='-y') {//alert();
-		if(unicode_ggeut.indexOf(cc)>=0 && unicode_modern_ggeut.indexOf(cc)<0) {
-			
+	if(Ko_type.substr(-2)!='-y') {
+		if(unicode_ggeut.indexOf(cc)>=0 && unicode_modern_ggeut.indexOf(cc)<0) {			
 			if(!ohiQ[6]) {
 				ohiQ[6]=cc;
 				return;
 			}
 		}
-
 	}
-
 
 	// 요즘한글 자판에서 옛한글 홀소리가 들어갔을 때
 	if(!prev_phoneme.length && Ko_type.substr(-1)!='y' && ohi_ga.indexOf(cc)<0 && unicode_ga.indexOf(cc)>=0) {
@@ -952,7 +947,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var transform=0; // 홀소리를 아랫글 자리에 둔 변형 신세벌식(공-신 세벌식) 배열인지 나타내는 변수
+	var transform=0; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
 
 	if(no_shift(c)) {
 		cc=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33]);
@@ -963,7 +958,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		cc2=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33+32]); 
 	}
 
-	// 홀소리를 아랫글 자리에 두는 변형 신세벌식 자판을 처리하기 위한 작업
+	// 홀소리를 아랫글 자리에 두는 바꾼꼴 신세벌식 자판을 처리하기 위한 작업
 	if(no_shift(c) && ohi_ga.indexOf(cc)>=0 && (prev_phoneme.length || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
 		transform=1;
 		i=cc;
@@ -1059,7 +1054,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		return -1;
 	}
 	else if(transform && cc<31 && ohiQ[6] && !ohiQ[7]) {
-	// 받침을 윗글 자리에 두는 변형 신세벌식 자판의 두번째 들어온 받침 처리
+	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 받침 처리
 		i=combine_unicode_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),convert_into_unicode_hangeul_phoneme(cc));
 		if(!i) cc=cc2;
 	}
@@ -2721,7 +2716,7 @@ function basic_layouts_info() {
 		0x11ab,	/* 0x73 s:            jongseong nieun */
 		0x11be,	/* 0x74 t:            jongseong chieuch */
 		0x1103,	/* 0x75 u:            choseong dieud */
-		0x11bd,	/* 0x76 v:            jongseong jieuj*/
+		0x11bd,	/* 0x76 v:            jongseong jieuj */
 		0x11af,	/* 0x77 w:            jongseong lieul */
 		0x11a8,	/* 0x78 x:            jongseong gieug */
 		0x1105,	/* 0x79 y:            choseong lieul */
