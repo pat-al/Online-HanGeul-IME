@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/09/11
+ * Last Update : 2015/09/12
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -1113,6 +1113,127 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	return cc;
 }
 
+
+function Hangeul_CGG_Sin3(f,c) { // 신세벌식 첫가끝 조합
+	var i,j,cc,cc2;
+	var Sin3_layout=current_layout.layout;
+	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
+	//var transform=0; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
+
+	if(no_shift(c)) {
+		cc=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33]);
+		cc2=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33-32]);	// 윗글 자리
+	}
+	else {		
+		cc=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33]);
+		cc2=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33+32]); 
+	}
+
+	// 홀소리를 아랫글 자리에 두는 바꾼꼴 신세벌식 자판을 처리하기 위한 작업
+	/*if(no_shift(c) && ohi_ga.indexOf(cc)>=0 && (prev_phoneme.length || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
+		transform=1;
+		i=cc;
+		cc=cc2;
+		cc2=i;
+	}*/
+	
+	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
+	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
+		cc=K3_Sin3_sign_extension_layout[c-33][Hangeul_SignExtKey1-1];
+		ohiBackspace(f);
+		ohiInsert(f,0,cc);
+		esc_ext_layout();
+		return -1;
+	}
+	else if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined' && !Hangeul_SignExtKey1 && prev_char.length==1 && prev_char[0]==0x110B/*ㅇ*/ && (cc==0x1100/*ㄱ*/ || cc==0x110C/*ㅈ*/ || cc==0x1107/*ㅂ*/)) {
+	// 신세벌식 기호 확장 배열을 쓸 조건을 갖추었을 때
+		if(cc==128) Hangeul_SignExtKey1=1;
+		else if(cc==151) Hangeul_SignExtKey1=2;
+		else if(cc==145) Hangeul_SignExtKey1=3;
+		show_keyboard_layout('Sin3-ext');
+		return -1;
+	}
+	else if(cc2<31 && !no_shift(c) && !ohiQ[0] && !ohiQ[3] && ohiQ[6] && !ohiQ[7] && ohiDoubleJamo(2,ohiQ[6],cc2)) {
+	// 홑받침만 들어갔는데 윗글쇠와 함께 왼쪽 글쇠가 눌렸을 때 겹받침 조합하기
+		ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],cc2);
+		ohiInsert(f,0,ohiQ);
+		return -1;
+	}
+	else if(Sin3_sublayout && !no_shift(c) && Sin3_sublayout[c-33] && Sin3_sublayout[c-33]
+	 && (ohiQ[0] || prev_phoneme.length&&unicode_cheot.indexOf(prev_phoneme[prev_phoneme.length-1])>=0) && (ohiQ[3] && !ohiQ[6] || !no_shift(c) && prev_phoneme.length&&unicode_ga.indexOf(prev_phoneme[0])>=0)) {
+	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기
+		cc=Sin3_sublayout[c-33];
+	}
+	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && unicode_cheot.indexOf(convert_into_unicode_hangeul_phoneme(cc))>=0 && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(cc2))>=0) {
+	// 첫소리가 들어갔을 때에 오른손 자리에 있는 겹홀소리 조합용 가운뎃소리(ㅗ, ㅜ, ㅡ, ㅢ 등) 넣기
+		cc=cc2;
+		ohiRQ[3]=1;
+	}
+	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0) {
+	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열의 겹홀소리 조합용 홀소리를 넣음
+		cc=Sin3_sublayout[c-33];
+		ohiRQ[3]=1;
+	}
+	else if(c==47 && ohiQ[0] && !ohiQ[3]) {
+	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
+		cc=74;
+		ohiRQ[3]=1;
+	}
+	else if(!ohiQ[3] && (c==79 || c==80 || c==73) && (cc==79 || cc==74 || cc==84)) {
+	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ) 넣기
+		ohiRQ[3]=1;
+	}	
+	else if((ohiRQ[3] || backup_ohiRQ[3]) && cc<31 && prev_phoneme[0]==0x119E && !(prev_phoneme.length>1 && unicode_ga.indexOf(prev_phoneme[1])>=0)) {
+	// 아래아가 들어 있을 때에 ㆎ(아래애), ᆢ(쌍아래아) 조합하기
+		if(c==100) cc=0x1175; // ㆎ(아래애) 조합하기
+		else if(c==122 && prev_phoneme[1]!=0x119E) cc=0x119E; // 쌍아래아(ᆢ) 조합하기
+	}
+	else if(cc<31 && prev_phoneme.length && unicode_ggeut.indexOf(prev_phoneme[0])>=0) {
+		if(prev_phoneme[0]==convert_into_unicode_hangeul_phoneme(cc)) {
+		// 첫가끌 조합 상태에서 같은 받침 글쇠가 거듭눌렸을 때
+			for(i=0;i<hangeul_combination_table_default.length;++i) {
+				if(hangeul_combination_table_default[i][1]==convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33])) {
+					cc=hangeul_combination_table_default[i][0]%0x10000;
+					return cc;
+				}
+			}			
+		}
+	}
+	else if(ohiRQ[3] && cc<31 && (ohiQ[3]==74-35 || ohiQ[3]==79-35 || ohiQ[3]==84-35) && !ohiQ[4]) {
+		if(ohiQ[3]+35==74 && (cc2==66 || cc2==67 || cc2==86)) {
+		// 오른쪽 ㅗ와 겹홀소리를 이룰 수 있는 홑홀소리들
+			cc=cc2;
+		}
+		else if(ohiQ[3]+35==79 && (cc2==70 || cc2==71 || cc2==86 )) {
+		// 오른쪽 ㅜ와 겹홀소리를 이룰 수 있는 홑홀소리들
+			cc=cc2;
+		}
+		else if(ohiQ[3]+35==84 && (cc2==86)) {
+		// 오른쪽 ㅡ와 겹홀소리를 이룰 수 있는 홑홀소리들
+			cc=cc2;
+		}
+	}
+	else if(cc<31 && (ohiQ[0] && !ohiQ[3] && !ohiQ[6]) && (cc2>65 && cc2<87 || c==122)) { // 왼손 쪽 가운뎃소리 넣기
+		cc=cc2;
+		if(c==122 && (cc2==0x119E || cc2>157)) cc=0x119E; // Z 자리 아래아
+		ohiRQ[3]=0;
+	}
+	else if(Sin3_sublayout && !ohiRQ[3] && ohiQ[0] && ohiQ[3] && ohiQ[6] && !ohiQ[7] && cc==ohiQ[6] && (cc2=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]))) {
+	// 같은 글쇠를 거듭 눌러 겹받침 넣기
+		ohiQ[7]=cc2-ohiQ[6];
+		ohiInsert(f,0,ohiQ);
+		return -1;
+	}
+	else if(transform && cc<31 && ohiQ[6] && !ohiQ[7]) {
+	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 받침 처리
+		i=combine_unicode_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),convert_into_unicode_hangeul_phoneme(cc));
+		if(!i) cc=cc2;
+	}
+
+	return cc;
+}
+
+
 function Hangeul_Gong3_gm(f,c) {
 	var cc,cc2;
 	var layout=current_layout.layout;
@@ -1724,6 +1845,10 @@ function ohiStart() {
 
 	ohi_KE_Status = current_layout.KE;
 
+	ohiStatus.innerHTML = '<a href="javascript:ohiChange_KE();" style="color:White;text-decoration:none;">&nbsp;' + ohi_KE_Status.toUpperCase() + ' </a>'
+	 + ' | <a href="javascript:ohiChange_between_same_type(\'Ko\');"><span style="color:yellow">Ko:</span><span style="color:Aquamarine">' + Ko_type + '</span></a>'
+	 + ' / <a href="javascript:ohiChange_between_same_type(\'En\');"><span style="color:LightPink">En:</span><span style="color:Aquamarine">' + En_type + '</span></a>'
+	 + ' | <a href="javascript:ohiChange_KBD_type();" style="color:pink;text-decoration:none;">' + ohi_KBD_type + '&nbsp;</a>';
 	ohiStatus.innerHTML = '<a href="javascript:ohiChange_KE();" style="color:White;">&nbsp;' + ohi_KE_Status.toUpperCase() + ' </a>'
 	 + '| <a href="javascript:ohiChange_KE(\'En\');" style="color:Hotpink">En</a>:<a href="javascript:ohiChange_between_same_type(\'En\')" style="color:Aquamarine">' + En_type + '</a>'
 	 + ' / <a href="javascript:ohiChange_KE(\'Ko\');" style="color:Gold">Ko</a>:<a href="javascript:ohiChange_between_same_type(\'Ko\')" style="color:Aquamarine">' + Ko_type + '</a>'
@@ -1756,8 +1881,8 @@ function ohiStart() {
 			ohiStatus.style.fontWeight = 'normal';
 			ohiStatus.style.color = 'white';
 			ohiStatus.style.backgroundColor = 'royalblue';
-			ohiStatus.style.fontSize = '10pt';
-			ohiStatus.style.lineHeight = '10pt';
+			ohiStatus.style.fontSize = '13px';
+			ohiStatus.style.lineHeight = '13px';
 			ohiStatus.style.zIndex = '2550000';
 
 			document.body.appendChild(ohiStatus);
@@ -1801,8 +1926,8 @@ function show_keyboard_layout_info() {
 			else if(current_layout.type_name.substr(0,1)=='4') beol = '4';
 			name = '<strong>[한글 ' + beol + '벌식' + kbd + ']</strong> ';
 			if(typeof current_layout.full_name != 'undefined') name += current_layout.full_name;
-			if(Ko_type=='3-91') name+=' (직결식)';
-			if(Ko_type=='3-91' || Ko_type=='3-2011') name+=' (문장 입력용)';
+			if(Ko_type=='3-91') name+=' (직결식 배열, 문장 입력용)';
+			if(Ko_type=='3-2011') name+=' (문장 입력용)';
 			if(typeof current_layout.link != 'undefined' && current_layout.link) name += ' <a href="'+current_layout.link+'" target="_blank">ⓘ</a>';
 		}
 
@@ -1849,6 +1974,8 @@ function ohiChange(KE, layout) {
 function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
+	var K2_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002'];
+	var K3_type_array = ['Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
 	var K2_type_array = ['2-KSX5002','2-KPS9256'];
 	var K3_type_array = ['Sin3-P','3-90','3m-Moa2015'];
 	var Ko_type_array;
