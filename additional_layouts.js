@@ -25,7 +25,7 @@ input_hangeul_combination_table_info();
 
 var additional_layouts=[];
 
-additional_layouts.push({KE: 'Ko', type_name: '2-Bak-Song', full_name: '박영효·송계범 (1968, 전신 타자기)', layout: K2_Bak_Song_1968_layout, link: 'http://pat.im/1025'});
+additional_layouts.push({KE: 'Ko', type_name: '2-Bak-Song', full_name: '박영효·송계범 (1968, 모아쓰기 전신 타자기)', layout: K2_Bak_Song_1968_layout, link: 'http://pat.im/1025'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-89', full_name: '3-89', layout: K3_89_layout, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011', layout: K3_2011_layout, sign_extension_layout: K3_2011_sign_extension_layout, link: 'http://pat.im/855'});
