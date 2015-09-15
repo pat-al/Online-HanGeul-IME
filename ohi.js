@@ -44,7 +44,6 @@ function basic_layouts() {
 	var sign_extension_layout; // 기호 확장 배열
 	var hangeul_extension_layout;	// 한글 확장 배열
 	var hangeul_combination_table; // 한글 낱자 조합 규칙 (이어치기)
-	var hangeul_extension_combination_table; // 확장해 쓰는 한글 낱자 조합 규칙 (이어치기)
 	var moachigi_combination_table; // 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
 	var multikey_combination_table;	// 모아치기 자판의 줄여녛기 조합 규칙 (다른 조합 규칙보다 먼저 적용됨)
 	var link;
@@ -57,7 +56,7 @@ function basic_layouts_info_push() {
 
 	basic_layouts.push({KE: 'Ko', type_name: '2-KSX5002', full_name: '한국 표준 (KS X 5002)'});
 	basic_layouts.push({KE: 'Ko', type_name: '2-KPS9256', full_name: '조선 국규 (KPS 9256)'});
-	basic_layouts.push({KE: 'Ko', type_name: '2-sun-KSX5002', full_name: '두벌식 순아래 (꼬마집오리)', link: 'https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae'});
+	basic_layouts.push({KE: 'Ko', type_name: '2-sun-KSX5002', full_name: '두벌식 순아래 (KS X 5002) (꼬마집오리)', link: 'https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae'});
 
 	basic_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
 	basic_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
@@ -72,7 +71,7 @@ function basic_layouts_info_push() {
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P (잠정안 1차 수정 + 옛글 조합)', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, hangeul_extension_combination_table: K3_Sin3_P_extension_combination_table, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/99'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P (잠정안 1차 수정 + 옛글 조합)', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/99'});
 }
 
 function option() {
@@ -80,10 +79,10 @@ function option() {
 	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var show_sublayout; // 보조(겹받침 확장) 배열표 보기 --> show_keyboard_sublayout() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
+	var enable_hangeul_combination_ext; // 확장한 한글 조합 규칙 쓰기 (신세벌식 자판에서 옛한글 넣기)
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
 	var input_only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
-	var hangeul_combination_ext; // 신세벌식 P 자판에서 옛글 조합 확장하기
-	var Sin3_oleun_holsoli;
+	var Sin3_oleun_holsoli; // 0이면 신세벌식 자판에서 오른쪽 글쇠로 홀소리를 넣을 수 없음
 	var NCR; // HTML 문자 참조 보기
 }
 
@@ -98,7 +97,7 @@ option.show_sublayout=0;
 option.enable_sign_ext=1;
 option.force_normal_typing = 0;
 option.input_only_CGG_encoding = 0;
-option.hangeul_combination_ext = 0;
+option.enable_hangeul_combination_ext = 0;
 option.Sin3_oleun_holsoli = 1;
 option.NCR = 0;
 
@@ -242,7 +241,7 @@ function ohiHangeul_backspace(f,e) {
 			}
 		}
 
-		if(!(Ko_type=='Sin3-P' && option.hangeul_combination_ext) && Ko_type.substr(-2)!='-y') { // 아래아 등이 지워졌을 때 첫가끝 코드 조합 상태에서 요즘한글(완성형) 코드로 바꾸기
+		if(!(Ko_type.substr(0,5)=='Sin3-' && option.enable_hangeul_combination_ext) && Ko_type.substr(-2)!='-y') { // 아래아 등이 지워졌을 때 첫가끝 코드 조합 상태에서 요즘한글(완성형) 코드로 바꾸기
 			for(i=0;i<prev_combined_phoneme.length;++i) {
 				if(unicode_cheot.indexOf(prev_combined_phoneme[i]) > ohi_cheot.length-1 || unicode_ga.indexOf(prev_combined_phoneme[i]) > ohi_ga.length-1 || unicode_ggeut.indexOf(prev_combined_phoneme[i]) > ohi_ggeut.length-1) break;
 			}
@@ -363,8 +362,8 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 		if(typeof current_layout.hangeul_combination_table != 'undefined' && typeof current_layout.hangeul_combination_table.length != 'undefined' && current_layout.hangeul_combination_table.length) {
 			combination_table = current_layout.hangeul_combination_table;
 		}
-		if(typeof current_layout.hangeul_extension_combination_table != 'undefined' && typeof current_layout.hangeul_extension_combination_table.length != 'undefined') {
-			combination_table = current_layout.hangeul_extension_combination_table;
+		if(option.enable_hangeul_combination_ext && Ko_type.substr(0,5)=='Sin3-') {
+			combination_table = K3_Sin3_extension_combination_table;
 		}
 
 		var combined_phoneme=0x10000*c1+c2;
@@ -540,9 +539,9 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 
 	if(Ko_type.indexOf('Sin3-')>=0) {	// 신세벌식 자판 또는 공-신 혼합형 세벌식 자판
 		
-		if(Ko_type=='Sin3-P') {
-			if(option.hangeul_combination_ext) {
-				cc=CGG_Hangeul_Sin3(f,c);		
+		if(Ko_type.substr(0,5)=='Sin3-') {
+			if(option.enable_hangeul_combination_ext) {
+				cc=CGG_Hangeul_Sin3(f,c);
 				if(cc==-1) return;
 				CGG_yesHangeul(f,c,cc); // 옛한글 자판
 				return;
@@ -1157,6 +1156,10 @@ function CGG_Hangeul_Sin3(f,c) { // 첫가끝 방식으로 조합하는 신세�
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
+	
+	if(option.enable_hangeul_combination_ext && typeof current_layout.hangeul_extension_layout != 'undefined') {
+		Sin3_layout=current_layout.hangeul_extension_layout;
+	}
 
 	if(no_shift(c)) {
 		cc=convert_into_unicode_hangeul_phoneme(Sin3_layout[c-33]);
@@ -1522,14 +1525,14 @@ function show_options() {
 		if(current_layout.type_name.substr(-2)=='-y') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
-		opt = document.getElementById('option_hangeul_combination_ext');
-		if(!opt) opt = appendChild(opts,'div','option','option_hangeul_combination_ext','<div class="option"><input name="hangeul_combination_ext" class="checkbox" onclick="option.hangeul_combination_ext=this.checked;ohiChange_enable_hangeul_combination_ext();inputText_focus()" type="checkbox"' + (option.hangeul_combination_ext ? ' checked="checked"' : '') + '><label>한글 조합 확장</label></div>');
-		if(current_layout.type_name=='Sin3-P') opt.style.display = 'block';
+		opt = document.getElementById('option_enable_hangeul_combination_ext');
+		if(!opt) opt = appendChild(opts,'div','option','option_enable_hangeul_combination_ext','<div class="option"><input name="enable_hangeul_combination_ext" class="checkbox" onclick="option.enable_hangeul_combination_ext=this.checked;ohiChange_enable_enable_hangeul_combination_ext();inputText_focus()" type="checkbox"' + (option.enable_hangeul_combination_ext ? ' checked="checked"' : '') + '><label>한글 조합 확장</label></div>');
+		if(current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
 		opt = document.getElementById('option_Sin3_oleun_holsoli');
 		if(!opt) opt = appendChild(opts,'div','option','option_Sin3_oleun_holsoli','<div class="option"><input name="Sin3_oleun_holsoli" class="checkbox" onclick="option.Sin3_oleun_holsoli=this.checked;inputText_focus()" type="checkbox"' + (option.Sin3_oleun_holsoli ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
-		if(option.hangeul_combination_ext && current_layout.type_name=='Sin3-P') opt.style.display = 'block';
+		if(option.enable_hangeul_combination_ext && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
 }
@@ -1634,7 +1637,7 @@ function show_keyboard_layout(type) {
 		uh = type.indexOf('KSX5002')>=0 ? u2_KSX5002 : type=='2-KPS9256' ? u2_KPS9256 : uh;
 		dh = type.indexOf('KSX5002')>=0 ? d2_KSX5002 : type=='2-KPS9256' ? d2_KPS9256 : dh;
 	}
-	else if(KE!='En') {
+	else if(KE=='Ko') {
 		if(Hangeul_SignExtKey1 || Hangeul_SignExtKey2) {
 			layout = current_layout.sign_extension_layout;
 			if(layout.length) {
@@ -1647,7 +1650,9 @@ function show_keyboard_layout(type) {
 			push_hangeul_extended_layout_table(uh, dh, layout);
 		}
 		else if(typeof current_layout != 'undefined' && typeof current_layout.layout != 'undefined') {
-			push_basic_layout_table(uh, dh, current_layout.layout);
+			layout=current_layout.layout;
+			if(option.enable_hangeul_combination_ext && Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.hangeul_extension_layout != 'undefined') layout=current_layout.hangeul_extension_layout;
+			push_basic_layout_table(uh, dh, layout);
 		}
 		
 	}
@@ -2032,39 +2037,36 @@ function ohiChange_enable_sign_ext(op) {
 	show_keyboard_layout(option.show_layout);
 }
 
-function ohiChange_enable_hangeul_combination_ext(op) {
+function ohiChange_enable_enable_hangeul_combination_ext(op) {
 	if(typeof op != 'undefined') {
-		if(op=='off' || op=='0') option.hangeul_combination_ext = 0;
-		else option.hangeul_combination_ext = 1;
+		if(op=='off' || op=='0') option.enable_hangeul_combination_ext = 0;
+		else option.enable_hangeul_combination_ext = 1;
 	}
 
 	var f=document.getElementById('inputText');
 	if(f) convert_into_modern_hangeul_syllable(f);
 
-	Sin3_P_hangeul_extension();
+	Sin3_hangeul_extension();
 
 	show_keyboard_layout(option.show_layout);
 }
 
-function Sin3_P_hangeul_extension() {
-	if(Ko_type=='Sin3-P') {
-		if(option.hangeul_combination_ext) {
-			current_layout.layout[52]=0x302E;
-			current_layout.layout[56]=0x302F;
-		}
-		else {
-			current_layout.layout[52]=0x25CB;
-			current_layout.layout[56]=0x00D7;		
+function Sin3_hangeul_extension() {
+	if(Ko_type.substr(0,5)!='Sin3-') return;
+	
+	if(option.enable_hangeul_combination_ext) {
+		if(typeof current_layout.hangeul_extension_layout == 'undefined') {
+			current_layout.hangeul_extension_layout = current_layout.layout.slice();
+			current_layout.hangeul_extension_layout[52]=0x302E;
+			current_layout.hangeul_extension_layout[56]=0x302F;
 		}
 	}
-	
+
 	opt = document.getElementById('option_Sin3_oleun_holsoli');
 	if(opt) {
-		if(option.hangeul_combination_ext && current_layout.type_name=='Sin3-P') opt.style.display = 'block';
+		if(option.enable_hangeul_combination_ext && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
-	
-	
 }
 
 function ohiKeyswap(c,e) {
@@ -2352,8 +2354,8 @@ function url_query() {
 			NCR_option.convert_only_CGG_encoding = TF;
 		}
 		else if(field == 'hce') {
-			option.hangeul_combination_ext = TF;
-			ohiChange_enable_hangeul_combination_ext();
+			option.enable_hangeul_combination_ext = TF;
+			ohiChange_enable_enable_hangeul_combination_ext();
 		}
 	}
 }
@@ -3966,8 +3968,8 @@ function basic_layouts_info() {
 		[0x11AF11AB,0x11B4]  /* jongseong lieul + nieun = lieul-tieut */
 	);
 	
-	K3_Sin3_P_extension_combination_table = hangeul_combination_table_full.slice();
-	K3_Sin3_P_extension_combination_table.unshift(
+	K3_Sin3_extension_combination_table = hangeul_combination_table_full.slice();
+	K3_Sin3_extension_combination_table.unshift(
 		[0x11001109,0x1140], /* choseong gieug + siues = ssanggieug */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
 		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolinhieuh */

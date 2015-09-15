@@ -1,6 +1,7 @@
 /*
-※ 첫가끌 방식으로 한글을 조합하는 자판은 type_name 끝에 'y'를 붙인다.
+※ 반드시 첫가끌 방식으로 한글을 조합하는 자판은 type_name 끝에 '-y'를 붙인다.
 ※ 신세벌식 자판은 type_name 앞에 'Sin3-'를 붙인다.
+※ 본래 방식에서 벗어난 바꾼꼴 신세벌식 자판은 type_name 앞에 'Sin3b-'를 붙인다.
 ※ 갈마들이 타법을 쓰는 공병우식 배열은 type_name 끝에 '_gm'을 붙인다.
 ※ 모아치기 방식으로 쓰는 세벌식 자판은 type_name 앞에 '3m-'를 붙인다.
 ※ 타자기 자판은 벌 수 다음에 't-'를 붙인다. ('3t-', 4t-')
@@ -44,8 +45,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015M', full_name: '3-2015M', l
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout, link:'http://pat.im/1104'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
 
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2015', full_name: '바꾼꼴 신세벌식 2015', layout: K3_Sin3_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '바꾼꼴 신세벌식 2015', layout: K3_Sin3_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3-Anmatae', full_name: '안마태 소리 글판 (이어치기 방식)', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
