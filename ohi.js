@@ -8,7 +8,7 @@
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
- * Last Update : 2015/09/14
+ * Last Update : 2015/09/15
 
  Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
 
@@ -1210,12 +1210,7 @@ function CGG_Hangeul_Sin3(f,c) { // 첫가끝 방식으로 조합하는 신세�
 	else if((!prev_phoneme.length || unicode_ga.indexOf(prev_phoneme[0])<0) && (c==79 || c==80 || c==73) && (cc==0x1169/*ㅗ*/ || cc==0x116E/*ㅜ*/ || cc==0x1173/*ㅡ*/)) {
 	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ) 넣기
 		cc=-cc;
-	}	
-	/*else if(prev_phoneme_R[0] && unicode_ggeut.indexOf(cc)>=0 && prev_phoneme[0]==0x119E && !(prev_phoneme.length>1 && unicode_ga.indexOf(prev_phoneme[1])>=0)) {
-	// 아래아가 들어 있을 때에 ㆎ(아래애), ᆢ(쌍아래아) 조합하기
-		if(c==100) cc=0x1175; // ㆎ(아래애) 조합하기
-		else if(c==122 && prev_phoneme[1]!=0x119E) cc=0x119E; // 쌍아래아(ᆢ) 조합하기
-	}*/
+	}
 	else if(prev_phoneme_R[0] && unicode_ggeut.indexOf(cc)>=0) {
 		cc=cc2;
 	}
@@ -1852,11 +1847,7 @@ function ohiStart() {
 	ohiStatus.innerHTML = '<a href="javascript:ohiChange_KE();" style="color:White;text-decoration:none;">&nbsp;' + ohi_KE_Status.toUpperCase() + ' </a>'
 	 + ' | <a href="javascript:ohiChange_between_same_type(\'Ko\');"><span style="color:yellow">Ko:</span><span style="color:Aquamarine">' + Ko_type + '</span></a>'
 	 + ' / <a href="javascript:ohiChange_between_same_type(\'En\');"><span style="color:LightPink">En:</span><span style="color:Aquamarine">' + En_type + '</span></a>'
-	 + ' | <a href="javascript:ohiChange_KBD_type();" style="color:pink;text-decoration:none;">' + ohi_KBD_type + '&nbsp;</a>';
-	ohiStatus.innerHTML = '<a href="javascript:ohiChange_KE();" style="color:White;">&nbsp;' + ohi_KE_Status.toUpperCase() + ' </a>'
-	 + '| <a href="javascript:ohiChange_KE(\'En\');" style="color:Hotpink">En</a>:<a href="javascript:ohiChange_between_same_type(\'En\')" style="color:Aquamarine">' + En_type + '</a>'
-	 + ' / <a href="javascript:ohiChange_KE(\'Ko\');" style="color:Gold">Ko</a>:<a href="javascript:ohiChange_between_same_type(\'Ko\')" style="color:Aquamarine">' + Ko_type + '</a>'
-	 + ' | <a href="javascript:ohiChange_KBD_type();" style="color:Hotpink">' + ohi_KBD_type + '</a>';
+	 + ' | <a href="javascript:ohiChange_KBD_type();" style="color:WhiteSmoke;text-decoration:none;">' + ohi_KBD_type + '&nbsp;</a>';
 
 	if(document.body) {
 		show_ohiStatusBar(1);
@@ -2046,8 +2037,12 @@ function ohiChange_enable_hangeul_combination_ext(op) {
 		if(op=='off' || op=='0') option.hangeul_combination_ext = 0;
 		else option.hangeul_combination_ext = 1;
 	}
+
+	var f=document.getElementById('inputText');
+	if(f) convert_into_modern_hangeul_syllable(f);
+
 	Sin3_P_hangeul_extension();
-	
+
 	show_keyboard_layout(option.show_layout);
 }
 
