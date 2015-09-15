@@ -1084,17 +1084,17 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기
 		cc=Sin3_sublayout[c-33];
 	}
-	else if(option.Sin3_oleun_holsoli && no_shift(c) && ohiQ[0] && !ohiQ[3] && unicode_cheot.indexOf(convert_into_unicode_hangeul_phoneme(cc))>=0 && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(cc2))>=0) {
+	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && unicode_cheot.indexOf(convert_into_unicode_hangeul_phoneme(cc))>=0 && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(cc2))>=0) {
 	// 첫소리가 들어갔을 때에 오른손 자리에 있는 겹홀소리 조합용 가운뎃소리(ㅗ, ㅜ, ㅡ, ㅢ 등) 넣기
 		cc=cc2;
 		ohiRQ[3]=1;
 	}
-	else if(option.Sin3_oleun_holsoli && no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0) {
+	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0) {
 	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열의 겹홀소리 조합용 홀소리를 넣음
 		cc=Sin3_sublayout[c-33];
 		ohiRQ[3]=1;
 	}
-	else if(option.Sin3_oleun_holsoli && c==47 && ohiQ[0] && !ohiQ[3]) {
+	else if(c==47 && ohiQ[0] && !ohiQ[3]) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		cc=74;
 		ohiRQ[3]=1;
@@ -1529,7 +1529,7 @@ function show_options() {
 			
 		opt = document.getElementById('option_Sin3_oleun_holsoli');
 		if(!opt) opt = appendChild(opts,'div','option','option_Sin3_oleun_holsoli','<div class="option"><input name="Sin3_oleun_holsoli" class="checkbox" onclick="option.Sin3_oleun_holsoli=this.checked;inputText_focus()" type="checkbox"' + (option.Sin3_oleun_holsoli ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
-		if(current_layout.type_name=='Sin3-P') opt.style.display = 'block';
+		if(option.hangeul_combination_ext && current_layout.type_name=='Sin3-P') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
 }
@@ -2057,6 +2057,14 @@ function Sin3_P_hangeul_extension() {
 			current_layout.layout[56]=0x00D7;		
 		}
 	}
+	
+	opt = document.getElementById('option_Sin3_oleun_holsoli');
+	if(opt) {
+		if(option.hangeul_combination_ext && current_layout.type_name=='Sin3-P') opt.style.display = 'block';
+		else opt.style.display = 'none';
+	}
+	
+	
 }
 
 function ohiKeyswap(c,e) {
