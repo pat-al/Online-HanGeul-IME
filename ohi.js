@@ -77,7 +77,7 @@ function basic_layouts_info_push() {
 function option() {
 	var turn_off_OHI; // OHI 입력 기능 멈추기 (화상 자판은 그대로 씀)
 	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
-	var show_sublayout; // 보조(겹받침 확장) 배열표 보기 --> show_keyboard_sublayout() 함수로 값을 바꿈
+	var show_sublayout; // 보조(겹낱자 확장) 배열표 보기 --> show_keyboard_sublayout() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열을 쓸지 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
 	var enable_hangeul_combination_ext; // 확장한 한글 조합 규칙 쓰기 (신세벌식 자판에서 옛한글 넣기)
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
@@ -1510,9 +1510,19 @@ function show_options() {
 		if(KE=='Ko' && typeof current_layout.sign_extension_layout != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
+		opt = document.getElementById('option_enable_hangeul_combination_ext');
+		if(!opt) opt = appendChild(opts,'div','option','option_enable_hangeul_combination_ext','<div class="option"><input name="enable_hangeul_combination_ext" class="checkbox" onclick="option.enable_hangeul_combination_ext=this.checked;ohiChange_enable_enable_hangeul_combination_ext();inputText_focus()" type="checkbox"' + (option.enable_hangeul_combination_ext ? ' checked="checked"' : '') + '><label>한글 조합 확장</label></div>');
+		if(current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
+		else opt.style.display = 'none';
+
+		opt = document.getElementById('option_Sin3_oleun_holsoli');
+		if(!opt) opt = appendChild(opts,'div','option','option_Sin3_oleun_holsoli','<div class="option"><input name="Sin3_oleun_holsoli" class="checkbox" onclick="option.Sin3_oleun_holsoli=this.checked;inputText_focus()" type="checkbox"' + (option.Sin3_oleun_holsoli ? ' checked="checked"' : '') + '><label>오른 홀소리</label></div>');
+		if(option.enable_hangeul_combination_ext && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
+		else opt.style.display = 'none';
+
 		opt = document.getElementById('option_show_sublayout');
-		if(!opt) opt = appendChild(opts,'div','option','option_show_sublayout','<div class="option"><input name="show_sublayout" class="checkbox" onclick="show_keyboard_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.show_sublayout ? ' checked="checked"' : '') + '><label>겹받침 확장 보기</label></div>');
-		if(option.show_layout && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,3)!='3m-') opt.style.display = 'block';
+		if(!opt) opt = appendChild(opts,'div','option','option_show_sublayout','<div class="option"><input name="show_sublayout" class="checkbox" onclick="show_keyboard_sublayout(this.checked);inputText_focus()" type="checkbox"' + (option.show_sublayout ? ' checked="checked"' : '') + '><label>겹낱자 확장 보기</label></div>');
+		if(option.show_layout && !option.enable_hangeul_combination_ext && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,3)!='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_force_normal_typing');
@@ -1521,19 +1531,9 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_input_only_CGG_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','option_input_only_CGG_encoding','<div class="option"><input name="input_only_CGG_encoding" class="checkbox" onclick="option.input_only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.input_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 방식으로만 넣기</label></div>');
-		if(current_layout.type_name.substr(-2)=='-y') opt.style.display = 'block';
-		else opt.style.display = 'none';
-			
-		opt = document.getElementById('option_enable_hangeul_combination_ext');
-		if(!opt) opt = appendChild(opts,'div','option','option_enable_hangeul_combination_ext','<div class="option"><input name="enable_hangeul_combination_ext" class="checkbox" onclick="option.enable_hangeul_combination_ext=this.checked;ohiChange_enable_enable_hangeul_combination_ext();inputText_focus()" type="checkbox"' + (option.enable_hangeul_combination_ext ? ' checked="checked"' : '') + '><label>한글 조합 확장</label></div>');
-		if(current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
-		else opt.style.display = 'none';
-			
-		opt = document.getElementById('option_Sin3_oleun_holsoli');
-		if(!opt) opt = appendChild(opts,'div','option','option_Sin3_oleun_holsoli','<div class="option"><input name="Sin3_oleun_holsoli" class="checkbox" onclick="option.Sin3_oleun_holsoli=this.checked;inputText_focus()" type="checkbox"' + (option.Sin3_oleun_holsoli ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
-		if(option.enable_hangeul_combination_ext && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
-		else opt.style.display = 'none';
+		if(!opt) opt = appendChild(opts,'div','option','option_input_only_CGG_encoding','<div class="option"><input name="input_only_CGG_encoding" class="checkbox" onclick="option.input_only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.input_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝으로만 넣기</label></div>');
+		if(current_layout.type_name.substr(-2)=='-y' || option.enable_hangeul_combination_ext&&current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
+		else opt.style.display = 'none';			
 	}
 }
 
