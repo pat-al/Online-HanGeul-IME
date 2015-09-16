@@ -1666,8 +1666,8 @@ function show_keyboard_layout(type) {
 		insert_sublayout_table(ue, de, uh, dh, current_layout.sublayout);
 	}
 
-	ue.push(['영문','2벌식','3벌식','Space','한/영',' ','기준']);
-	de.push(['바꿈','바꿈','바꿈','','',' ','자판']);
+	ue.push(['기준','영문','한글','Space','한/영','2벌식','3벌식']);
+	de.push(['자판','바꿈','바꿈','','','바꿈','바꿈']);
 
 	inner_html += '<div id="keyboardLayoutInfo"></div><span class="menu" onclick="show_keyboard_layout(0);inputText_focus()" onmouseover="this.className=\'menu over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span>';
 	inner_html += '<table id="keyboardLayoutTable">';
@@ -1976,9 +1976,9 @@ function ohiChange(KE, layout) {
 function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
-	var K2_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002'];
-	var K3_type_array = ['Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
-	var Ko_type_array = [];
+	var K2_type_array = [];
+	var K3_type_array = [];
+	var Ko_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002','Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
 	
 	if(type=='En') {
 		for(i=0;i<En_type_array.length;++i) {
@@ -1992,18 +1992,40 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 		ohiChange('En',En_type);
 	}
 	else if(type=='K2' || type=='K3' || type=='Ko') {
-		if(type=='K2') Ko_type_array = K2_type_array.slice();
-		else if(type=='K3') Ko_type_array = K3_type_array.slice();
-		else Ko_type_array = K2_type_array.concat(K3_type_array);
-		
-		for(i=0;i<Ko_type_array.length;++i) {
-			if(Ko_type.toLowerCase()==Ko_type_array[i].toLowerCase()) {
-				j=i;
-				break;
+		if(type!='Ko') {
+			var a=[basic_layouts];
+			if(typeof additional_layouts != 'undefined') a.push(additional_layouts);
+			if(typeof test_layouts != 'undefined') a.push(test_layouts);
+
+			for(i=0;i<Ko_type_array.length;++i) {
+				if(type=='K2' && Ko_type_array[i].substr(0,1)!='2') {
+					Ko_type_array.splice(i--,1);
+				}
+				if(type=='K3' && Ko_type_array[i].substr(0,1)=='2') {
+					Ko_type_array.splice(i--,1);
+				}
+			}
+
+			for(i=0;i<a.length;++i) {
+				for(j=0;j<a[i].length;++j) {
+					if(a[i][j].KE=='Ko' && typeof a[i][j].type_name != 'undefined' && Ko_type_array.indexOf(a[i][j].type_name)<0) {
+						if(type=='K2') {
+							if(a[i][j].type_name.substr(0,1)=='2') Ko_type_array.push(a[i][j].type_name);
+						}
+						if(type=='K3') {
+							if(a[i][j].type_name.substr(0,1)!='2') Ko_type_array.push(a[i][j].type_name);
+						}
+					}
+				}
 			}
 		}
 
-		Ko_type = Ko_type_array[(j+1)%Ko_type_array.length];
+		for(i=0;i<Ko_type_array.length;++i) {
+			if(Ko_type.toLowerCase()==Ko_type_array[i].toLowerCase()) j=i;
+		}
+
+		if(Ko_type.substr(0,1)=='2'&&Ko_type_array[(j+1)%i].substr(0,1)!='2' || Ko_type.substr(0,1)!='2'&&Ko_type_array[(j+1)%i].substr(0,1)=='2') Ko_type = Ko_type_array[0];
+		else Ko_type = Ko_type_array[(j+1)%i];
 		ohiChange('Ko',Ko_type);
 	}
 }
@@ -2445,18 +2467,25 @@ function clickTableKey(e, key_num, dk, uk){
 		ohiChange_KBD_type();
 		inputText_focus();
 	}
-	if(dk==-2) {	// 한·영 상태 바꾸기 단추
+	if(dk==-2) {
+		ohiChange_between_same_type('En'); // 영문 자판 바꾸기 단추
+	}
+	if(dk==-3) {	// 
+		ohiChange_between_same_type('Ko'); // 한글 자판 바꾸기 단추
+		inputText_focus();
+	}
+	if(dk==-11) {	// 3벌식 자판 바꾸기 단추
+		ohiChange_between_same_type('K3'); 
+		inputText_focus();
+	}
+	if(dk==-12) { // 2벌식 자판 바꾸기 단추
+		ohiChange_between_same_type('K2'); 
+	}
+	if(dk==-13) { // 한·영 상태 바꾸기 단추
 		ohiChange_KE();
 		inputText_focus();
 	}
-	if(dk==-3) {	// 
-		//ohiChange_KE();
-		inputText_focus();
-	}
-	if(dk==-11) ohiChange_between_same_type('En'); // 영문 자판 바꾸기 단추
-	if(dk==-12) ohiChange_between_same_type('K2'); // 2벌식 자판 바꾸기 단추
-	if(dk==-13) ohiChange_between_same_type('K3'); // 3벌식 자판 바꾸기 단추
-	
+
 	if((shift_click+shiftlock_click)%2) c=uk; else c=dk;
 	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,0,c);
 	if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127) {
@@ -2515,14 +2544,14 @@ function basic_layouts_info() {
 	9,113,119,101,114,116,121,117,105,111,112,91,93,92,
 	20,97,115,100,102,103,104,106,107,108,59,39,13,
 	16,122,120,99,118,98,110,109,44,46,47,16,
-	-11,-12,-13,32,-2,-3,-1];
+	-1,-2,-3,32,-13,-12,-11];
 
 	// 쿼티 자판 윗글 배열
 	ukey = [126,33,64,35,36,37,94,38,42,40,41,95,43,8,
 	9,81,87,69,82,84,89,85,73,79,80,123,125,124,
 	20,65,83,68,70,71,72,74,75,76,58,34,13,
 	16,90,88,67,86,66,78,77,60,62,63,16,
-	-11,-12,-13,32,-2,-3,-1];
+	-1,-2,-3,32,-13,-12,-11];
 
 	En_Dvorak_layout = [/*!*/33,/*"*/95,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/45,/*(*/40,
 	/*)*/41,/***/42,/*+*/125,/*,*/119,/*-*/91,/*.*/118,/*/*/122,/*0*/48,

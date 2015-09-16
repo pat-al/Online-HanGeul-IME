@@ -32,7 +32,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-89', full_name: '3-89', layout:
 additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011', layout: K3_2011_layout, sign_extension_layout: K3_2011_sign_extension_layout, link: 'http://pat.im/855'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2011-y', full_name: '3-2011 옛한글', layout: K3_2011_layout, sign_extension_layout: K3_2011y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/908'});
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
-additional_layouts.push({KE: 'Ko', type_name: 'Gimguk-38A-y', full_name: '김국 38A 옛한글', layout: K3_Gimguk_38Ay_layout, hangeul_combination_table: Gimguk38Ay_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
+additional_layouts.push({KE: 'Ko', type_name: '3-Gimguk-38A-y', full_name: '김국 38A 옛한글', layout: K3_Gimguk_38Ay_layout, hangeul_combination_table: Gimguk38Ay_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
 
 additional_layouts.push({KE: 'Ko', type_name: '314_proposal', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_proposal_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
