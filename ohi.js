@@ -121,7 +121,7 @@ var onkeypress_skip = 0; // 오른쪽 숫자판을 눌렀을 때 ohiKeypress() �
 var onkeyup_skip = 0; // ohiKeypress() 처리를 건너뛰기
 
 var shift_click = 0; // 배열표에서 윗글쇠 누른 상태
-var capslock_click = 0; // 배열표에서 Caps Lock을 누른 상태
+var shiftlock_click = 0; // 배열표에서 Shift Lock을 누른 상태
 
 var browser = '', browser_ver = 0, nu = navigator.userAgent;
 var dkey, ukey;
@@ -1576,7 +1576,7 @@ function show_keyboard_layout(type) {
 	var ue_qwerty=[
 		['~','!','@','#','$','%','^','&amp;','*','(',')','_','+','Back'],
 		['Tab','Q','W','E','R','T','Y','U','I','O','P','{','}','|'],
-		['Caps','A','S','D','F','G','H','J','K','L',':','"','Enter'],
+		['Shift','A','S','D','F','G','H','J','K','L',':','"','Enter'],
 		['Shift','Z','X','C','V','B','N','M','&lt;','&gt;','?','Shift']
 	];
 	var de_qwerty=[
@@ -1589,7 +1589,7 @@ function show_keyboard_layout(type) {
 	var ue_dvorak=[
 		['~','!','@','#','$','%','^','&amp;','*','(',')','{','}','Back'],
 		['Tab','"','&lt;','&gt;','P','Y','F','G','C','R','L','?','+','|'],
-		['Caps','A','O','E','U','I','D','H','T','N','S','_','Enter'],
+		['Shift','A','O','E','U','I','D','H','T','N','S','_','Enter'],
 		['Shift',': ','Q','J','K','X','B','M','W','V','Z','Shift']];
 	var de_dvorak=[
 		['` ','1','2','3','4','5','6','7','8','9','0','[',']','Space'],
@@ -1600,7 +1600,7 @@ function show_keyboard_layout(type) {
 	var ue_colemak=[
 		ue_qwerty[0],
 		['Tab','Q','W','F','P','G','J','L','U','Y',':','{','}','|'],
-		['Caps','A','R','S','T','D','H','N','E','I','O','"','Enter'],
+		['Shift','A','R','S','T','D','H','N','E','I','O','"','Enter'],
 		['Shift','Z','X','C','V','B','K','M','&lt;','&gt;','?','Shift']
 	];
 	var de_colemak=[
@@ -1722,9 +1722,9 @@ function show_keyboard_layout(type) {
 			};
 			col.tabindex = 0;
 			if(ue[i][j]=='Back' || ue[i][j]=='Tab') col.style.width = '54px';
-			if(ue[i][j]=='Caps' || ue[i][j]=='Enter') col.style.width = '64px';
-			if(ue[i][j]=='Shift') col.style.width = '84px';
-			if(ue[i][j]=='Back' || ue[i][j]=='Tab' || ue[i][j]=='Caps' || ue[i][j]=='Enter' || ue[i][j]=='Shift')
+			if(ue[i][j]=='Shift' && de[i][j]!='Lock') col.style.width = '84px';
+			if(de[i][j]=='Lock' || ue[i][j]=='Enter') col.style.width = '64px';
+			if(ue[i][j]=='Back' || ue[i][j]=='Tab' || ue[i][j]=='Enter' || ue[i][j]=='Shift')
 				col.style.padding = '1px', col.style.textAlign = 'center';
 			
 			if(i==4) {
@@ -1822,9 +1822,9 @@ function show_keyboard_layout(type) {
 		document.getElementById('ue52').innerHTML = 'Shift(받침)';
 	}
 
-	if(capslock_click) {
-		var capslock = document.getElementById('key28');
-		capslock.style.backgroundColor = 'orange';
+	if(shiftlock_click) {
+		var shiftlock = document.getElementById('key28');
+		shiftlock.style.backgroundColor = 'orange';
 	}
 
 	show_keyboard_layout_info();
@@ -2405,18 +2405,18 @@ function clickTableKey(e, key_num, dk, uk){
 
 	KE=ohi_KE_Status.substr(0,2);
 
-	var capslock = document.getElementById('key28');
+	var shiftlock = document.getElementById('key28');
 	var shift1 = document.getElementById('key41');
 	var shift2 = document.getElementById('key52');
 
-	if(dk==20) {	// 배열표에서 Caps Lock이 눌렸을 때
-		if(!capslock_click) {
-			capslock.style.backgroundColor = 'orange';
-			capslock_click = 1;
+	if(dk==20) {	// 배열표에서 Shift Lock이 눌렸을 때
+		if(!shiftlock_click) {
+			shiftlock.style.backgroundColor = 'orange';
+			shiftlock_click = 1;
 		}
 		else {
-			capslock.style.backgroundColor = '';
-			capslock_click = 0;
+			shiftlock.style.backgroundColor = '';
+			shiftlock_click = 0;
 		}
 	}
 	if(dk==16 && !shift_click) {	// 배열표에서 윗글쇠가 눌렸을 때
@@ -2455,7 +2455,7 @@ function clickTableKey(e, key_num, dk, uk){
 	if(dk==-12) ohiChange_between_same_type('K2'); // 2벌식 자판 바꾸기 단추
 	if(dk==-13) ohiChange_between_same_type('K3'); // 3벌식 자판 바꾸기 단추
 	
-	if((shift_click+capslock_click)%2) c=uk; else c=dk;
+	if((shift_click+shiftlock_click)%2) c=uk; else c=dk;
 	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,0,c);
 	if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127) {
 		if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0,0,0];
