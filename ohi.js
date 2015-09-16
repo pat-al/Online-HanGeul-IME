@@ -1978,30 +1978,32 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
 	var K2_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002'];
 	var K3_type_array = ['Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
-	var K2_type_array = ['2-KSX5002','2-KPS9256'];
-	var K3_type_array = ['Sin3-P','3-90','3m-Moa2015'];
-	var Ko_type_array;
+	var Ko_type_array = [];
 	
 	if(type=='En') {
-		for(i=0;i<En_type_array.length;++i)
-			if(current_layout.type_name.toLowerCase()==En_type_array[i].toLowerCase()) j=i;
-		
-		if(j==-1) En_type = En_type_array[0];
-		else En_type = En_type_array[(j+1)%i];
+		for(i=0;i<En_type_array.length;++i) {
+			if(En_type.toLowerCase()==En_type_array[i].toLowerCase()) {
+				j=i;
+				break;
+			}
+		}
 
+		En_type = En_type_array[(j+1)%En_type_array.length];			
 		ohiChange('En',En_type);
 	}
 	else if(type=='K2' || type=='K3' || type=='Ko') {
-		if(type=='K2') Ko_type_array = K2_type_array;
-		else if(type=='K3') Ko_type_array = K3_type_array;
+		if(type=='K2') Ko_type_array = K2_type_array.slice();
+		else if(type=='K3') Ko_type_array = K3_type_array.slice();
 		else Ko_type_array = K2_type_array.concat(K3_type_array);
 		
-		for(i=0;i<Ko_type_array.length;++i)
-			if(current_layout.type_name.toLowerCase()==Ko_type_array[i].toLowerCase()) j=i;
-		
-		if(j==-1) Ko_type = Ko_type_array[0];
-		else Ko_type = Ko_type_array[(j+1)%i];
+		for(i=0;i<Ko_type_array.length;++i) {
+			if(Ko_type.toLowerCase()==Ko_type_array[i].toLowerCase()) {
+				j=i;
+				break;
+			}
+		}
 
+		Ko_type = Ko_type_array[(j+1)%Ko_type_array.length];
 		ohiChange('Ko',Ko_type);
 	}
 }
