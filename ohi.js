@@ -1,16 +1,18 @@
 /*
+ * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
+ * Added support for more keyboard layouts by custom keyboard layout tables.
+ * Added support for Dvorak and Colemak keyboard layouts.
+ * Added support for Firefox 12 and higher.
+ * Added the on-screen keyboard function.
+ * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
+ * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
+ * Last Update : 2015/09/16
+
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
  * Update : 2011/01/22
 
- * Modifier : Pat-al <pat@pat.im> (http://pat.im)
- * Added support for more Hangeul keyboard layouts. (3-90, 3-2012, 3-2015P, SinSebeol 2003/2012, Anmatae, Moachigi 2015, North Korea 2-sets type(KPS 9256), and so on.
- * Added support for Dvorak and Colemak keyboard layouts.
- * Added support for Firefox 12 and higher.
- * Added the on-screen keyboard function.
- * Last Update : 2015/09/15
-
- Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr> & Pat-al <pat@pat.im>. All rights reserved.
+ Copyright (C) Ho-Seok Ee <hsee@korea.ac.kr>. All rights reserved.
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
