@@ -1973,47 +1973,40 @@ function ohiChange(KE, layout) {
 	show_keyboard_layout(KE=='En' ? En_type : Ko_type);
 }
 
-function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (주요 배열만 간추림)
+function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (Ko는 주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
+	var Ko_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002','Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
 	var K2_type_array = [];
 	var K3_type_array = [];
-	var Ko_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002','Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
-	
+
 	if(type=='En') {
 		for(i=0;i<En_type_array.length;++i) {
 			if(En_type.toLowerCase()==En_type_array[i].toLowerCase()) {
 				j=i;
-				break;
 			}
 		}
-
-		En_type = En_type_array[(j+1)%En_type_array.length];			
+		En_type = En_type_array[(j+1)%i];
 		ohiChange('En',En_type);
 	}
-	else if(type=='K2' || type=='K3' || type=='Ko') {
+	else {
 		if(type!='Ko') {
 			var a=[basic_layouts];
 			if(typeof additional_layouts != 'undefined') a.push(additional_layouts);
 			if(typeof test_layouts != 'undefined') a.push(test_layouts);
-
 			for(i=0;i<Ko_type_array.length;++i) {
-				if(type=='K2' && Ko_type_array[i].substr(0,1)!='2') {
-					Ko_type_array.splice(i--,1);
-				}
-				if(type=='K3' && Ko_type_array[i].substr(0,1)=='2') {
+				if(type=='K2' && Ko_type_array[i].substr(0,1)!='2' || type=='K3' && Ko_type_array[i].substr(0,1)=='2') {
 					Ko_type_array.splice(i--,1);
 				}
 			}
-
 			for(i=0;i<a.length;++i) {
 				for(j=0;j<a[i].length;++j) {
 					if(a[i][j].KE=='Ko' && typeof a[i][j].type_name != 'undefined' && Ko_type_array.indexOf(a[i][j].type_name)<0) {
-						if(type=='K2') {
-							if(a[i][j].type_name.substr(0,1)=='2') Ko_type_array.push(a[i][j].type_name);
+						if(type=='K2' && a[i][j].type_name.substr(0,1)=='2') {
+							Ko_type_array.push(a[i][j].type_name);
 						}
-						if(type=='K3') {
-							if(a[i][j].type_name.substr(0,1)!='2') Ko_type_array.push(a[i][j].type_name);
+						if(type=='K3' && a[i][j].type_name.substr(0,1)!='2') {
+							Ko_type_array.push(a[i][j].type_name);
 						}
 					}
 				}
@@ -2024,7 +2017,7 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 			if(Ko_type.toLowerCase()==Ko_type_array[i].toLowerCase()) j=i;
 		}
 
-		if(Ko_type.substr(0,1)=='2'&&Ko_type_array[(j+1)%i].substr(0,1)!='2' || Ko_type.substr(0,1)!='2'&&Ko_type_array[(j+1)%i].substr(0,1)=='2') Ko_type = Ko_type_array[0];
+		if(type!='Ko' && (Ko_type.substr(0,1)=='2'&&Ko_type_array[(j+1)%i].substr(0,1)!='2' || Ko_type.substr(0,1)!='2'&&Ko_type_array[(j+1)%i].substr(0,1)=='2')) Ko_type = Ko_type_array[0];
 		else Ko_type = Ko_type_array[(j+1)%i];
 		ohiChange('Ko',Ko_type);
 	}
