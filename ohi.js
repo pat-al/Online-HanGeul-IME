@@ -1834,6 +1834,7 @@ function ohiStart() {
 	var i;
 	var textarea=document.getElementById('inputText');
 	var inputs=document.getElementsByTagName("INPUT");
+
 	if(option.turn_off_OHI) {
 		show_ohiStatusBar(0);	// 보람줄(상태 표시줄) 감추기
 		if(textarea) textarea.style.imeMode = 'active';
@@ -1858,10 +1859,26 @@ function ohiStart() {
 
 	if(document.body) {
 		show_ohiStatusBar(1);
-		if(textarea) {textarea.style.imeMode = 'disabled';}
+
+		var onclick = function() {
+			if(prev_phoneme.length) {
+				prev_phoneme.splice(0);
+				prev_phoneme_R.splice(0);
+				prev_combined_phoneme.splice(0);
+			}
+		};
+
+		if(textarea) {
+			textarea.style.imeMode = 'disabled';
+			textarea.onclick = onclick;
+		}
+
 		if(inputs) {
 			for(i=0;i<inputs.length;++i) {
-				if(inputs[i].className=='text') inputs[i].style.imeMode = 'disabled';
+				if(inputs[i].className=='text') {
+					inputs[i].style.imeMode = 'disabled';
+					inputs[i].onclick = onclick;
+				}
 			}
 		}
 
@@ -1871,7 +1888,7 @@ function ohiStart() {
 			ohiStatus.style.bottom = -(document.body.scrollTop||document.documentElement.scrollTop)+'px';
 		}
 
-		if(document.body!=ohiStatus.parentNode) {
+		if(document.body != ohiStatus.parentNode) {
 			if(!ohiStatus.style.position) {
 				ohiStatus.style.position = 'fixed';
 				ohiStatus.style.right = '0px';
