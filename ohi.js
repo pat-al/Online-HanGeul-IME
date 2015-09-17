@@ -2341,11 +2341,12 @@ function url_query() {
 		value = fields[i].split('=')[1];
 		TF = !value || value=='0' || value.toLowerCase=='f' || value.toLowerCase=='false' ? 0 : 1;
 		if(value===undefined || !value) continue;
+
 		if(field == 'kbd') { // 기준 자판
 			if(value.toUpperCase()=='QWERTY' || value.toUpperCase()=='QWERTZ' || value.toUpperCase()=='AZERTY')
 				ohiChange_KBD_type(value.toUpperCase());
 		}
-		if(field == 'en')	{ // 영문 자판
+		else if(field == 'en')	{ // 영문 자판
 			ohiChange('En',value.toLowerCase());
 		}
 		else if(field == 'ko') { // 한글 자판
@@ -2375,6 +2376,10 @@ function url_query() {
 		else if(field == 'y') { // 신세벌식 자판으로 옛한글 겹낱자 조합하기
 			option.enable_Sin3_yeshangeul_combination = TF;
 			ohiChange_enable_enable_Sin3_yeshangeul_combination();
+		}
+		else if(field == 'diph') { // 신세벌식 자판으로 옛한글을 조합할 때 오른쪽 아랫글 자리에서 홀소리를 넣을지
+			option.enable_Sin3_diphthong_key = TF;
+			show_options();
 		}
 	}
 }
