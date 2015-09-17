@@ -2341,14 +2341,14 @@ function url_query() {
 		value = fields[i].split('=')[1];
 		TF = !value || value=='0' || value.toLowerCase=='f' || value.toLowerCase=='false' ? 0 : 1;
 		if(value===undefined || !value) continue;
-		if(field == 'kbd') {
+		if(field == 'kbd') { // 기준 자판
 			if(value.toUpperCase()=='QWERTY' || value.toUpperCase()=='QWERTZ' || value.toUpperCase()=='AZERTY')
 				ohiChange_KBD_type(value.toUpperCase());
 		}
-		if(field == 'en')	{
+		if(field == 'en')	{ // 영문 자판
 			ohiChange('En',value.toLowerCase());
 		}
-		else if(field == 'ko') {
+		else if(field == 'ko') { // 한글 자판
 			ohiChange('Ko',value.toLowerCase());
 		}
 		else if(field == 'k2') {
@@ -2357,22 +2357,22 @@ function url_query() {
 		else if(field == 'k3') {
 			ohiChange('Ko',value.toLowerCase());
 		}
-		else if(field == 'status') {
+		else if(field == 'status') { // 오른쪽 아래에 보람줄 나타내기
 			show_ohiStatusBar(TF);
 		}
-		else if(field == 'sign_ext') {
+		else if(field == 'sign_ext') { // 기호 확장
 			ohiChange_enable_sign_ext(TF);
 		}
-		else if(field == 'normal_typing') {
+		else if(field == 'normal_typing') { // 모아치기 자판을 이어치기로 쓰기
 			option.force_normal_typing = TF;
 		}
-		else if(field == 'ncr') {
+		else if(field == 'ncr') { // HTML 문자 참조 보이기
 			option.NCR = TF;
 		}
-		else if(field == 'ncr_only_cgg') {
+		else if(field == 'ncr_only_cgg') { // 첫가끝 조합형 한글만 HTML 문자 참조로 바꾸어 보이기
 			NCR_option.convert_only_CGG_encoding = TF;
 		}
-		else if(field == 'hce') {
+		else if(field == 'y') { // 신세벌식 자판으로 옛한글 겹낱자 조합하기
 			option.enable_Sin3_yeshangeul_combination = TF;
 			ohiChange_enable_enable_Sin3_yeshangeul_combination();
 		}
