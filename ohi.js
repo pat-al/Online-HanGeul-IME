@@ -1662,7 +1662,7 @@ function show_keyboard_layout(type) {
 	var ue = En_type=='QWERTY' ? ue_qwerty : En_type=='Dvorak' ? ue_dvorak : En_type=='Colemak' ? ue_colemak : 0;
 	var de = En_type=='QWERTY' ? de_qwerty : En_type=='Dvorak' ? de_dvorak : En_type=='Colemak' ? de_colemak : 0;
 
-	if(typeof current_layout.sublayout != 'undefined' && (option.show_sublayout || current_layout.type_name.substr(0,3)=='3m-') && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2)) {
+	if(typeof current_layout.sublayout != 'undefined' && !(Ko_type.substr(0,5)=='Sin3-' && option.enable_Sin3_yeshangeul_combination) && (option.show_sublayout || current_layout.type_name.substr(0,3)=='3m-') && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2)) {
 		insert_sublayout_table(ue, de, uh, dh, current_layout.sublayout);
 	}
 
