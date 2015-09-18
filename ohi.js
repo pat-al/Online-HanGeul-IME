@@ -58,7 +58,7 @@ function basic_layouts_info_push() {
 
 	basic_layouts.push({KE: 'Ko', type_name: '2-KSX5002', full_name: '한국 표준 (KS X 5002)'});
 	basic_layouts.push({KE: 'Ko', type_name: '2-KPS9256', full_name: '조선 국규 (KPS 9256)'});
-	basic_layouts.push({KE: 'Ko', type_name: '2-sun-KSX5002', full_name: '두벌식 순아래 (KS X 5002) (꼬마집오리)', link: 'https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae'});
+	basic_layouts.push({KE: 'Ko', type_name: '2-sun-KSX5002', full_name: '순아래 두벌식 (KS X 5002) (꼬마집오리)', link: 'https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae'});
 
 	basic_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
 	basic_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
