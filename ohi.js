@@ -550,8 +550,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		cc2=layout[c-33-32];	// 윗글 자리
 	}
 
-	if(Ko_type.indexOf('Sin3-')>=0) {	// 신세벌식 자판 또는 공-신 혼합형 세벌식 자판
-		
+	if(Ko_type.indexOf('Sin3')>=0) {	// 신세벌식 자판 또는 공-신 혼합형 세벌식 자판
 		if(Ko_type.substr(0,5)=='Sin3-') {
 			if(option.enable_Sin3_yeshangeul_combination) {
 				cc=CGG_Hangeul_Sin3(f,c);
