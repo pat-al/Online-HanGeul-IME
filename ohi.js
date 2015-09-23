@@ -6,7 +6,7 @@
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
  * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
- * Last Update : 2015/09/16
+ * Last Update : 2015/09/23
 
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
@@ -2312,6 +2312,7 @@ function ohiKeydown(e) {
 		if(e.keyCode==16) { // shift
 			if(KE=='Ko' && Ko_type=='2-Gaon26KM') {
 				pressing_key_accumulation(f,e,c);
+				tableKey_pressed(e.keyCode);
 			}
 		}
 		
@@ -2446,6 +2447,12 @@ function tableKey_pressed(key) {
 	if(key==173) key=45; // - 자리 글쇠
 	if(key==191) key=47; // / 자리 글쇠
 	if(key==192) key=96; // ` 자리 글쇠
+	
+	if(key==16) {
+		shift1.className += ' pressed';
+		shift2.className += ' pressed';
+		return;
+	}
 
 	var key_td;
 	for(j=0;j<dkey.length;++j) {
@@ -2453,12 +2460,12 @@ function tableKey_pressed(key) {
 		key_td = document.getElementById('key'+j);
 		key_td.className = key_td.className.replace(/ clicked| pressed/,'');
 		if(key==dkey[j] || key==ukey[j] || (layout_name.substr(0,3)=='3m-' && !option.force_normal_typing && pressed_keys.indexOf(dkey[j])>=0)) {
-			key_td.className = key_td.className + ' pressed';
+			key_td.className += ' pressed';
 		}
 
 		if(key==ukey[j] && key!=dkey[j]) {
-			shift1.className = shift1.className + ' pressed';
-			shift2.className = shift2.className + ' pressed';
+			shift1.className += ' pressed';
+			shift2.className += ' pressed';
 		}
 	}
 }
