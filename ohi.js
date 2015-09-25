@@ -6,7 +6,7 @@
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
  * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
- * Last Update : 2015/09/23
+ * Last Update : 2015/09/25
 
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
@@ -73,7 +73,7 @@ function basic_layouts_info_push() {
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/99'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/1110'});
 }
 
 function option() {
@@ -259,6 +259,7 @@ function ohiHangeul_backspace(f,e) {
 					}
 				}
 				prev_phoneme.splice(0);
+				prev_phoneme_R.splice(0);
 				prev_combined_phoneme.splice(0);
 			}
 		}
@@ -941,6 +942,7 @@ function Hangeul_Gong3_sign(f,e,c) {
 		ohiInsert(f,0,cc);
 
 		prev_phoneme.splice(0);
+		prev_phoneme_R.splice(0);
 		prev_combined_phoneme.splice(0);
 		esc_ext_layout();
 		return 1;
@@ -1318,6 +1320,7 @@ function Hangeul_Gong3_gm(f,c) {
 			if(prev_phoneme.length>0&&unicode_ggeut.indexOf(prev_phoneme[1])>=0) {
 			// 아래아가 들어 있고 겹받침이 조합되었을 때
 				prev_phoneme.splice(0);
+				prev_phoneme_R.splice(0);
 				prev_combined_phoneme.splice(0);
 			}
 			else {
@@ -2154,6 +2157,7 @@ function ohiKeypress(e) {
 			else if(c==32) { // 사이띄개 (space bar)
 				if(prev_phoneme.length) {
 					prev_phoneme.splice(0);
+					prev_phoneme_R.splice(0);
 					prev_combined_phoneme.splice(0);
 					if(Hangeul_SignExtKey1+Hangeul_SignExtKey2==0) ohiInsert(f,0,0);
 				}
@@ -2294,6 +2298,7 @@ function ohiKeydown(e) {
 				convert_into_modern_hangeul_syllable(f);
 				ohiInsert(f,0,0);
 				prev_phoneme.splice(0);
+				prev_phoneme_R.splice(0);
 				prev_combined_phoneme.splice(0);
 				esc_ext_layout();
 		}
@@ -2301,8 +2306,6 @@ function ohiKeydown(e) {
 		if(e.keyCode==17) { // Ctrl
 		}
 		if(e.keyCode==18) { // Alt
-		}
-		if(e.keyCode==45 || e.keyCode==46) { // insert(45), del(46)
 		}
 		if(e.keyCode==91 || e.keyCode==93) { // menu
 		}
@@ -2315,15 +2318,31 @@ function ohiKeydown(e) {
 				tableKey_pressed(e.keyCode);
 			}
 		}
-		
-		if(e.keyCode<47 && e.keyCode!=16) {
+
+		if(e.keyCode==45 || e.keyCode==46) { // insert(45), del(46)
 			if(prev_phoneme.length) {	// 옛한글 자판
 				convert_into_modern_hangeul_syllable(f);
 				prev_phoneme.splice(0);
+				prev_phoneme_R.splice(0);
+				prev_combined_phoneme.splice(0);
+			}
+
+			ohiInsert(f,0,32);
+			ohiBackspace(f);
+
+			esc_ext_layout();
+		}
+		
+		if(e.keyCode<45 && e.keyCode!=16) {
+			if(prev_phoneme.length) {	// 옛한글 자판
+				convert_into_modern_hangeul_syllable(f);
+				prev_phoneme.splice(0);
+				prev_phoneme_R.splice(0);
 				prev_combined_phoneme.splice(0);
 			}
 			esc_ext_layout();
 			ohiInsert(f,0,0);
+			
 		}	
 	}
 	if(f.id=='inputText') show_NCR();
