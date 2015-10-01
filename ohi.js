@@ -1,12 +1,12 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
+ * Last Update : 2015/10/01
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
  * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
- * Last Update : 2015/09/26
 
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
@@ -71,7 +71,7 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-2012-y', full_name: '3-2012 옛한글', layout: K3_2012_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/938#4-2'});
 	basic_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '신세벌식 2003 (박경남 수정 신세벌식)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '박경남 수정 신세벌식 (2003)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/1110'});
 }
@@ -3161,7 +3161,7 @@ function basic_layouts_info() {
 	/*u*/[0x3262,0x2465,0x246F], /*v*/[0,0x25B7,0x25B6], /*w*/[0x2192,0x2191,0x261E], /*x*/[0x2032,0x2606,0x2605],
 	/*y*/[0x3263,0x2464,0x246E], /*z*/[0x2033,0x2661,0x2665], /*{*/[0,0,0], /*|*/[0,0,0], /*}*/[0,0,0], /*~*/[0x327F,0,]];
 
-	// 신세벌식 2003 자판 (박경남 수정 신세벌식 자판)
+	// 박경남 수정 신세벌식 자판 (2003)
 	K3_Sin3_2003_layout = [
 		0x0021,	/* 0x21 exclam:       exclamation mark */
 		0x0022,	/* 0x22 quotedbl: quotatioin mark */
