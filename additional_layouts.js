@@ -45,6 +45,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015M', full_name: '3-2015M', l
 
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout, link:'http://pat.im/1104'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, link: 'http://pat.im/978'});
 
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '바꾼꼴 신세벌식 2015', layout: K3_Sin3_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});

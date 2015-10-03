@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/01
+ * Last Update : 2015/10/03
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -72,7 +72,6 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '박경남 수정 신세벌식 (2003)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/978'});
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/1110'});
 }
 
@@ -1051,6 +1050,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
+	var Sin3_sign_extension_layout = typeof current_layout.sign_extension_layout != 'undefined' ? current_layout.sign_extension_layout : K3_Sin3_sign_extension_layout;
 	var transform=0; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
 
 	if(no_shift(c)) {
@@ -1072,13 +1072,13 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
-		cc=K3_Sin3_sign_extension_layout[c-33][Hangeul_SignExtKey1-1];
+		cc=Sin3_sign_extension_layout[c-33][Hangeul_SignExtKey1-1];
 		ohiBackspace(f);
 		ohiInsert(f,0,cc);
 		esc_ext_layout();
 		return -1;
 	}
-	else if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined' && !Hangeul_SignExtKey1 && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6]) {
+	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6] && Ko_type!='Sin3b-2015') {
 	// 신세벌식 기호 확장 배열을 쓸 조건을 갖추었을 때
 		if(cc==128) Hangeul_SignExtKey1=1;
 		else if(cc==151) Hangeul_SignExtKey1=2;
@@ -1170,6 +1170,7 @@ function CGG_Hangeul_Sin3(f,c) { // 첫가끝 방식으로 조합하는 신세�
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
+	var Sin3_sign_extension_layout = typeof current_layout.sign_extension_layout != 'undefined' ? current_layout.sign_extension_layout : K3_Sin3_sign_extension_layout;
 	
 	if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.hangeul_extension_layout != 'undefined') {
 		Sin3_layout=current_layout.hangeul_extension_layout;
@@ -1186,13 +1187,13 @@ function CGG_Hangeul_Sin3(f,c) { // 첫가끝 방식으로 조합하는 신세�
 
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
-		cc=K3_Sin3_sign_extension_layout[c-33][Hangeul_SignExtKey1-1];
+		cc=Sin3_sign_extension_layout[c-33][Hangeul_SignExtKey1-1];
 		ohiBackspace(f);
 		ohiInsert(f,0,cc);
 		esc_ext_layout();
 		return -1;
 	}
-	else if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined' && !Hangeul_SignExtKey1 && prev_phoneme.length==1 && prev_phoneme[0]==0x110B/*ㅇ*/ && (cc==0x1100/*ㄱ*/ || cc==0x110C/*ㅈ*/ || cc==0x1107/*ㅂ*/)) {
+	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && prev_phoneme.length==1 && prev_phoneme[0]==0x110B/*ㅇ*/ && (cc==0x1100/*ㄱ*/ || cc==0x110C/*ㅈ*/ || cc==0x1107/*ㅂ*/)) {
 	// 신세벌식 기호 확장 배열을 쓸 조건을 갖추었을 때
 		if(cc==0x1100) Hangeul_SignExtKey1=1;
 		else if(cc==0x110C) Hangeul_SignExtKey1=2;
@@ -1523,7 +1524,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_sign_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
-		if(KE=='Ko' && typeof current_layout.sign_extension_layout != 'undefined') opt.style.display = 'block';
+		if(KE=='Ko' && (typeof current_layout.sign_extension_layout != 'undefined' || Ko_type.substr(0,4)=='Sin3') && Ko_type!='Sin3b-2015') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_Sin3_yeshangeul_combination');
@@ -1655,7 +1656,9 @@ function show_keyboard_layout(type) {
 	}
 	else if(KE=='Ko') {
 		if(Hangeul_SignExtKey1 || Hangeul_SignExtKey2) {
-			layout = current_layout.sign_extension_layout;
+			if(Ko_type.substr(0,4)=='Sin3') layout = K3_Sin3_sign_extension_layout;
+			if(typeof current_layout.sign_extension_layout != 'undefined') layout = current_layout.sign_extension_layout;
+			
 			if(layout.length) {
 				if(Ko_type.substr(-1)=='y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P') push_yes_hangeul_sign_extended_layout_table(uh, dh, layout);
 				else push_sign_extension_layout_table(uh, dh, layout);
@@ -1802,9 +1805,9 @@ function show_keyboard_layout(type) {
 			document.getElementById('uh8').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅡ)</span>';
 	}
 
-	if(KE=='Ko' && Ko_type.substr(0,5)=='Sin3-' && Ko_type!='Sin3-BGN') {
-		document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
-		if(option.enable_sign_ext && typeof current_layout.sign_extension_layout != 'undefined') {
+	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') {
+		if(Ko_type!='Sin3-BGN') document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
+		if(option.enable_sign_ext && Ko_type!='Sin3b-2015') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
 				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 2px;background:black;color:#fff;">'+String.fromCharCode(0x2460+i)+'</span>';
@@ -1936,7 +1939,7 @@ function ohiStart() {
 				ohi.src = 'http://ohi.pat.im/ohi.js';
 				if(typeof(window.frames[i].document)!='unknown') window.frames[i].document.body.appendChild(ohi);
 			}*/
-			
+
 			show_NCR();
 		}
 	}
