@@ -26,7 +26,7 @@ input_hangeul_combination_table_info();
 
 var additional_layouts=[];
 
-additional_layouts.push({KE: 'Ko', type_name: '2-Jang', full_name: '장봉선 풀어쓰기 전신 타자기 (체신부, 1953)', layout: K2_Jang_teletype_layout, link: 'http://pat.im/1025'});
+additional_layouts.push({KE: 'Ko', type_name: '2-Jang', full_name: '장봉선 풀어쓰기 (체신부 전신 타자기, 1953)', layout: K2_Jang_teletype_layout, link: 'http://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Bak-Song', full_name: '박영효·송계범 (모아쓰기 전신 타자기 설계안, 1968)', layout: K2_Bak_Song_1968_layout, link: 'http://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Gaon26KM', full_name: '가온한글26KM', layout: K2_Gaon_KSX5002_layout, link: 'http://cafe.daum.net/kbd-p/8OTK/10'});
 

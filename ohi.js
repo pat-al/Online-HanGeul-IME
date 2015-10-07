@@ -2384,8 +2384,7 @@ function ohiKeydown(e) {
 				prev_combined_phoneme.splice(0);
 			}
 			esc_ext_layout();
-			ohiInsert(f,0,0);
-			
+			ohiInsert(f,0,0);			
 		}	
 	}
 	if(f.id=='inputText') show_NCR();
@@ -2456,13 +2455,7 @@ function url_query() {
 		else if(field == 'en')	{ // 영문 자판
 			ohiChange('En',value.toLowerCase());
 		}
-		else if(field == 'ko') { // 한글 자판
-			ohiChange('Ko',value.toLowerCase());
-		}
-		else if(field == 'k2') {
-			ohiChange('Ko',value.toLowerCase());
-		}
-		else if(field == 'k3') {
+		else if(field == 'ko' || field == 'k2' || field == 'k3') { // 한글 자판
 			ohiChange('Ko',value.toLowerCase());
 		}
 		else if(field == 'status') { // 오른쪽 아래에 보람줄 나타내기
@@ -2484,9 +2477,11 @@ function url_query() {
 			option.enable_Sin3_yeshangeul_combination = TF;
 			ohiChange_enable_enable_Sin3_yeshangeul_combination();
 		}
-		else if(field == 'diph') { // 신세벌식 자판으로 옛한글을 조합할 때 오른쪽 아랫글 자리에서 홀소리를 넣을지
+		else if(field == 'diph' || field == 'diphthong') { // 신세벌식 자판으로 옛한글을 조합할 때 오른쪽 아랫글 자리에서 홀소리를 넣을지
 			option.enable_Sin3_diphthong_key = TF;
-			show_options();
+		}
+		else if(field == 'pw' || field == 'phonemic_writing') {
+			option.phonemic_writing = TF;
 		}
 	}
 }
@@ -4529,7 +4524,7 @@ function basic_layouts_info() {
 		[0x11BB11BB,0xD7EE], /* jongseong ssangsiues + ssangsieus = sieus-yeolinsieus */
 		[0x11F111BB,0x11F2], /* jongseong yesieung-sieus + ssangsieus = yesieung-yeolinsieus */
 		[0x11BC11BB,0x11F0], /* jongseong ieung + ssangsieus = yesieung */
-		[0x11F011BB,0x11EE], /* jongseong yesieung + ssangsieus = */
+		[0x11F011BB,0x11EE], /* jongseong yesieung + ssangsieus = ssangyesieung */
 		[0xD7DD11BB,0xD7DB], /* jongseong yeolinlieul + ssangsieus = lieul-yesieung */
 		[0x11C211BB,0x11F9], /* jongseong hieuh + ssangsieus = yeolinhieuh */
 		[0x11B611BB,0x11D9], /* jongseong lieul-hieuh + ssangsieus = lieul-yeolinhieuh */
