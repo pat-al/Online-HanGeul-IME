@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/06
+ * Last Update : 2015/10/08
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -39,7 +39,7 @@ ohi_KE_Status = initial_layout_type;
 
 function basic_layouts() {
 	var KE; // 한글·영문 상태 (Ko:한글, En:영문)
-	var type_name; // 자판 배열 이름 (OHI에서 쓰는 이름)
+	var type_name; // 자판 배열 이름 (OHI에서 쓰는 로마자 이름)
 	var full_name; // 자판 배열 이름
 	var layout; // 기본 배열
 	var sublayout; // 덧붙여 쓰는 배열	
@@ -121,6 +121,7 @@ var Hangeul_SignExtKey2 = 0; // 공병우 세벌식 자판의 두째 기호 확�
 var onkeypress_skip = 0; // 오른쪽 숫자판을 눌렀을 때 ohiKeypress() 처리를 건너뛰기
 var onkeyup_skip = 0; // ohiKeypress() 처리를 건너뛰기
 
+var shift_lock = 0; // 한글 타자기 받침 글쇠 눌린 상태
 var shift_click = 0; // 배열표에서 윗글쇠 누른 상태
 var shiftlock_click = 0; // 배열표에서 Shift Lock을 누른 상태
 
@@ -1361,12 +1362,12 @@ function Hangeul_Gong3_gm(f,c) {
 }
 
 function hangeul_typewriter(f,c) { // 타자기 자판
+	var i;
 	var layout=current_layout.layout;
 	var cc=convert_into_ohi_hangeul_phoneme(layout[c-33]);
+	var cc2=convert_into_ohi_hangeul_phoneme(layout[ukey[dkey.indexOf(c)]-33]);	// 윗글 자리
 	
-	if(Ko_type.substr(-1)!='y')	cc=(cc);
-	
-	if(Ko_type=='4t-Pyojun') {
+	if(Ko_type=='4t-Pyojun1969') {
 		if(ohiQ[3]==68-35 && !ohiQ[4] && (!ohiRQ[3]&&cc==86 || ohiRQ[3]==1&&cc==0x3163)) {
 		// ㅑ+ㅣ→ㅒ
 			ohiQ[4]=1;
@@ -1382,13 +1383,23 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 		}
 	}
 
+	if(Ko_type=='4t-Pyojun1985') {
+		i=0;
+		if(ohi_cheot.indexOf(convert_into_ohi_hangeul_phoneme(cc))>=0) i=1;
+		if(shift_lock) cc=cc2;
+		if(i || ohi_hangeul_phoneme.indexOf(convert_into_ohi_hangeul_phoneme(cc))<0) shift_lock=0;
+	}
+
+	if(ohi_cheot.indexOf(convert_into_ohi_hangeul_phoneme(cc))>=0) {
+		ohiRQ = [0,0,0,0,0,0,0,0,0];
+	}
+
 	if(compatibility_ga.indexOf(cc)>=0) { // 받침 안 붙는 홀소리
 		cc=ohi_ga[compatibility_ga.indexOf(cc)];
 		if(Ko_type.substr(-1)=='y') cc=convert_into_unicode_hangeul_phoneme(cc);
 		if(!ohiQ[3]) ohiRQ[3]=1;
 		else ohiRQ[4]=1;
 	}
-
 	return cc;
 }
 
@@ -1750,17 +1761,23 @@ function show_keyboard_layout(type) {
 					dh[i][j] = String.fromCharCode(compatibility_cheot[unicode_modern_cheot.indexOf(charCode)]);
 				}
 				else if(Ko_type.substr(1,2)=='t-' && charCode>=0x314F && charCode<0x3164) {
-						tdclass = 'h2 gin-hol'; 
+					tdclass = 'h2 gin-hol'; 
 				}
 				else if(unicode_modern_ga.indexOf(charCode)>=0) {
 					tdclass = 'h2';
 					dh[i][j] = String.fromCharCode(compatibility_ga[unicode_modern_ga.indexOf(charCode)]);
 				}
 				else if(unicode_modern_ggeut.indexOf(charCode)>=0) {
-						tdclass = 'h3';
-						dh[i][j] = String.fromCharCode(compatibility_ggeut[unicode_modern_ggeut.indexOf(charCode)]);
+					tdclass = 'h3';
+					dh[i][j] = String.fromCharCode(compatibility_ggeut[unicode_modern_ggeut.indexOf(charCode)]);
 				}
 				else dh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + dh[i][j];
+					
+				if(tdclass.substr(0,1)!='h') {
+					if(unicode_modern_ggeut.indexOf(uh[i][j].charCodeAt(0))>=0) {
+						tdclass = 'h3';
+					}
+				}
 			}
 
 			if(KE=='En' && ue[i][j].length==1) {
@@ -1793,9 +1810,12 @@ function show_keyboard_layout(type) {
 						uh[i][j] = String.fromCharCode(compatibility_cheot[unicode_modern_cheot.indexOf(charCode)]);
 					else if(unicode_modern_ga.indexOf(charCode)>=0)
 						uh[i][j] = String.fromCharCode(compatibility_ga[unicode_modern_ga.indexOf(charCode)]);
-					else if(unicode_modern_ggeut.indexOf(charCode)>=0)
+					else if(unicode_modern_ggeut.indexOf(charCode)>=0) {
 						uh[i][j] = String.fromCharCode(compatibility_ggeut[unicode_modern_ggeut.indexOf(charCode)]);
+					}
 					else uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
+					
+					
 					
 					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
 					if(Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
@@ -1871,7 +1891,7 @@ function show_keyboard_layout(type) {
 		document.getElementById('uh38').innerHTML += Moachigi_modifier_tag;
 	}
 
-	if(KE=='Ko' && Ko_type=='3t-Oesol') {
+	if(KE=='Ko' && (Ko_type=='3t-Oesol' || Ko_type=='4t-Pyojun1985')) {
 		document.getElementById('ue41').innerHTML = 'Shift(받침)';
 		document.getElementById('ue52').innerHTML = 'Shift(받침)';
 	}
@@ -2329,7 +2349,7 @@ function ohiKeydown(e) {
 		}
 
 		if(e.keyCode==20) { // Caps Lock
-			tableKey_pressed(e.keyCode);
+			//tableKey_pressed(e.keyCode);
 		}
 
 		if(e.keyCode>=37 && e.keyCode<=40) { // 오른쪽 화살표 글쇠
@@ -2355,6 +2375,9 @@ function ohiKeydown(e) {
 		if(e.keyCode==16) { // shift
 			if(KE=='Ko' && Ko_type=='2-Gaon26KM') {
 				pressing_key_accumulation(f,e,c);
+				tableKey_pressed(e.keyCode);
+			}
+			if(KE=='Ko' && Ko_type=='4t-Pyojun1985') {
 				tableKey_pressed(e.keyCode);
 			}
 		}
@@ -2405,13 +2428,19 @@ function ohiKeyup(e) {
 	}
 	else if(KE=='Ko' && Ko_type=='2-Gaon26KM') {
 		if(pressing_keys && !--pressing_keys) {
-			
-			if(pressed_keys.length==1 && pressed_keys[0]==16&& e.keyCode==16) {
+			if(pressed_keys.length==1 && pressed_keys[0]==16 && e.keyCode==16) {
 				ohiInsert(f,0,32);
 				ohiBackspace(f);
 			}
 			pressed_keys=[];
 		}
+	}
+	else if(KE=='Ko' && Ko_type=='4t-Pyojun1985') {
+		//if(pressing_keys && !--pressing_keys) {
+			if(/*pressed_keys.length==1 && pressed_keys[0]==16 &&*/ e.keyCode==16) {
+				shift_lock=1;
+			}
+		//}
 	}
 
 	if(f.id=='inputText') show_NCR();
@@ -2505,7 +2534,7 @@ function tableKey_pressed(key) {
 	if(key==191) key=47; // / 자리 글쇠
 	if(key==192) key=96; // ` 자리 글쇠
 	
-	if(key==16) {
+	if(key==16 || current_layout.type_name=='4t-Pyojun1985'&&shift_lock) {
 		shift1.className += ' pressed';
 		shift2.className += ' pressed';
 		return;
