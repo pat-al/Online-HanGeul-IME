@@ -464,7 +464,7 @@ function ohiRoman(f,e,c) { // Roman keyboard layouts (Dvorak, Colemak)
 }
 
 function ohiHangeul2(f,e,c) { // 2-Beolsik
-	if(c<65 || (c-1)%32>25) {
+	if((Ko_type.indexOf('KSX5002')>=0 || Ko_type=='KPS9256') && (c<65 || (c-1)%32>25)) {
 		ohiInsert(f,0,c);
 		return;
 	}
