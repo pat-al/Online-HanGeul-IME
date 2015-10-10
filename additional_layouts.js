@@ -49,8 +49,8 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3-1995', full_name: '신세벌
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, link: 'http://pat.im/978'});
 
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '바꾼꼴 신세벌식 2015', layout: K3_Sin3_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '바꾼꼴 신세벌식 2015', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3b_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3-Anmatae', full_name: '안마태 소리 글판 (이어치기 방식)', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
@@ -1544,11 +1544,11 @@ function additional_keyboard_layout_table_info() {
 	];
 
 	// 바꾼꼴 신세벌식 2015 자판
-	K3_Sin3_2015_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/0x1110/*ㅌ*/,/*(*/40,
+	K3_Sin3b_2015_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/0x1110/*ㅌ*/,/*(*/40,
 	/*)*/41,/***/42,/*+*/43,/*,*/44,/*-*/45,/*.*/46,/*/*/0x110f/*ㅋ*/,/*0*/48,
 	/*1*/49,/*2*/50,/*3*/51,/*4*/52,/*5*/53,/*6*/54,/*7*/55,/*8*/56,/*9*/57,
 	/*:*/58,/*;*/0x1107/*ㅂ*/,/*<*/60,/*=*/61,/*>*/62,/*?*/63,/*@*/64,
-	/*A*/0x11bb/*ㅆ*/,/*B*/0x11bf/*ㅋ*/,/*C*/0x1109/*ㅅ*/,/*D*/0x11af/*ㄹ*/,/*E*/0x11bc/*ㅇ*/,/*F*/0x11c0/*ㅌ*/,/*G*/0x11ae/*ㄷ*/,
+	/*A*/0x11bb/*ㅆ*/,/*B*/0x11bf/*ㅋ*/,/*C*/0x11ba/*ㅅ*/,/*D*/0x11af/*ㄹ*/,/*E*/0x11bc/*ㅇ*/,/*F*/0x11c0/*ㅌ*/,/*G*/0x11ae/*ㄷ*/,
 	/*H*/0x3008,/*I*/0x2026,/*J*/0x3009,/*K*/183,/*L*/59,/*M*/34,/*N*/39,/*O*/0x116e/*ㅜ*/,/*P*/0x1169/*ㅗ*/,
 	/*Q*/0x11c2/*ㅎ*/,/*R*/0x11bd/*ㅈ*/,/*S*/0x11ab/*ㄴ*/,/*T*/0x11c1/*ㅍ*/,/*U*/0x300B,/*V*/0x11be/*ㅊ*/,/*W*/0x11b7/*ㅁ*/,/*X*/0x11a8/*ㄱ*/,
 	/*Y*/0x300A,/*Z*/0x11b8/*ㅂ*/,/*[*/91,/*\*/92,/*]*/93,/*^*/94,/*_*/95,/*`*/96,
@@ -1558,7 +1558,7 @@ function additional_keyboard_layout_table_info() {
 	/*y*/0x1105/*ㄹ*/,/*z*/0x1172/*ㅠ*/,/*{*/123,/*|*/124,/*}*/125,/*~*/126];
 	
 	// 바꾼꼴 신세벌식 M 자판
-	K3_Sin3_M_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/0x1110/*ㅌ*/,/*(*/40,
+	K3_Sin3b_M_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/0x1110/*ㅌ*/,/*(*/40,
 	/*)*/41,/***/42,/*+*/43,/*,*/44,/*-*/45,/*.*/46,/*/*/0x110f/*ㅋ*/,/*0*/48,
 	/*1*/49,/*2*/50,/*3*/51,/*4*/52,/*5*/53,/*6*/54,/*7*/55,/*8*/56,/*9*/57,
 	/*:*/58,/*;*/0x1107/*ㅂ*/,/*<*/60,/*=*/61,/*>*/62,/*?*/63,/*@*/64,
@@ -3807,7 +3807,7 @@ function input_hangeul_combination_table_info() {
 		[0x11f011bc,0x11ee]  /* jongseong yesieung + ieung = ssangyesieung */
 	);
 
-	K3_Sin3_2015_combination_table = hangeul_combination_table_default.concat(additional_compound_sound_combination_table);
+	K3_Sin3b_2015_combination_table = hangeul_combination_table_default.concat(additional_compound_sound_combination_table);
 
 	K3_2015M_combination_table = hangeul_combination_table_default.slice();
 	K3_2015M_combination_table.unshift(additional_compound_sound_combination_table);
