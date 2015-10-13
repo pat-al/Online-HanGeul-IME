@@ -46,11 +46,15 @@
 		span.emph { color: black; }
 		div.title { color: tan; font-weight: bold; font-size: 18pt; line-height: 14pt; padding-bottom: 6pt; }
 		div#content { margin:5px auto 0 auto; display:table; }
-		#ohi_wrap, textarea { width:auto; font-size: 10pt; }
+		#ohi_wrap, textarea { width:auto; font-size: 10pt;}
 		div.menu, div.this { display:inline; width:auto; font-size: 11pt; font-weight:bold; margin-right:-2px; padding:1px 14px 1px 16px; border:2px wheat solid;}
 		div.menu { cursor: pointer; background-color:snow; }
 		div.this { background-color:bisque; }
 		div.over, span.over, kbd.over { cursor:pointer; background-color:burlywood; }
+		div.right_menu { float:right; margin:0px 0px 0px -2px; padding:0; border:none; }
+		div.right_menu a { color:#000; text-decoration:none; padding:1px 15px 1px 15px; border:2px wheat solid;}
+		div.right_menu a:hover { cursor:pointer; background-color:burlywood; }
+		
 
 		div#ohi_content { border: solid 2px wheat; background-color: oldlace; padding:0 10px; margin-top:1px; }
 
@@ -141,7 +145,12 @@
 			<div class="menu" id="menu3" onclick="gotoTab(3)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
 				<span>도움말</span>
 			</div>
+			<div class="menu right_menu">
+				<a href="http://pat.im/910" target="_blank">글걸이</a>
+			</div>
 		</div>
+		
+		
 		<div id="ohi_content">
 			<div id="manual">
 				<p>&nbsp; <strong>온라인 한글 입력기(OHI)</strong>는 웹에서 바로 쓸 수 있는 화상 자판 입력기입니다.</p>
@@ -373,21 +382,21 @@
 					<li>
 						특정 자판 배열을 즐겨찾기에 넣어 바로 불러 쓸 수도 있습니다.<br />
  						영문 자판 :
- 					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','QWERTY');},1000)})()">QWERTY</a>,
- 					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','Dvorak');},1000)})()">Dvorak</a>,
- 					  <a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('En','Colemak');},1000)})()">Colemak</a>
+ 					  <a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','QWERTY')},1000)})()">QWERTY</a>,
+ 					  <a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','Dvorak')},1000)})()">Dvorak</a>,
+ 					  <a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','Colemak')},1000)})()">Colemak</a>
 						<br />
 						2벌식 자판 :
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','2-KSX5002');},1000)})()">KSX5002(한국)</a>,
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','2-KPS9256');},1000)})()">KPS9256(조선)</a>,
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','2-sun-KSX5002');},1000)})()">두벌식 순아래</a>
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KSX5002')},1000)})()">KSX5002(한국)</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KPS9256')},1000)})()">KPS9256(조선)</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-sun-KSX5002')},1000)})()">두벌식 순아래</a>
 						<br />
 						3벌식 자판 :
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','3-90');},1000)})()">3-90</a>,
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','3-91');},1000)})()">3-91</a>,
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','3-2012');},1000)})()">3-2012</a>,
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','Sin3-P');},1000)})()">신세벌식 P</a>,
-						<a href="javascript:(function(s){s=document.createElement('script');s.type='text/javascript';s.src='//ohi.pat.im/ohi.js';if(typeof ohiStart=='undefined') document.body.appendChild(s);setTimeout(function(){ohiChange('Ko','3m-Semoi');},1000)})()">세모이</a>
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-90')},1000)})()">3-90</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-91')},1000)})()">3-91</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-2012')},1000)})()">3-2012</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','Sin3-P')},1000)})()">신세벌식 P</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3m-Semoi')},1000)})()">세모이</a>
 					</li>
 					<li>
 						오른쪽 아래에 나타나는 보람줄의 왼쪽에 있는 <kbd class="status" style="color:#Gold">&nbsp;KO&nbsp;</kbd> 또는 <kbd class="status" style="color:#Gold">&nbsp;EN&nbsp;</kbd>을 딸깍하여 한·영 상태를 바꿀 수도 있습니다.
