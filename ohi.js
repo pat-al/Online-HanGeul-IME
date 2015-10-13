@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/11
+ * Last Update : 2015/10/13
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -109,8 +109,9 @@ NCR_option.convert_only_CGG_encoding=0;
 
 var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 담는 배열 [첫,첫,첫,가,가,가,끝,끝,끝]
 var ohiRQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
-var backup_ohiQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 ohiQ를 복사해 두는 배열
-var backup_ohiRQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 ohiRQ를 복사해 두는 배열
+var backup_ohiQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 복사해 두는 배열
+var backup_ohiRQ = [];
+var backspaces_for_restoring_prev_state = 0; // 모아치기 자판에서 바로 앞선 상태로 돌아가는 데에 필요한 되걸음쇠 타수
 
 var ohiStatus = document.createElement('div');
 var ohiTimeout = 0;
@@ -198,6 +199,23 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 	}
 }
 
+
+function ohiHangeul_moa_backspace(f,e) {
+	var i;
+	
+	if(!backspaces_for_restoring_prev_state) {
+		if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
+	}
+	else {
+		while(backspaces_for_restoring_prev_state--) {
+			if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
+		}		
+	}
+	esc_ext_layout();
+	return 0;
+}
+
+
 function ohiHangeul_backspace(f,e) {
 	var i,j;
 
@@ -222,8 +240,8 @@ function ohiHangeul_backspace(f,e) {
 		if(!ohiHangeul3_HanExtKey) {
 			if(e.preventDefault) e.preventDefault();
 			i=prev_combined_phoneme.length; while(i--) ohiBackspace(f);
-			var temp_prev_phoneme = prev_phoneme.slice();
-			var temp_prev_phoneme_R = prev_phoneme_R.slice();
+			var temp_prev_phoneme = prev_phoneme.slice(0);
+			var temp_prev_phoneme_R = prev_phoneme_R.slice(0);
 			prev_phoneme.splice(0);
 			prev_phoneme_R.splice(0);
 			prev_combined_phoneme.splice(0);
@@ -254,8 +272,8 @@ function ohiHangeul_backspace(f,e) {
 				i=prev_combined_phoneme.length; while(i--) ohiBackspace(f);					
 				for(i=prev_combined_phoneme.length;i>=0;--i) {
 					if(unicode_cheot.indexOf(prev_combined_phoneme[i])>=0) {
-						ohiQ = backup_ohiQ.slice();
-						ohiRQ = backup_ohiRQ.slice();
+						ohiQ = backup_ohiQ.slice(0);
+						ohiRQ = backup_ohiRQ.slice(0);
 						ohiInsert(f,0,ohiQ);
 						break;
 					}
@@ -564,22 +582,22 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		if(Ko_type.substr(0,5)=='Sin3-') {
 			if(option.enable_Sin3_yeshangeul_combination) {
 				cc=CGG_Hangeul_Sin3(f,c);
-				if(cc==-1) return;
+				if(cc==-1) return 0;
 				CGG_yesHangeul(f,c,cc); // 옛한글 자판
-				return;
+				return 0;
 			}
 		}
 		cc=Hangeul_Sin3(f,c);
-		if(cc==-1) return;
+		if(cc==-1) return 0;
 	}
 	else if(Ko_type.substr(1,2)=='t-') { // 타자기 자판
 		cc=hangeul_typewriter(f,c);
-		if(cc<0) return;
+		if(cc<0) return 0;
 	}
 
 	if(!cc) {
 		ohiInsert(f,0,0);
-		return;
+		return 0;
 	}
 
 	if(Ko_type.substr(-2)!='-y') {
@@ -588,19 +606,19 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		cc2=convert_into_ohi_hangeul_phoneme(cc2);
 	}
 
-	if(Hangeul_Gong3_sign(f,e,c)) return;
+	if(Hangeul_Gong3_sign(f,e,c)) return 0;
 
 	if(Ko_type.substr(-1)!='y' && (ohiQ[3]==86-35) && !ohiQ[4] && !ohiQ[6] && no_shift(c) && cc==67 && cc2==69) {
 	// 요즘한글 배열에서 ㅣ가 들어간 뒤에 ㅐ가 눌렸을 때 ㅣ+ㅐ→ㅒ (ㅒ가 ㅐ의 윗글 자리에 있을 때만)
 		ohiQ[4]=ohiQ[3]-68;
 		ohiInsert(f,0,ohiQ);
-		return;
+		return 1;
 	}
 
 	if(Ko_type.indexOf('_gm')>=0 || (Ko_type.substr(-2)!='-y' && Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014)) {
 	// 갈마들이 공세벌식 배열들을 위한 처리
 		cc=Hangeul_Gong3_gm(f,c);
-		if(cc<0) return;
+		if(cc<0) return 0;
 	}
 
 	if(Ko_type.substr(-2)!='-y' && !prev_phoneme.length && Ko_type.substr(1,2)!='t-' && (combination_table || moachigi_combination_table)) {
@@ -631,7 +649,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 				}
 			}
 			ohiInsert(f,0,ohiQ);
-			return;
+			return ch;
 		}
 	}
 
@@ -658,7 +676,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		if(unicode_ggeut.indexOf(cc)>=0 && unicode_modern_ggeut.indexOf(cc)<0) {			
 			if(!ohiQ[6]) {
 				ohiQ[6]=cc;
-				return;
+				return 1;
 			}
 		}
 	}
@@ -678,11 +696,11 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 			prev_combined_phoneme.push(cc,0x115F);
 			ohiInsert(f,0,0x115F);
 			ohiInsert(f,0,prev_phoneme[0]);
-			return;
+			return 1;
 		}
 
-		backup_ohiQ = ohiQ.slice();
-		backup_ohiRQ = ohiRQ.slice();
+		backup_ohiQ = ohiQ.slice(0);
+		backup_ohiRQ = ohiRQ.slice(0);
 
 		if(ohiQ[0] && !ohiQ[3] && !ohiQ[6])	{
 			prev_phoneme.unshift(cc,unicode_cheot[ohi_cheot.indexOf(ohiQ[0]+ohiQ[1]+127)]);
@@ -690,7 +708,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 			ohiBackspace(f);
 			ohiInsert(f,0,prev_combined_phoneme[1]);
 			ohiInsert(f,0,prev_combined_phoneme[0]);
-			return;
+			return 1;
 		}
 
 		if(ohiQ[3] || ohiQ[6]) {
@@ -699,41 +717,69 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 			prev_combined_phoneme.push(cc,0x115F);
 			ohiInsert(f,0,0x115F); // 첫소리 채움 문자 넣음
 			ohiInsert(f,0,cc);
-			return;
+			return 1;
 		}
 	}
 	// 요즘한글 자판으로 요즘한글 넣기
 	else if(cc>127 && cc<158 && cc!=147) { // Cho
-		ohiInsert(f,(ohiQ=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],cc-127)?ohiQ:0),ohiQ=[cc-127,ohiQ?0:1,0,0,0,0,0,0,0]);
-		
 		if(prev_phoneme.length) {
 			prev_phoneme.splice(0);
 			prev_combined_phoneme.splice(0);
 			prev_phoneme_R.splice(0);
 		}
-		return;
+
+		i=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],cc-127);
+		if(!i) ohiQ=0;
+		ohiInsert(f,i,ohiQ=[cc-127,ohiQ?0:1,0,0,0,0,0,0,0]);
+		return i;
 	}
 	else if(!prev_phoneme.length && cc>65 && cc<87) { // Jung
-		if((!ohiQ[4] || !(ohiQ[3]=-1)) && !(Ko_type.substr(1,2)=='t-' && ohiRQ[3]+ohiRQ[4]>1)) ohiQ[4]=ohiDoubleJamo(1,ohiQ[3],cc-35);
-		if((!ohiQ[0] || ohiQ[3]) && (!ohiQ[4] || ohiQ[6]) || ohiQ[3]<0) ohiInsert(f,ohiQ,ohiQ=[0,0,0,cc-35,0,0,0,0,0]);
-		else if(ohiQ[3]=ohiQ[3]||cc-35) ohiInsert(f,0,ohiQ);
-		return;
+		if((!ohiQ[4] || !(ohiQ[3]=-1)) && !(Ko_type.substr(1,2)=='t-' && ohiRQ[3]+ohiRQ[4]>1)) {
+			ohiQ[4]=ohiDoubleJamo(1,ohiQ[3],cc-35);
+			i=1;
+		}
+		else i=0;
+
+		if((!ohiQ[0] || ohiQ[3]) && (!ohiQ[4] || ohiQ[6]) || ohiQ[3]<0) {
+			ohiInsert(f,ohiQ,ohiQ=[0,0,0,cc-35,0,0,0,0,0]);
+			i=0;
+		}
+		else if(ohiQ[3]=ohiQ[3]||cc-35) {
+			ohiInsert(f,0,ohiQ);
+			i=1;
+		}
+		return i;
 	}
 	else if(!prev_phoneme.length && cc<31) { // Jong
-		if(!combination_table && (!ohiQ[7] || !(ohiQ[6]=-1))) ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],cc);
-		if(!ohiQ[0] || !ohiQ[3] || ohiQ[6] && !ohiQ[7] || ohiQ[6]<0 || (Ko_type.substr(0,3)=='4t-' && ohiRQ[3]+ohiRQ[4]>0)) ohiInsert(f,ohiQ,ohiQ=[0,0,0,0,0,0,cc,0,0]);
-		else if(ohiQ[6]=ohiQ[6]||cc) ohiInsert(f,0,ohiQ);
-		return;
+		i=0;
+		if(!combination_table && (!ohiQ[7] || !(ohiQ[6]=-1))) {
+			ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],cc);
+			if(ohiQ[7]) i=1;
+		}
+
+		if(!ohiQ[0] || !ohiQ[3] || ohiQ[6] && !ohiQ[7] || ohiQ[6]<0 || (Ko_type.substr(0,3)=='4t-' && ohiRQ[3]+ohiRQ[4]>0)) {
+			ohiInsert(f,ohiQ,ohiQ=[0,0,0,0,0,0,cc,0,0]);
+			i=0;
+		}
+		else if(ohiQ[6]=ohiQ[6]||cc) {
+			ohiInsert(f,0,ohiQ);
+			i=1;
+		}
+
+		return i;
 	}
 
 	if(Ko_type.substr(-1)=='y' || prev_phoneme.length) {
 		CGG_yesHangeul(f,c,cc); // 옛한글 자판
 	}
-	else ohiInsert(f,0,cc);
+	else {
+		ohiInsert(f,0,cc);
+	}
+	return 0;
 }
 
 function convert_syllable_into_phoneme(f) {
-	backup_ohiQ = ohiQ.slice();
+	backup_ohiQ = ohiQ.slice(0);
 	ohiInsert(f,0,0);
 	ohiBackspace(f);
 	if(backup_ohiQ[0]) ohiInsert(f,0,0x3130+backup_ohiQ[0]+backup_ohiQ[1]+backup_ohiQ[2]);
@@ -758,7 +804,11 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	var etc = [];
 	var front_special = [];
 	var rear_special = [];
-	
+
+	var necessary_backspaces_cheot=0;
+	var necessary_backspaces_ga=0;
+	var necessary_backspaces_ggeut=0;
+
 	for(i=0;i<pressed_keys.length;++i) {
 		if(special_keys.indexOf(pressed_keys[i])>=0) {
 			if(!i) front_special.push(pressed_keys[0]);
@@ -783,14 +833,26 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 			for(j=0;j<combination_table[i].chars.length;++j) {
 				c=combination_table[i].chars[j];
-				if(unicode_hangeul_CGG_phoneme.indexOf(c)>=0)
-				if(!j) {
-					if(unicode_cheot.indexOf(c)>=0 && ohiQ[0]) ohiInsert(f,0,16);
-					else if(unicode_ga.indexOf(c)>=0 && ohiQ[3]) ohiInsert(f,0,16);
-					else if(unicode_ggeut.indexOf(c)>=0 && ohiQ[6]) ohiInsert(f,0,16);
+
+				if(unicode_cheot.indexOf(c)>=0) {
+					if(necessary_backspaces_ga+necessary_backspaces_ggeut) {
+						necessary_backspaces_ga = 0;
+						necessary_backspaces_ggeut = 0;
+						if(!necessary_backspaces_cheot) ++necessary_backspaces_cheot;
+					}
+					++necessary_backspaces_cheot;
 				}
+				else if(unicode_ga.indexOf(c)>=0) {
+					++necessary_backspaces_ga;
+				}
+				else if(unicode_ggeut.indexOf(c)>=0) {
+					++necessary_backspaces_ggeut;
+				}
+
 				ohiHangeul3(f,0,c);
 			}
+
+			backspaces_for_restoring_prev_state = necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
 			return;
 		}
 	}
@@ -800,7 +862,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		combination_table = current_layout.moachigi_combination_table;
 
 		for(i=0;i<combination_table.length;++i) {
-			temp_pressed_chars = pressed_chars.slice();
+			temp_pressed_chars = pressed_chars.slice(0);
 			for(j=0;j<combination_table[i].phonemes.length;++j) {
 				k=temp_pressed_chars.indexOf(combination_table[i].phonemes[j]);
 				if(k<0) break;
@@ -828,7 +890,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		c=front_special[i];
 
 		if(c==8) { // 뒷걸음쇠(backspace)
-			if(!ohiHangeul_backspace(f,e)) continue;
+			if(!ohiHangeul_moa_backspace(f,e)) continue;
 			if(e.preventDefault) e.preventDefault();
 			ohiBackspace(f);
 		}
@@ -848,15 +910,12 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		}
 
 		if(unicode_cheot.indexOf(c)>=0) {
-			if(!i && ohiQ[0]) ohiInsert(f,0,16);
 			cheot.push(c);
 		}
 		else if(unicode_ga.indexOf(c)>=0) {
-			if(!i && ohiQ[3]) ohiInsert(f,0,16);
 			ga.push(c);
 		}
 		else if(unicode_ggeut.indexOf(c)>=0) {
-			if(!i && ohiQ[6]) ohiInsert(f,0,16);
 			ggeut.push(c);
 		}
 		else {
@@ -864,33 +923,58 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		}
 	}
 
+	backspaces_for_restoring_prev_state=0;
+
 	for(i=0;i<cheot.length;++i) {
-		ohiHangeul3(f,e,cheot[i]);
+		++necessary_backspaces_cheot;
+		if(!ohiHangeul3(f,e,cheot[i])) {
+			++backspaces_for_restoring_prev_state;
+			necessary_backspaces_cheot=0;
+		}
 	}
 
 	for(i=0;i<ga.length;++i) {
-		ohiHangeul3(f,e,ga[i]);
+		++necessary_backspaces_ga;
+		if(!ohiHangeul3(f,e,ga[i])) {
+			++backspaces_for_restoring_prev_state;
+			necessary_backspaces_ga=0;
+		}
 	}
 
 	for(i=0;i<ggeut.length;++i) {
-		ohiHangeul3(f,e,ggeut[i]);
+		++necessary_backspaces_ggeut;
+		j=0;
+		if(ohiQ[3]&&ohiQ[6]) j=1;
+		if(!ohiHangeul3(f,e,ggeut[i])) {
+			if(!j) ++backspaces_for_restoring_prev_state;
+			necessary_backspaces_ggeut=0;
+		}
 	}
 
+	backspaces_for_restoring_prev_state += necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
+
 	for(i=0;i<etc.length;++i) {
+		++backspaces_for_restoring_prev_state;
 		ohiHangeul3(f,e,etc[i]);
 	}
-	
+
 	for(i=0;i<rear_special.length;++i) {
-		c=rear_special[i]
-		
+		c=rear_special[i];
+		backspaces_for_restoring_prev_state=0;
+
 		if(c==8) { // 뒷걸음쇠(backspace)
-			if(!ohiHangeul_backspace(f,e)) continue;
+			if(!ohiHangeul_moa_backspace(f,e)) {
+				backspaces_for_restoring_prev_state=0;
+				continue;
+			}
 			if(e.preventDefault) e.preventDefault();
 			ohiBackspace(f);
 		}
-		else ohiInsert(f,0,c);
+		else {
+			ohiInsert(f,0,c);
+		}
 
-		if(c==13) {
+		if(c==13) { // 줄바꾸개(enter)
 			ohiInsert(f,0,32);
 			ohiBackspace(f);
 		}
@@ -1940,6 +2024,7 @@ function ohiStart() {
 				prev_phoneme_R.splice(0);
 				prev_combined_phoneme.splice(0);
 			}
+			backspaces_for_restoring_prev_state=0;
 		};
 
 		if(textarea) {
@@ -2166,7 +2251,7 @@ function Sin3_hangeul_extension() {
 	
 	if(option.enable_Sin3_yeshangeul_combination) {
 		if(typeof current_layout.hangeul_extension_layout == 'undefined') {
-			current_layout.hangeul_extension_layout = current_layout.layout.slice();
+			current_layout.hangeul_extension_layout = current_layout.layout.slice(0);
 			current_layout.hangeul_extension_layout[52]=0x302E;
 			current_layout.hangeul_extension_layout[56]=0x302F;
 		}
@@ -2202,7 +2287,6 @@ function ohiKeypress(e) {
 	var KE=ohi_KE_Status.substr(0,2);
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
-	var i=0,j;
 	
 	c=ohiKeyswap(c,e);
 
@@ -2213,6 +2297,7 @@ function ohiKeypress(e) {
 				ohiInsert(f,0,13);
 			}
 			else if(c==32) { // 사이띄개 (space bar)
+				backspaces_for_restoring_prev_state=0;
 				if(prev_phoneme.length) {
 					prev_phoneme.splice(0);
 					prev_phoneme_R.splice(0);
@@ -2343,6 +2428,7 @@ function ohiKeydown(e) {
 				if(!pressing_keys) return false;
 				if(e.preventDefault) e.preventDefault();
 				pressing_key_accumulation(f,e,c);
+				backspaces_for_restoring_prev_state=0;
 				onkeyup_skip=0;
 				return false;
 			}
@@ -2407,6 +2493,7 @@ function ohiKeydown(e) {
 				prev_combined_phoneme.splice(0);
 			}
 			esc_ext_layout();
+			backspaces_for_restoring_prev_state=0;
 			ohiInsert(f,0,0);			
 		}	
 	}
@@ -2422,7 +2509,10 @@ function ohiKeyup(e) {
 	}
 	else if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {
 		if(pressing_keys && !--pressing_keys) {
+			// backspaces_for_restoring_prev_state=0;
+			
 			ohiHangeul3_moa(f,e);
+			prev_ohiQ = ohiQ.slice(0);
 			pressed_keys=[];
 		}
 	}
@@ -2454,6 +2544,11 @@ function pressing_key_accumulation(f,e,c) {
 	if(pressed_keys.length && pressed_keys[pressed_keys.length-1]==c) {
 	// 한 글쇠가 오래 눌려서 같은 문자가 들어왔을 때
 		pressing_key=0;
+		backspaces_for_restoring_prev_state=0;
+		if(c==8) {
+			ohiHangeul_moa_backspace(f,e);
+			return;
+		}
 		ohiHangeul3(f,e,c);
 	}
 	else {
@@ -4513,7 +4608,7 @@ function basic_layouts_info() {
 		[0xd7f711b8,0xd7f8]  /* jongseong jieuj-bieub + bieub = jieuj-ssangbieub */
 	];
 
-	K3_sun2014_combination_table = hangeul_combination_table_default.slice();
+	K3_sun2014_combination_table = hangeul_combination_table_default.slice(0);
 	K3_sun2014_combination_table.unshift(
 		[0x11621162,0x1164], /* jungseong ae + ae = yae */
 		[0x11BC11BC,0x11AE], /* jongseong ieung + ieung = dieud */
@@ -4528,7 +4623,7 @@ function basic_layouts_info() {
 		[0x11AF11AB,0x11B4]  /* jongseong lieul + nieun = lieul-tieut */
 	);
 
-	K3_Sin3_extension_combination_table = hangeul_combination_table_full.slice();
+	K3_Sin3_extension_combination_table = hangeul_combination_table_full.slice(0);
 	K3_Sin3_extension_combination_table.unshift(
 		[0x11001109,0x1140], /* choseong gieug + siues = ssanggieug */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
