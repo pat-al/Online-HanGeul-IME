@@ -27,6 +27,7 @@ input_hangeul_combination_table_info();
 var additional_layouts=[];
 
 additional_layouts.push({KE: 'Ko', type_name: '2-GimJunSeong', full_name: '김준성 풀어쓰기 수동 타자기 (1940년대)', layout: K2_GimJunSeong_typewriter_layout, link: 'http://pat.im/1024'});
+additional_layouts.push({KE: 'Ko', type_name: '2-HGS', full_name: '한당욱·김철수·신한종 풀어쓰기 전신 타자기 (1952)', layout: K2_HGS_1952_teletypewriter_layout, link: 'http://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Jang', full_name: '장봉선 풀어쓰기 전신 타자기 (1953, 체신부 통신용)', layout: K2_Jang_1953_teletypewriter_layout, link: 'http://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Bak-Song', full_name: '박영효·송계범 전신 타자기 자판 설계안 (1968)', layout: K2_Bak_Song_1968_layout, link: 'http://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Gaon26KM', full_name: '가온한글26KM', layout: K2_Gaon_KSX5002_layout, link: 'http://cafe.daum.net/kbd-p/8OTK/10'});
@@ -158,6 +159,103 @@ function additional_keyboard_layout_table_info() {
 		0x007c,	/* 0x7C bar: vertical line(bar) */
 		0x0000,	/* 0x7D braceright: */
 		0x0000 	/* 0x7E asciitilde: */
+	];
+
+	K2_HGS_1952_teletypewriter_layout = [
+		0x0021,	/* 0x21 exclam: exclamation mark */
+		0x0022,	/* 0x22 quotedbl: quotatioin mark */
+		0x0023,	/* 0x23 numbersign: number sign */
+		0x0024,	/* 0x24 dollar: dollar sign */
+		0x0025,	/* 0x25 percent: percent sign */
+		0x0026,	/* 0x26 ampersand: ampersand */
+		0x0027,	/* 0x27 apostrophe: apostrophe */
+		0x0028,	/* 0x28 parenleft: left parenthesis */
+		0x0029,	/* 0x29 parenright: right parenthesis */
+		0x002a,	/* 0x2A asterisk: asterisk */
+		0x002b,	/* 0x2B plus: plus sign */
+		0x002c,	/* 0x2C comma: comma */
+		0x002d,	/* 0x2D minus: minus sign */
+		0x002e,	/* 0x2E period: period */
+		0x002f,	/* 0x2F slash: slash */
+		0x0030,	/* 0x30 0: 0 */
+		0x0031,	/* 0x31 1: 1 */
+		0x0032,	/* 0x32 2: 2 */
+		0x0033,	/* 0x33 3: 3 */
+		0x0034,	/* 0x34 4: 4 */
+		0x0035,	/* 0x35 5: 5 */
+		0x0036,	/* 0x36 6: 6 */
+		0x0037,	/* 0x37 7: 7 */
+		0x0038,	/* 0x38 8: 8 */
+		0x0039,	/* 0x39 9: 9 */
+		0x003a,	/* 0x3A colon: colon */
+		0x003b,	/* 0x3B semicolon: semicolon */
+		0x003c,	/* 0x3C less: less-than sign */
+		0x003d,	/* 0x3D equal: equals sign */
+		0x003e,	/* 0x3E greater: greater-than sign */
+		0x003f,	/* 0x3F question: question mark */
+		0x0040,	/* 0x40 at: commertial at */
+		0x002d,	/* 0x41 A: minus sign */
+		0x003f,	/* 0x42 B: question mark */
+		0x003a,	/* 0x43 C: colon */
+		0x0024,	/* 0x44 D: dollar sign */
+		0x0033,	/* 0x45 E: 3 */
+		0x0021,	/* 0x46 F: exclamation mark */
+		0x0026,	/* 0x47 G: ampersand */
+		0x23f9,	/* 0x48 H: stop */
+		0x0038,	/* 0x49 I: 8 */
+		0x0022,	/* 0x4A J: quotatioin mark */		
+		0x0028,	/* 0x4B K: left parenthesis */
+		0x0029,	/* 0x4C L: right parenthesis */
+		0x002e,	/* 0x4D M: period */
+		0x002c,	/* 0x4E N: comma */
+		0x0039,	/* 0x4F O: 9 */
+		0x0030,	/* 0x50 P: 0 */
+		0x0031,	/* 0x51 Q: 1 */
+		0x0034,	/* 0x52 R: 4 */
+		0x2407,	/* 0x53 S: bell */
+		0x0035,	/* 0x54 T: 5 */
+		0x0037,	/* 0x55 U: 7 */
+		0x003b,	/* 0x56 V: semicolon */
+		0x0032,	/* 0x57 W: 2 */
+		0x002f,	/* 0x58 X: slash */
+		0x0036,	/* 0x59 Y: 6 */
+		0x3003,	/* 0x5A Z: ditto mark */
+		0x005b,	/* 0x5B bracketleft: left bracket */
+		0x005c,	/* 0x5C backslash: backslash */
+		0x005d,	/* 0x5D bracketright: right bracket */
+		0x005e,	/* 0x5E asciicircum: circumflex accent */
+		0x005f,	/* 0x5F underscore: underscore */
+		0x0060,	/* 0x60 quoteleft: grave accent */
+		0x1100,	/* 0x61 a: choseong gieug */
+		0x116d,	/* 0x62 b: jungseong yo */
+		0x1111,	/* 0x63 c: choseong pieup */
+		0x1109,	/* 0x64 d: choseong sieus */
+		0x1106,	/* 0x65 e: choseong mieum */
+		0x1102,	/* 0x66 f: choseong nieun */
+		0x110b,	/* 0x67 g: choseong ieung */
+		0x1169,	/* 0x68 h: jungseong o */
+		0x116e,	/* 0x69 i: jungseong u */
+		0x1161,	/* 0x6A j: jungseong a */
+		0x1165,	/* 0x6B k: jungseong eo */
+		0x1175,	/* 0x6C l: jungseong i */
+		0x1173,	/* 0x6D m: jungseong yu */
+		0x1172,	/* 0x6E n: jungseong eu */
+		0x1162,	/* 0x6F o: jungseong ae */
+		0x1166,	/* 0x70 p: jungseong e */
+		0x1107,	/* 0x71 q: choseong bieub */
+		0x110c,	/* 0x72 r: choseong jieuj */
+		0x1105,	/* 0x73 s: choseong lieul */
+		0x1112,	/* 0x74 t: choseong hieuh */
+		0x1167,	/* 0x75 u: jungseong yeo */
+		0x1110,	/* 0x76 v: choseong tieut */
+		0x1103,	/* 0x77 w: choseong dieud */
+		0x110e,	/* 0x78 x: choseong chieuch */
+		0x1163,	/* 0x79 y: jungseong ya */
+		0x110f,	/* 0x7A z: choseong kieuk */
+		0x007b,	/* 0x7B braceleft: left brace */
+		0x007c,	/* 0x7C bar: vertical line(bar) */
+		0x007d,	/* 0x7D braceright: right brace */
+		0x007e	/* 0x7E asciitilde: tilde */
 	];
 
 	K2_Jang_1953_teletypewriter_layout = [
