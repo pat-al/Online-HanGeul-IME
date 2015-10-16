@@ -95,7 +95,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e,	/* 0x3C less: tilde */
 		0x003d,	/* 0x3D equal: equals sign */
 		0x002f,	/* 0x3E greater: slash */
-		0x2015,	/* 0x3F question: horizontal bar */
+		0x005f,	/* 0x3F question: underscore */
 		0x0032,	/* 0x40 at: 2 */
 		0x0041,	/* 0x41 A */
 		0x0042,	/* 0x42 B */
