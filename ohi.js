@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/15
+ * Last Update : 2015/10/16
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -804,9 +804,8 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	var cheot = [];
 	var ga = [];
 	var ggeut = [];
-	var etc = [];
-	var front_special = [];
-	var rear_special = [];
+	var front_etc = [], rear_etc = [];
+	var front_special = [], rear_special = [];
 
 	var necessary_backspaces_cheot=0;
 	var necessary_backspaces_ga=0;
@@ -922,11 +921,16 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			ggeut.push(c);
 		}
 		else {
-			etc.push(c);
+			if(!cheot.length && !ga.length && !ggeut.length) front_etc.push(c);
+			else rear_etc.push(c);
 		}
 	}
 
 	backspaces_for_restoring_prev_state=0;
+
+	for(i=0;i<front_etc.length;++i) {
+		ohiHangeul3(f,e,front_etc[i]);
+	}
 
 	for(i=0;i<cheot.length;++i) {
 		++necessary_backspaces_cheot;
@@ -956,9 +960,9 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 	backspaces_for_restoring_prev_state += necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
 
-	for(i=0;i<etc.length;++i) {
-		++backspaces_for_restoring_prev_state;
-		ohiHangeul3(f,e,etc[i]);
+	for(i=0;i<rear_etc.length;++i) {
+		backspaces_for_restoring_prev_state=0;
+		ohiHangeul3(f,e,rear_etc[i]);
 	}
 
 	for(i=0;i<rear_special.length;++i) {
