@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/16
+ * Last Update : 2015/10/18
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -199,19 +199,19 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 			f.selectionStart=f.selectionEnd=bs_start;
 		}
 	}
+	ohiInsert(f,0,0);
 }
 
 
 function ohiHangeul_moa_backspace(f,e) {
 	var i;
-	
 	if(!backspaces_for_restoring_prev_state) {
 		if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
 	}
 	else {
 		while(backspaces_for_restoring_prev_state--) {
 			if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
-		}		
+		}
 	}
 	esc_ext_layout();
 	return 0;
