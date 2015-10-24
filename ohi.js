@@ -397,7 +397,7 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 				combination_table = current_layout.hangeul_combination_table;
 			}
 		}
-		if(option.enable_Sin3_yeshangeul_combination && Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.hangeul_combiantion_table === undefined) {
+		if(option.enable_Sin3_yeshangeul_combination && Ko_type.substr(0,5)=='Sin3-' && current_layout.hangeul_combination_table === undefined) {
 			combination_table = K3_Sin3_extension_combination_table;
 		}
 
