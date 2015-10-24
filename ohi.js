@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/18
+ * Last Update : 2015/10/24
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -72,7 +72,7 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '박경남 수정 신세벌식 (2003)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, link: 'http://pat.im/1110'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, hangeul_combination_table: K3_Sin3_P_extension_combination_table, link: 'http://pat.im/1110'});
 }
 
 function option() {
@@ -393,9 +393,11 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 		combination_table=hangeul_combination_table_default;
 		if(current_layout.type_name.substr(-1)=='y') combination_table=hangeul_combination_table_full;
 		if(typeof current_layout.hangeul_combination_table != 'undefined' && typeof current_layout.hangeul_combination_table.length != 'undefined' && current_layout.hangeul_combination_table.length) {
-			combination_table = current_layout.hangeul_combination_table;
+			if(option.enable_Sin3_yeshangeul_combination || Ko_type.substr(0,5)!='Sin3-') {
+				combination_table = current_layout.hangeul_combination_table;
+			}
 		}
-		if(option.enable_Sin3_yeshangeul_combination && Ko_type.substr(0,5)=='Sin3-') {
+		if(option.enable_Sin3_yeshangeul_combination && Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.hangeul_combiantion_table === undefined) {
 			combination_table = K3_Sin3_extension_combination_table;
 		}
 
@@ -3534,7 +3536,7 @@ function basic_layouts_info() {
 		0x0000,	/* 0x7B braceleft: */
 		0x0000,	/* 0x7C bar: */
 		0x0000,	/* 0x7D braceright: */
-		0x0000,	/* 0x7E asciitilde: */
+		0x0000  /* 0x7E asciitilde: */
 	];
 
 	// 신세벌식 P
@@ -3565,10 +3567,10 @@ function basic_layouts_info() {
 		0x0038,	/* 0x38 8:            8 */
 		0x0039,	/* 0x39 9:            9 */
 		0x003a,	/* 0x3A colon:        colon */
-		0x1107,	/* 0x3B semicolon: choseong  bieub */
+		0x1107,	/* 0x3B semicolon:    choseong  bieub */
 		0x003c,	/* 0x3C less:         less-than sign */
 		0x003d,	/* 0x3D equal:        equals sign */
-		0x003e,	/* 0x3E greater: greater-than sign */
+		0x003e,	/* 0x3E greater:      greater-than sign */
 		0x003f,	/* 0x3F question:     question mark */
 		0x0040,	/* 0x40 at:           commertial at */
 		0x1172,	/* 0x41 A:            jungseong yu */
@@ -3605,10 +3607,10 @@ function basic_layouts_info() {
 		0x0060,	/* 0x60 quoteleft:    grave accent */
 		0x11bc,	/* 0x61 a:            jongseong ieung */
 		0x11bf,	/* 0x62 b:            jongseong kieuk */
-		0x11c0,	/* 0x63 c:            jongseong tieut */
+		0x11a8,	/* 0x63 c:            jongseong gieug  */
 		0x11c2,	/* 0x64 d:            jongseong hieuh */
 		0x11b8,	/* 0x65 e:            jongseong bieub */
-		0x11bb,	/* 0x66 f:            jongseong ssangsieus */
+		0x11c1,	/* 0x66 f:            jongseong pieup */
 		0x11ae,	/* 0x67 g:            jongseong dieud */
 		0x1102,	/* 0x68 h:            choseong nieun */
 		0x1106,	/* 0x69 i:            choseong mieum */
@@ -3620,19 +3622,19 @@ function basic_layouts_info() {
 		0x110e,	/* 0x6F o:            choseong chieuch */
 		0x1111,	/* 0x70 p:            choseong pieup */
 		0x11ba,	/* 0x71 q:            jongseong sieus */
-		0x11c1,	/* 0x72 r:            jongseong pieup */
+		0x11c0,	/* 0x72 r:            jongseong tieut */
 		0x11ab,	/* 0x73 s:            jongseong nieun */
 		0x11be,	/* 0x74 t:            jongseong chieuch */
 		0x1103,	/* 0x75 u:            choseong dieud */
 		0x11bd,	/* 0x76 v:            jongseong jieuj */
 		0x11af,	/* 0x77 w:            jongseong lieul */
-		0x11a8,	/* 0x78 x:            jongseong gieug */
+		0x11bb,	/* 0x78 x:            jongseong ssangsieus */
 		0x1105,	/* 0x79 y:            choseong lieul */
 		0x11b7,	/* 0x7A z:            jongseong mieum */
-		0x007b,	/* 0x7B braceleft: left brace */
+		0x007b,	/* 0x7B braceleft:    left brace */
 		0x007c,	/* 0x7C bar:          vertical line(bar) */
-		0x007d,	/* 0x7D braceright: right brace */
-		0x007e,	/* 0x7E asciitilde:   tilde */
+		0x007d,	/* 0x7D braceright:   right brace */
+		0x007e  /* 0x7E asciitilde:   tilde */
 	];
 
 	// 신세벌식 P 겹낱자 확장 배열
@@ -3671,10 +3673,10 @@ function basic_layouts_info() {
 		0x0000,	/* 0x40 at: */
 		0x11aa,	/* 0x41 A: jongseong gieug-sieus */
 		0x0000,	/* 0x42 B */
-		0x11b4,	/* 0x43 C: jongseong lieul-tieut */
+		0x11a9,	/* 0x43 C: jongseong ssanggieug */
 		0x11b6,	/* 0x44 D: jongseong lieul-hieuh */
 		0x11b2,	/* 0x45 E: jongseong lieul-bieub */
-		0x11b9,	/* 0x46 F: jongseong bieub-sieus */
+		0x11b5,	/* 0x46 F: jongseong lieul-pieup */
 		0x0000,	/* 0x47 G */
 		0x0000,	/* 0x48 H */
 		0x0000,	/* 0x49 I */
@@ -3686,13 +3688,13 @@ function basic_layouts_info() {
 		0x0000,	/* 0x4F O */
 		0x0000,	/* 0x50 P */
 		0x11b3,	/* 0x51 Q: jongseong lieul-sieus */
-		0x11b5,	/* 0x52 R: jongseong lieul-pieup */
+		0x11b4,	/* 0x52 R: jongseong lieul-tieut */
 		0x11ad,	/* 0x53 S: jongseong nieun-hieuh */
 		0x0000,	/* 0x54 T */
 		0x0000,	/* 0x55 U */
 		0x11ac,	/* 0x56 V: jongseong nieun-jieuj */
 		0x11b0,	/* 0x57 W: jongseong lieul-gieug */
-		0x11a9,	/* 0x58 X: jongseong ssanggieug */
+		0x11b9,	/* 0x58 X: jongseong bieub-sieus */
 		0x0000,	/* 0x59 Y */
 		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
 		0x0000,	/* 0x5B bracketleft: */
@@ -3703,10 +3705,10 @@ function basic_layouts_info() {
 		0x0000,	/* 0x60 quoteleft: */
 		0x11aa,	/* 0x61 a; jongseong gieug-sieus */
 		0x0000,	/* 0x62 b */
-		0x11b4,	/* 0x63 c: jongseong lieul-tieut */
+		0x11a9,	/* 0x63 c: jongseong ssanggieug */
 		0x11b6,	/* 0x64 d: jongseong lieul-hieuh */
 		0x11b2,	/* 0x65 e: jongseong lieul-bieub */
-		0x11b9,	/* 0x66 f: jongseong bieub-sieus */
+		0x11b5,	/* 0x66 f: jongseong lieul-pieup */
 		0x0000,	/* 0x67 g */
 		0x0000,	/* 0x68 h */
 		0x0000,	/* 0x69 i */
@@ -3718,19 +3720,19 @@ function basic_layouts_info() {
 		0x0000,	/* 0x6F o */
 		0x0000,	/* 0x70 p */
 		0x11b3,	/* 0x71 q: jongseong lieul-sieus */
-		0x11b5,	/* 0x72 r: jongseong lieul-pieup */
+		0x11b4,	/* 0x72 r: jongseong lieul-tieut */
 		0x11ad,	/* 0x73 s: jongseong nieun-hieuh */
 		0x0000,	/* 0x74 t */
 		0x0000,	/* 0x75 u */
 		0x11ac,	/* 0x76 v: jongseong nieun-jieuj */
 		0x11b0,	/* 0x77 w: jongseong lieul-gieug */
-		0x11a9,	/* 0x78 x: jongseong ssanggieug */
+		0x11b9,	/* 0x78 x: jongseong bieub-sieus */
 		0x0000,	/* 0x79 y */
 		0x11b1,	/* 0x5A z: jongseong lieul-mieum */
 		0x0000,	/* 0x7B braceleft: */
 		0x0000,	/* 0x7C bar: */
 		0x0000,	/* 0x7D braceright: */
-		0x0000,	/* 0x7E asciitilde: */
+		0x0000	/* 0x7E asciitilde: */
 	];
 
 	// 신세벌식 기호 확장 배열
@@ -4641,8 +4643,8 @@ function basic_layouts_info() {
 		[0x11AF11AB,0x11B4]  /* jongseong lieul + nieun = lieul-tieut */
 	);
 
-	K3_Sin3_extension_combination_table = hangeul_combination_table_full.slice(0);
-	K3_Sin3_extension_combination_table.unshift(
+	K3_Sin3_P_extension_combination_table = hangeul_combination_table_full.slice(0);
+	K3_Sin3_P_extension_combination_table.unshift(
 		[0x11001109,0x1140], /* choseong gieug + siues = ssanggieug */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
 		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolinhieuh */
@@ -4658,18 +4660,18 @@ function basic_layouts_info() {
 		[0x110D1100,0x1151], /* choseong ssangjieuj + gieug = ssang-dwis-jieuj */
 		[0x110E1103,0x1154], /* choseong chieuch + dieug = ab-chieuch */
 		[0x110E1100,0x1155], /* choseong chieuch + gieug = dwis-chieuch */
-		[0x11BA11BB,0x11EB], /* jongseong sieus + ssangsieus = yeolinsieus */
-		[0x110A11BB,0xD7EE], /* jongseong ssangsieus + ssangsieus = sieus-yeolinsieus */
-		[0x11C711BB,0x11C8], /* jongseong nieun-sieus + ssangsieus = nieun-yeolinsieus */
-		[0x11B311BB,0x11D7], /* jongseong lieul-sieus + ssangsieus = lieul-yeolinsieus */
-		[0x11DD11BB,0x11DF], /* jongseong mieum-sieus + ssangsieus = mieum-yeolinsieus */
-		[0x11BB11BB,0xD7EE], /* jongseong ssangsiues + ssangsieus = sieus-yeolinsieus */
-		[0x11F111BB,0x11F2], /* jongseong yesieung-sieus + ssangsieus = yesieung-yeolinsieus */
-		[0x11BC11BB,0x11F0], /* jongseong ieung + ssangsieus = yesieung */
-		[0x11F011BB,0x11EE], /* jongseong yesieung + ssangsieus = ssangyesieung */
-		[0xD7DD11BB,0xD7DB], /* jongseong yeolinlieul + ssangsieus = lieul-yesieung */
-		[0x11C211BB,0x11F9], /* jongseong hieuh + ssangsieus = yeolinhieuh */
-		[0x11B611BB,0x11D9], /* jongseong lieul-hieuh + ssangsieus = lieul-yeolinhieuh */
+		[0x11BA11C1,0x11EB], /* jongseong sieus + pieup = yeolinsieus */
+		[0x110A11C1,0xD7EE], /* jongseong ssangsieus + pieup = sieus-yeolinsieus */
+		[0x11C711C1,0x11C8], /* jongseong nieun-sieus + pieup = nieun-yeolinsieus */
+		[0x11B311C1,0x11D7], /* jongseong lieul-sieus + pieup = lieul-yeolinsieus */
+		[0x11DD11C1,0x11DF], /* jongseong mieum-sieus + pieup = mieum-yeolinsieus */
+		[0x11BB11C1,0xD7EE], /* jongseong ssangsiues + pieup = sieus-yeolinsieus */
+		[0x11F111C1,0x11F2], /* jongseong yesieung-sieus + pieup = yesieung-yeolinsieus */
+		[0x11BC11C1,0x11F0], /* jongseong ieung + pieup = yesieung */
+		[0x11F011C1,0x11EE], /* jongseong yesieung + pieup = ssangyesieung */
+		[0xD7DD11C1,0xD7DB], /* jongseong yeolinlieul + pieup = lieul-yesieung */
+		[0x11C211C1,0x11F9], /* jongseong hieuh + pieup = yeolinhieuh */
+		[0x11B611C1,0x11D9], /* jongseong lieul-hieuh + pieup = lieul-yeolinhieuh */
 		
 		[0x11BC11A8,0x11EC], /* jongseong ieung + gieug = yesieung-gieug */
 		[0x11BC11A9,0x11EC], /* jongseong ieung + ssanggieug = yesieung-ssanggieug */
@@ -4679,6 +4681,7 @@ function basic_layouts_info() {
 		[0x11BC11BF,0x11EF], /* jongseong ieung + ieung = ssangyesieung */
 		[0x11BC11C2,0xD7F6] /* jongseong ieung + ieung = ssangyesieung */
 	)
+
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
