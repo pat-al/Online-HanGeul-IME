@@ -212,7 +212,7 @@ function additional_keyboard_layout_table_info() {
 		0x0030,	/* 0x50 P: 0 */
 		0x0031,	/* 0x51 Q: 1 */
 		0x0034,	/* 0x52 R: 4 */
-		0x2407,	/* 0x53 S: bell */
+		0x237e,	/* 0x53 S: bell */
 		0x0035,	/* 0x54 T: 5 */
 		0x0037,	/* 0x55 U: 7 */
 		0x003b,	/* 0x56 V: semicolon */
@@ -291,31 +291,31 @@ function additional_keyboard_layout_table_info() {
 		0x003e,	/* 0x3E greater: greater-than sign */
 		0x003f,	/* 0x3F question: question mark */
 		0x0040,	/* 0x40 at: commertial at */
-		0x1112,	/* 0x41 A: choseong hieuh */
-		0x1111,	/* 0x42 B: choseong pieup*/
-		0x110e,	/* 0x43 C: choseong chieuch */
-		0x1101,	/* 0x44 D: choseong ssanggieug */
-		0x110a,	/* 0x45 E: choseong ssangsieus */
-		0x1102,	/* 0x46 F: choseong nieun */
-		0x110b,	/* 0x47 G: choseong ieung */
-		0x1173,	/* 0x48 H: jungseong eu */
-		0x1169,	/* 0x49 I: jungseong o */
-		0x1161,	/* 0x4A J: jungseong a */
-		0x1175,	/* 0x4B K: jungseong i */
-		0x1165,	/* 0x4C L: jungseong eo */
-		0x116d,	/* 0x4D M: jungseong yo */
-		0x1172,	/* 0x4E N: jungseong yu */
-		0x1163,	/* 0x4F O: jungseong ya */
-		0x1168,	/* 0x50 P: jungseong ye */
-		0x1110,	/* 0x51 Q: choseong tieut */
-		0x1104,	/* 0x52 R: choseong ssangdieud */
-		0x1105,	/* 0x53 S: choseong lieul */
-		0x1106,	/* 0x54 T: choseong mieum*/
-		0x116e,	/* 0x55 U: jungseong u */
-		0x1108,	/* 0x56 V: choseong ssangbieub */
-		0x110d,	/* 0x57 W: choseong ssangjieuj */
-		0x110f,	/* 0x58 X: choseong kieuk */
-		0x1167,	/* 0x59 Y: jungseong yeo */
+		0x002d,	/* 0x41 A: minus sign */
+		0x003f,	/* 0x42 B: question mark */
+		0x003a,	/* 0x43 C: colon */
+		0x271c,	/* 0x44 D: Who are you? (ENQ, WRU) */
+		0x0033,	/* 0x45 E: 3 */
+		0x0025,	/* 0x46 F: percent sign */
+		0x0022,	/* 0x47 G: quotatioin mark */
+		0x0021,	/* 0x48 H: exclamation mark */
+		0x0038,	/* 0x49 I: 8 */
+		0x237e,	/* 0x4A J: bell */
+		0x0028,	/* 0x4B K: left parenthesis */
+		0x0029,	/* 0x4C L: right parenthesis */
+		0x002e,	/* 0x4D M: period */
+		0x002c,	/* 0x4E N: comma */
+		0x0039,	/* 0x4F O: 9 */
+		0x0030,	/* 0x50 P: 0 */
+		0x0031,	/* 0x51 Q: 1 */
+		0x0034,	/* 0x52 R: 4 */
+		0x0027,	/* 0x53 S: apostrophe */
+		0x0035,	/* 0x54 T: 5 */
+		0x0037,	/* 0x55 U: 7 */
+		0x003d,	/* 0x56 V: equals sign */
+		0x0032,	/* 0x57 W: 2 */
+		0x002f,	/* 0x58 X: slash */
+		0x0036,	/* 0x59 Y: 6 */
 		0x1164,	/* 0x5A Z: jungseong yae */
 		0x005b,	/* 0x5B bracketleft: left bracket */
 		0x005c,	/* 0x5C backslash: backslash */
@@ -1640,7 +1640,7 @@ function additional_keyboard_layout_table_info() {
 		0x0000,	/* 0x7D braceright: */
 		0x0000,	/* 0x7E asciitilde: */
 	];
-
+	
 	// 바꾼꼴 신세벌식 2015 자판
 	K3_Sin3b_2015_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/0x1110/*ㅌ*/,/*(*/40,
 	/*)*/41,/***/42,/*+*/43,/*,*/44,/*-*/45,/*.*/46,/*/*/0x110f/*ㅋ*/,/*0*/48,
