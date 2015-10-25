@@ -316,7 +316,7 @@ function additional_keyboard_layout_table_info() {
 		0x0032,	/* 0x57 W: 2 */
 		0x002f,	/* 0x58 X: slash */
 		0x0036,	/* 0x59 Y: 6 */
-		0x1164,	/* 0x5A Z: jungseong yae */
+		0x002b,	/* 0x5A Z: plus sign */
 		0x005b,	/* 0x5B bracketleft: left bracket */
 		0x005c,	/* 0x5C backslash: backslash */
 		0x005d,	/* 0x5D bracketright: right bracket */
