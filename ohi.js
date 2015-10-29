@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/24
+ * Last Update : 2015/10/29
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -46,6 +46,7 @@ function basic_layouts() {
 	var sign_extension_layout; // 기호 확장 배열
 	var hangeul_extension_layout;	// 한글 확장 배열
 	var hangeul_combination_table; // 한글 낱자 조합 규칙 (이어치기)
+	var extended_hangeul_combination_table; // 옛한글 낱자 조합 규칙 (이어치기)
 	var moachigi_combination_table; // 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
 	var multikey_combination_table;	// 모아치기 자판의 줄여녛기 조합 규칙 (다른 조합 규칙보다 먼저 적용됨)
 	var link;
@@ -72,7 +73,7 @@ function basic_layouts_info_push() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '박경남 수정 신세벌식 (2003)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, hangeul_combination_table: K3_Sin3_P_extension_combination_table, link: 'http://pat.im/1110'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, sign_extension_layout: K3_Sin3_sign_extension_layout, extended_hangeul_combination_table: K3_Sin3_P_extension_combination_table, link: 'http://pat.im/1110'});
 }
 
 function option() {
@@ -393,12 +394,14 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 		combination_table=hangeul_combination_table_default;
 		if(current_layout.type_name.substr(-1)=='y') combination_table=hangeul_combination_table_full;
 		if(typeof current_layout.hangeul_combination_table != 'undefined' && typeof current_layout.hangeul_combination_table.length != 'undefined' && current_layout.hangeul_combination_table.length) {
-			if(option.enable_Sin3_yeshangeul_combination || Ko_type.substr(0,5)!='Sin3-') {
-				combination_table = current_layout.hangeul_combination_table;
-			}
+			combination_table = current_layout.hangeul_combination_table;
 		}
-		if(option.enable_Sin3_yeshangeul_combination && Ko_type.substr(0,5)=='Sin3-' && current_layout.hangeul_combination_table === undefined) {
-			combination_table = K3_Sin3_extension_combination_table;
+		if(option.enable_Sin3_yeshangeul_combination && Ko_type.substr(0,5)=='Sin3-') {
+			if(typeof current_layout.extended_hangeul_combination_table != 'undefined') {
+				combination_table = current_layout.extended_hangeul_combination_table;
+			} else {
+				
+			}
 		}
 
 		var combined_phoneme=0x10000*c1+c2;
@@ -1660,7 +1663,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_Sin3_yeshangeul_combination');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_yeshangeul_combination','<div class="option"><input name="enable_Sin3_yeshangeul_combination" class="checkbox" onclick="option.enable_Sin3_yeshangeul_combination=this.checked;ohiChange_enable_enable_Sin3_yeshangeul_combination();inputText_focus()" type="checkbox"' + (option.enable_Sin3_yeshangeul_combination ? ' checked="checked"' : '') + '><label>옛한글 조합</label></div>');
-		if(current_layout.type_name.substr(0,5)=='Sin3-') {
+		if(current_layout.type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') {
 			opt.style.display = 'block';
 		}
 		else opt.style.display = 'none';
