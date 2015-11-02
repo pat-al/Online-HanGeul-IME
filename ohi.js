@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/10/29
+ * Last Update : 2015/11/02
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -1982,9 +1982,9 @@ function show_keyboard_layout(type) {
 		document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[14]))+')</font>';
 	}
 
-	if(KE=='Ko' && Ko_type=='3m-Moa2015') {
+	if(KE=='Ko' && Ko_type=='3m-Moa2015' || Ko_type=='3m-Semoi') {
+		document.getElementById('uh24').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
-		document.getElementById('uh39').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('ue45').removeAttribute('class');
 		document.getElementById('ue45').style.float = 'left';
 		document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
