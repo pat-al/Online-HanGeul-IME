@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/11/02
+ * Last Update : 2015/11/04
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -3394,7 +3394,7 @@ function basic_layouts_info() {
 		0x0022,	/* 0x4D M:            quotatioin mark */
 		0x2015,	/* 0x4E N:            horizontal bar */
 		0x116e,	/* 0x4F O:            jungseong u */
-		0x1169,	/* 0x50 P:            jungseong o */
+		0x119e,	/* 0x50 P:            jungseong araea */
 		0x1164,	/* 0x51 Q:            jungseong yae */
 		0x1165,	/* 0x52 R:            jungseong eo */
 		0x1168,	/* 0x53 S:            jungseong ye */
@@ -3459,7 +3459,7 @@ function basic_layouts_info() {
 		0x0000,	/* 0x2C comma: */
 		0x0000,	/* 0x2D minus: */
 		0x0000,	/* 0x2E period: */
-		0x119e,	/* 0x2F slash: jungseong araea */
+		0x1169,	/* 0x2F slash: jungseong o */
 		0x0000,	/* 0x30 0 */
 		0x0000,	/* 0x31 1 */
 		0x0000,	/* 0x32 2 */
