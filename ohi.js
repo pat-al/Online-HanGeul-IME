@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/11/04
+ * Last Update : 2015/11/05
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -270,7 +270,7 @@ function ohiHangeul_backspace(f,e) {
 			for(i=0;i<prev_combined_phoneme.length;++i) {
 				if(unicode_cheot.indexOf(prev_combined_phoneme[i]) > ohi_cheot.length-1 || unicode_ga.indexOf(prev_combined_phoneme[i]) > ohi_ga.length-1 || unicode_ggeut.indexOf(prev_combined_phoneme[i]) > ohi_ggeut.length-1) break;
 			}
-			if(i==prev_combined_phoneme.length) {	// 첫가끝 방식으로 조합하던 낱자들을 지우고 요즘한글 방식(완성형)으로 첫소리만 넣기
+			if(i==prev_combined_phoneme.length) {	// 첫가끝 방식으로 조합하던 낱자들을 지우고 요즘한글 방식으로 첫소리만 넣기
 				if(e.preventDefault) e.preventDefault();
 				i=prev_combined_phoneme.length; while(i--) ohiBackspace(f);					
 				for(i=prev_combined_phoneme.length;i>=0;--i) {
@@ -697,6 +697,9 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 
 	// 요즘한글 자판에서 옛한글 홀소리가 들어갔을 때
 	if(!prev_phoneme.length && Ko_type.substr(-1)!='y' && ohi_ga.indexOf(cc)<0 && unicode_ga.indexOf(cc)>=0) {
+		backup_ohiQ = ohiQ.slice(0);
+		backup_ohiRQ = ohiRQ.slice(0);
+
 		if(!ohiQ[0] && !ohiQ[3] && !ohiQ[6]) {
 		// 한글 조합 상태가 아니면 첫소리 채움 문자 넣음
 			prev_phoneme.push(cc,0x115F);
@@ -706,10 +709,8 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 			return 1;
 		}
 
-		backup_ohiQ = ohiQ.slice(0);
-		backup_ohiRQ = ohiRQ.slice(0);
-
 		if(ohiQ[0] && !ohiQ[3] && !ohiQ[6])	{
+		// 첫소리만 들어 있을 때
 			prev_phoneme.unshift(cc,unicode_cheot[ohi_cheot.indexOf(ohiQ[0]+ohiQ[1]+127)]);
 			prev_combined_phoneme.unshift(cc,unicode_cheot[ohi_cheot.indexOf(ohiQ[0]+ohiQ[1]+127)]);
 			ohiBackspace(f);
@@ -1191,7 +1192,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		cc=cc2;
 		cc2=i;
 	}
-	
+
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
 		cc=Sin3_sign_extension_layout[c-33][Hangeul_SignExtKey1-1];
@@ -1216,7 +1217,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	}
 	else if(option.enable_double_final_ext && Sin3_sublayout && !no_shift(c) && Sin3_sublayout[c-33] && Sin3_sublayout[c-33]
 	 && (ohiQ[0] || prev_phoneme.length&&unicode_cheot.indexOf(prev_phoneme[prev_phoneme.length-1])>=0) && (ohiQ[3] && !ohiQ[6] || !no_shift(c) && prev_phoneme.length&&unicode_ga.indexOf(prev_phoneme[0])>=0)) {
-	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기
+	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		cc=Sin3_sublayout[c-33];
 	}
 	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && unicode_cheot.indexOf(convert_into_unicode_hangeul_phoneme(cc))>=0 && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(cc2))>=0) {
@@ -1234,10 +1235,10 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 		cc=74;
 		ohiRQ[3]=1;
 	}
-	else if(!ohiQ[3] && (c==79 || c==80 || c==73) && (cc==79 || cc==74 || cc==84)) {
-	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ) 넣기
+	else if(!ohiQ[3] && (c==79 || c==80 || c==73) && (cc==79 || cc==74 || cc==84 || cc==0x119E)) {
+	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 겹홀소리 조합용 가운뎃소리(ㅗ, ㅜ, ㅡ, ㆍ) 넣기
 		ohiRQ[3]=1;
-	}	
+	}
 	else if((ohiRQ[3] || backup_ohiRQ[3]) && cc<31 && prev_phoneme[0]==0x119E && !(prev_phoneme.length>1 && unicode_ga.indexOf(prev_phoneme[1])>=0)) {
 	// 아래아가 들어 있을 때에 ㆎ(아래애), ᆢ(쌍아래아) 조합하기
 		if(c==100) cc=0x1175; // ㆎ(아래애) 조합하기
@@ -1256,19 +1257,19 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 	}
 	else if(ohiRQ[3] && cc<31 && (ohiQ[3]==74-35 || ohiQ[3]==79-35 || ohiQ[3]==84-35) && !ohiQ[4]) {
 		if(ohiQ[3]+35==74 && (cc2==66 || cc2==67 || cc2==86)) {
-		// 오른쪽 ㅗ와 겹홀소리를 이룰 수 있는 홑홀소리들
+		// 오른쪽 ㅗ와 겹홀소리를 이룰 수 있는 홑홀소리 (ㅏ,ㅐ,ㅣ)
 			cc=cc2;
 		}
 		else if(ohiQ[3]+35==79 && (cc2==70 || cc2==71 || cc2==86 )) {
-		// 오른쪽 ㅜ와 겹홀소리를 이룰 수 있는 홑홀소리들
+		// 오른쪽 ㅜ와 겹홀소리를 이룰 수 있는 홑홀소리 (ㅓ,ㅔ,ㅣ)
 			cc=cc2;
 		}
-		else if(ohiQ[3]+35==84 && (cc2==86)) {
-		// 오른쪽 ㅡ와 겹홀소리를 이룰 수 있는 홑홀소리들
+		else if(ohiQ[3]+35==84 && cc2==86) {
+		// 오른쪽 ㅡ와 겹홀소리를 이룰 수 있는 홑홀소리 (ㅣ)
 			cc=cc2;
 		}
 	}
-	else if(cc<31 && ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] && (cc2>65 && cc2<87 || c==122)) { // 왼손 쪽 가운뎃소리 넣기
+	else if(cc<31 && ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] && (cc2>65 && cc2<87 || c==122)) { // 왼손 쪽 아랫글 자리에서 가운뎃소리 넣기
 		cc=cc2;
 		if(c==122 && (cc2==0x119E || cc2>157)) cc=0x119E; // Z 자리 아래아
 		ohiRQ[3]=0;
@@ -1347,14 +1348,14 @@ function CGG_Hangeul_Sin3(f,c) { // 첫가끝 방식으로 조합하는 신세�
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		cc=-0x1169;
 	}
-	else if((!prev_phoneme.length || unicode_ga.indexOf(prev_phoneme[0])<0) && (c==79 || c==80 || c==73) && (cc==0x1169/*ㅗ*/ || cc==0x116E/*ㅜ*/ || cc==0x1173/*ㅡ*/)) {
-	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ) 넣기
+	else if((!prev_phoneme.length || unicode_ga.indexOf(prev_phoneme[0])<0) && (c==79 || c==80 || c==73) && (cc==0x1169/*ㅗ*/ || cc==0x116E/*ㅜ*/ || cc==0x1173/*ㅡ*/ || cc==0x119E/*ㆍ*/)) {
+	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ, ㆍ) 넣기
 		cc=-cc;
 	}
 	else if(prev_phoneme_R[0] && unicode_ggeut.indexOf(cc)>=0) {
 		cc=cc2;
 	}
-	else if(unicode_ggeut.indexOf(cc)>=0 && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc2)>=0 || c==122)) { // 왼손 쪽 가운뎃소리 넣기
+	else if(unicode_ggeut.indexOf(cc)>=0 && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc2)>=0 || c==122)) { // 왼손 쪽 아랫글 자리에서 가운뎃소리 넣기
 		cc=cc2;
 		if(c==122 && (cc2==0x119E || unicode_hangeul_CGG_phoneme.indexOf(cc2)<0)) cc=0x119E; // Z 자리 아래아
 	}
