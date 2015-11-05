@@ -660,13 +660,10 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		}
 	}
 
-	// 몇몇 공병우 세벌식 자판 또는 신세벌식 자판에서 첫소리만 들어간 채로 [ 자리 글쇠가 눌렸을 때 아래아를 넣음
-	if((Ko_type.substr(0,5)=='Sin3-' && (Ko_type.substr(5,4)=='2003' || Ko_type.substr(5,4)=='2012'))
-	 || (Ko_type.substr(0,2)=='3-' && Ko_type!='3-sun1990') && Ko_type!='3-91_noshift') {
+	// 몇몇 공병우 세벌식 자판에서 첫소리만 들어간 채로 [ 자리 글쇠가 눌렸을 때 아래아를 넣음
+	if(Ko_type.substr(0,2)=='3-' && Ko_type!='3-sun1990' && Ko_type!='3-91_noshift') {
 		if(c==0x5B && ( (ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || unicode_cheot.indexOf(prev_combined_phoneme[0])>=0 ) || prev_combined_phoneme[0]==0x119E)) {
 			cc=0x119E;
-			// 신세벌식 자판이면 겹홀소리(ᆢ 또는 ㆎ)를 조합할 수 있는 상태로 만듦
-			if(Ko_type.substr(0,5)=='Sin3-'/* && layout.indexOf(0x119E)>=0*/) ohiRQ[3]=1;
 		}
 	}
 	
@@ -1973,10 +1970,11 @@ function show_keyboard_layout(type) {
 		}
 	}
 
-	if(KE=='Ko' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey
-	 && ((Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[58]==0x119E)
-	  || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90')	) {
-		document.getElementById('dh25').innerHTML = '<font size="1">(ㆍ)</font>';
+	if(KE=='Ko' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey) {
+		if((Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[58]==0x119E)
+	 	 || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90')  {
+			document.getElementById('dh25').innerHTML = '<font size="1">(ㆍ)</font>';
+		}
 	}
 
 	if(KE=='Ko' && Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[14]) {

@@ -1801,7 +1801,7 @@ function additional_keyboard_layout_table_info() {
 		0x11A9,	/* 0x58 X: jongseong ssanggieug  */
 		0x0000,	/* 0x59 Y: */
 		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
-		0x0000,	/* 0x5B bracketleft: */
+		0x119E,	/* 0x5B bracketleft: jungseong araea */
 		0x0000,	/* 0x5C backslash: */
 		0x0000,	/* 0x5D bracketright: */
 		0x0000,	/* 0x5E asciicircum: */
