@@ -12,9 +12,9 @@ function additional_layouts() {
 	var type_name; // 자판 배열 이름 (OHI에서 쓰는 이름)
 	var full_name; // 자판 배열 이름
 	var layout; // 기본 배열
-	var sublayout; // 덧붙여 쓰는 배열	
-	var sign_extension_layout; // 기호 확장 배열
-	var hangeul_extension_layout;	// 한글 확장 배열
+	var sublayout; // 덧붙여 쓰는 보조 배열	
+	var extended_sign_layout; // 기호 확장 배열
+	var extended_hangeul_layout;	// 한글 확장 배열
 	var hangeul_combination_table; // 한글 낱자 조합 규칙 (이어치기)
 	var extended_hangeul_combination_table; // 옛한글 낱자 조합 규칙 (이어치기)
 	var moachigi_combination_table; // 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
@@ -34,15 +34,15 @@ additional_layouts.push({KE: 'Ko', type_name: '2-Bak-Song', full_name: '박영�
 additional_layouts.push({KE: 'Ko', type_name: '2-Gaon26KM', full_name: '가온한글26KM', layout: K2_Gaon_KSX5002_layout, link: 'http://cafe.daum.net/kbd-p/8OTK/10'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-89', full_name: '3-89', layout: K3_89_layout, link: ''});
-additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011', layout: K3_2011_layout, sign_extension_layout: K3_2011_sign_extension_layout, link: 'http://pat.im/855'});
-additional_layouts.push({KE: 'Ko', type_name: '3-2011-y', full_name: '3-2011 옛한글', layout: K3_2011_layout, sign_extension_layout: K3_2011y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/908'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011', layout: K3_2011_layout, extended_sign_layout: K3_2011_extended_sign_layout, link: 'http://pat.im/855'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2011-y', full_name: '3-2011 옛한글', layout: K3_2011_layout, extended_sign_layout: K3_2011y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'http://pat.im/908'});
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
 additional_layouts.push({KE: 'Ko', type_name: '3-Gimguk-38A-y', full_name: '김국 38A 옛한글', layout: K3_Gimguk_38Ay_layout, hangeul_combination_table: Gimguk38Ay_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
 
 additional_layouts.push({KE: 'Ko', type_name: '314_proposal', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_proposal_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
-additional_layouts.push({KE: 'Ko', type_name: '3-2014', full_name: '3-2014', layout: K3_2014_layout, sublayout: K3_2014_sublayout, sign_extension_layout: K3_2012y_sign_extension_layout, link: 'http://pat.im/1088'});
-additional_layouts.push({KE: 'Ko', type_name: '3-2014-y', full_name: '3-2014 옛한글', layout: K3_2014_layout, sign_extension_layout: K3_2012y_sign_extension_layout, hangeul_extension_layout: K3_2012y_hangeul_extension_layout, link: 'http://pat.im/1090'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2014', full_name: '3-2014', layout: K3_2014_layout, sublayout: K3_2014_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1088'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2014-y', full_name: '3-2014 옛한글', layout: K3_2014_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'http://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015', full_name: '3-2015', layout: K3_2015_layout, hangeul_combination_table: K3_2015_combination_table, sublayout: K3_2015_sublayout, link: 'http://cafe.daum.net/3bulsik/JMKX/34'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015-y', full_name: '3-2015 옛한글', layout: K3_2015y_layout, hangeul_combination_table: K3_2015y_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/36'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015M', full_name: '3-2015M', layout: K3_2015M_layout, sublayout: K3_2015M_sublayout, hangeul_combination_table: K3_2015M_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/46'});
@@ -1135,7 +1135,7 @@ function additional_keyboard_layout_table_info() {
 	];
 
 	// 3-2011 자판 기호 확장 배열
-	K3_2011_sign_extension_layout = [/*!*/[0,0,0], /*"*/[0x266A,0x266C,0], /*#*/[0,0,0], /*$*/[0xFFE0,0,0], /*%*/[0,0,0],
+	K3_2011_extended_sign_layout = [/*!*/[0,0,0], /*"*/[0x266A,0x266C,0], /*#*/[0,0,0], /*$*/[0xFFE0,0,0], /*%*/[0,0,0],
 	/*&*/[0,0,0],	/*'*/[0x326B,0x2030,0x2031], /*(*/[0,0,0], /*)*/[0,0,0], /***/[0,0,0], /*+*/[0x2640,0,0],
 	/*,*/[0x3001,0x3008,0x2266], /*-*/[0x3010,0x3014,0x2601], /*.*/[0x3002,0x3009,0x2267], /*/*/[0x2026,0x203B,0x2504],
 	/*0*/[0x326A,0x300D,0],	/*1*/[0x3BC,0x2122,0], /*2*/[0xB2,0x2109,0], /*3*/[0xB3,0x2103,0], /*4*/[0xFFE6,0xFFE5,0],
@@ -1157,7 +1157,7 @@ function additional_keyboard_layout_table_info() {
 	/*u*/[0x3262,0x2465,0x246F], /*v*/[0,0x25B7,0x25B6], /*w*/[0x2192,0x2191,0x261E], /*x*/[0x2032,0x2606,0x2605],
 	/*y*/[0x3263,0x2464,0x246E], /*z*/[0x2033,0x2661,0x2665], /*{*/[0,0,0], /*|*/[0,0,0], /*}*/[0xF7,0,0], /*~*/[0x327F,0,0]];
 
-	K3_2011y_sign_extension_layout = [
+	K3_2011y_extended_sign_layout = [
 		[[0x2921,0x0000,0x0000], [0x0000,0x0000,0x0000]], /* 0x21 exclam */
 		[[0x266A,0x266C,0x0000], [0x0000,0x0000,0x0000]], /* 0x22 quotedbl */
 		[[0x0000,0x0000,0x0000], [0x0000,0x0000,0x0000]], /* 0x23 numbersign */
@@ -1868,7 +1868,7 @@ function additional_keyboard_layout_table_info() {
 	/*y*/0x1105,/*z*/0x1168/*ㅖ*/,/*{*/123,/*|*/124,/*}*/125,/*~*/126];
 
 	// 3-2011 / 3-2012 옛한글 자판의 한글 확장 배열
-	K3_2012y_hangeul_extension_layout = [
+	K3_2012y_extended_hangeul_layout = [
 		[[0x0000,0x0000], [0x0000,0x0000]], /* 0x21 exclam: */
 		[[0x0000,0x0000], [0x0000,0x0000]], /* 0x22 quotedbl: */
 		[[0x0000,0x0000], [0x0000,0x0000]], /* 0x23 numbersign: */
@@ -1965,7 +1965,7 @@ function additional_keyboard_layout_table_info() {
 		[[0x0000,0x0000], [0x0000,0x0000]]  /* 0x7E asciitilde: */
 	];
 
-	K3_2012y_sign_extension_layout = [
+	K3_2012y_extended_sign_layout = [
 		[[0x2921,0x0000,0x0000], [0x0000,0x0000,0x0000]], /* 0x21 exclam */
 		[[0x266A,0x266C,0x0000], [0x0000,0x0000,0x0000]], /* 0x22 quotedbl */
 		[[0x0000,0x0000,0x0000], [0x0000,0x0000,0x0000]], /* 0x23 numbersign */

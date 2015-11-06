@@ -86,10 +86,10 @@ function option() {
 	var enable_Sin3_yeshangeul_combination; // 신세벌식 자판에서 옛한글 조합하기
 	var enable_Sin3_diphthong_key; // 0이면 신세벌식 자판에서 오른쪽 글쇠로 홀소리를 넣을 수 없음
 	var phonemic_writing; // 풀어쓰기
-	var NCR; // HTML 문자 참조 보기
 }
 
 function NCR_option() {
+	var enable_NCR; // HTML 문자 참조 보기
 	var convert_only_CGG_encoding; // 첫가끝 조합형으로 들어간 한글만 바꾸기
 }
 
@@ -104,9 +104,9 @@ option.input_only_CGG_encoding = 0;
 option.enable_Sin3_yeshangeul_combination = 0;
 option.enable_Sin3_diphthong_key = 1;
 option.phonemic_writing = 0;
-option.NCR = 0;
 
 var NCR_option = new NCR_option();
+NCR_option.enable_NCR = 0;
 NCR_option.convert_only_CGG_encoding = 0;
 
 var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 담는 배열 [첫,첫,첫,가,가,가,끝,끝,끝]
@@ -1592,8 +1592,8 @@ function ohiChange_enable_double_final_ext(op) {
 
 function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
 	if(typeof op != 'undefined') {
-		if(op) option.NCR=1;
-		else option.NCR=0;
+		if(op) option.enable_NCR=1;
+		else option.enable_NCR=0;
 	}
 
 	var f = document.getElementById('inputText');
@@ -1602,19 +1602,24 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 	if(!f || !t) return;
 	
 	var opts = document.getElementById('NCR_options');
+	
 	if(opts) {
+		opt = document.getElementById('option_enable_NCR');
+		if(!opt) opt = appendChild(opts,'div','option','option_enable_NCR','<div class="option"><input name="enable_NCR" class="checkbox" onclick="show_NCR(this.checked);inputText_focus()" type="checkbox"' + (option.enable_NCR ? ' checked="checked"' : '') + '><label>HTML 문자 참조</label></div>');
+		if(ohi_menu_num<2) opt.style.display = 'block';
+		else opt.style.display = 'none';
+
 		opt = document.getElementById('NCR_option_convert_only_CGG_encoding');
 		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_option.convert_only_CGG_encoding=this.checked;show_NCR();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
 	}
 
-	if(t && option.NCR) {
+	if(t && option.enable_NCR) {
 		t.style.display='block';
-		opts.style.display='block';
+		opt.style.display='block';
 	}
 	else {
 		t.style.display='none';
-		opts.style.display='none';
-		option.NCR=0;
+		opt.style.display='none';
 		return;
 	}
 
@@ -1646,11 +1651,6 @@ function show_options() {
 		if(ohi_menu_num<3) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
-		opt = document.getElementById('option_NCR');
-		if(!opt) opt = appendChild(opts,'div','option','option_NCR','<div class="option"><input name="NCR" class="checkbox" onclick="show_NCR(this.checked);inputText_focus()" type="checkbox"' + (option.NCR ? ' checked="checked"' : '') + '><label>HTML 참조</label></div>');
-		if(ohi_menu_num<2) opt.style.display = 'block';
-		else opt.style.display = 'none';
-
 		opt = document.getElementById('option_enable_sign_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
 		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' || Ko_type.substr(0,4)=='Sin3') && Ko_type!='Sin3b-2015') opt.style.display = 'block';
@@ -1667,15 +1667,15 @@ function show_options() {
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_diphthong_key','<div class="option"><input name="enable_Sin3_diphthong_key" class="checkbox" onclick="option.enable_Sin3_diphthong_key=this.checked;inputText_focus()" type="checkbox"' + (option.enable_Sin3_diphthong_key ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
 		if(option.enable_Sin3_yeshangeul_combination && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
 		else opt.style.display = 'none';
-
+/*
 		opt = document.getElementById('option_show_sublayout_of_galmageuli_double_final_ext');
-		if(!opt) opt = appendChild(opts,'div','option','option_show_sublayout_of_galmageuli_double_final_ext','<div class="option"><input name="show_sublayout_of_galmageuli_double_final_ext" class="checkbox" onclick="show_sublayout_of_galmageuli_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.show_sublayout_of_galmageuli_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장 배열 보기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_show_sublayout_of_galmageuli_double_final_ext','<div class="option"><input name="show_sublayout_of_galmageuli_double_final_ext" class="checkbox" onclick="show_sublayout_of_galmageuli_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.show_sublayout_of_galmageuli_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장 보기</label></div>');
 		if(KE=='Ko' && option.show_layout && typeof current_layout.sublayout != 'undefined' && (Ko_type.substr(-3)=='-gm' || Ko_type.substr(0,2)=='3-'&&Number(Ko_type.substr(2,4))>=2014)) opt.style.display = 'block';
 		else opt.style.display = 'none';		
-		
+*/	
 		opt = document.getElementById('option_enable_double_final_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_double_final_ext','<div class="option"><input name="enable_double_final_ext" class="checkbox" onclick="ohiChange_enable_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장</label></div>');
-		if(option.show_layout && !option.enable_Sin3_yeshangeul_combination && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,4)=='Sin3') opt.style.display = 'block';
+		if(!option.enable_Sin3_yeshangeul_combination && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,4)=='Sin3') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_force_normal_typing');
@@ -1714,8 +1714,8 @@ function show_keyboard_layout(type) {
 
 	if(!type) {
 		option.show_layout = 0;
-		rows.innerHTML = '<div style="text-align:right"><span class="menu" onclick="option.show_layout=1;show_keyboard_layout(1);inputText_focus()" onmouseover="this.className=\'over\'" onmouseout="this.className=\'menu\'">배열표 보이기</span></div>';
-		opt = document.getElementById('option_enable_double_final_ext');
+		rows.innerHTML = '<div class="show_layout"><span class="menu" onclick="option.show_layout=1;show_keyboard_layout(1);inputText_focus()">배열표 보이기</span></div>';
+		opt = document.getElementById('option_show_sublayout_of_galmageuli_double_final_ext');
 		if(opt) opt.style.display = 'none';
 		return false;
 	}
@@ -1804,7 +1804,7 @@ function show_keyboard_layout(type) {
 			
 			if(layout.length) {
 				if(Ko_type.substr(-1)=='y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P') push_extended_hangeul_layout(uh, dh, layout);
-				else push_extended_sign_layout;_table(uh, dh, layout);
+				else push_extended_sign_layout(uh, dh, layout);
 			}
 		}
 		else if(ohiHangeul3_HanExtKey) {

@@ -50,7 +50,7 @@
 		div.menu, div.this { display:inline; width:auto; font-size: 11pt; font-weight:bold; margin-right:-2px; padding:1px 14px 1px 16px; border:2px wheat solid;}
 		div.menu { cursor: pointer; background-color:snow; }
 		div.this { background-color:bisque; }
-		div.over, span.over, kbd.over { cursor:pointer; background-color:burlywood; }
+		div.over, kbd.over, .menu:hover { cursor:pointer; background-color:burlywood; }
 		div.right_menu { float:right; margin:0px 0px 0px -2px; padding:0; border:none; }
 		div.right_menu a { color:#000; text-decoration:none; padding:1px 15px 1px 15px; border:2px wheat solid;}
 		div.right_menu a:hover { cursor:pointer; background-color:burlywood; }
@@ -83,13 +83,14 @@
 		.option label { font-size:12px; }
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
 
-		div#keyboardLayout { position:absolute; margin-bottom:2px; clear:both; }
+		div#keyboardLayout { position:absolute; margin-bottom:3px; clear:both; }
+		div#keyboardLayout .show_layout { height:1.5em; }
+		div#keyboardLayout span.menu { float:right; }
 		div#keyboardLayoutInfo { float:left; margin-left:5px; }
 		div#keyboardLayoutInfo a {text-decoration:none;}
-		div#keyboardLayoutVisibility { float:right; }
-		div#keyboardLayout span.menu { float:right; }
+		div#keyboardLayoutVisibility { float:right; }		
 
-		#NCR_options { height:1em; display:none; }
+		#NCR_options { margin-top:0px; height:1em; clear:both; }
 
 		table#keyboardLayoutTable { clear:both; }
 		table#keyboardLayoutTable table { margin:-2px; }
