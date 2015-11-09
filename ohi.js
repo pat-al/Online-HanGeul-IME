@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/11/06
+ * Last Update : 2015/11/10
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -1190,7 +1190,7 @@ function Hangeul_Sin3(f,c) { // 신세벌식
 
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
-		cc=Sin3_extended_sign_layout;[c-33][Hangeul_SignExtKey1-1];
+		cc=Sin3_extended_sign_layout[c-33][Hangeul_SignExtKey1-1];
 		ohiBackspace(f);
 		ohiInsert(f,0,cc);
 		esc_ext_layout();
@@ -1305,7 +1305,7 @@ function CGG_Hangeul_Sin3(f,c) { // 첫가끝 방식으로 조합하는 신세�
 
 	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
-		cc=Sin3_extended_sign_layout;[c-33][Hangeul_SignExtKey1-1];
+		cc=Sin3_extended_sign_layout[c-33][Hangeul_SignExtKey1-1];
 		ohiBackspace(f);
 		ohiInsert(f,0,cc);
 		esc_ext_layout();
@@ -1979,7 +1979,7 @@ function show_keyboard_layout(type) {
 		document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[14]))+')</font>';
 	}
 
-	if(KE=='Ko' && Ko_type=='3m-Moa2015' || Ko_type=='3m-Semoi') {
+	if(KE=='Ko' && Ko_type=='3m-Semoi') {
 		document.getElementById('uh24').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('ue45').removeAttribute('class');
@@ -1987,7 +1987,7 @@ function show_keyboard_layout(type) {
 		document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 	}
 
-	if(KE=='Ko' && Ko_type=='3m-Moa2014') {
+	if(KE=='Ko' && Ko_type=='3m-Semoi2014') {
 		document.getElementById('uh38').innerHTML += Moachigi_modifier_tag;
 	}
 
@@ -2168,7 +2168,7 @@ function ohiChange(KE, layout) {
 function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (Ko는 주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
-	var Ko_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002','Sin3-P','3m-Moa2015','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
+	var Ko_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002','Sin3-P','3m-Semoi','3-2012','3-2015P','3-90','3-91','3-sun1990','3-sun2014'];
 	var K2_type_array = [];
 	var K3_type_array = [];
 

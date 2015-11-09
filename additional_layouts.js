@@ -56,10 +56,8 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '바꾼�
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
-additional_layouts.push({KE: 'Ko', type_name: '3-Anmatae', full_name: '안마태 소리 글판 (이어치기 방식)', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
-additional_layouts.push({KE: 'Ko', type_name: '3m-Moa2014', full_name: '모아치기 2014 (세모이 옛 배열)', layout: K3_Moachigi_2014_layout, sublayout: K3_Moachigi_2014_sublayout, hangeul_combination_table: K3_Moachigi_2014_combination_table});
-additional_layouts.push({KE: 'Ko', type_name: '3m-Moa2015', full_name: '세모이 (모아치기 2015)', layout: K3_Moachigi_2015_layout, sublayout: K3_Moachigi_2015_sublayout, multikey_combination_table: K3_Moachigi_2015_multikey_combination_table, moachigi_combination_table: K3_Moachigi_2015_combination_table, link: 'http://ssg.wo.tc/220239514856'});
-additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi', full_name: '세모이 (모아치기 2015)', layout: K3_Moachigi_2015_layout, sublayout: K3_Moachigi_2015_sublayout, multikey_combination_table: K3_Moachigi_2015_multikey_combination_table, moachigi_combination_table: K3_Moachigi_2015_combination_table, link: 'http://ssg.wo.tc/220239514856'});
+additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi2014', full_name: '세모이 2014 (옛 배열)', layout: K3_Semoi_2014_layout, sublayout: K3_Semoi_2014_sublayout, hangeul_combination_table: K3_Semoi_2014_combination_table});
+additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi', full_name: '세모이', layout: K3_Moachigi_2015_layout, sublayout: K3_Semoi_2015_sublayout, multikey_combination_table: K3_Semoi_2015_multikey_combination_table, moachigi_combination_table: K3_Semoi_2015_combination_table, link: 'http://ssg.wo.tc/220239514856'});
 
 additional_layouts.push({KE: 'Ko', type_name: '4t-Pyojun1969', full_name: '1969 표준 네벌식 타자기 (1969)', layout: K4_Pyojun_1969_Typewriter_layout, link: 'http://pat.im/965'});
 additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'http://pat.im/1026'});
@@ -2998,7 +2996,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e  /* 0x7E asciitilde: tilde */
 ];
 
-	K3_Moachigi_2014_layout = [
+	K3_Semoi_2014_layout = [
 		0x0021, /* 0x21 exclam: exclamation mark */
 		0x0022, /* 0x22 quotedbl: quotatioin mark */
 		0x0023, /* 0x23 numbersign: number sign */
@@ -3095,7 +3093,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e  /* 0x7E asciitilde: tilde */
 	];
 
-	K3_Moachigi_2014_sublayout = [
+	K3_Semoi_2014_sublayout = [
 		0x0000,	/* 0x21 exclam: */
 		0x0000,	/* 0x22 quotedbl */
 		0x0000,	/* 0x23 numbersign */
@@ -3289,7 +3287,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e  /* 0x7E asciitilde: tilde */
 	];
 
-	K3_Moachigi_2015_sublayout = [
+	K3_Semoi_2015_sublayout = [
 		0x0000,	/* 0x21 exclam */
 		0x0000,	/* 0x22 quotedbl */
 		0x0000,	/* 0x23 numbersign */
@@ -4234,7 +4232,7 @@ function input_hangeul_combination_table_info() {
 		[0x11ce11c2,0x11b4], /* jongseong lieul-dieud + hieuh = lieul-tieut */
 	];
 
-	K3_Moachigi_2014_combination_table = [
+	K3_Semoi_2014_combination_table = [
 		[0x1100110b,0x1101], /* choseong gieug + ieung = ssanggieug */
 		[0x11001112,0x110f], /* choseong gieug + hieuh = kieuk */
 		[0x1103110b,0x1104], /* choseong dieud + ieung = ssangdieud */
@@ -4367,14 +4365,14 @@ function input_hangeul_combination_table_info() {
 		[0x11c211bc,0x11b5], /* jongseong hieuh + ieung = lieul-pieup */
 	];
 
-	K3_Moachigi_2015_multikey_combination_table = [
+	K3_Semoi_2015_multikey_combination_table = [
 		{keys: ['u','w'], chars: [0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* ㅂ니다 */
 		{keys: ['j','w'], chars: [0x110b,0x1175,0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* 입니다 */
 		{keys: ['n','w'], chars: [0x1112,0x1161,0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* 합니다 */
 		{keys: ['n','l','s'], chars: [0x1112,0x1161,0x110c,0x1175,0x1106,0x1161,0x11ab]} /* 하지만 */
 	];
 
-	K3_Moachigi_2015_combination_table = [
+	K3_Semoi_2015_combination_table = [
 		{phonemes: [0x1169,0x1161,0x1175], char: 0x116a}, /* jungseong o + a + i = wae */
 		{phonemes: [0x116e,0x1165,0x1175], char: 0x1170}, /* jungseong u + eo + i = we */
 		{phonemes: [0x110b,0x1100], char: 0x1101}, /* choseong ieung + gieug = ssanggieug */
