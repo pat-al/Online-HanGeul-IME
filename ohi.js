@@ -1037,15 +1037,15 @@ function Hangeul_Gong3_sign(f,e,c) {
 	// 3-2011, 3-2012 특수기호 확장 배열
 		if(prev_phoneme.length)	convert_into_modern_hangeul_syllable(f);
 		cc=0;
-		cc=current_layout.extended_sign_layout;[c-33][Hangeul_SignExtKey1+Hangeul_SignExtKey2-1];
+		cc=current_layout.extended_sign_layout[c-33][Hangeul_SignExtKey1+Hangeul_SignExtKey2-1];
 		ohiInsert(f,0,cc);
 		esc_ext_layout();
 		return 1;
 	}
 	else if(option.enable_sign_ext && (Hangeul_SignExtKey1 || Hangeul_SignExtKey2) && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2015')) {
 	// 3-2011 옛한글, 3-2012 옛한글, 3-2015, 3-2015 옛한글 자판의 기호 확장 배열
-		if(Hangeul_SignExtKey1) cc=current_layout.extended_sign_layout;[c-33][0][Hangeul_SignExtKey1-1];
-		if(Hangeul_SignExtKey2) cc=current_layout.extended_sign_layout;[c-33][1][Hangeul_SignExtKey2-1];
+		if(Hangeul_SignExtKey1) cc=current_layout.extended_sign_layout[c-33][0][Hangeul_SignExtKey1-1];
+		if(Hangeul_SignExtKey2) cc=current_layout.extended_sign_layout[c-33][1][Hangeul_SignExtKey2-1];
 		if(prev_phoneme.length && c!=8) convert_into_modern_hangeul_syllable(f);
 
 		// 옛한글 자판이 아닐 때는 방점이 들어왔을 때에 한글 채움 문자를 넣음
