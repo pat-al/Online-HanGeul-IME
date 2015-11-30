@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/11/21
+ * Last Update : 2015/11/30
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -1959,8 +1959,16 @@ function show_keyboard_layout(type) {
 			document.getElementById('uh8').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅡ)</span>';
 	}
 
-	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') {
-		if(Ko_type!='Sin3-BGN') document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
+	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') {		
+		if(!Hangeul_SignExtKey1 && !Hangeul_SignExtKey2) {
+			if(typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[14]) {
+				document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[14]))+')</font>';	
+			}
+			else if( (En_type!='Dvorak' && current_layout.layout[30]==0x3F) || (En_type=='Dvorak' && current_layout.layout[30]==0x5A) ) {
+				document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
+			}
+		}
+		
 		if(option.enable_sign_ext && Ko_type!='Sin3b-2015') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
@@ -1973,10 +1981,6 @@ function show_keyboard_layout(type) {
 	 	 || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90')  {
 			document.getElementById('dh25').innerHTML = '<font size="1">(ㆍ)</font>';
 		}
-	}
-
-	if(KE=='Ko' && Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[14]) {
-		document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[14]))+')</font>';
 	}
 
 	if(KE=='Ko' && Ko_type=='3m-Semoi') {
