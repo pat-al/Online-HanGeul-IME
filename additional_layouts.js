@@ -46,6 +46,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2014-y', full_name: '3-2014 옛
 additional_layouts.push({KE: 'Ko', type_name: '3-2015', full_name: '3-2015', layout: K3_2015_layout, hangeul_combination_table: K3_2015_combination_table, sublayout: K3_2015_sublayout, link: 'http://cafe.daum.net/3bulsik/JMKX/34'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015-y', full_name: '3-2015 옛한글', layout: K3_2015y_layout, hangeul_combination_table: K3_2015y_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/36'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015M', full_name: '3-2015M', layout: K3_2015M_layout, sublayout: K3_2015M_sublayout, hangeul_combination_table: K3_2015M_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/46'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1090'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'http://pat.im/1090'});
 
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout, link:'http://pat.im/1104'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
@@ -2799,6 +2801,200 @@ function additional_keyboard_layout_table_info() {
 		0x11b9,	/* 0x58 X: jongseong bieub-sieuh */
 		0x0000,	/* 0x59 Y */
 		0x11b3	/* 0x5A Z: jongseong lieul-sieus */
+	];
+
+	K3_2015P_layout = [
+		0x0021,	/* 0x21 exclam */
+		0x002f,	/* 0x22 quotedbl: slash */
+		0x0023,	/* 0x23 numbersign */
+		0x0024,	/* 0x24 dollar */
+		0x0025,	/* 0x25 percent */
+		0x0026,	/* 0x26 ampersand */
+		0x1110,	/* 0x27 apostrophe: choseong tieuh */
+		0x0028,	/* 0x28 parenleft */
+		0x0029,	/* 0x29 parenright */
+		0x002a,	/* 0x2A asterisk */
+		0x002b,	/* 0x2B plus */
+		0x002c,	/* 0x2C comma */
+		0x002d,	/* 0x2D minus */
+		0x002e,	/* 0x2E period */
+		0x1169,	/* 0x2F slash: jungseong o */
+		0x110f,	/* 0x30 0: choseong  kieuk */
+		0x11ae,	/* 0x31 1: jongseong dieud */
+		0x11bb,	/* 0x32 2: jongseong ssangsieus */
+		0x11b8,	/* 0x33 3: jongseong bieub */
+		0x116d,	/* 0x34 4: jungseong yo */
+		0x1172,	/* 0x35 5: jungseong yu */
+		0x1163,	/* 0x36 6: jungseong ya */
+		0x1168,	/* 0x37 7: jungseong ye */
+		0x1174,	/* 0x38 8: jungseong eui */
+		0x116e,	/* 0x39 9: jungseong u */
+		0x0034,	/* 0x3A colon: 4 */
+		0x1107,	/* 0x3B semicolon: choseong bieub */
+		0x003c,	/* 0x3C less */
+		0x003d,	/* 0x3D equal */
+		0x003e,	/* 0x3E greater */
+		0x003f,	/* 0x3F question */
+		0x0040,	/* 0x40 at */
+		0x11b9,	/* 0x41 A: jongseong bieub-sieuh */
+		0x003b,	/* 0x42 B: semicolon */
+		0x11c0,	/* 0x43 C: jongseong tieut */
+		0x11c2, /* 0x44 D: jongseong hieuh */
+		0x11bd,	/* 0x45 E: jongseong jieuj */
+		0x11c1,	/* 0x46 F: jongseong pieup */
+		0x003a,	/* 0x47 G: colon */
+		0x0030,	/* 0x48 H: 0 */
+		0x0037,	/* 0x49 I: 7 */
+		0x0031,	/* 0x4A J: 1 */
+		0x0032,	/* 0x4B K: 2 */
+		0x0033,	/* 0x4C L: 3 */
+		0x0022,	/* 0x4D M: quotatioin mark */
+		0x0027,	/* 0x4E N: apostrophe */
+		0x0038,	/* 0x4F O: 8 */
+		0x0039,	/* 0x50 P: 9 */
+		0x11b6,	/* 0x51 Q: jongseong lieul-hieuh */
+		0x11be,	/* 0x52 R: jongseong chieuch */
+		0x11ad,	/* 0x53 S: jongseong nieun-hieuh */
+		0x1164,	/* 0x54 T: jungseong yae */
+		0x0036,	/* 0x55 U: 6 */
+		0x11bf,	/* 0x56 V: jongseong kieuk */
+		0x11b0,	/* 0x57 W: jongseong lieul-gieug */
+		0x11a9,	/* 0x58 X: jongseong ssanggieug */
+		0x0035,	/* 0x59 Y: 5 */
+		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
+		0x005b,	/* 0x5B bracketleft */
+		0x005c,	/* 0x5C backslash */
+		0x005d,	/* 0x5D bracketright */
+		0x005e,	/* 0x5E asciicircum */
+		0x005f,	/* 0x5F underscore */
+		0x0060,	/* 0x60 quoteleft */
+		0x11bc,	/* 0x61 a: jongseong ieung */
+		0x116e,	/* 0x62 b: jungseong u */
+		0x1166,	/* 0x63 c: jungseong e */
+		0x1175,	/* 0x64 d: jungseong i */
+		0x1167,	/* 0x65 e: jungseong yeo */
+		0x1161,	/* 0x66 f: jungseong a */
+		0x1173,	/* 0x67 g: jungseong eu */
+		0x1102,	/* 0x68 h: choseong nieun */
+		0x1106,	/* 0x69 i: choseong mieum */
+		0x110b,	/* 0x6A j: choseong ieung */
+		0x1100,	/* 0x6B k: choseong gieug */
+		0x110c,	/* 0x6C l: choseong jieuc */
+		0x1112,	/* 0x6D m: choseong hieuh */
+		0x1109,	/* 0x6E n: choseong sieus */
+		0x110e,	/* 0x6F o: choseong chieuch */
+		0x1111,	/* 0x70 p: choseong pieup */
+		0x11ba,	/* 0x71 q: jongseong sieus */
+		0x1165,	/* 0x72 r: jungseong eo */
+		0x11ab,	/* 0x73 s: jongseong nieun */
+		0x1162,	/* 0x74 t: jungseong ae */
+		0x1103,	/* 0x75 u: choseong dieud */
+		0x1169,	/* 0x76 v: jungseong o */
+		0x11af,	/* 0x77 w: jongseong lieul */
+		0x11a8,	/* 0x78 x: jongseong gieug */
+		0x1105,	/* 0x79 y: choseong lieul */
+		0x11b7,	/* 0x7A z: jongseong mieum */
+		0x007b,	/* 0x7B braceleft */
+		0x007c,	/* 0x7C bar */
+		0x007d,	/* 0x7D braceright */
+		0x007e	/* 0x7E asciitilde */
+	];
+
+	K3_2015P_sublayout = [
+		0x0000,	/* 0x21 exclam */
+		0x0000,	/* 0x22 quotedbl */
+		0x0000,	/* 0x23 numbersign */
+		0x0000,	/* 0x24 dollar */
+		0x0000,	/* 0x25 percent */
+		0x0000,	/* 0x26 ampersand */
+		0x0000,	/* 0x27 apostrophe */
+		0x0000,	/* 0x28 parenleft */
+		0x0000,	/* 0x29 parenright */
+		0x0000,	/* 0x2A asterisk */
+		0x0000,	/* 0x2B plus */
+		0x0000,	/* 0x2C comma */
+		0x0000,	/* 0x2D minus */
+		0x0000,	/* 0x2E period */
+		0x0000,	/* 0x2F slash */
+		0x0000,	/* 0x30 0 */
+		0x0000,	/* 0x31 1 */
+		0x0000,	/* 0x32 2 */
+		0x0000,	/* 0x33 3 */
+		0x0000,	/* 0x34 4 */
+		0x0000,	/* 0x35 5 */
+		0x0000,	/* 0x36 6 */
+		0x0000,	/* 0x37 7 */
+		0x0000,	/* 0x38 8 */
+		0x0000,	/* 0x39 9 */
+		0x0000,	/* 0x3A colon */
+		0x0000,	/* 0x3B semicolon */
+		0x0000,	/* 0x3C less */
+		0x0000,	/* 0x3D equal */
+		0x0000,	/* 0x3E greater */
+		0x0000,	/* 0x3F question */
+		0x0000,	/* 0x40 at */
+		0x11b9,	/* 0x41 A: jongseong bieub-sieuh */
+		0x0000,	/* 0x42 B */
+		0x11b4,	/* 0x43 C: jongseong lieul-tieut */
+		0x11b2, /* 0x44 D: jongseong lieul-bieub */
+		0x11ac,	/* 0x45 E: jongseong nieun-jieuj */
+		0x11b5,	/* 0x46 F: jongseong lieul-pieup */
+		0x0000,	/* 0x47 G */
+		0x0000,	/* 0x48 H */
+		0x0000,	/* 0x49 I */
+		0x0000,	/* 0x4A J */
+		0x0000,	/* 0x4B K */
+		0x0000,	/* 0x4C L */
+		0x0000,	/* 0x4D M */
+		0x0000,	/* 0x4E N */
+		0x0000,	/* 0x4F O */
+		0x0000,	/* 0x50 P */
+		0x11b6,	/* 0x51 Q: jongseong lieul-hieuh */
+		0x11b3,	/* 0x52 R: jongseong lieul-sieus */
+		0x11ad,	/* 0x53 S: jongseong nieun-hieuh */
+		0x1164,	/* 0x54 T: jungseong yae */
+		0x0000,	/* 0x55 U */
+		0x11aa,	/* 0x56 V: jongseong gieug-sieus */
+		0x11b0,	/* 0x57 W: jongseong lieul-gieug */
+		0x11a9,	/* 0x58 X: jongseong ssanggieug */
+		0x0000,	/* 0x59 Y */
+		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
+		0x0000,	/* 0x3A colon */
+		0x0000,	/* 0x3B semicolon */
+		0x0000,	/* 0x3C less */
+		0x0000,	/* 0x3D equal */
+		0x0000,	/* 0x3E greater */
+		0x0000,	/* 0x3F question */
+		0x11b9,	/* 0x61 a: jongseong bieub-sieus */
+		0x0000,	/* 0x62 b */
+		0x11b4,	/* 0x63 c: jongseong lieul-tieut */
+		0x11b2,	/* 0x64 d: jongseong lieul-bieub */
+		0x11ac,	/* 0x65 e: jongseong nieun-jieuj */
+		0x11b5,	/* 0x66 f: jongseong lieul-pieup */
+		0x0000,	/* 0x67 g */
+		0x0000,	/* 0x68 h */
+		0x0000,	/* 0x69 i */
+		0x0000,	/* 0x6A j */
+		0x0000,	/* 0x6B k */
+		0x0000,	/* 0x6C l */
+		0x0000,	/* 0x6D m */
+		0x0000,	/* 0x6E n */
+		0x0000,	/* 0x6F o */
+		0x0000,	/* 0x70 p */
+		0x11b6,	/* 0x71 q: jongseong lieul-hieuh */
+		0x11b3,	/* 0x72 r: jongseong lieul-sieus */
+		0x11ad,	/* 0x73 s: jongseong nieun-hieuh */
+		0x1164,	/* 0x74 t: jungseong yae */
+		0x0000,	/* 0x75 u */
+		0x11aa,	/* 0x76 v: jongseong gieug-sieus */
+		0x11b0,	/* 0x77 w: jongseong lieul-gieug */
+		0x11a9,	/* 0x78 x: jongseong ssanggieug */
+		0x0000,	/* 0x79 y */
+		0x11b1,	/* 0x7A z: jongseong lieul-mieum */
+		0x0000,	/* 0x7B braceleft */
+		0x0000,	/* 0x7C bar */
+		0x0000,	/* 0x7D braceright */
+		0x0000	/* 0x7E asciitilde */
 	];
 
 	K3_3_91_noshift_layout = [// youknowone
