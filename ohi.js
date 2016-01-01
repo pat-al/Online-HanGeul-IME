@@ -2633,10 +2633,11 @@ function url_query() {
 }
 
 function tableKey_pressed(key) {
-	if(!option.show_layout) return;
-
 	var shift1 = document.getElementById('key41');
 	var shift2 = document.getElementById('key52');
+
+	if(!option.show_layout || !shift1) return;
+
 	shift1.className = shift1.className.substr(0,2);
 	shift2.className = shift2.className.substr(0,2);
 	var layout_name = current_layout.type_name;
