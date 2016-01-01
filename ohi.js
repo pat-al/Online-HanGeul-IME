@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2015/12/15
+ * Last Update : 2016/01/01
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard layouts.
  * Added support for Firefox 12 and higher.
@@ -620,7 +620,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		return 1;
 	}
 
-	if(Ko_type.indexOf('_gm')>=0 || (Ko_type.substr(-2)!='-y' && Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014)) {
+	if(Ko_type.indexOf('_gm')>=0 || Ko_type.substr(0,3)=='3-P' || (Ko_type.substr(-2)!='-y' && Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014)) {
 	// 갈마들이 공세벌식 배열들을 위한 처리
 		cc=Hangeul_Gong3_gm(f,c);
 		if(cc<0) return 0;
@@ -1006,11 +1006,11 @@ function Hangeul_Gong3_sign(f,e,c) {
 		return 1;
 	}
 	else if(option.enable_sign_ext && !ohiHangeul3_HanExtKey
-		&& (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')
+		&& (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,3)=='3-P')
 		&& (c==0x2F || c==0x39)
 		&& (((!ohiQ[0]&&!ohiQ[3] || ohiQ[3] || ohiQ[0]&&(c==0x2F || c==0x39) && Hangeul_SignExtKey1+Hangeul_SignExtKey2)
 		&& ((unicode_cheot.indexOf(prev_phoneme[0])<0&&unicode_ga.indexOf(prev_phoneme[0])<0&&unicode_ggeut.indexOf(prev_phoneme[0])<0) || unicode_ga.indexOf(prev_phoneme[0])>=0 || unicode_ggeut.indexOf(prev_phoneme[0])>=0))) ) {
-	// 3-2011 옛한글, 3-2012 옛한글, 3-2014, 3-2014 옛한글, 3-2015P, 3-2015P 옛한글 자판의 기호 확장 글쇠가 눌린 횟수 더하기
+	// 3-2011 옛한글, 3-2012 옛한글, 3-2014, 3-2014 옛한글, 3-2015P, 3-2015P 옛한글, 3-P 자판의 기호 확장 글쇠가 눌린 횟수 더하기
 		if(c==0x2F || c==0x39) {	// 전환 글쇠가 눌렸을 때
 			if(ohiRQ[3]) {
 				ohiRQ[3]=0;
@@ -1040,8 +1040,8 @@ function Hangeul_Gong3_sign(f,e,c) {
 		esc_ext_layout();
 		return 1;
 	}
-	else if(option.enable_sign_ext && (Hangeul_SignExtKey1 || Hangeul_SignExtKey2) && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2015')) {
-	// 3-2011 옛한글, 3-2012 옛한글, 3-2015, 3-2015 옛한글 자판의 기호 확장 배열
+	else if(option.enable_sign_ext && (Hangeul_SignExtKey1 || Hangeul_SignExtKey2) && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2015' || Ko_type.substr(0,3)=='3-P')) {
+	// 3-2011 옛한글, 3-2012 옛한글, 3-2015, 3-2015 옛한글, 3-P 자판의 기호 확장 배열
 		if(Hangeul_SignExtKey1) cc=current_layout.extended_sign_layout[c-33][0][Hangeul_SignExtKey1-1];
 		if(Hangeul_SignExtKey2) cc=current_layout.extended_sign_layout[c-33][1][Hangeul_SignExtKey2-1];
 		if(prev_phoneme.length && c!=8) convert_into_modern_hangeul_syllable(f);
@@ -1802,7 +1802,7 @@ function show_keyboard_layout(type) {
 			if(typeof current_layout.extended_sign_layout != 'undefined') layout = current_layout.extended_sign_layout;
 			
 			if(layout.length) {
-				if(Ko_type.substr(-1)=='y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P') push_extended_hangeul_layout(uh, dh, layout);
+				if(Ko_type.substr(-1)=='y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,3)=='3-P') push_extended_hangeul_layout(uh, dh, layout);
 				else push_extended_sign_layout(uh, dh, layout);
 			}
 		}
@@ -1944,7 +1944,7 @@ function show_keyboard_layout(type) {
 		document.getElementById('de8').innerHTML = sign_ext_tag;
 		document.getElementById('de45').innerHTML = sign_ext_tag;
 	}
-	else if(KE=='Ko' && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
+	else if(KE=='Ko' && (Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,3)=='3-P')) {
 		if(option.enable_sign_ext) {
 			document.getElementById('uh9').innerHTML = sign_ext_tag2;
 			document.getElementById('uh51').innerHTML = sign_ext_tag1;
@@ -3929,6 +3929,103 @@ function basic_layouts_info() {
 		0x007c, /* 0x7C bar */
 		0x007d, /* 0x7D braceright */
 		0x007e  /* 0x7E asciitilde */
+	];
+
+	K3_2015P_sublayout = [
+		0x0000,	/* 0x21 exclam */
+		0x0000,	/* 0x22 quotedbl */
+		0x0000,	/* 0x23 numbersign */
+		0x0000,	/* 0x24 dollar */
+		0x0000,	/* 0x25 percent */
+		0x0000,	/* 0x26 ampersand */
+		0x0000,	/* 0x27 apostrophe */
+		0x0000,	/* 0x28 parenleft */
+		0x0000,	/* 0x29 parenright */
+		0x0000,	/* 0x2A asterisk */
+		0x0000,	/* 0x2B plus */
+		0x0000,	/* 0x2C comma */
+		0x0000,	/* 0x2D minus */
+		0x0000,	/* 0x2E period */
+		0x0000,	/* 0x2F slash */
+		0x0000,	/* 0x30 0 */
+		0x0000,	/* 0x31 1 */
+		0x0000,	/* 0x32 2 */
+		0x0000,	/* 0x33 3 */
+		0x0000,	/* 0x34 4 */
+		0x0000,	/* 0x35 5 */
+		0x0000,	/* 0x36 6 */
+		0x0000,	/* 0x37 7 */
+		0x0000,	/* 0x38 8 */
+		0x0000,	/* 0x39 9 */
+		0x0000,	/* 0x3A colon */
+		0x0000,	/* 0x3B semicolon */
+		0x0000,	/* 0x3C less */
+		0x0000,	/* 0x3D equal */
+		0x0000,	/* 0x3E greater */
+		0x0000,	/* 0x3F question */
+		0x0000,	/* 0x40 at */
+		0x11b9,	/* 0x41 A: jongseong bieub-sieuh */
+		0x0000,	/* 0x42 B */
+		0x11b4,	/* 0x43 C: jongseong lieul-tieut */
+		0x11b2, /* 0x44 D: jongseong lieul-bieub */
+		0x11ac,	/* 0x45 E: jongseong nieun-jieuj */
+		0x11b5,	/* 0x46 F: jongseong lieul-pieup */
+		0x0000,	/* 0x47 G */
+		0x0000,	/* 0x48 H */
+		0x0000,	/* 0x49 I */
+		0x0000,	/* 0x4A J */
+		0x0000,	/* 0x4B K */
+		0x0000,	/* 0x4C L */
+		0x0000,	/* 0x4D M */
+		0x0000,	/* 0x4E N */
+		0x0000,	/* 0x4F O */
+		0x0000,	/* 0x50 P */
+		0x11b6,	/* 0x51 Q: jongseong lieul-hieuh */
+		0x11b3,	/* 0x52 R: jongseong lieul-sieus */
+		0x11ad,	/* 0x53 S: jongseong nieun-hieuh */
+		0x1164,	/* 0x54 T: jungseong yae */
+		0x0000,	/* 0x55 U */
+		0x11aa,	/* 0x56 V: jongseong gieug-sieus */
+		0x11b0,	/* 0x57 W: jongseong lieul-gieug */
+		0x11a9,	/* 0x58 X: jongseong ssanggieug */
+		0x0000,	/* 0x59 Y */
+		0x11b1,	/* 0x5A Z: jongseong lieul-mieum */
+		0x0000,	/* 0x3A colon */
+		0x0000,	/* 0x3B semicolon */
+		0x0000,	/* 0x3C less */
+		0x0000,	/* 0x3D equal */
+		0x0000,	/* 0x3E greater */
+		0x0000,	/* 0x3F question */
+		0x11b9,	/* 0x61 a: jongseong bieub-sieus */
+		0x0000,	/* 0x62 b */
+		0x11b4,	/* 0x63 c: jongseong lieul-tieut */
+		0x11b2,	/* 0x64 d: jongseong lieul-bieub */
+		0x11ac,	/* 0x65 e: jongseong nieun-jieuj */
+		0x11b5,	/* 0x66 f: jongseong lieul-pieup */
+		0x0000,	/* 0x67 g */
+		0x0000,	/* 0x68 h */
+		0x0000,	/* 0x69 i */
+		0x0000,	/* 0x6A j */
+		0x0000,	/* 0x6B k */
+		0x0000,	/* 0x6C l */
+		0x0000,	/* 0x6D m */
+		0x0000,	/* 0x6E n */
+		0x0000,	/* 0x6F o */
+		0x0000,	/* 0x70 p */
+		0x11b6,	/* 0x71 q: jongseong lieul-hieuh */
+		0x11b3,	/* 0x72 r: jongseong lieul-sieus */
+		0x11ad,	/* 0x73 s: jongseong nieun-hieuh */
+		0x1164,	/* 0x74 t: jungseong yae */
+		0x0000,	/* 0x75 u */
+		0x11aa,	/* 0x76 v: jongseong gieug-sieus */
+		0x11b0,	/* 0x77 w: jongseong lieul-gieug */
+		0x11a9,	/* 0x78 x: jongseong ssanggieug */
+		0x0000,	/* 0x79 y */
+		0x11b1,	/* 0x7A z: jongseong lieul-mieum */
+		0x0000,	/* 0x7B braceleft */
+		0x0000,	/* 0x7C bar */
+		0x0000,	/* 0x7D braceright */
+		0x0000	/* 0x7E asciitilde */
 	];
 
 	hangeul_combination_table_default = [
