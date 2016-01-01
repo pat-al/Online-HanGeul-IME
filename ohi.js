@@ -1408,7 +1408,7 @@ function Hangeul_Gong3_gm(f,c) {
 	 || ohiQ[0]&&ohiQ[3]&&!ohiQ[4]&&!ohiQ[6]) && cc<31) {
 	// 첫소리와 가운뎃소리가 들어갔고 끝소리가 들어가지 않은 채로 윗글쇠와 함께 받침이 들어왔을 때
 		// 확장 배열의 겹받침으로 넣기
-	 	if(sublayout && sublayout[c-33]) cc=convert_into_ohi_hangeul_phoneme(sublayout[c-33]);
+	 	if(option.enable_double_final_ext && sublayout && sublayout[c-33]) cc=convert_into_ohi_hangeul_phoneme(sublayout[c-33]);
 	}
 	else if((prev_phoneme.length&&unicode_ggeut.indexOf(prev_phoneme[0])>=0 || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7]) && cc2<31) {
 	// 첫소리·가운뎃소리·끝소리가 모두 들어간 채로 끝소리가 있는 글쇠가 눌렸을 때
@@ -1674,7 +1674,7 @@ function show_options() {
 */	
 		opt = document.getElementById('option_enable_double_final_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_double_final_ext','<div class="option"><input name="enable_double_final_ext" class="checkbox" onclick="ohiChange_enable_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장</label></div>');
-		if(!option.enable_Sin3_yeshangeul_combination && typeof current_layout.sublayout != 'undefined' && current_layout.type_name.substr(0,4)=='Sin3') opt.style.display = 'block';
+		if(!option.enable_Sin3_yeshangeul_combination && typeof current_layout.sublayout != 'undefined'/* && (current_layout.type_name.substr(0,4)=='Sin3' ||*/) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_force_normal_typing');
@@ -1822,7 +1822,7 @@ function show_keyboard_layout(type) {
 
 	if(typeof current_layout.sublayout != 'undefined'
 	 && !(Ko_type.substr(0,5)=='Sin3-' && option.enable_Sin3_yeshangeul_combination)
-	 && (option.enable_double_final_ext || Ko_type.substr(0,4)!='Sin3'&&option.show_sublayout_of_galmageuli_double_final_ext || current_layout.type_name.substr(0,3)=='3m-')
+	 && (option.enable_double_final_ext || current_layout.type_name.substr(0,3)=='3m-')
 	 && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2)) {
 		insert_sublayout_table(ue, de, uh, dh, current_layout.sublayout);
 	}
