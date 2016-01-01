@@ -1916,7 +1916,7 @@ function show_keyboard_layout(type) {
 					
 					
 					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
-					if(Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
+					if( (Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 || typeof current_layout.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
 						uh[i][j] = '<span style="color:gray;">'+uh[i][j]+'</span>';
 					}
 				}
