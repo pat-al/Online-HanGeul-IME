@@ -2,7 +2,7 @@
 ※ 반드시 첫가끌 방식으로 한글을 조합하는 자판은 type_name 끝에 '-y'를 붙인다.
 ※ 신세벌식 자판은 type_name 앞에 'Sin3-'를 붙인다.
 ※ 본래 방식에서 벗어난 바꾼꼴 신세벌식 자판은 type_name 앞에 'Sin3b-'를 붙인다.
-※ 갈마들이 타법을 쓰는 공병우식 배열은 type_name 끝에 '_gm'을 붙인다.
+※ 갈마들이 방식을 쓰는 공병우식 배열은 type_name 끝에 '_gm'을 붙인다.
 ※ 모아치기 방식으로 쓰는 세벌식 자판은 type_name 앞에 '3m-'를 붙인다.
 ※ 타자기 자판은 벌 수 다음에 't-'를 붙인다. ('3t-', 4t-')
 */
@@ -2293,7 +2293,7 @@ function additional_keyboard_layout_table_info() {
 		0x1172,	/* 0x35 5: jungseong yu */
 		0x1163,	/* 0x36 6: jungseong ya */
 		0x1168,	/* 0x37 7: jungseong ye */
-		0x1174,	/* 0x38 8: jungseong eui */
+		0x1173,	/* 0x38 8: jungseong eu */
 		0x116e,	/* 0x39 9: jungseong u */
 		0x0034,	/* 0x3A colon: 4 */
 		0x1107,	/* 0x3B semicolon: choseong bieub */
@@ -2487,7 +2487,7 @@ function additional_keyboard_layout_table_info() {
 		0x1172,	/* 0x35 5: jungseong yu */
 		0x1163,	/* 0x36 6: jungseong ya */
 		0x1168,	/* 0x37 7: jungseong ye */
-		0x1174,	/* 0x38 8: jungseong eui */
+		0x1173,	/* 0x38 8: jungseong eu */
 		0x116e,	/* 0x39 9: jungseong u */
 		0x003a,	/* 0x3A colon */
 		0x1107,	/* 0x3B semicolon: choseong bieub */

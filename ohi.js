@@ -1369,7 +1369,7 @@ function Hangeul_Gong3_gm(f,c) {
 		return -1;
 	}
 
-	if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && (c==0x2F&&cc==74 || c==0x39&&cc==79)) {
+	if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && (c==0x2F&&cc==74 || c==0x39&&cc==79 || c==0x38&&cc==84)) {
 	// 첫소리가 들어가고 홀소리는 들어가지 않은 상태에서 오른쪽 ㅗ 또는 오른쪽 ㅜ가 눌렸을 때
 		ohiRQ[3]=c;	
 	}
@@ -1378,6 +1378,8 @@ function Hangeul_Gong3_gm(f,c) {
 		if(ohiQ[3]+ohiQ[4]+35==74 && (cc==66 || cc==67 || cc==86)) {	// 오른쪽 ㅗ와 겹홀소리를 이룰 수 있는 홑홀소리들
 		}
 		else if(ohiQ[3]+ohiQ[4]+35==79 && (cc==70 || cc==71 || cc==86 )) {	// 오른쪽 ㅜ와 겹홀소리를 이룰 수 있는 홑홀소리들
+		}
+		else if(ohiQ[3]+ohiQ[4]+35==84 && cc==86) { // 오른쪽 ㅡ와 겹홀소리를 이룰 수 있는 홑홀소리 ㅣ
 		}
 		else if(no_shift(c) && cc<31 && cc2<31) { // 끝소리만 있는 글쇠를 윗글쇠 쓰지 않고 누름
 		}
