@@ -37,7 +37,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-89', full_name: '3-89', layout:
 additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011', layout: K3_2011_layout, extended_sign_layout: K3_2011_extended_sign_layout, link: 'http://pat.im/855'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2011-y', full_name: '3-2011 옛한글', layout: K3_2011_layout, extended_sign_layout: K3_2011y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'http://pat.im/908'});
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
-additional_layouts.push({KE: 'Ko', type_name: '3-Gimguk-38A-y', full_name: '김국 38A 옛한글', layout: K3_Gimguk_38Ay_layout, hangeul_combination_table: Gimguk38Ay_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
+additional_layouts.push({KE: 'Ko', type_name: '3-Gimguk-38A', full_name: '김국 38A', layout: K3_Gimguk_38A_layout, hangeul_combination_table: Gimguk38A_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
 
 additional_layouts.push({KE: 'Ko', type_name: '314_proposal', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_proposal_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
@@ -1041,7 +1041,7 @@ function additional_keyboard_layout_table_info() {
 	];
 
 
-	K3_Gimguk_38Ay_layout = [
+	K3_Gimguk_38A_layout = [
 		0x0021,	/* 0x21 exclam: */
 		0x0022,	/* 0x22 quotedbl: */
 		0x0023,	/* 0x23 numbersign: */
@@ -1074,32 +1074,32 @@ function additional_keyboard_layout_table_info() {
 		0x003e,	/* 0x3E greater: */
 		0x003f,	/* 0x3F question: */
 		0x0040,	/* 0x40 at: */
-		0x11F0,	/* 0x41 A: */
-		0x113E,	/* 0x42 B: */
-		0x00B0,	/* 0x43 C: */
+		0x0000, //0x11F0,	/* 0x41 A: */
+		0x0000, //0x113E,	/* 0x42 B: */
+		0x0000, //0x11EB,	/* 0x43 C: */
 		0x00D7,	/* 0x44 D: */
 		0x0033,	/* 0x45 E: */
 		0x119E,	/* 0x46 F: */
-		0xFF3C,	/* 0x47 G: */
-		0x203B,	/* 0x48 H: */
+		0x203B,	/* 0x47 G: */
+		0x300C,	/* 0x48 H: */
 		0x0038,	/* 0x49 I: */
-		0x114C,	/* 0x4A J: */
-		0x002F,	/* 0x4B K: */
-		0x003B,	/* 0x4C L: */
-		0x1159,	/* 0x4D M: */
-		0x1140,	/* 0x4E N: */
+		0x0000, //0x114C,	/* 0x4A J: */
+		0x300D,	/* 0x4B K: */
+		0xFFE6,	/* 0x4C L: */
+		0x0000, //0x1159,	/* 0x4D M: */
+		0x0000, //0x1140,	/* 0x4E N: */
 		0x0039,	/* 0x4F O: */
 		0x0030,	/* 0x50 P: */
 		0x0031,	/* 0x51 Q: */
 		0x0034,	/* 0x52 R: */
-		0x0307,	/* 0x53 S: */
+		0x0000, //0x11F9,	/* 0x53 S: */
 		0x0035,	/* 0x54 T: */
 		0x0037,	/* 0x55 U: */
-		0x113C,	/* 0x56 V: */
+		0x00AF, //0x113C,	/* 0x56 V: */
 		0x0032,	/* 0x57 W: */
-		0x11F9,	/* 0x58 X: */
+		0x003B,	/* 0x58 X: */
 		0x0036,	/* 0x59 Y: */
-		0x11EB,	/* 0x5A Z: */
+		0x002F,	/* 0x5A Z: */
 		0x005B,	/* 0x5B bracketleft: */
 		0x005C,	/* 0x5C backslash: */
 		0x005D,	/* 0x5D bracketright: */
@@ -4845,6 +4845,15 @@ function input_hangeul_combination_table_info() {
 		[0x11ff11bc,0x11ae], // autogen
 		[0x11ff11c2,0x11a9] // autogen
 ];
+
+	Gimguk38A_combination_table = hangeul_combination_table_default.concat([
+		[0x11611175,0x1162], /* jungseong a + i = ae */
+		[0x11631175,0x1164], /* jungseong ya + i = yae */
+		[0x11651175,0x1166], /* jungseong eo + i = e */
+		[0x11671175,0x1168], /* jungseong yeo + i = ye */
+		[0x116a1175,0x116b], /* jungseong wa + i   = wae */
+		[0x116f1175,0x1170], /* jungseong weo + i  = we */	
+	]);
 
 	Gimguk38Ay_combination_table = hangeul_combination_table_full.concat([
 		[0x110C113C,0x114E], /* jieuj + ap-sieus = ap-jieuj */
