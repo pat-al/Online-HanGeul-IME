@@ -77,7 +77,8 @@
 		div#tab3 h2 { font-weight:bold; font-size:16px; }
 		div#tab3 ol, div#tab3 li  { margin:0 10px 5px 0;}
 
-		div#more_layouts, div#more_old_layouts, div#more_study_layouts { display:none; }
+		div.layout_group_tab { display:none; }
+		a.layout_group_link { text-decoration:none; color:#0000bb;}
 
 		#options { height:2.2em; }
 		.option { float:right; }
@@ -186,9 +187,9 @@
 						→ <kbd class="menu" onclick="javascript:ohiChange('Ko','3-2012')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-2012</kbd>】
 					</li>
 				</ul>
-				<a id="more_layouts_link" onclick="document.getElementById('more_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">[더 많은 한글 자판▽]</a>
-				<div id="more_layouts">
-					<a onclick="var ml=document.getElementById('more_layouts');ml.style.display='none';getElementById('more_layouts_link').style.display='inline-block'" href="javascript:void(0)">[더 많은 한글 자판△]</a>
+				<a id="more_layouts_link" class="layout_group_link" onclick="document.getElementById('more_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【더 많은 한글 자판▽】</a>
+				<div id="more_layouts" class="layout_group_tab">
+					<a class="layout_group_link" onclick="var ml=document.getElementById('more_layouts');ml.style.display='none';getElementById('more_layouts_link').style.display='inline-block'" href="javascript:void(0)">【더 많은 한글 자판△】</a>
 					<ul>
 						<li>
 							두벌식 : 
@@ -247,9 +248,9 @@
 					</ul>
 				</div>
 
-				<a id="more_old_layouts_link" onclick="document.getElementById('more_old_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">[옛 배열▽]</a>
-				<div id="more_old_layouts">
-					<a onclick="var ml=document.getElementById('more_old_layouts');ml.style.display='none';getElementById('more_old_layouts_link').style.display='inline-block'" href="javascript:void(0)">[옛 배열△]</a>
+				<a id="more_old_layouts_link" class="layout_group_link" onclick="document.getElementById('more_old_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【옛 배열▽】</a>
+				<div id="more_old_layouts" class="layout_group_tab">
+					<a class="layout_group_link" onclick="var ml=document.getElementById('more_old_layouts');ml.style.display='none';getElementById('more_old_layouts_link').style.display='inline-block'" href="javascript:void(0)">【옛 배열△】</a>
 					<ul>
 						<li>
 							공세벌식 : 
@@ -292,9 +293,9 @@
 					</ul>
 				</div>
 
-				<a id="more_study_layouts_link" onclick="document.getElementById('more_study_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">[연구 설계안▽]</a>
-				<div id="more_study_layouts">
-					<a onclick="var ml=document.getElementById('more_study_layouts');ml.style.display='none';getElementById('more_study_layouts_link').style.display='inline-block'" href="javascript:void(0)">[연구 설계안△]</a>
+				<a id="more_study_layouts_link" class="layout_group_link" onclick="document.getElementById('more_study_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【연구 설계안▽】</a>
+				<div id="more_study_layouts" class="layout_group_tab" >
+					<a class="layout_group_link" onclick="var ml=document.getElementById('more_study_layouts');ml.style.display='none';getElementById('more_study_layouts_link').style.display='inline-block'" href="javascript:void(0)">【연구 설계안△】</a>
 					<ul>
 						<li>
 							두벌식 응용 :
