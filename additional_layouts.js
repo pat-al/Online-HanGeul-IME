@@ -19,7 +19,7 @@ function additional_layouts() {
 	var extended_hangeul_combination_table; // 옛한글 낱자 조합 규칙 (이어치기)
 	var moachigi_combination_table; // 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
 	var multikey_combination_table;	// 모아치기 자판의 줄여녛기 조합 규칙 (다른 조합 규칙보다 먼저 적용됨)
-	var link;
+	var link; // 자판 배열의 정보가 있는 웹 주소
 }
 
 additional_keyboard_layout_table_info();
