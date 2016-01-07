@@ -52,8 +52,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015-y', full_name: '3-2015 옛
 additional_layouts.push({KE: 'Ko', type_name: '3-2015M', full_name: '3-2015M', layout: K3_2015M_layout, sublayout: K3_2015M_sublayout, hangeul_combination_table: K3_2015M_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/46'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'http://pat.im/1090'});
-additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2 (연구 설계안)', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1128'});
-additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3 (연구 설계안)', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'http://pat.im/1128'});
+additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2 (설계안)', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1128'});
+additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3 (설계안)', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'http://pat.im/1128'});
 
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout, link:'http://pat.im/1104'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
