@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/01/07
+ * Last Update : 2016/01/10
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
  * Added support for Firefox 12 and higher.
@@ -600,7 +600,9 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 		cc2=convert_into_ohi_hangeul_phoneme(cc2);
 	}
 
-	if(Hangeul_Gong3_sign(f,e,c)) return 0;
+	if(Ko_type.substr(0,2)=='3-')	{
+		if(Hangeul_Gong3_sign(f,e,c)) return 0;
+	}
 
 	if(Ko_type.substr(-1)!='y' && (ohiQ[3]==86-35) && !ohiQ[4] && !ohiQ[6] && no_shift(c) && cc==67 && cc2==69) {
 	// 요즘한글 배열에서 ㅣ가 들어간 뒤에 ㅐ가 눌렸을 때 ㅣ+ㅐ→ㅒ (ㅒ가 ㅐ의 윗글 자리에 있을 때만)
@@ -1522,9 +1524,12 @@ function push_extended_sign_layout_to_key_table(u,d,e) {
 		if(Ko_type=='3-2011' || Ko_type=='3-2012') {
 			if(j<3) for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][j]));
 		}
-		else {
+		else if(Ko_type.substr(0,2)=='3-') {
 			if(Hangeul_SignExtKey1) for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][0][j]));
 			if(Hangeul_SignExtKey2) for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][1][j]));
+		}
+		else { // 신세벌식
+			for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][j]));
 		}
 	}
 	push_to_key_table(u,d,ext);
@@ -1787,7 +1792,7 @@ function show_keyboard_layout(type) {
 		if(Hangeul_SignExtKey1 || Hangeul_SignExtKey2) {
 			if(Ko_type.substr(0,4)=='Sin3') layout = K3_Sin3_extended_sign_layout;
 			if(typeof current_layout.extended_sign_layout != 'undefined') layout = current_layout.extended_sign_layout;
-			
+
 			if(layout.length) {
 				push_extended_sign_layout_to_key_table(uh, dh, layout);
 			}
@@ -1961,7 +1966,7 @@ function show_keyboard_layout(type) {
 
 	if(KE=='Ko' && En_type!='Dvorak' && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2) && !ohiHangeul3_HanExtKey) {
 		if((Ko_type.substr(0,5)=='Sin3-' && typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[58]==0x119E)
-	 	 || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90') {
+	 	 || Ko_type.substr(0,3) == '3-P' || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,6)=='3-2012' || Ko_type=='3-90') {
 			document.getElementById('dh25').innerHTML = '<font size="1">(ㆍ)</font>';
 		}
 	}
