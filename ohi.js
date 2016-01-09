@@ -256,7 +256,8 @@ function ohiHangeul_backspace(f,e) {
 			}
 		}
 
-		if(!(Ko_type.substr(0,5)=='Sin3-' && option.enable_Sin3_yeshangeul_combination) && Ko_type.substr(-2)!='-y') { // 아래아 등이 지워졌을 때 첫가끝 코드 조합 상태에서 요즘한글(완성형) 코드로 바꾸기
+		if(!(Ko_type.substr(0,5)=='Sin3-' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') && Ko_type.substr(-2)!='-y') {
+		// 아래아 등이 지워졌을 때 첫가끝 코드 조합 상태에서 요즘한글(완성형) 코드로 바꾸기
 			for(i=0;i<prev_combined_phoneme.length;++i) {
 				if(unicode_cheot.indexOf(prev_combined_phoneme[i]) > ohi_cheot.length-1 || unicode_ga.indexOf(prev_combined_phoneme[i]) > ohi_ga.length-1 || unicode_ggeut.indexOf(prev_combined_phoneme[i]) > ohi_ggeut.length-1) break;
 			}
@@ -574,7 +575,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 (3-Beolsik)
 
 	if(Ko_type.indexOf('Sin3')>=0) {	// 신세벌식 자판 또는 바꾼꼴(공세벌식형) 신세벌식 자판
 		if(Ko_type.substr(0,5)=='Sin3-') {
-			if(option.enable_Sin3_yeshangeul_combination) {
+			if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') {
 				cc=CGG_Hangeul_Sin3(f,c);
 				if(cc==-1) return 0;
 				CGG_yesHangeul(f,c,cc); // 옛한글 자판
@@ -1656,7 +1657,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_Sin3_diphthong_key');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_diphthong_key','<div class="option"><input name="enable_Sin3_diphthong_key" class="checkbox" onclick="option.enable_Sin3_diphthong_key=this.checked;inputText_focus()" type="checkbox"' + (option.enable_Sin3_diphthong_key ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
-		if(option.enable_Sin3_yeshangeul_combination && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
+		if(option.enable_Sin3_yeshangeul_combination && current_layout.type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 /*
 		opt = document.getElementById('option_show_sublayout_of_galmageuli_double_final_ext');
