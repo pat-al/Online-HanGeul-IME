@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/01/10
+ * Last Update : 2016/01/18
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
  * Added support for Firefox 12 and higher.
@@ -1962,6 +1962,14 @@ function show_keyboard_layout(type) {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
 				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 2px;background:black;color:#fff;">'+String.fromCharCode(0x2460+i)+'</span>';
+		}
+		
+		if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') {
+			document.getElementById('de32').innerHTML = '<span style="margin-left:-1px;background:black;color:#fff;letter-spacing:-1px;font-size:8px;">받침</span>';
+			document.getElementById('de15').innerHTML = '<span style="color:#666">ㅿ</span>';
+			document.getElementById('de29').innerHTML = '<span style="color:#666">ㆁ</span>';
+			document.getElementById('de31').innerHTML = '<span style="color:#666">ㆆ</span>';
+			
 		}
 	}
 
