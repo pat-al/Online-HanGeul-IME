@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/01/20
+ * Last Update : 2016/02/09
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
  * Added support for Firefox 12 and higher.
@@ -42,8 +42,9 @@ function basic_layouts() {
 	var extended_hangeul_layout;	// 한글 확장 배열
 	var hangeul_combination_table; // 한글 낱자 조합 규칙 (이어치기)
 	var extended_hangeul_combination_table; // 옛한글 낱자 조합 규칙 (이어치기)
+	var moachigi_multikey_abbreviation_table;	// 모아치기 자판에서 글쇠로 조합하는 줄임말 규칙 (다른 조합 규칙보다 가장 먼저 적용됨)
+	var moachigi_abbreviation_table;	// 모아치기 자판에서 낱자로 조합하는 줄임말 규칙
 	var moachigi_combination_table; // 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
-	var multikey_combination_table;	// 모아치기 자판의 줄여녛기 조합 규칙 (다른 조합 규칙보다 먼저 적용됨)
 	var link; // 자판 배열의 정보가 있는 웹 주소
 }
 
@@ -810,9 +811,9 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		else pressed_chars.push(convert_into_unicode_hangeul_phoneme(layout[pressed_keys[i]-33]));
 	}	
 
-	if(typeof current_layout.multikey_combination_table != 'undefined') {
-	// 줄여넣기, 예외 조합
-		combination_table = current_layout.multikey_combination_table;
+	if(typeof current_layout.moachigi_multikey_abbreviation_table != 'undefined') {
+	// 여러 글쇠를 누르는 줄여넣기, 예외 조합
+		combination_table = current_layout.moachigi_multikey_abbreviation_table;
 
 		for(i=0;i<combination_table.length;++i) {
 			if(pressed_keys.length != combination_table[i].keys.length ) continue;
@@ -848,9 +849,49 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			return;
 		}
 	}
+	
+	if(typeof current_layout.moachigi_abbreviation_table != 'undefined') {
+	// 모아치기 한글 낱자 줄여넣기 규칙
+		combination_table = current_layout.moachigi_abbreviation_table;
+		
+		for(i=0;i<combination_table.length;++i) {
+			if(pressed_chars.length != combination_table[i].phonemes.length) continue;
+			for(j=0;j<combination_table[i].phonemes.length;++j) {
+				if(pressed_chars.indexOf(combination_table[i].phonemes[j])<0) break;
+			}
+			
+			if(j!=combination_table[i].phonemes.length) continue;
+			chars.push(combination_table[i].char);
 
+			for(j=0;j<combination_table[i].chars.length;++j) {
+				c=combination_table[i].chars[j];
+
+				if(unicode_cheot.indexOf(c)>=0) {
+					if(necessary_backspaces_ga+necessary_backspaces_ggeut) {
+						necessary_backspaces_ga = 0;
+						necessary_backspaces_ggeut = 0;
+						if(!necessary_backspaces_cheot) ++necessary_backspaces_cheot;
+					}
+					++necessary_backspaces_cheot;
+				}
+				else if(unicode_ga.indexOf(c)>=0) {
+					++necessary_backspaces_ga;
+				}
+				else if(unicode_ggeut.indexOf(c)>=0) {
+					++necessary_backspaces_ggeut;
+				}
+
+				ohiHangeul3(f,0,c);
+			}
+
+			backspaces_for_restoring_prev_state = necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
+			return;
+		}
+		
+	}
+	
 	if(typeof current_layout.moachigi_combination_table != 'undefined') {
-	// 낱자 차례 없는 모아치기 한글 조합 규칙
+	// 모아치기 한글 낱자 조합 규칙 (낱자 차례를 따지지 않음)
 		combination_table = current_layout.moachigi_combination_table;
 
 		for(i=0;i<combination_table.length;++i) {
@@ -869,7 +910,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 				pressed_keys.splice(k,1);
 				pressed_chars.splice(k,1);
 			}
-		}		
+		}
 	}
 
 	for(i=0;i<pressed_keys.length;++i) {
@@ -926,7 +967,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		++necessary_backspaces_cheot;
 		if(!ohiHangeul3(f,e,cheot[i])) {
 			++backspaces_for_restoring_prev_state;
-			necessary_backspaces_cheot=0;
+			moachigi_necessary_backspaces_cheot=0;
 		}
 	}
 
@@ -934,7 +975,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		++necessary_backspaces_ga;
 		if(!ohiHangeul3(f,e,ga[i])) {
 			++backspaces_for_restoring_prev_state;
-			necessary_backspaces_ga=0;
+			moachigi_necessary_backspaces_ga=0;
 		}
 	}
 
