@@ -64,7 +64,6 @@ function basic_layout_list() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'http://pat.im/938'});
 
 	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P-test', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, hangeul_abbreviation_table: K3_hangeul_abbreviation_table, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
 }
 
 function option() {
@@ -411,18 +410,13 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 
 function seek_abbreviation(abbreviation_table, c1, c2) { // 줄임말 풀기 (이어치기 자판)
 	var i;
-	//var abbreviation_table=null;
 	var chars=null;
-	//if(typeof current_layout.hangeul_abbreviation_table != 'undefined') {
-		
-		//abbreviation_table = current_layout.hangeul_abbreviation_table;
-		for(i=0; i<abbreviation_table.length; ++i) {
-			if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2)) {
-				return abbreviation_table[i].chars;
-			}
+	
+	for(i=0; i<abbreviation_table.length; ++i) {
+		if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2)) {
+			return abbreviation_table[i].chars;
 		}
-		//if(i==abbreviation_table.length.length) return null;
-	//}
+	}
 	return null;
 }
 
@@ -576,6 +570,8 @@ function ohiHangeul2(f,e,c) { // 2-Beolsik
 }
 
 function ohiHangeul3_abbreviation(f,e,c) { // 이어치기 세벌식 자판에서 줄임말 처리
+	if(Ko_type.substr(0,4)=='Sin3') return 0;
+	
 	var i,j;
 	var cc=current_layout.layout[c-33];
 	var ch, chars;
@@ -596,7 +592,8 @@ function ohiHangeul3_abbreviation(f,e,c) { // 이어치기 세벌식 자판에�
 			ohiBackspace(f);
 			abbriviation_processing_state = 1;
 			for(i=0;i<chars.length;++i) {
-				ohiHangeul3(f,0,chars[i]);
+				if(unicode_hangeul_CGG_phoneme.indexOf(c)>=0) ohiHangeul3(f,0,chars[i]);
+				else ohiInsert(f,0,chars[i]);
 			}
 			abbriviation_processing_state = 0;
 			ohiInsert(f,0,32);
@@ -862,6 +859,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	var necessary_backspaces_cheot=0;
 	var necessary_backspaces_ga=0;
 	var necessary_backspaces_ggeut=0;
+	var necessary_backspaces_sign=0;
 
 	for(i=0;i<pressed_keys.length;++i) {
 		if(special_keys.indexOf(pressed_keys[i])>=0) {
@@ -902,11 +900,15 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 				else if(unicode_ggeut.indexOf(c)>=0) {
 					++necessary_backspaces_ggeut;
 				}
+				else {
+					++necessary_backspaces_sign;
+				}
 
-				ohiHangeul3(f,0,c);
+				if(unicode_hangeul_CGG_phoneme.indexOf(c)>=0) ohiHangeul3(f,0,c);
+				else ohiInsert(f,0,c);
 			}
 
-			backspaces_for_restoring_prev_state = necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
+			backspaces_for_restoring_prev_state = necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut + necessary_backspaces_sign;
 			return;
 		}
 	}
@@ -941,11 +943,15 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 				else if(unicode_ggeut.indexOf(c)>=0) {
 					++necessary_backspaces_ggeut;
 				}
+				else {
+					++necessary_backspaces_sign;
+				}
 
-				ohiHangeul3(f,0,c);
+				if(unicode_hangeul_CGG_phoneme.indexOf(c)>=0) ohiHangeul3(f,0,c);
+				else ohiInsert(f,0,c);
 			}
 
-			backspaces_for_restoring_prev_state = necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
+			backspaces_for_restoring_prev_state = necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut + necessary_backspaces_sign;
 			return;
 		}
 		
