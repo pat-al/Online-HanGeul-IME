@@ -9,16 +9,18 @@
 
 function additional_layouts() {
 	var KE; // 한글·영문 상태 (Ko:한글, En:영문)
-	var type_name; // 자판 배열 이름 (OHI에서 쓰는 이름)
+	var type_name; // 자판 배열 이름 (OHI에서 쓰는 로마자 이름)
 	var full_name; // 자판 배열 이름
 	var layout; // 기본 배열
-	var sublayout; // 덧붙여 쓰는 보조 배열	
+	var sublayout; // 덧붙여 쓰는 보조 배열
 	var extended_sign_layout; // 기호 확장 배열
 	var extended_hangeul_layout;	// 한글 확장 배열
+	var hangeul_abbreviation_table; // 한글 줄임말 규칙 (이어치기)
 	var hangeul_combination_table; // 한글 낱자 조합 규칙 (이어치기)
 	var extended_hangeul_combination_table; // 옛한글 낱자 조합 규칙 (이어치기)
+	var moachigi_multikey_abbreviation_table;	// 모아치기 자판에서 글쇠로 조합하는 줄임말 규칙 (다른 조합 규칙보다 가장 먼저 적용됨)
+	var moachigi_abbreviation_table;	// 모아치기 자판에서 낱자로 조합하는 줄임말 규칙
 	var moachigi_combination_table; // 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
-	var multikey_combination_table;	// 모아치기 자판의 줄여녛기 조합 규칙 (다른 조합 규칙보다 먼저 적용됨)
 	var link; // 자판 배열의 정보가 있는 웹 주소
 }
 
@@ -52,8 +54,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015-y', full_name: '3-2015 옛
 additional_layouts.push({KE: 'Ko', type_name: '3-2015M', full_name: '3-2015M', layout: K3_2015M_layout, sublayout: K3_2015M_sublayout, hangeul_combination_table: K3_2015M_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/46'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P', full_name: '3-2015P', layout: K3_2015P_layout, sublayout: K3_2015P_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'http://pat.im/1090'});
-additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2 (설계안)', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1128'});
-additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3 (설계안)', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'http://pat.im/1128'});
+additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'http://pat.im/1128'});
+additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'http://pat.im/1128'});
 
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-1995', full_name: '신세벌식 1995 (신광조 원안)', layout: K3_Sin3_1995_layout, link:'http://pat.im/1104'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 신세벌식', layout: K3_Sin3_BGN_layout});
@@ -65,7 +67,7 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 �
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi2014', full_name: '세모이 2014 (옛 배열)', layout: K3_Semoi_2014_layout, sublayout: K3_Semoi_2014_sublayout, hangeul_combination_table: K3_Semoi_2014_combination_table});
-additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi', full_name: '세모이', layout: K3_Moachigi_2015_layout, sublayout: K3_Semoi_2015_sublayout, multikey_combination_table: K3_Semoi_2015_multikey_combination_table, moachigi_combination_table: K3_Semoi_2015_combination_table, link: 'http://ssg.wo.tc/220239514856'});
+additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi', full_name: '세모이', layout: K3_Moachigi_2015_layout, sublayout: K3_Semoi_2015_sublayout, moachigi_multikey_abbreviation_table: K3_Semoi_2015_multikey_abbreviation_table, moachigi_abbreviation_table: K3_Semoi_2015_abbreviation_table, moachigi_combination_table: K3_Semoi_2015_combination_table, link: 'http://ssg.wo.tc/220239514856'});
 
 additional_layouts.push({KE: 'Ko', type_name: '4t-Pyojun1969', full_name: '1969 표준 네벌식 타자기 (1969)', layout: K4_Pyojun_1969_Typewriter_layout, link: 'http://pat.im/965'});
 additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'http://pat.im/1026'});
@@ -5394,11 +5396,18 @@ function input_hangeul_combination_table_info() {
 		[0x11c211bc,0x11b5], /* jongseong hieuh + ieung = lieul-pieup */
 	];
 
-	K3_Semoi_2015_multikey_combination_table = [
-		{keys: ['u','w'], chars: [0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* ㅂ니다 */
-		{keys: ['j','w'], chars: [0x110b,0x1175,0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* 입니다 */
-		{keys: ['n','w'], chars: [0x1112,0x1161,0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* 합니다 */
-		{keys: ['n','l','s'], chars: [0x1112,0x1161,0x110c,0x1175,0x1106,0x1161,0x11ab]} /* 하지만 */
+	K3_Semoi_2015_multikey_abbreviation_table = [
+		//{keys: ['u','w'], chars: [0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* ㅂ니다 */
+		//{keys: ['j','w'], chars: [0x110b,0x1175,0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* 입니다 */
+		//{keys: ['n','w'], chars: [0x1112,0x1161,0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* 합니다 */
+		//{keys: ['n','l','s'], chars: [0x1112,0x1161,0x110c,0x1175,0x1106,0x1161,0x11ab]} /* 하지만 */
+	];
+	
+	K3_Semoi_2015_abbreviation_table = [
+		{phonemes: [0x1102,0x11b8], chars: [0x11b8,0x1102,0x1175,0x1103,0x1161,0x2e,0x20]}, /* ㅂ니다 */
+		{phonemes: [0x110b,0x11b8], chars: [0x110b,0x1175,0x11b8,0x1102,0x1175,0x1103,0x1161,0x2e,0x20,0x20]}, /* 입니다 */
+		{phonemes: [0x1112,0x11b8], chars: [0x1112,0x1161,0x11b8,0x1102,0x1175,0x1103,0x1161,0x2e,0x20]}, /* 합니다 */
+		{phonemes: [0x1112,0x110c,0x11ab], chars: [0x1112,0x1161,0x110c,0x1175,0x1106,0x1161,0x11ab,0x20]} /* 하지만 */
 	];
 
 	K3_Semoi_2015_combination_table = [
@@ -5458,6 +5467,10 @@ function input_hangeul_combination_table_info() {
 		{phonemes: [0x11c2,0x11a8], char: 0x11bf}, /* jongseong hieuh + gieug = kieuk */
 		{phonemes: [0x11c2,0x11ae], char: 0x11c0}, /* jongseong hieuh + dieud = tieut */
 		{phonemes: [0x11c2,0x11b8], char: 0x11c1}  /* jongseong hieuh + bieub = pieup */
+	];
+	
+	K3_hangeul_abbreviation_table = [
+		{phonemes: [0x110c,0x1107], chars: [0x110c,0x1165,0x11bc,0x1107,0x116e]} /* ㅈㅂ : 정부 */		
 	];
 
 } // input_hangeul_combination_table_info()
