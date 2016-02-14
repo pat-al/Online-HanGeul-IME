@@ -109,7 +109,7 @@ var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 �
 var ohiRQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
 var backup_ohiQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 복사해 두는 배열
 var backup_ohiRQ = [];
-var backspaces_for_restoring_prev_state = 0; // 모아치기 자판에서 바로 앞선 상태로 돌아가는 데에 필요한 되걸음쇠 타수
+var backspaces_for_restoring_prev_state = 0; // 모아치기 자판이나 줄임말 기능을 쓸 때 바로 앞선 상태로 돌아가는 데에 필요한 되걸음쇠 타수
 var abbriviation_processing_state = 0; // 줄임말 처리를 하고 있는지
 
 var ohiStatus = document.createElement('div');
@@ -590,7 +590,7 @@ function ohiHangeul3_abbreviation(f,e,c) { // 이어치기 세벌식 자판에�
 
 		if(chars) {
 			ohiBackspace(f);
-			input_chars(f,chars);
+			insert_chars(f,chars);
 			return 1;
 		}
 	}
@@ -634,10 +634,6 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리)
 	}
 
 	if(!abbriviation_processing_state) {
-		//if(option.abbreviation && backspaces_for_restoring_prev_state) {
-			//ohiHangeul_moa_backspace(f,e);
-		backspaces_for_restoring_prev_state=0;
-
 		if(Ko_type.substr(0,2)=='3-')	{
 			if(Hangeul_Gong3_sign(f,e,c)) return 0;
 		}
@@ -877,7 +873,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			}
 			
 			if(j!=combination_table[i].keys.length) continue;
-			input_chars(f,combination_table[i].chars);
+			insert_chars(f,combination_table[i].chars);
 			return;
 		}
 	}
@@ -893,7 +889,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			}
 			
 			if(j!=combination_table[i].phonemes.length) continue;
-			input_chars(f,combination_table[i].chars);
+			insert_chars(f,combination_table[i].chars);
 			return;
 		}
 		
@@ -972,33 +968,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		ohiHangeul3(f,e,front_etc[i]);
 	}
 
-	for(i=0;i<cheot.length;++i) {
-		++necessary_backspaces_cheot;
-		if(!ohiHangeul3(f,e,cheot[i])) {
-			++backspaces_for_restoring_prev_state;
-			moachigi_necessary_backspaces_cheot=0;
-		}
-	}
-
-	for(i=0;i<ga.length;++i) {
-		++necessary_backspaces_ga;
-		if(!ohiHangeul3(f,e,ga[i])) {
-			++backspaces_for_restoring_prev_state;
-			moachigi_necessary_backspaces_ga=0;
-		}
-	}
-
-	for(i=0;i<ggeut.length;++i) {
-		++necessary_backspaces_ggeut;
-		j=0;
-		if(ohiQ[3]&&ohiQ[6]) j=1;
-		if(!ohiHangeul3(f,e,ggeut[i])) {
-			if(!j) ++backspaces_for_restoring_prev_state;
-			necessary_backspaces_ggeut=0;
-		}
-	}
-
-	backspaces_for_restoring_prev_state += necessary_backspaces_cheot + necessary_backspaces_ga + necessary_backspaces_ggeut;
+	insert_chars(f,cheot.concat(ga,ggeut));
 
 	for(i=0;i<rear_etc.length;++i) {
 		backspaces_for_restoring_prev_state=0;
@@ -1028,12 +998,11 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	}
 }
 
-function input_chars(f,chars) {
-	if(typeof chars.length == 'undefined') return;
+function insert_chars(f,chars) {
+	if(typeof chars == 'undefined' || typeof chars.length == 'undefined') return;
 	
-	var c,h,i,j,k,l;
+	var h=0,i,j,k,l;
 	backspaces_for_restoring_prev_state=0;
-	
 	abbriviation_processing_state=1;
 	
 	for(i=0;i<chars.length;++i) {
@@ -1051,7 +1020,8 @@ function input_chars(f,chars) {
 			if(!k) {
 				++h;
 			}
-			if(!i&&ohiQ[6] || k>=1&&l==1) {// 첫 타가 받침이거나 한글 조합이 끊기고 새로 시작될 때
+			
+			else if(!i&&(ohiQ[1] || ohiQ[3] || ohiQ[6]) || k>=1&&l==1) {// 첫 타에 한글 조합이 끊기지 않았거나, 한글 조합이 끊기고 새로 시작될 때
 				h=1;
 				if(i) ++backspaces_for_restoring_prev_state;
 			}
@@ -1062,10 +1032,10 @@ function input_chars(f,chars) {
 		}
 		else {
 			ohiInsert(f,0,chars[i]);
-			if(h) {
-				h=0;
+			if(h && Ko_type.substr(0,3)=='3m-') {
 				++backspaces_for_restoring_prev_state;
 			}
+			h=0;
 			++backspaces_for_restoring_prev_state;
 		}
 	}
@@ -2522,6 +2492,12 @@ function ohiKeydown(e) {
 				onkeyup_skip=0;
 				return false;
 			}
+			else if(Ko_type.substr(0,4)!='Sin3' && option.abbreviation && backspaces_for_restoring_prev_state) {
+				ohiHangeul_moa_backspace(f,e);
+				backspaces_for_restoring_prev_state=0;
+				return false;
+			}
+				
 			if(!ohiHangeul_backspace(f,e)) return false;
 			if(e.preventDefault) e.preventDefault();
 			ohiBackspace(f);
@@ -2610,7 +2586,7 @@ function ohiKeydown(e) {
 			esc_ext_layout();
 			backspaces_for_restoring_prev_state=0;
 			ohiInsert(f,0,0);			
-		}	
+		}
 	}
 	if(f.id=='inputText') show_NCR();
 }
