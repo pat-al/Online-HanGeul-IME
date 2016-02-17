@@ -1,6 +1,6 @@
 /*
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/02/16
+ * Last Update : 2016/02/17
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
  * Added support for Firefox 12 and higher.
@@ -27,10 +27,21 @@
   The license can be found at http://www.gnu.org/licenses/gpl.txt.
 */
 
-var En_type = 'QWERTY';
-var Ko_type = 'Sin3-P';
-var ohi_KBD_type = 'QWERTY'; // 기준 자판 종류 (QWERTY/QWERTZ/AZERTY, ohiChange_KBD_type 함수로 바꿈)
-var initial_layout_type = 'Ko'; // 한글·영문 배열 가운데 처음에 어느 것을 쓸지
+var default_En_type = 'QWERTY';
+var default_Ko_type = 'Sin3-P';
+var default_ohi_KBD_type = 'QWERTY';
+var default_ohi_KE = 'Ko';
+
+var En_type; // 영문 자판 종류 (ohiChange 함수로 바꿈)
+var Ko_type; // 한글 자판 종류 (ohiChange 함수로 바꿈)
+var ohi_KBD_type; // 기준 자판 종류 (QWERTY/QWERTZ/AZERTY, ohiChange_KBD_type 함수로 바꿈)
+var ohi_KE; // 한글·영문 상태 (Ko: 한글, En: 영문) (ohiChange_KE 함수로 바꿈)
+
+// En_type, Ko_type 등이 미리 지정되어 있으면 지정된 것으로 초기값을 바꿈
+if(typeof En_type != 'undefined') default_En_type = En_type; else En_type = default_En_type;
+if(typeof Ko_type != 'undefined') default_Ko_type = Ko_type; else Ko_type = default_Ko_type;
+if(typeof ohi_KBD_type != 'undefined') default_ohi_KBD_type = ohi_KBD_type; else ohi_KBD_type = default_ohi_KBD_type;
+if(typeof ohi_KE != 'undefined') default_ohi_KE = ohi_KE; else ohi_KE = default_ohi_KE;
 
 function basic_layouts() {
 	var KE; // 한글·영문 상태 (Ko:한글, En:영문)
@@ -100,10 +111,6 @@ option.phonemic_writing = 0;
 var NCR_option = new NCR_option();
 NCR_option.enable_NCR = 0;
 NCR_option.convert_only_CGG_encoding = 0;
-
-var initial_layout = initial_layout_type=='En' ? En_type : Ko_type;
-var ohi_KE_Status; // 쓰고 있는 배열의 한글·영문 종류 (Ko: 한글, En: 영문)
-ohi_KE_Status = initial_layout_type;
 
 var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 담는 배열 [첫,첫,첫,가,가,가,끝,끝,끝]
 var ohiRQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
@@ -215,7 +222,7 @@ function ohiHangeul_moa_backspace(f,e) {
 
 function ohiHangeul_backspace(f,e) {
 	var i,j;
-	var KE=ohi_KE_Status;
+	var KE=ohi_KE;
 
 	// Backspace (세벌식 기호 확장 배열 상태일 때)
 	if(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2) {
@@ -354,7 +361,7 @@ function ohiInsert(f,m,c) { // Insert
 }
 
 function esc_ext_layout() {
-	var KE = ohi_KE_Status;
+	var KE = ohi_KE;
 	if(ohiHangeul3_HanExtKey || Hangeul_SignExtKey1+Hangeul_SignExtKey2) {
 		if(KE=='Ko') {
 			Hangeul_SignExtKey1=Hangeul_SignExtKey2=0;
@@ -1294,20 +1301,22 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 	}
 	else if(cc<31 && prev_phoneme.length && unicode_ggeut.indexOf(prev_phoneme[0])>=0) {
 	// 첫가끌 조합 상태에서 받침이 들어간 다음에 다시 받침이 들어왔을 때
-		if(option.enable_double_final_ext && prev_phoneme[0]==convert_into_unicode_hangeul_phoneme(cc)) {
-		// 같은 받침 글쇠가 거듭 눌렸을 때 겹받침 확장 배열 적용하기
-			prev_phoneme.unshift(convert_into_unicode_hangeul_phoneme(cc));
-			prev_phoneme_R.unshift(0);
-			prev_combined_phoneme[0]=convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]);
-			ohiBackspace(f);
-			ohiInsert(f,0,convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]));
-			return -1;
-		}
-		else {
-		// 요즘한글에 있는 겹받침 조합인지 찾기
-			for(i=0;i<hangeul_combination_table_default.length;++i) {
-				if(hangeul_combination_table_default[i][0]==prev_phoneme[0]*0x10000+convert_into_unicode_hangeul_phoneme(cc)) {
-					return convert_into_unicode_hangeul_phoneme(cc);
+		if(unicode_ggeut.indexOf(prev_phoneme[1])<0) {
+			if(option.enable_double_final_ext && prev_phoneme[0]==convert_into_unicode_hangeul_phoneme(cc)) {
+			// 같은 받침 글쇠가 거듭 눌렸을 때 겹받침 확장 배열 적용하기
+				prev_phoneme.unshift(convert_into_unicode_hangeul_phoneme(cc));
+				prev_phoneme_R.unshift(0);
+				prev_combined_phoneme[0]=convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]);
+				ohiBackspace(f);
+				ohiInsert(f,0,convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]));
+				return -1;
+			}
+			else {
+			// 요즘한글에 있는 겹받침 조합인지 찾기
+				for(i=0;i<hangeul_combination_table_default.length;++i) {
+					if(hangeul_combination_table_default[i][0]==prev_phoneme[0]*0x10000+convert_into_unicode_hangeul_phoneme(cc)) {
+						return convert_into_unicode_hangeul_phoneme(cc);
+					}
 				}
 			}
 		}
@@ -1696,7 +1705,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 
 function show_options() {
 	var opts = document.getElementById('options'), opt;
-	var KE=ohi_KE_Status;
+	var KE=ohi_KE;
 
 	if(opts) {
 		opts.style.display = 'block';
@@ -1761,7 +1770,7 @@ function show_keyboard_layout(type) {
 	var opts, opt;
 	var inner_html='';
 	shift_click=0;
-	var KE = ohi_KE_Status;
+	var KE = ohi_KE;
 	if(typeof ohi_menu_num=='undefined') ohi_menu_num=0;
 	show_options();
 
@@ -2083,12 +2092,12 @@ function ohiStart() {
 	}
 
 	if(typeof current_layout.KE=='undefined' || !current_layout.KE) {
-		ohiChange(initial_layout_type, initial_layout);
+		ohiChange(default_ohi_KE, default_ohi_KE=='En' ? default_En_type : default_Ko_type);
 	}
+	
+	ohi_KE = current_layout.KE;
 
-	ohi_KE_Status = current_layout.KE;
-
-	ohiStatus.innerHTML = '<a href="javascript:ohiChange_KE();" style="color:White;text-decoration:none;">&nbsp;' + ohi_KE_Status.toUpperCase() + ' </a>'
+	ohiStatus.innerHTML = '<a href="javascript:ohiChange_KE();" style="color:White;text-decoration:none;">&nbsp;' + ohi_KE.toUpperCase() + ' </a>'
 	 + ' | <a href="javascript:ohiChange_between_same_type(\'Ko\');"><span style="color:yellow">Ko:</span><span style="color:Aquamarine">' + Ko_type + '</span></a>'
 	 + ' / <a href="javascript:ohiChange_between_same_type(\'En\');"><span style="color:LightPink">En:</span><span style="color:Aquamarine">' + En_type + '</span></a>'
 	 + ' | <a href="javascript:ohiChange_KBD_type();" style="color:WhiteSmoke;text-decoration:none;">' + ohi_KBD_type + '&nbsp;</a>';
@@ -2165,7 +2174,7 @@ function ohiStart() {
 }
 
 function show_keyboard_layout_info() {
-	var KE=ohi_KE_Status;
+	var KE=ohi_KE;
 	var kbd = ohi_KBD_type=='QWERTY' ? '' : ':'+ohi_KBD_type;
 
 	var name='', keyboardLayoutInfo = document.getElementById('keyboardLayoutInfo');
@@ -2205,7 +2214,7 @@ function ohiChange(KE, layout) {
 	if(KE.toLowerCase()=='en') KE='En';
 	else if(KE.toLowerCase()=='ko' || KE.toLowerCase()=='k2' || KE.toLowerCase()=='k3') KE='Ko';
 
-	ohi_KE_Status = ohi_KE_Status.replace(/(En|Ko)/,KE.substr(0,2));
+	ohi_KE = ohi_KE.replace(/(En|Ko)/,KE.substr(0,2));
 
 	var a=[basic_layouts];
 	if(typeof additional_layouts != 'undefined') a.push(additional_layouts);
@@ -2278,7 +2287,7 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 }
 
 function ohiChange_KE(type) {	// 한·영 상태 바꾸기
-	var KE = ohi_KE_Status;
+	var KE = ohi_KE;
 
 	if(type === undefined || !type) {
 		if(KE=='En') ohiChange('Ko',Ko_type);
@@ -2343,7 +2352,7 @@ function Sin3_hangeul_extension() {
 }
 
 function ohiKeyswap(c,e) {
-	var KE=ohi_KE_Status;
+	var KE=ohi_KE;
 	var i=0, swaped = [];
 	if(ohi_KBD_type=='QWERTZ') swaped=[89,90,90,89,121,122,122,121];
 	if(ohi_KBD_type=='AZERTY') swaped=[65,81,81,65,87,90,90,87,97,113,113,97,119,122,122,119,77,58,109,59,44,109,58,46,59,44];
@@ -2362,7 +2371,7 @@ function ohiKeyswap(c,e) {
 function ohiKeypress(e) {
 	if(option.turn_off_OHI) return false;
 	if(onkeypress_skip) return false;
-	var KE=ohi_KE_Status.substr(0,2);
+	var KE=ohi_KE.substr(0,2);
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
 	
@@ -2414,12 +2423,12 @@ function ohiKeypress(e) {
 			if(e.preventDefault) e.preventDefault();
 			key_pressed=0;
 		}
-		else if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
+		else if(ohi_KE.substr(0,2)=='En' && c>32 && c<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
 			if(e.preventDefault) e.preventDefault();
 			ohiRoman(f,e,c);
 			key_pressed=1;
 		}
-		else if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
+		else if(ohi_KE.substr(0,2)!='En' && c>32 && c<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
 			if(e.preventDefault) e.preventDefault();
 			key_pressed=1;
 
@@ -2439,7 +2448,7 @@ function ohiKeypress(e) {
 				if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0,0,0];
 				if(f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1) ohiQ=[0,0,0,0,0,0,0,0,0];
 
-				if(ohi_KE_Status.substr(0,2)=='Ko') {
+				if(ohi_KE.substr(0,2)=='Ko') {
 					if(current_layout.type_name.substr(0,2)=='2-') {ohiHangeul2(f,e,c);}
 					else {
 						if(!ohiHangeul3_abbreviation(f,e,c)) ohiHangeul3(f,e,c);
@@ -2466,7 +2475,7 @@ function ohiKeydown(e) {
 	onkeyup_skip=0; // 참이면 ohiKeyup() 처리를 건너뜀
 	var i=0;
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, c=e.which||e.which==0?e.which:e.keyCode;
-	var KE = ohi_KE_Status;
+	var KE = ohi_KE;
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if(e.keyCode>=96 && e.keyCode<=111) { // 오른쪽 숫자판(키패드) 글쇠일 때
@@ -2588,7 +2597,7 @@ function ohiKeydown(e) {
 
 function ohiKeyup(e) {
 	var e=e||window.event, f=e.target||e.srcElement;
-	var KE=ohi_KE_Status.substr(0,2);
+	var KE=ohi_KE.substr(0,2);
 	var exceptional_keys = [32,13,8,16]; // 사이띄개, 줄바꾸개, 뒷걸음쇠
 
 	if(onkeyup_skip || option.turn_off_OHI || (e.keyCode<47 && exceptional_keys.indexOf(e.keyCode)<0)) {
@@ -2747,7 +2756,7 @@ function tableKey_clicked(e, key_num, dk, uk){
 	var n=f.nodeName||f.tagName;
 	if(!f || n!='TEXTAREA') return false;
 
-	KE=ohi_KE_Status.substr(0,2);
+	KE=ohi_KE.substr(0,2);
 
 	var shiftlock = document.getElementById('key28');
 	var shift1 = document.getElementById('key41');
@@ -2813,8 +2822,8 @@ function tableKey_clicked(e, key_num, dk, uk){
 	}
 
 	if((shift_click+shiftlock_click)%2) c=uk; else c=dk;
-	if(ohi_KE_Status.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,0,c);
-	if(ohi_KE_Status.substr(0,2)!='En' && c>32 && c<127) {
+	if(ohi_KE.substr(0,2)=='En' && c>32 && c<127) ohiRoman(f,0,c);
+	if(ohi_KE.substr(0,2)!='En' && c>32 && c<127) {
 		if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0,0,0];
 		//if(f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1) ohiQ=[0,0,0,0,0,0,0,0,];
 		if(KE=='Ko') {
@@ -4058,6 +4067,7 @@ basic_layout_table();
 basic_layout_combination_table();
 basic_layout_list();
 browser_detect();
+
 ohiStart();
 url_query();
 

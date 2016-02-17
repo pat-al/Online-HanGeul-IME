@@ -5,6 +5,14 @@
 	<title>온라인 한글 입력기 (Online Hangeul IME)</title>
 	<meta name="Description" content="한글 입력기가 깔리지 않은 곳에서도 한글을 넣는 화상 자판 웹 입력기 (on-screen web IME for Korean Hangeul keyboards)" />
 	<meta name="Keywords" content="Hangeul, Korean, on-screen, IME, keyboard layout, Javascript, 한글, 자판 배열, 화상 자판, 세벌식, 두벌식, 옛한글, 타자기" />
+	<script type="text/javascript">
+	<!--
+		Ko_type = 'Sin3-P';  // 한글 자판
+		En_type = 'QWERTY';  // 영문 자판
+		ohi_KBD_type = 'QWERTY';  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
+		ohi_KE = 'Ko';  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
+	-->
+	</script>
 	<script type="text/javascript" src="additional_layouts.js"></script>
 	<script type="text/javascript" src="ohi.js"></script>
 
@@ -73,12 +81,13 @@
 		div#tab2 .searchEngine label.name { font-weight:bold; }
 		div#tab2 .searchEngine input.text { width:300px; }
 		div#tab2 .searchEngine input.submit { width:50px; }
-		div#tab3 { height:1px; overflow:hidden; visibility:hidden; }
+		div#tab3 { height:1px; overflow:hidden; visibility:hidden; line-height:1.5em; }
 		div#tab3 h2 { font-weight:bold; font-size:16px; }
 		div#tab3 ol, div#tab3 li { margin:0 10px 5px 0;}
+		div#tab3 a {text-decoration:none; font-weight:bold; color:#22a;}
 
 		div.layout_group_tab { display:none; }
-		a.layout_group_link { text-decoration:none; color:#0000bb;}
+		a.layout_group_link { text-decoration:none; color:#00b;}
 
 		#options { height:2.2em; }
 		.option { float:right; }
@@ -396,16 +405,15 @@
  						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','Colemak')},1000)})()">Colemak</a>
 						<br />
 						2벌식 자판 :
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KSX5002')},1000)})()">KSX5002(한국)</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KPS9256')},1000)})()">KPS9256(조선)</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-sun-KSX5002')},1000)})()">두벌식 순아래</a>
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KSX5002')},1000)})()">KSX5002</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KPS9256')},1000)})()">KPS9256</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-sun-KSX5002')},1000)})()">순아래 KSX5002</a>
 						<br />
 						3벌식 자판 :
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-90')},1000)})()">3-90</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-91')},1000)})()">3-91</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-2012')},1000)})()">3-2012</a>,
 						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','Sin3-P')},1000)})()">신세벌식 P</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3m-Semoi')},1000)})()">세모이</a>
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3m-Semoi')},1000)})()">세모이</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-90')},1000)})()">3-90</a>,
+						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-P3')},1000)})()">3-P3</a>
 					</li>
 					<li>
 						오른쪽 아래에 나타나는 보람줄의 왼쪽에 있는 <kbd class="status" style="color:#Gold">&nbsp;KO&nbsp;</kbd> 또는 <kbd class="status" style="color:#Gold">&nbsp;EN&nbsp;</kbd>을 딸깍하여 한·영 상태를 바꿀 수도 있습니다.
@@ -416,17 +424,14 @@
 				<ul>
 					<li>
 						HTML 문서에 다음 내용을 끼워 넣으면 <strong>OHI</strong>가 작동합니다.<br />
-						<kbd>&lt;script src=&quot;//ohi.pat.im/additional_layouts.js&quot;&gt; &lt;/script&gt;</kbd><br/>
-						<kbd>&lt;script src=&quot;//ohi.pat.im/ohi.js&quot;&gt; &lt;/script&gt;</kbd>
-					</li>
-					<li>
-						그 아래에 다음을 더 넣으면 <strong>AZERTY 자판</strong>을 기준 자판으로 하여 <strong>드보락 자판</strong>, <strong>3-90 자판</strong>을 고른 상태가 됩니다.
-						(마지막에 바꾼 3-90 자판을 쓰는 상태가 됨)<br />
-						<kbd>&lt;script type=&quot;text/javascript&quot;&gt;<br />
-						&nbsp;ohiChange_KBD_type('AZERTY');<br />
-						&nbsp;ohiChange('En','Dvorak');<br />
-						&nbsp;ohiChange('Ko','3-90');<br />
-						&lt;/script&gt;</kbd>
+<pre><kbd>&lt;script type=&quot;text/javascript&quot;&gt;
+	Ko_type = &quot;Sin3-P&quot;;  // 한글 자판
+	En_type = &quot;QWERTY&quot;;  // 영문 자판
+	ohi_KBD_type = &quot;QWERTY&quot;;  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
+	ohi_KE = &quot;Ko&quot;;  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
+&lt;/script&gt;
+&lt;script src=&quot;//ohi.pat.im/additional_layouts.js&quot;&gt; &lt;/script&gt;
+&lt;script src=&quot;//ohi.pat.im/ohi.js&quot;&gt; &lt;/script&gt;</kbd></pre>
 					</li>
 				</ul>
 				<h2>III. 그밖의 정보</h2>
@@ -442,7 +447,7 @@
 						<strong>OHI</strong>는 <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>에 따라 자유롭게 고쳐서 배포할 수 있습니다.
 					</li>
 					<li>
-						이 입력기는 <a href="http://ohi.kr" target="_blank">http://ohi.kr</a>의 <strong>OHI</strong>에 2벌식/3벌식 배열들과 화상 자판 기능을 더 넣은 판입니다.
+						이 입력기는 이호석 님의 OHI 원판에 2벌식, 3벌식 자판들과 화상 자판 기능을 더 넣은 판입니다.
 						더 자세한 정보는 <a href="http://pat.im/910" target="_blank">http://pat.im/910</a>을 참고하기 바랍니다.
 					</li>
 				</ul>
