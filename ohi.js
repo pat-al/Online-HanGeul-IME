@@ -1,12 +1,18 @@
-/*
+/* Modified Version (http://ohi.pat.im)
+
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
  * Last Update : 2016/02/25
+
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
  * Added support for Firefox 12 and higher.
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
  * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
+
+*/
+
+/* Original Version (duplicate - http://ohi.pat.im/org)
 
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
@@ -25,6 +31,7 @@
   GNU General Public License for more details.
 
   The license can be found at http://www.gnu.org/licenses/gpl.txt.
+
 */
 
 var default_En_type = 'QWERTY';
