@@ -5,7 +5,7 @@
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
- * Added support for Firefox 12 and higher.
+ * Added support for Firefox 12 and higher version.
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
  * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
@@ -82,13 +82,12 @@ function basic_layout_list() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
 	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'http://pat.im/938'});
 
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
 }
 
 function option() {
 	var turn_off_OHI; // OHI 입력 기능 멈추기 (화상 자판은 그대로 씀)
 	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
-	//var show_sublayout_of_galmageuli_double_final_ext; // 갈마들이 세벌식 자판의 겹받침 확장 배열 나타내기
 	var enable_double_final_ext; // 겹받침 확장 배열 쓰기 --> ohiChange_enable_double_final_ext() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열 쓰기 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
@@ -108,7 +107,6 @@ function NCR_option() {
 var option=new option();
 option.turn_off_OHI=0;
 option.show_layout=1;
-//option.show_sublayout_of_galmageuli_double_final_ext=1;
 option.enable_double_final_ext=0;
 option.enable_sign_ext=1;
 option.force_normal_typing = 0;
@@ -1171,7 +1169,8 @@ function CGG_yesHangeul(f,c,cc) {	// 세벌식 옛한글 처리
 	var combined_phoneme=combine_unicode_hangeul_phoneme(prev_combined_phoneme[0],cc);
 	
 	// 앞 낱자와 조합하지 않는 첫소리나 한글이 아닌 문자가 들어왔을 때에 조합을 끊고 앞 낱내를 요즘한글 방식 코드로 바꿈
-	if(!combined_phoneme&&unicode_cheot.indexOf(cc)>=0 || unicode_cheot.indexOf(cc)<0&&unicode_ga.indexOf(cc)<0&&unicode_ggeut.indexOf(cc)<0) {
+	if(!combined_phoneme&&unicode_cheot.indexOf(cc)>=0 || //unicode_hangeul_CGG_phoneme.indexOf(cc)<0) {
+	unicode_cheot.indexOf(cc)<0&&unicode_ga.indexOf(cc)<0&&unicode_ggeut.indexOf(cc)<0) {
 		convert_into_modern_hangeul_syllable(f);
 		prev_phoneme.splice(0);
 		prev_phoneme_R.splice(0);
@@ -1201,8 +1200,8 @@ function CGG_yesHangeul(f,c,cc) {	// 세벌식 옛한글 처리
 			prev_phoneme_R.unshift(0);
 			prev_combined_phoneme.unshift(0x1160);
 		}
-		else if(unicode_cheot.indexOf(prev_phoneme[0])<0 && unicode_ga.indexOf(prev_phoneme[0])<0) {
-		// 바로 앞에 첫소리도 가운뎃소리도 끝소리도 들어오지 않았을 때
+		else if(unicode_cheot.indexOf(prev_phoneme[0])<0 && unicode_ga.indexOf(prev_phoneme[0])<0 && prev_phoneme[0]!=0x115F && prev_phoneme[0]!=0x1160) {
+		// 바로 앞에 첫소리도 가운뎃소리도 끝소리도 채움 문자도 들어오지 않았을 때
 			convert_into_modern_hangeul_syllable(f);
 			ohiInsert(f,0,0x115F);
 			ohiInsert(f,0,0x1160); // 가운뎃소리 채움 문자 넣음
@@ -1416,10 +1415,16 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ, ㆍ) 넣기
 		cc=-cc;
 	}
-	else if(prev_phoneme_R[0] && unicode_ggeut.indexOf(cc)>=0) {
+	else if(prev_phoneme_R[0] && unicode_ga.indexOf(cc2)>=0) {
+	// 겹홀소리 조합용 가운뎃소리가 먼저 들어간 뒤에 홀소리 자리 글쇠가 눌렸을 때
 		cc=cc2;
 	}
-	else if(unicode_ggeut.indexOf(cc)>=0 && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc2)>=0 || c==122)) { // 왼손 쪽 아랫글 자리에서 가운뎃소리 넣기
+	else if(cc==0x1160) {
+	// 가운뎃소리 채움 문자
+		
+	}
+	else if(unicode_ggeut.indexOf(cc)>=0 && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc2)>=0 || c==122)) {
+	// 왼손 쪽 아랫글 자리에서 가운뎃소리 넣기
 		cc=cc2;
 		if(c==122 && (cc2==0x119E || unicode_hangeul_CGG_phoneme.indexOf(cc2)<0)) cc=0x119E; // Z 자리 아래아
 	}
@@ -1938,7 +1943,7 @@ function show_keyboard_layout(type) {
 					dh[i][j] = String.fromCharCode(compatibility_ggeut[unicode_modern_ggeut.indexOf(charCode)]);
 				}
 				else dh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + dh[i][j];
-					
+
 				if(tdclass.substr(0,1)!='h') {
 					if(unicode_modern_ggeut.indexOf(uh[i][j].charCodeAt(0))>=0) {
 						tdclass = 'h3';
@@ -2340,15 +2345,6 @@ function ohiChange_enable_enable_Sin3_yeshangeul_combination(op) {
 
 function Sin3_hangeul_extension() {
 	if(Ko_type.substr(0,5)!='Sin3-') return;
-	
-	if(option.enable_Sin3_yeshangeul_combination) {
-		if(typeof current_layout.extended_hangeul_layout == 'undefined') {
-			current_layout.extended_hangeul_layout = current_layout.layout.slice(0);
-			current_layout.extended_hangeul_layout[52]=0x302E;
-			current_layout.extended_hangeul_layout[56]=0x302F;
-		}
-	}
-
 	opt = document.getElementById('option_enable_Sin3_diphthong_key');
 	if(opt) {
 		if(option.enable_Sin3_yeshangeul_combination && current_layout.type_name.substr(0,5)=='Sin3-') opt.style.display = 'block';
@@ -3510,6 +3506,11 @@ function basic_layout_table() {
 		0x0000,	/* 0x7D braceright: */
 		0x0000	/* 0x7E asciitilde: */
 	];
+
+	// 신세벌식 P 옛한글
+	K3_Sin3_P_y_layout = K3_Sin3_P_layout.slice(0);
+	K3_Sin3_P_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
+	K3_Sin3_P_y_layout[56]=0x302F; /* 0x55 U: hangeul single dot tone mark */
 
 	// 신세벌식 자판의 기호 확장 배열
 	K3_Sin3_extended_sign_layout = [
