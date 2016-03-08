@@ -63,8 +63,8 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3-BGN', full_name: '박경남 
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '박경남 수정 신세벌식 (2003)', layout: K3_Sin3_2003_layout, sublayout: K3_Sin3_2003_sublayout});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, link: 'http://pat.im/978'});
 
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '바꾼꼴 신세벌식 2015', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3b_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '바꾼꼴 신세벌식 M', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/95'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-2015', full_name: '(바꾼꼴) 신세벌식 2015', layout: K3_Sin3b_2015_layout, hangeul_combination_table: K3_Sin3b_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3b-M', full_name: '(바꾼꼴) 신세벌식 M', layout: K3_Sin3b_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoi2014', full_name: '세모이 2014 (옛 배열)', layout: K3_Semoi_2014_layout, sublayout: K3_Semoi_2014_sublayout, hangeul_combination_table: K3_Semoi_2014_combination_table});
@@ -3456,12 +3456,12 @@ function additional_keyboard_layout_table_info() {
 	/*q*/0x1164/*ㅒ*/,/*r*/0x1162/*ㅐ*/,/*s*/0x1174/*ㅢ*/,/*t*/0x1165/*ㅓ*/,/*u*/0x1103/*ㄷ*/,/*v*/0x1169/*ㅗ*/,/*w*/0x1168/*ㅖ*/,/*x*/0x116d/*ㅛ*/,
 	/*y*/0x1105/*ㄹ*/,/*z*/0x1172/*ㅠ*/,/*{*/123,/*|*/124,/*}*/125,/*~*/126];
 	
-	// 바꾼꼴 신세벌식 M 자판
+	// 신세벌식 M 자판 (바꾼꼴 신세벌식)
 	K3_Sin3b_M_layout = [/*!*/33,/*"*/47,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/0x1110/*ㅌ*/,/*(*/40,
 	/*)*/41,/***/42,/*+*/43,/*,*/44,/*-*/45,/*.*/46,/*/*/0x110f/*ㅋ*/,/*0*/48,
 	/*1*/49,/*2*/50,/*3*/51,/*4*/52,/*5*/53,/*6*/54,/*7*/55,/*8*/56,/*9*/57,
 	/*:*/58,/*;*/0x1107/*ㅂ*/,/*<*/60,/*=*/61,/*>*/62,/*?*/63,/*@*/64,
-	/*A*/0x11bc/*ㅇ*/,/*B*/0x11be/*ㅊ*/,/*C*/0x11c0/*ㅌ*/,/*D*/0x11c2/*ㅎ*/,/*E*/0x11b8/*ㅂ*/,/*F*/0x11bb/*ㅆ*/,/*G*/0x11ae/*ㄷ*/,/*H*/0x300A,
+	/*A*/0x11bc/*ㅇ*/,/*B*/0x11be/*ㅊ*/,/*C*/0x11c2/*ㅎ*/,/*D*/0x11bb/*ㅆ*/,/*E*/0x11b8/*ㅂ*/,/*F*/0x11c0/*ㅌ*/,/*G*/0x11ae/*ㄷ*/,/*H*/0x300A,
 	/*I*/0x203B,/*J*/0x300B,/*K*/183,/*L*/59,/*M*/34,/*N*/39,/*O*/0x116e/*ㅜ*/,/*P*/0x1169/*ㅗ*/,
 	/*Q*/0x11ba/*ㅅ*/,/*R*/0x11bd/*ㅈ*/,/*S*/0x11ab/*ㄴ*/,/*T*/0x11bf/*ㅋ*/,/*U*/0x201D,/*V*/0x11c1/*ㅍ*/,/*W*/0x11af/*ㄹ*/,/*X*/0x11a8/*ㄱ*/,
 	/*Y*/0x201C,/*Z*/0x11b7/*ㅁ*/,/*[*/91,/*\*/92,/*]*/93,/*^*/94,/*_*/95,/*`*/96,
