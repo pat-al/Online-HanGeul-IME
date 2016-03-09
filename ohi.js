@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/08
+ * Last Update : 2016/03/09
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -432,7 +432,8 @@ function convert_into_modern_hangeul_syllable(f) { // 첫가끝 방식 낱내를
 	if(option.input_only_CGG_encoding) return;
 	var i;
 	if(unicode_modern_cheot.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[0])>=0
-	|| unicode_modern_cheot.indexOf(prev_combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(prev_combined_phoneme[0])>=0) {
+	 || unicode_modern_cheot.indexOf(prev_combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(prev_combined_phoneme[0])>=0) {
+	// 첫+가 또는 첫+가+끝
 		if(unicode_modern_cheot.indexOf(prev_combined_phoneme[1])>=0) {
 			i=2; while(i--) ohiBackspace(f);
 			ohiQ = [prev_combined_phoneme[1]-0x1100+11+(prev_combined_phoneme[1]>0x1108 ? 1:0),0,0,prev_combined_phoneme[0]-0x1161+31,0,0,0,0,0];
@@ -1171,9 +1172,12 @@ function CGG_yesHangeul(f,c,cc) {	// 세벌식 옛한글 처리
 	var combined_phoneme=combine_unicode_hangeul_phoneme(prev_combined_phoneme[0],cc);
 	
 	// 앞 낱자와 조합하지 않는 첫소리나 한글이 아닌 문자가 들어왔을 때에 조합을 끊고 앞 낱내를 요즘한글 방식 코드로 바꿈
-	if(!combined_phoneme&&unicode_cheot.indexOf(cc)>=0 || //unicode_hangeul_CGG_phoneme.indexOf(cc)<0) {
-	unicode_cheot.indexOf(cc)<0&&unicode_ga.indexOf(cc)<0&&unicode_ggeut.indexOf(cc)<0) {
+	if(!combined_phoneme&&unicode_cheot.indexOf(cc)>=0 || unicode_cheot.indexOf(cc)<0&&unicode_ga.indexOf(cc)<0&&unicode_ggeut.indexOf(cc)<0) {
 		convert_into_modern_hangeul_syllable(f);
+		if(unicode_cheot.indexOf(prev_combined_phoneme[0])>=0 && unicode_modern_cheot.indexOf(prev_combined_phoneme[0])<0) {
+		// 요즘한글 조합 범위를 벗어난 첫소리만 들어 있으면 홀소리 채움문자를 넣음
+			ohiInsert(f,0,0x1160);
+		}
 		prev_phoneme.splice(0);
 		prev_phoneme_R.splice(0);
 		prev_combined_phoneme.splice(0);
