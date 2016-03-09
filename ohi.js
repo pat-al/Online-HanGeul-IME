@@ -1269,7 +1269,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		
 		return -1;
 	}
-	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6] && Ko_type!='Sin3b-2015') {
+	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6] && Ko_type!='Sin3-2015') {
 	// 신세벌식 기호 확장 배열을 쓸 조건을 갖추었을 때
 		if(cc==128) Hangeul_SignExtKey1=1;
 		else if(cc==151) Hangeul_SignExtKey1=2;
@@ -1749,7 +1749,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_sign_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
-		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' || Ko_type.substr(0,4)=='Sin3') && Ko_type!='Sin3b-2015') opt.style.display = 'block';
+		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' || Ko_type.substr(0,4)=='Sin3') && Ko_type!='Sin3-2015') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_Sin3_yeshangeul_combination');
@@ -2056,7 +2056,7 @@ function show_keyboard_layout(type) {
 			}
 		}
 		
-		if(option.enable_sign_ext && Ko_type!='Sin3b-2015') {
+		if(option.enable_sign_ext && Ko_type!='Sin3-2015') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
 				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 2px;background:black;color:#fff;">'+String.fromCharCode(0x2460+i)+'</span>';
