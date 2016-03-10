@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/09
+ * Last Update : 2016/03/11
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1419,15 +1419,15 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 	}
 	else if(cc==0x1160) {
 	// 가운뎃소리 채움 문자가 들어왔을 때
-		if(!prev_phoneme.length || unicode_cheot.indexOf(prev_phoneme[0])<0) {
 		// 앞에 첫소리가 들어오지 않았으면 채움 문자를 넣지 않음
-			return -1;
-		}
+		if(!prev_phoneme.length || unicode_cheot.indexOf(prev_phoneme[0])<0) return -1;
 	}
 	else if(!no_shift(c) && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc)>=0 || unicode_ga.indexOf(Sin3_sublayout[c-33-16])>=0)) {
 	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았고 홀소리가 있는 첫소리 글쇠를 윗글쇠와 함께 눌렀을 때 첫소리를 넣음
+	// 첫소리만 들어갔고 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
 		cc=cc2;
 		if(c==63) cc=Sin3_layout[c-33-16]; // 빗금(/) 자리
+		alert();
 	}
 	else if(option.enable_Sin3_diphthong_key && c==47 && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
@@ -2068,8 +2068,7 @@ function show_keyboard_layout(type) {
 			document.getElementById('de29').innerHTML = '<span style="color:#666">ㆁ</span>';
 			document.getElementById('de31').innerHTML = '<span style="color:#666">ㆆ</span>';
 			document.getElementById('de31').innerHTML = '<span style="color:#666">ㆆ</span>';
-			//document.getElementById('uh34').innerHTML = '<span style="background:black;color:#fff;letter-spacing:-1px;font-size:9px;">채움</span>';
-			document.getElementById('uh47').innerHTML = '<span style="background:black;color:#fff;letter-spacing:-1px;font-size:9px;">채움</span>';
+			//document.getElementById('uh47').innerHTML = '<span style="background:black;color:#fff;letter-spacing:-1px;font-size:9px;">채움</span>';
 		}
 	}
 
@@ -3529,10 +3528,9 @@ function basic_layout_table() {
 
 	// 신세벌식 P 옛한글
 	K3_Sin3_P_y_layout = K3_Sin3_P_layout.slice(0);
-	//K3_Sin3_P_y_layout[39]=0x1160; /* 0x48 H: jungseong filler */
-	K3_Sin3_P_y_layout[45]=0x1160; /* 0x48 H: jungseong filler */
+	//K3_Sin3_P_y_layout[45]=0x1160; /* 0x48 H: jungseong filler */
 	K3_Sin3_P_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
-	K3_Sin3_P_y_layout[56]=0x302F; /* 0x55 U: hangeul single dot tone mark */
+	K3_Sin3_P_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
 
 	// 신세벌식 자판의 기호 확장 배열
 	K3_Sin3_extended_sign_layout = [
