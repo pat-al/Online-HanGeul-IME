@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/11
+ * Last Update : 2016/03/13
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1427,7 +1427,6 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 	// 첫소리만 들어갔고 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
 		cc=cc2;
 		if(c==63) cc=Sin3_layout[c-33-16]; // 빗금(/) 자리
-		alert();
 	}
 	else if(option.enable_Sin3_diphthong_key && c==47 && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
