@@ -1422,12 +1422,15 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 		// 앞에 첫소리가 들어오지 않았으면 채움 문자를 넣지 않음
 		if(!prev_phoneme.length || unicode_cheot.indexOf(prev_phoneme[0])<0) return -1;
 	}
-	else if(!no_shift(c) && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc)>=0 || unicode_ga.indexOf(Sin3_sublayout[c-33-16])>=0)) {
-	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았고 홀소리가 있는 첫소리 글쇠를 윗글쇠와 함께 눌렀을 때 첫소리를 넣음
-	// 첫소리만 들어갔고 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
+	else if(!no_shift(c) && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0 && unicode_ga.indexOf(cc)>=0 && unicode_ggeut.indexOf(cc2)>=0) {
+	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
+		cc=cc2;
+	}
+	/*else if(!no_shift(c) && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc)>=0 || unicode_ga.indexOf(Sin3_sublayout[c-33-16])>=0)) {
+	// 첫소리만 들어갔고, 오른손 쪽의 홀소리가 있는 첫소리 글쇠를 윗글쇠와 함께 눌렀을 때 첫소리를 넣음
 		cc=cc2;
 		if(c==63) cc=Sin3_layout[c-33-16]; // 빗금(/) 자리
-	}
+	}*/
 	else if(option.enable_Sin3_diphthong_key && c==47 && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		cc=-0x1169;
