@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/13
+ * Last Update : 2016/03/21
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1667,7 +1667,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 			else if(d[i][j].charCodeAt(0)) ds=d[i][j];
 
 			if(!(us==ue[i][j] || us==uh[i][j] || us==dh[i][j])) ue[i][j] = us;
-			if(!(ds==ue[i][j] || ds==uh[i][j] || ds==dh[i][j])) de[i][j] = ds;			
+			if(!(ds==ue[i][j] || ds==uh[i][j] || ds==dh[i][j])) de[i][j] = ds;
 		}
 	}
 }
@@ -1809,8 +1809,6 @@ function show_keyboard_layout(type) {
 	if(!type) {
 		option.show_layout = 0;
 		rows.innerHTML = '<div class="show_layout"><span class="menu" onclick="option.show_layout=1;show_keyboard_layout(1);inputText_focus()">배열표 보이기</span></div>';
-		//opt = document.getElementById('option_show_sublayout_of_galmageuli_double_final_ext');
-		//if(opt) opt.style.display = 'none';
 		return false;
 	}
 	else if(type) {
@@ -2049,12 +2047,21 @@ function show_keyboard_layout(type) {
 	}
 
 	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') {
-		if(!Hangeul_SignExtKey1 && !Hangeul_SignExtKey2) {
-			if(typeof current_layout.sublayout != 'undefined' && current_layout.sublayout[14]) {
+		if(!Hangeul_SignExtKey1 && !Hangeul_SignExtKey2 && typeof current_layout.sublayout != 'undefined') {
+			// 물음표 자리의 겹낱자 확장 배열 낱자
+			if(current_layout.sublayout[14]) {
 				document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[14]))+')</font>';
 			}
 			else if( (En_type!='Dvorak' && current_layout.layout[30]==0x3F) || (En_type=='Dvorak' && current_layout.layout[30]==0x5A) ) {
 				document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
+			}
+			
+			// 쉼표, 마침표 자리의 홀소리 배열
+			var a=[[11,49],[13,50]];
+			for(i=0;i<a.length;++i) {
+				if(current_layout.sublayout[a[i][0]]) {
+					document.getElementById('dh'+a[i][1]).innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[a[i][0]]))+')</font>';
+				}
 			}
 		}
 		
@@ -3530,7 +3537,6 @@ function basic_layout_table() {
 
 	// 신세벌식 P 옛한글
 	K3_Sin3_P_y_layout = K3_Sin3_P_layout.slice(0);
-	//K3_Sin3_P_y_layout[45]=0x1160; /* 0x48 H: jungseong filler */
 	K3_Sin3_P_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
 	K3_Sin3_P_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
 
