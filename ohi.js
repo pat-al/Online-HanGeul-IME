@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/21
+ * Last Update : 2016/03/25
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -236,6 +236,7 @@ function ohiHangeul_backspace(f,e) {
 	// Backspace (세벌식 기호 확장 배열 상태일 때)
 	if(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2) {
 		if(e.preventDefault) e.preventDefault();
+		if(Ko_type.substr(0,4)=='Sin3') ohiBackspace(f);
 		esc_ext_layout();
 		return false;
 	}
