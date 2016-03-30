@@ -2064,7 +2064,7 @@ function show_keyboard_layout(type) {
 		if(option.enable_sign_ext && Ko_type!='Sin3-2015') {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
-				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 2px;background:black;color:#fff;">'+String.fromCharCode(0x2460+i)+'</span>';
+				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 1px;background:black;color:#fff;font-size:10px;">'+String.fromCharCode(0x2460+i)+'</span>';
 		}
 
 		if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') { // 신세벌식 P 옛한글 받침 배열

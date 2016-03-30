@@ -24,7 +24,7 @@
 			ohi_menu_num = n;
 			for(var i=1; i<=3; i++) {
 				document.getElementById('menu'+i).className = (i==n) ? 'this' : 'menu';
-				document.getElementById('tab'+i).style.height = (i==n) ? 'initial' : '1px';
+				document.getElementById('tab'+i).style.height = (i==n) ? 'auto' : '1px';
 				//document.getElementById('tab'+i).style.position = (i==n) ? '' : 'absolute';
 				document.getElementById('tab'+i).style.overflow = (i==n) ? 'visible' : 'hidden';
 				document.getElementById('tab'+i).style.visibility = (i==n) ? 'visible' : 'hidden';
@@ -48,7 +48,7 @@
 
 	<style type="text/css">
 	<!--
-		body { margin: 8pt; overflow:scroll; touch-action: manipulation !important;	}
+		body { margin: 8pt; overflow:scroll; }
 		body, th, td, input, textarea {
 			font-family: "함초롬돋움 LVT","HCR Dotum LVT","함초롬바탕 LVT","본고딕","Source Han Sans K","본고딕 KR","Source Han Sans KR","Noto Sans CJK KR","나눔바른고딕 옛한글","NanumBarunGothic YetHangul","나눔명조 옛한글","NanumMyeongjo YetHangul", 'HCR dotum', '함초롬돋움', '함초롬돋움 확장', '함초롬바탕', '함초롬바탕 확장', 'Un Jamo Batang Ex', '은 자모 바탕 확장', Unbatang, '은 바탕', Undotum, '은 돋움', "맑은 고딕", "Malgun Gothic", "NanumGothic", 나눔고딕;
 		}
@@ -67,7 +67,7 @@
 		div#ohi_content { border: solid 2px wheat; background-color: oldlace; padding:0 5px; margin-top:1px; }
 
 		input.text, textarea#inputText { border: solid 1px wheat; ime-mode:disable; resize:vertical; }
-		textarea#inputText { width:572px; margin-left:5px; }
+		textarea#inputText { width:572px; margin:0 0 0 5px; }
 		form { margin: 0; padding: 0; }
 
 		div#manual {display:block; margin: 0 0 0.4em 5px;}
@@ -92,7 +92,7 @@
 		div.layout_group_tab { display:none; }
 		a.layout_group_link { text-decoration:none; color:#00b;}
 
-		#options { height:1.8em; margin-right:0.5em; }
+		#options { /*height:1.8em;*/ margin-right:0.5em; }
 		.option { float:right; }
 		.option label { font-size:12px; }
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
@@ -312,7 +312,6 @@
 				</div>
 			</div>
 
-			<div id="options"></div>
 			<div id="tab1">
 				<textarea id="inputText" rows="7"></textarea>
 			</div>
@@ -456,6 +455,7 @@
 				</ul>
 			</div>
 
+			<div id="options"></div>
 			<div id="keyboardLayout"></div>
 			<div id="NCR_options"></div>
 			<div id="NCR"></div>
