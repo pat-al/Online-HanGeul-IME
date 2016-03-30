@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/25
+ * Last Update : 2016/03/30
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -155,7 +155,7 @@ var ohiHangeul3_HanExtKey=0; // 한글 확장 글쇠가 눌린 상태
 var ohi_cheot, ohi_ga, ohi_ggeut, ohi_hotbatchim; // OHI에서 쓰는 요즘한글 첫·가·끝 낱자
 var unicode_hangeul_CGG_phoneme = [], unicode_cheot = [], unicode_ga = [], unicode_ggeut=[]; // 유니코드 한글 낱자, 유니코드 한글 첫·가·끝 낱자
 var unicode_modern_cheot = [], unicode_modern_ga = [], unicode_modern_ggeut = []; // 유니코드 요즘한글 첫·가·끝 낱자
-var compatibility_cheot = [], compatibility_ga = [], compatibility_ggeut = []; // 유니코드 호환 자모
+var compatibility_hangeul_phoneme = [], compatibility_cheot = [], compatibility_ga = [], compatibility_ggeut = []; // 유니코드 호환 자모
 
 var basic_layouts=[], current_layout=[];
 
@@ -1942,26 +1942,25 @@ function show_keyboard_layout(type) {
 			var charCode;
 			if(dh[i] && dh[i][j]) {
 				charCode = dh[i][j].charCodeAt(0);
+				dh[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
 				if(charCode>0x3130) tdclass = (type.substr(0,1)=='2' || type.substr(-7)=='2-KSX5002' || type=='2-KPS9256' || j>5 && !(i<2&&j>10 || i==3&&j==10&&type.substr(0,5)!='Sin3-')) ? 'h1':'h3';
 				if(charCode>0x314E) tdclass = 'h2';
 				if(i==3 && j==10 && type=='3-sun1990') tdclass = 'h3';
 
 				if(unicode_modern_cheot.indexOf(charCode)>=0) {
 					tdclass = 'h1';
-					dh[i][j] = String.fromCharCode(compatibility_cheot[unicode_modern_cheot.indexOf(charCode)]);
 				}
 				else if(Ko_type.substr(1,2)=='t-' && charCode>=0x314F && charCode<0x3164) {
 					tdclass = 'h2 gin-hol';
 				}
 				else if(unicode_modern_ga.indexOf(charCode)>=0) {
 					tdclass = 'h2';
-					dh[i][j] = String.fromCharCode(compatibility_ga[unicode_modern_ga.indexOf(charCode)]);
 				}
 				else if(unicode_modern_ggeut.indexOf(charCode)>=0) {
 					tdclass = 'h3';
-					dh[i][j] = String.fromCharCode(compatibility_ggeut[unicode_modern_ggeut.indexOf(charCode)]);
 				}
-				else dh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + dh[i][j];
+				else if(compatibility_hangeul_phoneme.indexOf(dh[i][j].charCodeAt(0))<0 && unicode_hangeul_CGG_phoneme.indexOf(charCode)>=0)
+					dh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + dh[i][j];
 
 				if(tdclass.substr(0,1)!='h') {
 					if(unicode_modern_ggeut.indexOf(uh[i][j].charCodeAt(0))>=0) {
@@ -1995,14 +1994,10 @@ function show_keyboard_layout(type) {
 			if(uh[i]) {
 				if(uh[i][j]) {
 					charCode = uh[i][j].charCodeAt(0);
-					if(unicode_modern_cheot.indexOf(charCode)>=0) 
-						uh[i][j] = String.fromCharCode(compatibility_cheot[unicode_modern_cheot.indexOf(charCode)]);
-					else if(unicode_modern_ga.indexOf(charCode)>=0)
-						uh[i][j] = String.fromCharCode(compatibility_ga[unicode_modern_ga.indexOf(charCode)]);
-					else if(unicode_modern_ggeut.indexOf(charCode)>=0) {
-						uh[i][j] = String.fromCharCode(compatibility_ggeut[unicode_modern_ggeut.indexOf(charCode)]);
-					}
-					else uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
+
+					uh[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
+					if(compatibility_hangeul_phoneme.indexOf(uh[i][j].charCodeAt(0))<0)
+						uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
 
 					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
 					if( (Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 || typeof current_layout.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
@@ -2684,6 +2679,11 @@ function inputText_focus() {
 	if(f) f.focus();
 }
 
+function inputText_rows(r) {
+	var f=document.getElementById('inputText');
+	if(f) f.rows=r.toString();
+}
+
 function url_query() {
 	var field, value, TF;
 	var address = unescape(location.href);
@@ -2704,8 +2704,8 @@ function url_query() {
 		else if(field == 'ko' || field == 'k2' || field == 'k3') { // 한글 자판
 			ohiChange('Ko',value.toLowerCase());
 		}
-		else if(field == 'status') { // 오른쪽 아래에 보람줄 나타내기
-			show_ohiStatusBar(TF);
+		else if(field == 'statusbar') { // 오른쪽 아래에 보람줄 나타내기
+			setTimeout(function(){show_ohiStatusBar(TF);}, 250);
 		}
 		else if(field == 'sign_ext') { // 기호 확장
 			ohiChange_enable_sign_ext(TF);
@@ -2737,6 +2737,9 @@ function url_query() {
 		}
 		else if(field == 'cc' || field == 'convenience_combination') { // 입력 편의를 높이는 한글 편의 조합 쓰기 (조합표가 지정되어 있을 때)
 			option.convenience_combination = TF;
+		}
+		else if(field == 'row') { // 글상자(textarea)의 줄 수
+			 setTimeout(function(){inputText_rows(value);}, 250);
 		}
 	}
 }
@@ -2895,6 +2898,7 @@ function basic_layout_table() {
 	i=0x314F;	while(i<=0x3163) compatibility_ga.push(i++); compatibility_ga.push(0x318D);
 	compatibility_ggeut = [0x3131,0x3132,0x3133,0x3134,0x3135,0x3136,0x3137,0x3139,0x313A,0x313B,0x313C,0x313D,0x313E,0x313F,0x3140,
 		0x3141,0x3142,0x3144,0x3145,0x3146,0x3147,0x3148,0x314A,0x314B,0x314C,0x314D,0x314E];
+	compatibility_hangeul_phoneme = compatibility_cheot.concat(compatibility_ga, compatibility_ggeut);
 
 	i=0x1100;	while(i<=0x115E) unicode_cheot.push(i++);
 	i=0xA960;	while(i<=0xA97C) unicode_cheot.push(i++);
@@ -2903,7 +2907,8 @@ function basic_layout_table() {
 	i=0x11A8;	while(i<=0x11FF) unicode_ggeut.push(i++);
 	i=0xD7CB;	while(i<=0xD7FB) unicode_ggeut.push(i++);
 
-	unicode_hangeul_CGG_phoneme = unicode_cheot.concat(unicode_ga,unicode_ggeut,[0x115F,0x1160],[0x302E,0x302F]);
+	unicode_hangeul_CGG_phoneme = unicode_cheot.concat(unicode_ga, unicode_ggeut);
+	unicode_hangeul_CGG_etc = [0x115F,0x1160,0x302E,0x302F];
 
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheot.push(i++);
 	i=0x1161;	while(i<=0x1175) unicode_modern_ga.push(i++);
