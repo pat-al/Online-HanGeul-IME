@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/03/30
+ * Last Update : 2016/04/04
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -366,7 +366,6 @@ function ohiSelection(f,length) {
 	}
 }
 
-
 function esc_ext_layout() {
 	var KE = ohi_KE;
 	if(ohiHangeul3_HanExtKey || Hangeul_SignExtKey1+Hangeul_SignExtKey2) {
@@ -429,7 +428,7 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 function convert_into_modern_hangeul_syllable(f) { // 첫가끝 방식 낱내를 요즘한글 코드로 바꾸기
 	if(prev_phoneme.length) ohiSelection(f,0);
 	var i;
-	if(option.input_only_CGG_encoding) {
+	if(!option.input_only_CGG_encoding) {
 		if(unicode_modern_cheot.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[0])>=0
 		 || unicode_modern_cheot.indexOf(prev_combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(prev_combined_phoneme[0])>=0) {
 		// 첫+가 또는 첫+가+끝
@@ -1189,7 +1188,6 @@ function CGG_yesHangeul(f,c,cc) {	// 세벌식 옛한글 처리
 		// 첫소리만 들어 있었으면 가운뎃소리 채움 문자를 넣음
 			ohiInsert(f,0,0x1160);
 			prev_combined_phoneme.unshift(0x1160);
-			
 		}
 		convert_into_modern_hangeul_syllable(f);
 	}
@@ -1222,7 +1220,7 @@ function CGG_yesHangeul(f,c,cc) {	// 세벌식 옛한글 처리
 
 	prev_phoneme.unshift(cc);
 	prev_phoneme_R.unshift(diphthong);
-	
+
 	if(combined_phoneme) {
 		prev_combined_phoneme[0] = combined_phoneme;
 		ohiBackspace(f);
@@ -1428,11 +1426,11 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열의 겹홀소리 조합용 홀소리를 넣음
 		cc=-Sin3_sublayout[c-33];
 	}
-	else if(cc==0x1160) {
+	/*else if(cc==0x1160) {
 	// 가운뎃소리 채움 문자가 들어왔을 때
 		// 앞에 첫소리가 들어오지 않았으면 채움 문자를 넣지 않음
 		if(!prev_phoneme.length || unicode_cheot.indexOf(prev_phoneme[0])<0) return -1;
-	}
+	}*/
 	else if(!no_shift(c) && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0 && unicode_ga.indexOf(cc)>=0 && unicode_ggeut.indexOf(cc2)>=0) {
 	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
 		cc=cc2;
@@ -1618,7 +1616,6 @@ function push_to_key_table(u,d,t) {
 function push_layout_to_key_table(u,d,b) {
 	var c,bas=[];
 	for(var i=0;i<94;++i) {
-		//c=String.fromCharCode(convert_into_unicode_hangeul_phoneme(b[i]));
 		c=String.fromCharCode(b[i]);
 		bas.push(c);
 	}
