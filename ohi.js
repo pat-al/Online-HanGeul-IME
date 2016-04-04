@@ -255,7 +255,7 @@ function ohiHangeul_backspace(f,e) {
 		if(!ohiHangeul3_HanExtKey) {
 			if(e.preventDefault) e.preventDefault();
 			ohiBackspace(f);			
-			if(browser=="MSIE" && browser_ver<10 ) { // IE ~9
+			if(browser=="MSIE" && browser_ver<9 ) { // IE ~8
 				i=prev_combined_phoneme.length-1; while(i--) ohiBackspace(f);
 			}
 			var temp_prev_phoneme = prev_phoneme.slice(0);
@@ -363,7 +363,7 @@ function ohiInsert(f,m,c) { // Insert
 }
 
 function ohiSelection(f,length) {
-	if(document.selection && browser=="MSIE" && browser_ver<10 ) { // IE ~9
+	if(document.selection && browser=="MSIE" && browser_ver<9) { // IE ~8
 	}	
 	else if(f.selectionEnd+1) {
 		var e=document.createEvent('KeyboardEvent');
@@ -2578,7 +2578,7 @@ function ohiKeydown(e) {
 			//tableKey_press(e.keyCode);
 		}
 
-		if(e.keyCode>=37 && e.keyCode<=40) { // 화살표 글쇠
+		if((e.keyCode>=35 && e.keyCode<=40) || e.keyCode==45 || e.keyCode==46) { // end(35), home(36), 화살표(37~40), insert(45), del(46)
 			if(prev_phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
 				if(!option.phonemic_writing || Ko_type.substr(0,4)!='Sin3') {
 					convert_into_modern_hangeul_syllable(f);
@@ -2606,16 +2606,6 @@ function ohiKeydown(e) {
 			if(KE=='Ko' && Ko_type=='4t-Pyojun1985') {
 				tableKey_press(e.keyCode);
 			}
-		}
-
-		if(e.keyCode==45 || e.keyCode==46 || e.keyCode==36 || e.keyCode==35) { // insert(45), del(46), home(36), end(35)
-			if(prev_phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
-				convert_into_modern_hangeul_syllable(f);
-				ohiInsert(f,0,32);
-				ohiBackspace(f);
-			}
-			esc_ext_layout();
-			onkeypress_skip=1;
 		}
 
 		if(e.keyCode<45 && e.keyCode!=16) {
