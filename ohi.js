@@ -2579,11 +2579,14 @@ function ohiKeydown(e) {
 		}
 
 		if(e.keyCode>=37 && e.keyCode<=40) { // 화살표 글쇠
+			if(prev_phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
 				if(!option.phonemic_writing || Ko_type.substr(0,4)!='Sin3') {
 					convert_into_modern_hangeul_syllable(f);
-					ohiInsert(f,0,0);
-					esc_ext_layout();
+					ohiInsert(f,0,32);
+					ohiBackspace(f);					
 				}
+			}
+			esc_ext_layout();			
 		}
 /*
 		if(e.keyCode==17) { // Ctrl
@@ -2605,17 +2608,19 @@ function ohiKeydown(e) {
 			}
 		}
 
-		if(e.keyCode==45 || e.keyCode==46) { // insert(45), del(46)
-			if(prev_phoneme.length) {	// 옛한글 자판
+		if(e.keyCode==45 || e.keyCode==46 || e.keyCode==36 || e.keyCode==35) { // insert(45), del(46), home(36), end(35)
+			if(prev_phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
 				convert_into_modern_hangeul_syllable(f);
+				ohiInsert(f,0,32);
+				ohiBackspace(f);
 			}
-			ohiInsert(f,0,32);
-			ohiBackspace(f);
 			esc_ext_layout();
+			onkeypress_skip=1;
 		}
 
 		if(e.keyCode<45 && e.keyCode!=16) {
 			if(option.phonemic_writing && Ko_type.substr(0,4)=='Sin3' && (ohiQ[0]+ohiQ[3]+ohiQ[6])) {
+			// 신세벌식 자판으로 풀어쓰기
 				convert_syllable_into_phoneme(f);
 			}
 			if(prev_phoneme.length) {	// 옛한글 자판
