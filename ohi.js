@@ -275,7 +275,10 @@ function ohiHangeul_backspace(f,e) {
 			}
 			if(i==prev_combined_phoneme.length) {	// 첫가끝 방식으로 조합하던 낱자들을 지우고 요즘한글 방식으로 첫소리만 넣기
 				if(e.preventDefault) e.preventDefault();
-				i=prev_combined_phoneme.length; while(i--) ohiBackspace(f);					
+				ohiBackspace(f);
+				if(browser=="MSIE" && browser_ver<9 ) {
+					i=prev_combined_phoneme.length-1; while(i--) ohiBackspace(f);
+				}
 				for(i=prev_combined_phoneme.length;i>=0;--i) {
 					if(unicode_cheot.indexOf(prev_combined_phoneme[i])>=0) {
 						ohiQ = backup_ohiQ.slice(0);
@@ -797,6 +800,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리)
 	// 요즘한글 자판으로 요즘한글 넣기
 	else if(cc>127 && cc<158 && cc!=147) { // Cho
 		if(prev_phoneme.length) {
+			ohiSelection(f,0);
 			prev_phoneme.splice(0);
 			prev_combined_phoneme.splice(0);
 			prev_phoneme_R.splice(0);
