@@ -183,7 +183,7 @@ function browser_detect() {
 
 function ohiBackspace(f,opt) { // backspace 글쇠를 누르지 않았을 때에 backspace 동작을 하게 함
 	if(document.selection && browser=='MSIE' && browser_ver<9) {
-		var s=document.selection.createRange(), t=s.text;
+		var s=document.selection.createRange();
 		s.moveStart('character', -f.value.length);
 		var pos = s.text.length;
 		if(f.setSelectionRange) {
@@ -254,7 +254,10 @@ function ohiHangeul_backspace(f,e) {
 	if(KE=='Ko' && prev_phoneme.length) {	// 첫가끝 조합 상태
 		if(!ohiHangeul3_HanExtKey) {
 			if(e.preventDefault) e.preventDefault();
-			ohiBackspace(f);
+			ohiBackspace(f);			
+			if(browser=="MSIE" && browser_ver<10 ) { // IE ~9
+				i=prev_combined_phoneme.length-1; while(i--) ohiBackspace(f);
+			}
 			var temp_prev_phoneme = prev_phoneme.slice(0);
 			var temp_prev_phoneme_R = prev_phoneme_R.slice(0);
 			prev_phoneme.splice(0);
@@ -332,7 +335,9 @@ function ohiInsert(f,m,c) { // Insert
 		var s=document.selection.createRange(), t=s.text;
 		if(t && document.selection.clear) document.selection.clear();
 		s.text=(m=='0,0,0,0,0,0,0,0,0'||c&&t.length>1?'':t.substr(0,t.length))+String.fromCharCode(c);
-		if(!c || !m || s.moveStart('character',-1)) s.select();
+		if(!c || !m || s.moveStart('character',-1)) {
+			s.select();
+		}
 	}
 	else if(f.selectionEnd+1) {
 		if(m!='0,0,0,0,0,0,0,0,0' && f.selectionEnd-f.selectionStart==1) f.selectionStart++;
@@ -358,11 +363,15 @@ function ohiInsert(f,m,c) { // Insert
 }
 
 function ohiSelection(f,length) {
-	var e=document.createEvent('KeyboardEvent');
-	if(e.initKeyEvent && !(browser=="Firefox" && browser_ver>=12 ) && browser!="Chrome") { // Gecko
-		f.selectionStart-=length;
-	} else { // Firefox 12~, Chrome
-		f.selectionStart=f.selectionEnd-length;
+	if(document.selection && browser=="MSIE" && browser_ver<10 ) { // IE ~9
+	}	
+	else if(f.selectionEnd+1) {
+		var e=document.createEvent('KeyboardEvent');
+		if(e.initKeyEvent && !(browser=="Firefox" && browser_ver>=12 ) && browser!="Chrome") { // Gecko
+			f.selectionStart-=length;
+		} else { // Firefox 12~, Chrome
+			f.selectionStart=f.selectionEnd-length;
+		}
 	}
 }
 
@@ -426,7 +435,8 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 }
 
 function convert_into_modern_hangeul_syllable(f) { // 첫가끝 방식 낱내를 요즘한글 코드로 바꾸기
-	if(prev_phoneme.length) ohiSelection(f,0);
+	if(!prev_phoneme.length) return;
+	ohiSelection(f,0);
 	var i;
 	if(!option.input_only_CGG_encoding) {
 		if(unicode_modern_cheot.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[0])>=0
