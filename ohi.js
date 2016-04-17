@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/04/04
+ * Last Update : 2016/04/17
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1990,9 +1990,13 @@ function show_keyboard_layout(type) {
 				}
 			}
 
+			charCode = ue[i][j].charCodeAt(0);
 			if(KE=='En' && ue[i][j].length==1) {
-				charCode = ue[i][j].charCodeAt(0);
 				if(charCode>64 && charCode<91 || charCode>96 && charCode<123) tdclass = 'e2';
+			}
+			if(unicode_CGG_hangeul_phoneme.indexOf(charCode)>=0) {
+				charCode = ue[i][j].charCodeAt(0);
+				ue[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
 			}
 			var col = appendChild(row,'td',tdclass,tdid,'','30px','1px 3px 1px 3px');
 
@@ -2015,21 +2019,19 @@ function show_keyboard_layout(type) {
 			if(uh[i]) {
 				if(uh[i][j]) {
 					charCode = uh[i][j].charCodeAt(0);
-
 					uh[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
-					if(compatibility_hangeul_phoneme.indexOf(uh[i][j].charCodeAt(0))<0)
-						uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
-
+					if(compatibility_hangeul_phoneme.indexOf(uh[i][j].charCodeAt(0))<0) uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
 					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
 					if( (Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 || typeof current_layout.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
 						uh[i][j] = '<span style="color:gray;">'+uh[i][j]+'</span>';
 					}
 				}
-
 				if(uh[i][j]==ue[i][j] || uh[i][j]=='&'&&ue[i][j]=='&amp;' || uh[i][j]=='<'&&ue[i][j]=='&lt;' || uh[i][j]=='>'&&ue[i][j]=='&gt;') uh[i][j]=' ';
 				appendChild(col,'span','','uh'+k,uh[i][j]);
 			}
 			if(de[i][j]) {
+				charCode = de[i][j].charCodeAt(0);
+				if(unicode_CGG_hangeul_phoneme.indexOf(charCode)>=0) de[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
 				appendChild(col,'br');
 				appendChild(col,'span','e1','de'+k,de[i][j]);
 				if(dh[i] && (!dh[i][j] || dh[i][j]==de[i][j])) dh[i][j]=' ';
