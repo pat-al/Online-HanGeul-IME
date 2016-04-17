@@ -2296,9 +2296,7 @@ function ohiChange(KE, layout) {
 function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (Ko는 주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
-	var K2_type_array = ['2-KSX5002','2-KPS9256','2-sun-KSX5002'];
-	var K3_type_array = ['Sin3-P','3m-Semoi','3-P3','3-90','3-91','3-sun1990','3-sun2014'];
-	var Ko_type_array = K2_type_array.concat(K3_type_array);
+	var Ko_type_array = ['2-KSX5002','2-KPS9256','Sin3-P','3m-Semoi','3-P3'];
 
 	if(type=='En') {
 		for(i=0;i<En_type_array.length;++i) {
@@ -2308,39 +2306,43 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 		}
 		En_type = En_type_array[(j+1)%i];
 		ohiChange('En',En_type);
+		return;
 	}
-	else {
-		if(type!='Ko') {
-			var a=[layouts];
-			if(typeof additional_layouts != 'undefined') a.push(additional_layouts);
-			if(typeof test_layouts != 'undefined') a.push(test_layouts);
-			for(i=0;i<Ko_type_array.length;++i) {
-				if(type=='K2' && Ko_type_array[i].substr(0,1)!='2' || type=='K3' && Ko_type_array[i].substr(0,1)=='2') {
-					Ko_type_array.splice(i--,1);
-				}
-			}
-			for(i=0;i<a.length;++i) {
-				for(j=0;j<a[i].length;++j) {
-					if(a[i][j].KE=='Ko' && typeof a[i][j].type_name != 'undefined' && Ko_type_array.indexOf(a[i][j].type_name)<0) {
-						if(type=='K2' && a[i][j].type_name.substr(0,1)=='2') {
-							Ko_type_array.push(a[i][j].type_name);
-						}
-						if(type=='K3' && a[i][j].type_name.substr(0,1)!='2') {
-							Ko_type_array.push(a[i][j].type_name);
-						}
+
+	var a=[basic_layouts];
+	if(typeof additional_layouts != 'undefined') a.push(additional_layouts);
+	if(typeof test_layouts != 'undefined') a.push(test_layouts);
+
+	for(i=0;i<Ko_type_array.length;++i) {
+		if(type=='K2' && Ko_type_array[i].substr(0,1)!='2' || type=='K3' && Ko_type_array[i].substr(0,1)=='2') {
+			// 두벌식 자판 이름(type_name)의 앞에 2이 붙지 않았거나 세벌식 자판 이름에 2이 붙은 것은 뺌
+			Ko_type_array.splice(i--,1);
+		}
+	}
+
+	if(type!='Ko') {
+	// type이 K2이면 Ko_type_array에 모든 두벌식 자판 이름을 넣고, K3이면 모든 세벌식 자판 이름을 넣음
+		for(i=0;i<a.length;++i) {
+			for(j=0;j<a[i].length;++j) {
+				if(a[i][j].KE=='Ko' && typeof a[i][j].type_name != 'undefined' && Ko_type_array.indexOf(a[i][j].type_name)<0) {
+					if(type=='K2' && a[i][j].type_name.substr(0,1)=='2') {
+						Ko_type_array.push(a[i][j].type_name);
+					}
+					if(type=='K3' && a[i][j].type_name.substr(0,1)!='2') {
+						Ko_type_array.push(a[i][j].type_name);
 					}
 				}
 			}
 		}
-
-		for(i=0;i<Ko_type_array.length;++i) {
-			if(Ko_type.toLowerCase()==Ko_type_array[i].toLowerCase()) j=i;
-		}
-
-		if(type!='Ko' && (Ko_type.substr(0,1)=='2'&&Ko_type_array[(j+1)%i].substr(0,1)!='2' || Ko_type.substr(0,1)!='2'&&Ko_type_array[(j+1)%i].substr(0,1)=='2')) Ko_type = Ko_type_array[0];
-		else Ko_type = Ko_type_array[(j+1)%i];
-		ohiChange('Ko',Ko_type);
 	}
+
+	for(i=0;i<Ko_type_array.length;++i) {
+		if(Ko_type.toLowerCase()==Ko_type_array[i].toLowerCase()) j=i;
+	}
+
+	if(type!='Ko' && (Ko_type.substr(0,1)=='2'&&Ko_type_array[(j+1)%i].substr(0,1)!='2' || Ko_type.substr(0,1)!='2'&&Ko_type_array[(j+1)%i].substr(0,1)=='2')) Ko_type = Ko_type_array[0];
+	else Ko_type = Ko_type_array[(j+1)%i];
+	ohiChange('Ko',Ko_type);	
 }
 
 function ohiChange_KE(type) {	// 한·영 상태 바꾸기
