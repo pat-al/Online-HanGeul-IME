@@ -1793,7 +1793,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_double_final_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_double_final_ext','<div class="option"><input name="enable_double_final_ext" class="checkbox" onclick="ohiChange_enable_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장</label></div>');
-		if(!(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') && typeof current_layout.sublayout != 'undefined') opt.style.display = 'block';
+		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined' && !(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_force_normal_typing');
