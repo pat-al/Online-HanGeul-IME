@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/04/17
+ * Last Update : 2016/04/19
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1747,9 +1747,11 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 	for(i=0;i<f.value.length;++i) {
 		char_code = f.value.charCodeAt(i);
 		ref_char = '&amp;#x'+ char_code.toString(16).toUpperCase() + ';';
-		if(NCR_option.convert_only_CGG_encoding && unicode_CGG_hangeul_phoneme.indexOf(char_code)<0) {
-		// 첫가끝 조합형 한글은 바꾸지 않기
-			ref_char = f.value.charAt(i);
+		if(NCR_option.convert_only_CGG_encoding) {
+		// 첫가끝 조합형 한글만 바꿀 때	
+			if(unicode_CGG_hangeul_phoneme.indexOf(char_code)<0 && unicode_CGG_hangeul_filler.indexOf(char_code)<0 && unicode_CGG_hangeul_sidedot.indexOf(char_code)<0) {
+				ref_char = f.value.charAt(i);
+			}
 		}
 		ref_text += ref_char;
 	}
@@ -2321,7 +2323,7 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 	}
 
 	if(type!='Ko') {
-	// type이 K2이면 Ko_type_array에 모든 두벌식 자판 이름을 넣고, K3이면 모든 세벌식 자판 이름을 넣음
+		// type이 K2이면 Ko_type_array에 모든 두벌식 자판 이름을 넣고, K3이면 모든 세벌식 자판 이름을 넣음
 		for(i=0;i<a.length;++i) {
 			for(j=0;j<a[i].length;++j) {
 				if(a[i][j].KE=='Ko' && typeof a[i][j].type_name != 'undefined' && Ko_type_array.indexOf(a[i][j].type_name)<0) {
@@ -2908,7 +2910,7 @@ function basic_layout_table() {
 	compatibility_cheot = [0x3131,0x3132,0x3134,0x3137,0x3138,0x3139,0x3141,0x3142,0x3143,0x3145,0x3146,0x3147,0x3148,0x3149,0x314A,0x314B,0x314C,0x314D,0x314E];
 	i=0x314F;	while(i<=0x3163) compatibility_ga.push(i++); compatibility_ga.push(0x318D);
 	compatibility_ggeut = [0x3131,0x3132,0x3133,0x3134,0x3135,0x3136,0x3137,0x3139,0x313A,0x313B,0x313C,0x313D,0x313E,0x313F,0x3140,
-		0x3141,0x3142,0x3144,0x3145,0x3146,0x3147,0x3148,0x314A,0x314B,0x314C,0x314D,0x314E];
+	 0x3141,0x3142,0x3144,0x3145,0x3146,0x3147,0x3148,0x314A,0x314B,0x314C,0x314D,0x314E];
 	compatibility_hangeul_phoneme = compatibility_cheot.concat(compatibility_ga, compatibility_ggeut);
 
 	i=0x1100;	while(i<=0x115E) unicode_cheot.push(i++);
@@ -2918,8 +2920,9 @@ function basic_layout_table() {
 	i=0x11A8;	while(i<=0x11FF) unicode_ggeut.push(i++);
 	i=0xD7CB;	while(i<=0xD7FB) unicode_ggeut.push(i++);
 
-	unicode_CGG_hangeul_phoneme = unicode_cheot.concat(unicode_ga, unicode_ggeut);
-	unicode_hangeul_CGG_etc = [0x115F,0x1160,0x302E,0x302F];
+	unicode_CGG_hangeul_phoneme = unicode_cheot.concat(unicode_ga, unicode_ggeut); // 유니코드 조합형 한글 낱자
+	unicode_CGG_hangeul_filler = [0x115F,0x1160]; // 첫소리·가운뎃소리 채움 문자
+	unicode_CGG_hangeul_sidedot = [0x302E,0x302F]; // 방점
 
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheot.push(i++);
 	i=0x1161;	while(i<=0x1175) unicode_modern_ga.push(i++);
