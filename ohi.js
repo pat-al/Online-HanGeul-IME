@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/04/19
+ * Last Update : 2016/04/20
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1748,7 +1748,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 		char_code = f.value.charCodeAt(i);
 		ref_char = '&amp;#x'+ char_code.toString(16).toUpperCase() + ';';
 		if(NCR_option.convert_only_CGG_encoding) {
-		// 첫가끝 조합형 한글만 바꿀 때	
+		// 첫가끝 조합형 한글만 바꿀 때
 			if(unicode_CGG_hangeul_phoneme.indexOf(char_code)<0 && unicode_CGG_hangeul_filler.indexOf(char_code)<0 && unicode_CGG_hangeul_sidedot.indexOf(char_code)<0) {
 				ref_char = f.value.charAt(i);
 			}
@@ -3562,17 +3562,17 @@ function basic_layout_table() {
 
 	// 신세벌식 자판의 기호 확장 배열
 	K3_Sin3_extended_sign_layout = [
-		[0x2160,0x00B9,0x2081], /* 0x21 exclam: roman numeral one Ⅰ, superscript one ¹, subscript one ₁*/
+		[0x2160,0x2081,0x00B9], /* 0x21 exclam: roman numeral one Ⅰ, subscript one ₁, superscript one ¹ */
 		[0x0000,0x0000,0x0000], /* 0x22 quotedbl */
-		[0x2162,0x00B3,0x2083], /* 0x23 numbersign: roman numeral three Ⅲ, superscript three ³, subscript three ₃ */
-		[0x2163,0x2074,0x2084], /* 0x24 dollar: roman numeral four Ⅳ, superscript four ⁴, subscript four ₄ */
-		[0x2164,0x2075,0x2085], /* 0x25 percent: roman numeral five Ⅴ, superscript five ⁵, subscript fiver ⁵ */
-		[0x2166,0x2077,0x2087],	/* 0x26 ampersand: roman numeral seven Ⅶ, superscript ⁷, subscript fiver ₇ */
+		[0x2162,0x2083,0x00B3], /* 0x23 numbersign: roman numeral three Ⅲ, subscript three ₃, superscript three ³ */
+		[0x2163,0x2084,0x2074], /* 0x24 dollar: roman numeral four Ⅳ, subscript four ₄, superscript four ⁴ */
+		[0x2164,0x2085,0x2075], /* 0x25 percent: roman numeral five Ⅴ, subscript fiver ⁵, superscript five ⁵ */
+		[0x2166,0x2087,0x2077],	/* 0x26 ampersand: roman numeral seven Ⅶ, subscript fiver ₇, superscript ⁷ */
 		[0x326B,0x266A,0x266C],	/* 0x27 apostrophe: circled hangeul tieut ㉫, eighth note ♪, beamed sixteenth notes ♬ */
-		[0x2168,0x2079,0x2089],	/* 0x28 parenleft: roman numeral nine Ⅸ, superscript nine ⁹, subscript nine ₉ */
-		[0x2169,0x2070,0x2080],	/* 0x29 parenright: roman numeral ten Ⅹ, superscript zero ⁰, subscript zero ₀ */
-		[0x2167,0x2078,0x2088],	/* 0x2A asterisk: roman numeral eight Ⅷ, superscript eight ⁸, subscript eight ₈ */
-		[0x216B,0x207A,0x208A],	/* 0x2B plus: roman numeral twelve Ⅻ, superscript plus ⁺, subscript plus ₊ */
+		[0x2168,0x2089,0x2079],	/* 0x28 parenleft: roman numeral nine Ⅸ, subscript nine ₉, superscript nine ⁹ */
+		[0x2169,0x2080,0x2070],	/* 0x29 parenright: roman numeral ten Ⅹ, subscript zero ₀, superscript zero ⁰ */
+		[0x2167,0x2088,0x2078],	/* 0x2A asterisk: roman numeral eight Ⅷ, subscript eight ₈, superscript eight ⁸ */
+		[0x216B,0x208A,0x207A],	/* 0x2B plus: roman numeral twelve Ⅻ,, subscript plus ₊ superscript plus ⁺ */
 		[0x3001,0x3008,0x300A],	/* 0x2C comma: ideographic comma 、, left angle bracket 〈, left double angle bracket 《 */
 		[0x00B1,0x2642,0x2602],	/* 0x2D minus: plus minus sign ±, male sign ♂, umbrella ☂ */
 		[0x3002,0x3009,0x300B],	/* 0x2E period: ideographic full stop 。, right angle bracket 〉, right double angle bracket 》 */
@@ -3592,8 +3592,8 @@ function basic_layout_table() {
 		[0x2264,0x0000,0x0000],	/* 0x3C less: less-than or equal to ≤ */
 		[0x2260,0x2640,0x2603],	/* 0x3D equal: not equal to ≠, female sign ♀, snowman ☃ */
 		[0x2265,0x0000,0x0000],	/* 0x3E greater: greater-than or equal to ≥ */
-		[0x0000,0x0000,0x0000],	/* 0x3F question */
-		[0x2161,0x00B2,0x2082],	/* 0x40 at: roman numeral two Ⅱ, superscript two ², subscript two ₂ */
+		[0x221A,0x221B,0x221C],	/* 0x3F question: squre root √, cube root ∛, fourth root ∜ */
+		[0x2161,0x2082,0x00B2],	/* 0x40 at: roman numeral two Ⅱ, subscript two ₂, superscript two ² */
 		[0x03B1,0x0000,0x0000],	/* 0x41 A: greek small letter alpha α */
 		[0x03B2,0x0000,0x0000],	/* 0x42 B: greek small letter beta β */
 		[0x03C7,0x0000,0x0000],	/* 0x43 C: greek small letter chi χ */
@@ -3623,8 +3623,8 @@ function basic_layout_table() {
 		[0x3010,0x3014,0x2600],	/* 0x5B bracketleft: left black lenticular bracket 【, left tortoise shell bracket 〔, blank sun with rays ☀ */
 		[0x2252,0x00B6,0x00A6],	/* 0x5C backslash: approximately equal to ≒, pilcrow sign ¶, broken bar ¦ */
 		[0x3011,0x3015,0x2601],	/* 0x5D bracketright: right black lenticular bracket 】, right tortoise shell bracket 〕, section sign ☁ */
-		[0x2165,0x2076,0x2086],	/* 0x5E asciicircum: roman numeral six Ⅵ, superscript six ⁶, subscript six ₆ */
-		[0x216A,0x207B,0x208B],	/* 0x5F underscore: roman numeral eleven Ⅺ, superscript minus ⁻, subscript minus ₋ */
+		[0x2165,0x2086,0x2076],	/* 0x5E asciicircum: roman numeral six Ⅵ, subscript six ₆, superscript six ⁶ */
+		[0x216A,0x208B,0x207B],	/* 0x5F underscore: roman numeral eleven Ⅺ, subscript minus ₋, superscript minus ⁻ */
 		[0x2122,0x00A9,0x00AE],	/* 0x60 quoteleft: trademark ™, copyright sign ©, registerd sign ® */
 		[0x25C7,0x25C8,0x25C6],	/* 0x61 a: diamond ◇, diamond containing black diamond ◈, black diamond ◆ */
 		[0x00F7,0x2030,0x2031],	/* 0x62 b: division sign ÷, per mille(per thousand) sign ‰, per ten thousand sign ‱ */
@@ -3655,7 +3655,7 @@ function basic_layout_table() {
 		[0x0000,0x0000,0x0000],	/* 0x7B braceleft */
 		[0x0000,0x0000,0x0000],	/* 0x7C bar */
 		[0x0000,0x0000,0x0000],	/* 0x7D braceright */
-		[0x0000,0x00B4,0x0000]	/* 0x7E asciitilde: acute accent ´ */
+		[0x221E,0x221D,0x00B4]	/* 0x7E asciitilde: infinity ∞, proportional to ∝, acute accent ´ */
 	];
 
 } // basic_layout_table()
