@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/04/20
+ * Last Update : 2016/04/21
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2110,7 +2110,7 @@ function show_keyboard_layout(type) {
 	}
 
 	if(KE=='Ko' && Ko_type=='3m-Semoi') {
-		document.getElementById('uh24').innerHTML = Moachigi_modifier_tag;
+		document.getElementById('uh25').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('ue45').removeAttribute('class');
 		document.getElementById('ue45').style.float = 'left';
