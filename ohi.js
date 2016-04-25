@@ -81,8 +81,9 @@ function basic_layout_list() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
 	basic_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
 	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'http://pat.im/938'});
-
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
+	
+	if(typeof K3_Sin3_P_extended_sign_layout == 'undefined') K3_Sin3_P_extended_sign_layout = null;
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_P_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
 }
 
 function option() {
@@ -1262,7 +1263,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var Sin3_extended_sign_layout = typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : K3_Sin3_extended_sign_layout;
+	var Sin3_extended_sign_layout = typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : typeof K3_Sin3_P_extended_sign_layout != 'undefined' ? K3_Sin3_P_extended_sign_layout : null;
 	var transform=0; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
 
 	if(no_shift(c)) {
@@ -1282,7 +1283,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		cc2=i;
 	}
 
-	if(option.enable_sign_ext && Hangeul_SignExtKey1) {
+	if(option.enable_sign_ext && Hangeul_SignExtKey1 && Sin3_extended_sign_layout) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
 		cc=Sin3_extended_sign_layout[c-33][Hangeul_SignExtKey1-1];
 		ohiBackspace(f);
@@ -1291,7 +1292,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		
 		return -1;
 	}
-	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6] && Ko_type!='Sin3-2015') {
+	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && Sin3_extended_sign_layout && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6] && Ko_type!='Sin3-2015') {
 	// 신세벌식 기호 확장 배열을 쓸 조건을 갖추었을 때
 		if(cc==128) Hangeul_SignExtKey1=1;
 		else if(cc==151) Hangeul_SignExtKey1=2;
@@ -1398,7 +1399,7 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var Sin3_extended_sign_layout = typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : K3_Sin3_extended_sign_layout;
+	var Sin3_extended_sign_layout = typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : K3_Sin3_P_extended_sign_layout;
 
 	if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_layout != 'undefined') {
 		Sin3_layout=current_layout.extended_hangeul_layout;
@@ -1775,7 +1776,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_sign_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
-		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' || Ko_type.substr(0,4)=='Sin3') && Ko_type!='Sin3-2015') opt.style.display = 'block';
+		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout) && Ko_type!='Sin3-2015') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_Sin3_yeshangeul_combination');
@@ -1915,8 +1916,9 @@ function show_keyboard_layout(type) {
 	}
 	else if(KE=='Ko') {
 		if(Hangeul_SignExtKey1 || Hangeul_SignExtKey2) { // 기호 확장 배열
-			if(Ko_type.substr(0,4)=='Sin3') layout = K3_Sin3_extended_sign_layout;
+			if(Ko_type.substr(0,4)=='Sin3') layout = typeof K3_Sin3_P_extended_sign_layout != 'undefined' ? K3_Sin3_P_extended_sign_layout : null;
 			if(typeof current_layout.extended_sign_layout != 'undefined') layout = current_layout.extended_sign_layout;
+			if(!layout) return;
 
 			if(layout.length) {
 				push_extended_sign_layout_to_key_table(uh, dh, layout);
@@ -2086,7 +2088,7 @@ function show_keyboard_layout(type) {
 			}
 		}
 		
-		if(option.enable_sign_ext && Ko_type!='Sin3-2015') {
+		if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout) {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
 				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 1px;background:black;color:#fff;font-size:10px;">'+String.fromCharCode(0x2460+i)+'</span>';
@@ -3559,104 +3561,6 @@ function basic_layout_table() {
 	K3_Sin3_P_y_layout = K3_Sin3_P_layout.slice(0);
 	K3_Sin3_P_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
 	K3_Sin3_P_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
-
-	// 신세벌식 자판의 기호 확장 배열
-	K3_Sin3_extended_sign_layout = [
-		[0x2160,0x2081,0x00B9], /* 0x21 exclam: roman numeral one Ⅰ, subscript one ₁, superscript one ¹ */
-		[0x0000,0x0000,0x0000], /* 0x22 quotedbl: */
-		[0x2162,0x2083,0x00B3], /* 0x23 numbersign: roman numeral three Ⅲ, subscript three ₃, superscript three ³ */
-		[0x2163,0x2084,0x2074], /* 0x24 dollar: roman numeral four Ⅳ, subscript four ₄, superscript four ⁴ */
-		[0x2164,0x2085,0x2075], /* 0x25 percent: roman numeral five Ⅴ, subscript fiver ⁵, superscript five ⁵ */
-		[0x2166,0x2087,0x2077],	/* 0x26 ampersand: roman numeral seven Ⅶ, subscript fiver ₇, superscript ⁷ */
-		[0x326B,0x266A,0x266C],	/* 0x27 apostrophe: circled hangeul tieut ㉫, eighth note ♪, beamed sixteenth notes ♬ */
-		[0x2168,0x2089,0x2079],	/* 0x28 parenleft: roman numeral nine Ⅸ, subscript nine ₉, superscript nine ⁹ */
-		[0x2169,0x2080,0x2070],	/* 0x29 parenright: roman numeral ten Ⅹ, subscript zero ₀, superscript zero ⁰ */
-		[0x2167,0x2088,0x2078],	/* 0x2A asterisk: roman numeral eight Ⅷ, subscript eight ₈, superscript eight ⁸ */
-		[0x216B,0x208A,0x207A],	/* 0x2B plus: roman numeral twelve Ⅻ,, subscript plus ₊ superscript plus ⁺ */
-		[0x3001,0x3008,0x300A],	/* 0x2C comma: ideographic comma 、, left angle bracket 〈, left double angle bracket 《 */
-		[0x00B1,0x2642,0x2602],	/* 0x2D minus: plus minus sign ±, male sign ♂, umbrella ☂ */
-		[0x3002,0x3009,0x300B],	/* 0x2E period: ideographic full stop 。, right angle bracket 〉, right double angle bracket 》 */
-		[0x326A,0x203B,0x2620],	/* 0x2F slash: circled hangeul kieuk ㉪, reference mark ※, skull and crossbone ☠ */
-		[0x00A7,0x2469,0x2473],	/* 0x30 0: section sign §, circled digit ten ⑩, circled digit nineteen ⑲ */
-		[0x00B5,0x2460,0x246A],	/* 0x31 1: micro sign μ, circled digit one ①, circled digit eleven ⑪ */
-		[0x33A1,0x2461,0x246B],	/* 0x32 2: square m squared ㎡, circled digit two ②, circled digit twelve ⑫ */
-		[0x33A5,0x2462,0x246C],	/* 0x33 3: square m cubed ㎥, circled digit three ③, circled digit thirteen ⑬ */
-		[0xFFE6,0x2463,0x246D],	/* 0x34 4: fullwidth won sign ￦, circled digit four ④, circled digit fourteen ⑭ */
-		[0xFFE5,0x2464,0x246E],	/* 0x35 5: fullwidth yen sign ￥, circled digit five ⑤, circled digit fifteen ⑮ */
-		[0x2126,0x2465,0x246F],	/* 0x36 6: ohm sign Ω, circled digit six ⑥, circled digit sixteen ⑯ */
-		[0xFFE1,0x2466,0x2470],	/* 0x37 7: fullwidth pound sign ￡, circled digit seven ⑦, circled digit seventeen ⑰ */
-		[0x20AC,0x2467,0x2471],	/* 0x38 8: euro sign €, circled digit eight ⑧, circled digit eighteen ⑱ */
-		[0xFFE0,0x2468,0x2472],	/* 0x39 9: fullwidth cent sign ￠, circled digit nine ⑨, circled digit nineteen ⑲ */
-		[0x00B4,0x21B3,0x2B0E],	/* 0x3A colon: acute accent ´, downwards arrow with tip rightwards ↳, rightward arrow with tip downwards ⬎ */
-		[0x3265,0x2198,0x21D8],	/* 0x3B semicolon: circled hangeul bieub ㉥, south-east arrow ↘, south east double arrow ⇘ */
-		[0x2264,0x2282,0x2284],	/* 0x3C less: less-than or equal to ≤, subset of ⊂, not subset of ⊄ */
-		[0x2260,0x2640,0x2603],	/* 0x3D equal: not equal to ≠, female sign ♀, snowman ☃ */
-		[0x2265,0x2283,0x2285],	/* 0x3E greater: greater-than or equal to ≥, superset of ⊃, not a superset of ⊅ */
-		[0x221A,0x2937,0x2936],	/* 0x3F question: squre root √, arrow pointing downwards then curving rightwards ⤷, arrow pointing downwards then curving leftwards ⤶ */
-		[0x2161,0x2082,0x00B2],	/* 0x40 at: roman numeral two Ⅱ, subscript two ₂, superscript two ² */
-		[0x03B1,0x2200,0x212B],	/* 0x41 A: greek small letter alpha α, for all ∀, Angstrom sign Å */
-		[0x03B2,0x2261,0x2245],	/* 0x42 B: greek small letter beta β, identical to (equivalence relation) ≡, approximately equal to (isomorphism, congruence) ≅ */
-		[0x03C7,0x219B,0x2297],	/* 0x43 C: greek small letter chi χ, rightwards arrow with stroke ↛, circled times (outer product, tensor product) ⊗ */
-		[0x03B4,0x2206,0x2207],	/* 0x44 D: greek small letter delta δ, increment ∆, nabla ∇ */
-		[0x03B5,0x2203,0x2204],	/* 0x45 E: greek small letter epsilon ε, there exists ∃, There does not exist ∄ */
-		[0x03C6,0x03D5,0x2205],	/* 0x46 F: greek small letter phi φ, greek phi symbol ϕ, empty set ∅ */
-		[0x03B3,0x0393,0x222B],	/* 0x47 G: greek small letter gamma γ, greek capital letter Γ, integral ∫ */
-		[0x03B7,0x2610,0x2611],	/* 0x48 H: greek small letter eta η, ballot box ☐, ballot with check ☑ */
-		[0x03B9,0x2229,0x221E],	/* 0x49 I: greek small letter iota ι, intersection ∩, infinity ∞  */
-		[0x25CC,0x2228,0x2235],	/* 0x4A J: dotted circle, logical or ∨, because ∵ */
-		[0x03BA,0x2227,0x2234],	/* 0x4B K: greek small letter kappa κ, logical and ∧, therefore ∴ */
-		[0x03BB,0x21B2,0x2B10],	/* 0x4C L: greek small letter lamda λ, downwards arrow with tip leftwards ↲, leftwards arrow with tip downwards ⬐ */
-		[0x03BC,0x2287,0x228B],	/* 0x4D M: greek small letter mu μ, superset of or equal to ⊇, superset of with not equal to ⊋ */
-		[0x03BD,0x2286,0x228A],	/* 0x4E N: greek small letter nu ν, subset of or equal to ⊆, subset of with not equal to ⊊ */
-		[0x03BF,0x21B0,0x2B11],	/* 0x4F O: greek small letter omicron ο, upwards arrow with tip leftwards ↰, leftwards arrow with tip upwards ⬑ */
-		[0x03C0,0x21B1,0x2B0F],	/* 0x50 P: greek small letter pi π, upwards arrow with tip rightwards ↱, rightwards arrow with tip upwards ⬏ */
-		[0x03B8,0x2208,0x2209],	/* 0x51 Q: greek small letter θ, element of ∈, not an element ∉ */
-		[0x03C1,0x00AC,0x2202],	/* 0x52 R: greek small letter rho ρ, not sign ¬, partial differencial (round d) ∂ */
-		[0x03C3,0x2211,0x220F],	/* 0x53 S: greek small letter sigma σ, n-ary summation ∑, n-ary product ∏ */
-		[0x03C4,0x22A4,0x22A5],	/* 0x54 T: greek small letter tau τ, down tack (true, top) ⊤, up tack (false, bottom, contradiction, orthogonality) ⊥ */
-		[0x03C5,0x222A,0x221D],	/* 0x55 U: greek small letter upsilon υ, union ∪, proportional to ∝ */
-		[0x22C5,0x2218,0x2219],	/* 0x56 V: dot operator ⋅, ring operator ∘, bullet operator ∙ */
-		[0x03C9,0x220B,0x220C],	/* 0x57 W: greek small letter omega ω, contains as member ∋, does not contain as member ∌ */
-		[0x03BE,0x21AE,0x2295],	/* 0x58 X: greek small letter xi ξ, left right arrow with stroke (XOR) ↮, circled plus (XOR) ⊕ */
-		[0x03C8,0x22A2,0x22A8],	/* 0x59 Y: greek small letter ψ, right tack (provable, turnstile) ⊢, true (entails, double turnstile) ⊨ */
-		[0x03B6,0x219A,0x2220],	/* 0x5A Z: greek small letter zeta ζ, leftward arrow with stroke ↚, angle ∠ */
-		[0x3010,0x3014,0x2600],	/* 0x5B bracketleft: left black lenticular bracket 【, left tortoise shell bracket 〔, blank sun with rays ☀ */
-		[0x2252,0x00B6,0x00A6],	/* 0x5C backslash: approximately equal to ≒, pilcrow sign ¶, broken bar ¦ */
-		[0x3011,0x3015,0x2601],	/* 0x5D bracketright: right black lenticular bracket 】, right tortoise shell bracket 〕, section sign ☁ */
-		[0x2165,0x2086,0x2076],	/* 0x5E asciicircum: roman numeral six Ⅵ, subscript six ₆, superscript six ⁶ */
-		[0x216A,0x208B,0x207B],	/* 0x5F underscore: roman numeral eleven Ⅺ, subscript minus ₋, superscript minus ⁻ */
-		[0x2122,0x00A9,0x00AE],	/* 0x60 quoteleft: trademark ™, copyright sign ©, registerd sign ® */
-		[0x25C7,0x25C8,0x25C6],	/* 0x61 a: diamond ◇, diamond containing black diamond ◈, black diamond ◆ */
-		[0x00F7,0x2030,0x2031],	/* 0x62 b: division sign ÷, per mille(per thousand) sign ‰, per ten thousand sign ‱ */
-		[0x00B0,0x260E,0x2668],	/* 0x63 c: degree sign °, black telephone ☎, hot springs ♨ */
-		[0x25CB,0x25C9,0x25CF],	/* 0x64 d: white circle ○, fisheye ◉, black circle ● */
-		[0x25B3,0x2191,0x21D1],	/* 0x65 e: up-pointing triangle △, upwards arrow ↑, upwards double arrow ☝ */
-		[0x00B7,0x25E6,0x2022],	/* 0x66 f: middle dot ·, white bullet ◦, bullet • */
-		[0x2026,0x2015,0xFFE3],	/* 0x67 g: horizontal ellipsis …, horizontal bar ―, fullwidth macron ￣ */
-		[0x3261,0x3003,0x2713],	/* 0x68 h: circled hangeul nieun ㉡, ditto mark 〃, check mark ✓ */
-		[0x3264,0x2103,0x2109],	/* 0x69 i: circled hangeul mieum ㉤, degree Celsius ℃, degree Fahrenheit ℉ */
-		[0x3267,0x2018,0x201C],	/* 0x6A j: circled hangeul ieung ㉧, left single quotation mark ‘, left double quotation mark “ */
-		[0x3260,0x2019,0x201D],	/* 0x6B k: circled hangeul gieug ㉠, right single quotation mark ’, right double quotation mark ” */
-		[0x3268,0x2199,0x21D9],	/* 0x6C l: circled hangeul jieuj ㉨, south-west arrow ↙, south west double arrow ⇙ */
-		[0x326D,0x300D,0x300F],	/* 0x6D m: circled hangeul hieuh ㉭, right corner bracket 」, right white corner bracket 』 */
-		[0x3266,0x300C,0x300E],	/* 0x6E n: circled hangeul sieus ㉦, left corner bracket 「, left white corner bracket 『 */
-		[0x3269,0x2196,0x21D6],	/* 0x6F o: circled hangeul chieuch ㉩, north-west arrow ↖, north west double arrow ⇖ */
-		[0x326C,0x2197,0x21D7],	/* 0x70 p: circled hangeul pieup ㉬, north-east arrow ↗, north east double arrow ⇗ */
-		[0x25C1,0x2190,0x21D0],	/* 0x71 q: left-pointing triangle ◁, leftwards arrow ←, leftwards double arrow ⇐ */
-		[0x25B7,0x2192,0x21D2],	/* 0x72 r: right-pointing triangle ▷, rightwards arrow →, rightwards double arrow ⇒ */
-		[0x25A1,0x25A3,0x25A0],	/* 0x73 s: square □, square containing black square ▣, black square ■ */
-		[0x02D0,0x2194,0x21D4],	/* 0x74 t: modifier letter triangular colon ː, left-right arrow ↔, left right double arrow ⇔ */
-		[0x3262,0x321C,0x327E],	/* 0x75 u: circled hangeul dieud ㉢, parenthesized hangeul jieuj u ㈜, circled hangeul U ㉾ */
-		[0x00D7,0x2715,0x2702],	/* 0x76 v: multiplication X ×, fullwidth multiplication X ✕, scissors ✂ */
-		[0x25BD,0x2193,0x21D3],	/* 0x77 w: down-pointing triangle ▽, downwards arrow ↓, downward double arrow ⇓ */
-		[0x2032,0x2606,0x2605],	/* 0x78 x: prime ′, star ☆, black star ★ */
-		[0x3263,0x2195,0x21D5],	/* 0x79 y: circled hangeul lieul ㉣, up-down arrow ↕, up down double arrow ⇕ */
-		[0x2033,0x2661,0x2665],	/* 0x7A z: double prime ″, heart suit ♡, black heart suit ♥ */
-		[0x0000,0x208D,0x207D],	/* 0x7B braceleft: , subscript left parenthesis ₍, superscript left parenthesis ⁽ */
-		[0x2223,0x2225,0x2226],	/* 0x7C bar: divides (divisor) ∣, parallel to ∥, not parallel to ∦ */
-		[0x0000,0x208E,0x207E],	/* 0x7D braceright: , subscript right parenthesis ₎, superscript right parenthesis ⁾ */
-		[0x223C,0x2248,0x223D]	/* 0x7E asciitilde: tilde operator (tilde operator (equivalent, similar) ∼, almost equal to (approximation) ≈, reversed tilde (congruence) ∽ */
-	];
 
 } // basic_layout_table()
 
