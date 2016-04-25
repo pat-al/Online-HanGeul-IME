@@ -67,7 +67,7 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '(바꾼꼴) 
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, moachigi_combination_table: K3_Anmatae_combination_table, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2014', full_name: '세모이 2014 (옛 배열)', layout: K3_Semoe_2014_layout, sublayout: K3_Semoe_2014_sublayout, moachigi_combination_table: K3_Semoe_2014_combination_table});
-additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2016)', layout: K3_Semoe_2016_layout, sublayout: K3_Semoe_2016_sublayout, moachigi_multikey_abbreviation_table: K3_Semoe_2016_multikey_abbreviation_table, moachigi_abbreviation_table: K3_Semoe_2016_abbreviation_table, moachigi_combination_table: K3_Semoe_2016_combination_table, link: 'http://ssg.wo.tc/220239514856'});
+additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2016)', layout: K3_Semoe_2016_layout, sublayout: K3_Semoe_2016_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_multikey_abbreviation_table: K3_Semoe_2016_multikey_abbreviation_table, moachigi_abbreviation_table: K3_Semoe_2016_abbreviation_table, moachigi_combination_table: K3_Semoe_2016_combination_table, link: 'http://ssg.wo.tc/220239514856'});
 
 additional_layouts.push({KE: 'Ko', type_name: '4t-Pyojun1969', full_name: '1969 표준 네벌식 타자기 (1969)', layout: K4_Pyojun_1969_Typewriter_layout, link: 'http://pat.im/965'});
 additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'http://pat.im/1026'});
@@ -4239,7 +4239,7 @@ function additional_keyboard_layout_table_info() {
 		0x00D7, /* 0x47 G: × */
 		0x00B7, /* 0x48 H: · */
 		0x2015, /* 0x49 I: ― */
-		0x0000, /* 0x4A J:  */
+		-100,   /* 0x4A J:  */
 		0x0027, /* 0x4B K: apostrophe */
 		0x003B, /* 0x4C L: colon */
 		0x300F, /* 0x4D M: 』 */
@@ -4489,8 +4489,16 @@ function additional_keyboard_layout_table_info() {
 		[0x0000,0x208E,0x207E],	/* 0x7D braceright: , subscript right parenthesis ₎, superscript right parenthesis ⁾ */
 		[0x223C,0x2248,0x223D]	/* 0x7E asciitilde: tilde operator (tilde operator (equivalent, similar) ∼, almost equal to (approximation) ≈, reversed tilde (congruence) ∽ */
 	];
-
+	
+	K3_Semoe_extended_sign_layout = K3_Sin3_P_extended_sign_layout.slice(0);
+	K3_Semoe_extended_sign_layout[11][0] = 0x326A; /* 0x2C comma: circled hangeul kieuk ㉪ */
+	K3_Semoe_extended_sign_layout[13][0] = 0x3269; /* 0x2E period: circled hangeul chieuch ㉩ */
+	K3_Semoe_extended_sign_layout[71][0] = 0x326D; /* 0x68 h: circled hangeul hieuh ㉭ */
+	K3_Semoe_extended_sign_layout[72][0] = 0x3262; /* 0x69 i: circled hangeul dieud ㉢ */
+	K3_Semoe_extended_sign_layout[76][0] = 0x3263; /* 0x6D m: circled hangeul lieul ㉣ */
+	K3_Semoe_extended_sign_layout[78][0] = 0x3265; /* 0x6D m: circled hangeul bieub ㉥ */	
 } // additional_keyboard_layout_table_info()
+
 
 function input_hangeul_combination_table_info() {
 	hangeul_combination_table_default = [
