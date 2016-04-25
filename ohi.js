@@ -2109,15 +2109,15 @@ function show_keyboard_layout(type) {
 		}
 	}
 
-	if(KE=='Ko' && Ko_type=='3m-Semoi') {
-		document.getElementById('uh24').innerHTML = Moachigi_modifier_tag;
+	if(KE=='Ko' && Ko_type=='3m-Semoe') {
+		document.getElementById('uh25').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
 		document.getElementById('ue45').removeAttribute('class');
 		document.getElementById('ue45').style.float = 'left';
 		document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 	}
 
-	if(KE=='Ko' && Ko_type=='3m-Semoi2014') {
+	if(KE=='Ko' && Ko_type=='3m-Semoe2014') {
 		document.getElementById('uh38').innerHTML += Moachigi_modifier_tag;
 	}
 
@@ -2298,7 +2298,7 @@ function ohiChange(KE, layout) {
 function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (Ko는 주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
-	var Ko_type_array = ['2-KSX5002','2-KPS9256','Sin3-P','3m-Semoi','3-P3'];
+	var Ko_type_array = ['2-KSX5002','2-KPS9256','Sin3-P','3m-Semoe','3-P3'];
 
 	if(type=='En') {
 		for(i=0;i<En_type_array.length;++i) {
