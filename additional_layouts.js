@@ -4491,12 +4491,18 @@ function additional_keyboard_layout_table_info() {
 	];
 	
 	K3_Semoe_extended_sign_layout = K3_Sin3_P_extended_sign_layout.slice(0);
+	K3_Semoe_extended_sign_layout[6][0] = 0; /* 0x27 apostrophe: */
 	K3_Semoe_extended_sign_layout[11][0] = 0x326A; /* 0x2C comma: circled hangeul kieuk ㉪ */
 	K3_Semoe_extended_sign_layout[13][0] = 0x3269; /* 0x2E period: circled hangeul chieuch ㉩ */
+	K3_Semoe_extended_sign_layout[14][0] = 0; /* 0x2F slash: */
+	K3_Semoe_extended_sign_layout[26][0] = 0x326B; /* 0x3B semicolon: circled hangeul tieut ㉫ */
 	K3_Semoe_extended_sign_layout[71][0] = 0x326D; /* 0x68 h: circled hangeul hieuh ㉭ */
 	K3_Semoe_extended_sign_layout[72][0] = 0x3262; /* 0x69 i: circled hangeul dieud ㉢ */
 	K3_Semoe_extended_sign_layout[76][0] = 0x3263; /* 0x6D m: circled hangeul lieul ㉣ */
-	K3_Semoe_extended_sign_layout[78][0] = 0x3265; /* 0x6D m: circled hangeul bieub ㉥ */	
+	K3_Semoe_extended_sign_layout[78][0] = 0x3265; /* 0x6D m: circled hangeul bieub ㉥ */
+	K3_Semoe_extended_sign_layout[84][0] = 0x3261; /* 0x75 u: circled hangeul nieun ㉡ */
+	K3_Semoe_extended_sign_layout[88][0] = 0x3264; /* 0x79 y: circled hangeul mieum ㉤ */
+
 } // additional_keyboard_layout_table_info()
 
 
