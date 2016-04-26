@@ -1879,15 +1879,15 @@ function show_keyboard_layout(type) {
 	if(typeof ohi_menu_num=='undefined') ohi_menu_num=0;
 	show_options();
 
-	if(typeof type=='undefined' || type==1) type = current_layout.type_name;
-
-	if(!type) {
+	if(typeof type=='undefined') type = current_layout.type_name;
+	else if(type==1) {
+		option.show_layout = 1;
+		type = current_layout.type_name;
+	}
+	else if(!type) {
 		option.show_layout = 0;
 		rows.innerHTML = '<div class="show_layout"><span class="menu" onclick="option.show_layout=1;show_keyboard_layout(1);inputText_focus()">배열표 보이기</span></div>';
 		return false;
-	}
-	else if(type) {
-		option.show_layout = 1;
 	}
 	
 	if(!option.show_layout) return;
