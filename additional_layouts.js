@@ -3064,10 +3064,10 @@ function additional_keyboard_layout_table_info() {
 		0x0029,	/* 0x29 parenright */
 		0x002a,	/* 0x2A asterisk */
 		0x002b,	/* 0x2B plus */
-		0x002c,	/* 0x2C comma:        comma */
-		0x002d,	/* 0x2D minus:        minus sign */
-		0x002e,	/* 0x2E period:       period */
-		0x110f,	/* 0x2F slash:        choseong kieuk */
+		0x002c,	/* 0x2C comma */
+		0x002d,	/* 0x2D minus */
+		0x002e,	/* 0x2E period */
+		0x110f,	/* 0x2F slash: choseong kieuk */
 		0x0030,	/* 0x30 0: 0 */
 		0x0031,	/* 0x31 1: 1 */
 		0x0032,	/* 0x32 2: 2 */
@@ -3079,7 +3079,7 @@ function additional_keyboard_layout_table_info() {
 		0x0038,	/* 0x38 8: 8 */
 		0x0039,	/* 0x39 9: 9 */
 		0x003a,	/* 0x3A colon */
-		0x1107,	/* 0x3B semicolon: choseong  bieub */
+		0x1107,	/* 0x3B semicolon: choseong bieub */
 		0x003c,	/* 0x3C less: */
 		0x003d,	/* 0x3D equal */
 		0x003e,	/* 0x3E greater */
@@ -4398,8 +4398,8 @@ function additional_keyboard_layout_table_info() {
 		[0x0000,0x0000,0x0000], /* 0x22 quotedbl: */
 		[0x2162,0x2083,0x00B3], /* 0x23 numbersign: roman numeral three Ⅲ, subscript three ₃, superscript three ³ */
 		[0x2163,0x2084,0x2074], /* 0x24 dollar: roman numeral four Ⅳ, subscript four ₄, superscript four ⁴ */
-		[0x2164,0x2085,0x2075], /* 0x25 percent: roman numeral five Ⅴ, subscript fiver ⁵, superscript five ⁵ */
-		[0x2166,0x2087,0x2077],	/* 0x26 ampersand: roman numeral seven Ⅶ, subscript fiver ₇, superscript ⁷ */
+		[0x2164,0x2085,0x2075], /* 0x25 percent: roman numeral five Ⅴ, subscript five ⁵, superscript five ⁵ */
+		[0x2166,0x2087,0x2077],	/* 0x26 ampersand: roman numeral seven Ⅶ, subscript seven ₇, superscript seven ⁷ */
 		[0x326B,0x266A,0x266C],	/* 0x27 apostrophe: circled hangeul tieut ㉫, eighth note ♪, beamed sixteenth notes ♬ */
 		[0x2168,0x2089,0x2079],	/* 0x28 parenleft: roman numeral nine Ⅸ, subscript nine ₉, superscript nine ⁹ */
 		[0x2169,0x2080,0x2070],	/* 0x29 parenright: roman numeral ten Ⅹ, subscript zero ₀, superscript zero ⁰ */
@@ -4435,7 +4435,7 @@ function additional_keyboard_layout_table_info() {
 		[0x03B3,0x0393,0x222B],	/* 0x47 G: greek small letter gamma γ, greek capital letter Γ, integral ∫ */
 		[0x03B7,0x2610,0x2611],	/* 0x48 H: greek small letter eta η, ballot box ☐, ballot with check ☑ */
 		[0x03B9,0x2229,0x221E],	/* 0x49 I: greek small letter iota ι, intersection ∩, infinity ∞  */
-		[0x25CC,0x2228,0x2235],	/* 0x4A J: dotted circle, logical or ∨, because ∵ */
+		[0x25CC,0x2228,0x2235],	/* 0x4A J: dotted circle ◌, logical or ∨, because ∵ */
 		[0x03BA,0x2227,0x2234],	/* 0x4B K: greek small letter kappa κ, logical and ∧, therefore ∴ */
 		[0x03BB,0x21B2,0x2B10],	/* 0x4C L: greek small letter lamda λ, downwards arrow with tip leftwards ↲, leftwards arrow with tip downwards ⬐ */
 		[0x03BC,0x2287,0x228B],	/* 0x4D M: greek small letter mu μ, superset of or equal to ⊇, superset of with not equal to ⊋ */
@@ -4487,9 +4487,10 @@ function additional_keyboard_layout_table_info() {
 		[0x0000,0x208D,0x207D],	/* 0x7B braceleft: , subscript left parenthesis ₍, superscript left parenthesis ⁽ */
 		[0x2223,0x2225,0x2226],	/* 0x7C bar: divides (divisor) ∣, parallel to ∥, not parallel to ∦ */
 		[0x0000,0x208E,0x207E],	/* 0x7D braceright: , subscript right parenthesis ₎, superscript right parenthesis ⁾ */
-		[0x223C,0x2248,0x223D]	/* 0x7E asciitilde: tilde operator (tilde operator (equivalent, similar) ∼, almost equal to (approximation) ≈, reversed tilde (congruence) ∽ */
+		[0x223C,0x2248,0x223D]	/* 0x7E asciitilde: tilde operator (equivalent, similar) ∼, almost equal to (approximation) ≈, reversed tilde (congruence) ∽ */
 	];
 	
+	// 세모이 자판의 기호 확장 배열 (신세벌식 P와 호환)
 	K3_Semoe_extended_sign_layout = K3_Sin3_P_extended_sign_layout.slice(0);
 	K3_Semoe_extended_sign_layout[6][0] = 0; /* 0x27 apostrophe: */
 	K3_Semoe_extended_sign_layout[11][0] = 0x326A; /* 0x2C comma: circled hangeul kieuk ㉪ */
