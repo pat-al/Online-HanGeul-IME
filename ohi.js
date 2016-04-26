@@ -368,7 +368,7 @@ function ohiInsert(f,m,c) { // Insert
 
 function ohiSelection(f,length) {
 	if(document.selection && browser=="MSIE" && browser_ver<9) { // IE ~8
-	}	
+	}
 	else if(f.selectionEnd+1) {
 		var e=document.createEvent('KeyboardEvent');
 		if(e.initKeyEvent && !(browser=="Firefox" && browser_ver>=12 ) && browser!="Chrome") { // Gecko
@@ -769,7 +769,6 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리)
 
 		if(!ohiQ[0] && !ohiQ[3] && !ohiQ[6]) {
 		// 한글 조합 상태가 아니면 첫소리 채움 문자 넣음
-			//prev_phoneme.push(cc,0x115F);
 			prev_combined_phoneme.push(cc,0x115F);
 			ohiInsert(f,0,0x115F);
 			ohiInsert(f,0,prev_phoneme[0]);
@@ -790,7 +789,6 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리)
 
 		if(ohiQ[3] || ohiQ[6]) {
 		// 가운뎃소리나 끝소리가 들어 있을 때
-			//prev_phoneme.push(cc,0x115F);
 			prev_phoneme.push(cc);
 			prev_combined_phoneme.push(cc,0x115F);
 			ohiInsert(f,0,0x115F); // 첫소리 채움 문자 넣음
@@ -1478,11 +1476,6 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열의 겹홀소리 조합용 홀소리를 넣음
 		cc=-Sin3_sublayout[c-33];
 	}
-	/*else if(cc==0x1160) {
-	// 가운뎃소리 채움 문자가 들어왔을 때
-		// 앞에 첫소리가 들어오지 않았으면 채움 문자를 넣지 않음
-		if(!prev_phoneme.length || unicode_cheot.indexOf(prev_phoneme[0])<0) return -1;
-	}*/
 	else if(!no_shift(c) && prev_phoneme.length && unicode_cheot.indexOf(prev_phoneme[0])>=0 && unicode_ga.indexOf(cc)>=0 && unicode_ggeut.indexOf(cc2)>=0) {
 	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
 		cc=cc2;
@@ -1973,7 +1966,6 @@ function show_keyboard_layout(type) {
 	}
 	else if(KE=='Ko') {
 		if(Hangeul_SignExtKey1>0 || Hangeul_SignExtKey2>0) { // 기호 확장 배열
-			//if(Ko_type.substr(0,4)=='Sin3') layout = typeof K3_Sin3_P_extended_sign_layout != 'undefined' ? K3_Sin3_P_extended_sign_layout : null;
 			if(typeof current_layout.extended_sign_layout != 'undefined') layout = current_layout.extended_sign_layout;
 			if(!layout) return;
 
@@ -2157,7 +2149,6 @@ function show_keyboard_layout(type) {
 			document.getElementById('de29').innerHTML = '<span style="color:#666">ㆁ</span>';
 			document.getElementById('de31').innerHTML = '<span style="color:#666">ㆆ</span>';
 			document.getElementById('de31').innerHTML = '<span style="color:#666">ㆆ</span>';
-			//document.getElementById('uh47').innerHTML = '<span style="background:black;color:#fff;letter-spacing:-1px;font-size:9px;">채움</span>';
 		}
 	}
 
