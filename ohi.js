@@ -664,6 +664,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리)
 	if(!abbriviation_processing_state) {
 		if(Ko_type.substr(0,2)=='3-' || Ko_type.substr(0,3)=='3m-')	{
 			if(Hangeul3_sign_ext(f,e,c)) return 0;
+			if(cc<0) return 0;
 		}
 
 		if(Ko_type.indexOf('Sin3')>=0) {	// 신세벌식 자판 또는 바꾼꼴(공세벌식형) 신세벌식 자판
@@ -1668,6 +1669,7 @@ function push_layout_to_key_table(u,d,b) {
 	var c,bas=[];
 	for(var i=0;i<94;++i) {
 		c=String.fromCharCode(b[i]);
+		if(b[i]<0) c=0;
 		bas.push(c);
 	}
 	push_to_key_table(u,d,bas);
@@ -1679,23 +1681,42 @@ function push_extended_hangeul_layout_to_key_table(u,d,ext_layout) {
 	
 	for(i=0;i<94;++i) {
 		c = ext_layout[i][ohiHangeul3_HanExtKey%0x10-1][ohiHangeul3_HanExtKey>0x10 ? 1:0]
+		if(c<0) c=0;
 		ext.push(String.fromCharCode(c));
 	}
 	push_to_key_table(u,d,ext);
 }
 
 function push_extended_sign_layout_to_key_table(u,d,e) {
-	var ext=[], i, j=Hangeul_SignExtKey1+Hangeul_SignExtKey2-1;
+	var ext=[], c, i, j=Hangeul_SignExtKey1+Hangeul_SignExtKey2-1;
 	if(j>=0) {
 		if(Ko_type=='3-2011' || Ko_type=='3-2012') {
-			if(j<3) for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][j]));
+			if(j<3) {
+				for(i=0;i<94;++i) {
+					c=e[i][j]>=0 ? e[i][j] : 0;
+					ext.push(String.fromCharCode(c));
+				}
+			}
 		}
 		else if(Ko_type.substr(0,2)=='3-') {
-			if(Hangeul_SignExtKey1) for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][0][j]));
-			if(Hangeul_SignExtKey2) for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][1][j]));
+			if(Hangeul_SignExtKey1) {
+				for(i=0;i<94;++i) {
+					c=e[i][0][j]>=0 ? e[i][0][j] : 0;
+					ext.push(String.fromCharCode(c));
+				}
+			}
+			if(Hangeul_SignExtKey2) {
+				for(i=0;i<94;++i) {
+					c=e[i][1][j]>=0 ? e[i][1][j] : 0;
+					ext.push(String.fromCharCode(c));
+				}
+			}
 		}
 		else { // 신세벌식
-			for(i=0;i<94;++i) ext.push(String.fromCharCode(e[i][j]));
+			for(i=0;i<94;++i) {
+				c=e[i][j]>=0 ? e[i][j] : 0;
+				ext.push(String.fromCharCode(c));
+			}
 		}
 	}
 	push_to_key_table(u,d,ext);
