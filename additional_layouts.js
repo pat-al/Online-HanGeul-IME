@@ -74,6 +74,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타
 additional_layouts.push({KE: 'Ko', type_name: '4t-Pyojun1985', full_name: '1985 표준 배열 기계식 타자기', layout: K4_Pyojun_1985_Typewriter_layout, link: 'http://pat.im/1026'});
 
 function additional_keyboard_layout_table_info() {
+	var i,j;
+	
 	K2_GimJunSeong_typewriter_layout = [
 		0x0000, //0x0021,	/* 0x21 exclam: exclamation mark */
 		0x003a, /* 0x22 quotedbl: colon */
@@ -4491,7 +4493,10 @@ function additional_keyboard_layout_table_info() {
 	];
 	
 	// 세모이 자판의 기호 확장 배열 (신세벌식 P와 호환)
-	K3_Semoe_extended_sign_layout = K3_Sin3_P_extended_sign_layout.slice(0);
+	K3_Semoe_extended_sign_layout=[];
+	for(i=0;i<K3_Sin3_P_extended_sign_layout.length;++i) {
+		K3_Semoe_extended_sign_layout.push(K3_Sin3_P_extended_sign_layout[i].slice(0));
+	}
 	K3_Semoe_extended_sign_layout[6][0] = 0; /* 0x27 apostrophe: */
 	K3_Semoe_extended_sign_layout[11][0] = 0x326A; /* 0x2C comma: circled hangeul kieuk ㉪ */
 	K3_Semoe_extended_sign_layout[13][0] = 0x3269; /* 0x2E period: circled hangeul chieuch ㉩ */
