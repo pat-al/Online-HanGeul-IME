@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/04/26
+ * Last Update : 2016/05/10
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -90,6 +90,7 @@ function option() {
 	var turn_off_OHI; // OHI 입력 기능 멈추기 (화상 자판은 그대로 씀)
 	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var enable_double_final_ext; // 겹받침 확장 배열 쓰기 --> ohiChange_enable_double_final_ext() 함수로 값을 바꿈
+	var enable_diphthong_ext; // 겹홀소리 확장 배열 쓰기 --> ohiChange_enable_diphthong_ext() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열 쓰기 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
 	var input_only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
@@ -1351,10 +1352,16 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		cc=cc2;
 		ohiRQ[3]=1;
 	}
-	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0) {
-	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열의 겹홀소리 조합용 홀소리를 넣음
+	else if(no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0
+	 && (convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33])==74 || convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33])==79 || convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]==84 || convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33])==0x119E))
+	) {
+	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열(sublayout)에서 겹홀소리 조합용 ㅗ, ㅜ, ㅡ, ㆍ를 넣음
 		cc=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]);
 		ohiRQ[3]=1;
+	}
+	else if(option.enable_diphthong_ext && no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0) {
+	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열(sublayout)에서 홀소리를 넣음  (겹홀소리 확장)
+		cc=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]);
 	}
 	else if(c==47 && ohiQ[0] && !ohiQ[3]) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
@@ -1761,6 +1768,14 @@ function ohiChange_enable_double_final_ext(op) {
 	show_keyboard_layout();
 }
 
+
+function ohiChange_enable_diphthong_ext(op) {
+	if(op===undefined || op==1) option.enable_diphthong_ext=1;
+	else option.enable_diphthong_ext=0;
+
+	show_keyboard_layout();
+}
+
 function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
 	if(typeof op != 'undefined') {
 		if(op) option.enable_NCR=1;
@@ -1846,7 +1861,18 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_double_final_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_double_final_ext','<div class="option"><input name="enable_double_final_ext" class="checkbox" onclick="ohiChange_enable_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장</label></div>');
-		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined' && !(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')) opt.style.display = 'block';
+		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined'
+		 && !(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
+		 && current_layout.sublayout.indexOf(0x11AD)>=0
+		) opt.style.display = 'block';
+		else opt.style.display = 'none';
+			
+		opt = document.getElementById('option_enable_diphthong_ext');
+		if(!opt) opt = appendChild(opts,'div','option','option_enable_diphthong_ext','<div class="option"><input name="enable_diphthong_ext" class="checkbox" onclick="ohiChange_enable_diphthong_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_diphthong_ext ? ' checked="checked"' : '') + '><label>겹홀소리 확장</label></div>');
+		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined'
+		 && !(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
+		 && current_layout.sublayout.indexOf(0x116A)>=0
+		) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_force_normal_typing');
@@ -2128,11 +2154,13 @@ function show_keyboard_layout(type) {
 				document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
 			}
 			
-			// 쉼표, 마침표 자리의 홀소리 배열
-			var a=[[11,49],[13,50]];
-			for(i=0;i<a.length;++i) {
-				if(current_layout.sublayout[a[i][0]]) {
-					document.getElementById('dh'+a[i][1]).innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[a[i][0]]))+')</font>';
+			if(option.enable_diphthong_ext && typeof current_layout.sublayout != 'undeinfed' && current_layout.sublayout.indexOf(0x116A)>=0) {
+				// 쉼표, 마침표, 숫자(0~9) 자리의 겹낱자(홀소리) 확장 배열
+				var a=[[11,49],[13,50], [15,10],[16,1],[17,2],[18,3],[19,4],[20,5],[21,6],[22,7],[23,8],[24,9]];
+				for(i=0;i<a.length;++i) {
+					if(current_layout.sublayout[a[i][0]]) {
+						document.getElementById('dh'+a[i][1]).innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[a[i][0]]))+')</font>';
+					}
 				}
 			}
 		}
