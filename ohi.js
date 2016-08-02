@@ -39,6 +39,9 @@ var default_Ko_type = 'Sin3-P';
 var default_ohi_KBD_type = 'QWERTY';
 var default_ohi_KE = 'Ko';
 
+var default_enable_sign_ext = 1;
+var default_force_normal_typing = 0;
+
 var En_type; // 영문 자판 종류 (ohiChange 함수로 바꿈)
 var Ko_type; // 한글 자판 종류 (ohiChange 함수로 바꿈)
 var ohi_KBD_type; // 기준 자판 종류 (QWERTY/QWERTZ/AZERTY, ohiChange_KBD_type 함수로 바꿈)
@@ -49,6 +52,9 @@ if(typeof En_type != 'undefined') default_En_type = En_type; else En_type = defa
 if(typeof Ko_type != 'undefined') default_Ko_type = Ko_type; else Ko_type = default_Ko_type;
 if(typeof ohi_KBD_type != 'undefined') default_ohi_KBD_type = ohi_KBD_type; else ohi_KBD_type = default_ohi_KBD_type;
 if(typeof ohi_KE != 'undefined') default_ohi_KE = ohi_KE; else ohi_KE = default_ohi_KE;
+
+if(typeof enable_sign_ext != 'undefined') default_enable_sign_ext = enable_sign_ext;
+if(typeof force_normal_typing != 'undefined') default_force_normal_typing = force_normal_typing;
 
 function basic_layouts() {
 	var KE; // 한글·영문 상태 (Ko:한글, En:영문)
@@ -92,6 +98,7 @@ function option() {
 	var enable_double_final_ext; // 겹받침 확장 배열 쓰기 --> ohiChange_enable_double_final_ext() 함수로 값을 바꿈
 	var enable_diphthong_ext; // 겹홀소리 확장 배열 쓰기 --> ohiChange_enable_diphthong_ext() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열 쓰기 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
+	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
 	var input_only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
 	var enable_Sin3_yeshangeul_combination; // 신세벌식 자판에서 옛한글 조합하기
 	var enable_Sin3_diphthong_key; // 0이면 신세벌식 자판에서 오른쪽 글쇠로 홀소리를 넣을 수 없음
@@ -110,8 +117,8 @@ option.turn_off_OHI = 0;
 option.show_layout = 1;
 option.enable_double_final_ext = 0;
 option.enable_diphthong_ext = 0;
-option.enable_sign_ext=1;
-option.force_normal_typing = 0;
+option.enable_sign_ext = default_enable_sign_ext;
+option.force_normal_typing = default_force_normal_typing;
 option.input_only_CGG_encoding = 0;
 option.enable_Sin3_yeshangeul_combination = 0;
 option.enable_Sin3_diphthong_key = 1;
@@ -1844,7 +1851,7 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_sign_ext');
-		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : 'checked=""') + '><label>기호 확장</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label>기호 확장</label></div>');
 		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout) && Ko_type!='Sin3-2015') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
