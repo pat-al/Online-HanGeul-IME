@@ -39,8 +39,16 @@ var default_Ko_type = 'Sin3-P';
 var default_ohi_KBD_type = 'QWERTY';
 var default_ohi_KE = 'Ko';
 
+var default_enable_double_final_ext = 0;
+var default_enable_diphthong_ext = 0;
 var default_enable_sign_ext = 1;
 var default_force_normal_typing = 0;
+var default_only_CGG_encoding = 0;
+var default_enable_Sin3_yeshangeul_combination = 0;
+var default_enable_Sin3_diphthong_key = 1;
+var default_phonemic_writing = 0;
+var default_abbreviation = 0;
+var default_convenience_combination = 0;
 
 var En_type; // 영문 자판 종류 (ohiChange 함수로 바꿈)
 var Ko_type; // 한글 자판 종류 (ohiChange 함수로 바꿈)
@@ -55,6 +63,7 @@ if(typeof ohi_KE != 'undefined') default_ohi_KE = ohi_KE; else ohi_KE = default_
 
 if(typeof enable_sign_ext != 'undefined') default_enable_sign_ext = enable_sign_ext;
 if(typeof force_normal_typing != 'undefined') default_force_normal_typing = force_normal_typing;
+if(typeof phonemic_writing != 'undefined') default_phonemic_writing = phonemic_writing;
 
 function basic_layouts() {
 	var KE; // 한글·영문 상태 (Ko:한글, En:영문)
@@ -99,7 +108,7 @@ function option() {
 	var enable_diphthong_ext; // 겹홀소리 확장 배열 쓰기 --> ohiChange_enable_diphthong_ext() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열 쓰기 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
-	var input_only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
+	var only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
 	var enable_Sin3_yeshangeul_combination; // 신세벌식 자판에서 옛한글 조합하기
 	var enable_Sin3_diphthong_key; // 0이면 신세벌식 자판에서 오른쪽 글쇠로 홀소리를 넣을 수 없음
 	var phonemic_writing; // 풀어쓰기
@@ -115,16 +124,16 @@ function NCR_option() {
 var option=new option();
 option.turn_off_OHI = 0;
 option.show_layout = 1;
-option.enable_double_final_ext = 0;
-option.enable_diphthong_ext = 0;
+option.enable_double_final_ext = default_enable_double_final_ext;
+option.enable_diphthong_ext = default_enable_diphthong_ext;
 option.enable_sign_ext = default_enable_sign_ext;
 option.force_normal_typing = default_force_normal_typing;
-option.input_only_CGG_encoding = 0;
-option.enable_Sin3_yeshangeul_combination = 0;
-option.enable_Sin3_diphthong_key = 1;
-option.phonemic_writing = 0;
-option.abbreviation = 0;
-option.convenience_combination = 0;
+option.only_CGG_encoding = default_only_CGG_encoding;
+option.enable_Sin3_yeshangeul_combination = default_enable_Sin3_yeshangeul_combination;
+option.enable_Sin3_diphthong_key = default_enable_Sin3_diphthong_key;
+option.phonemic_writing = default_phonemic_writing;
+option.abbreviation = default_abbreviation;
+option.convenience_combination = default_convenience_combination;
 
 var NCR_option = new NCR_option();
 NCR_option.enable_NCR = 0;
@@ -453,7 +462,7 @@ function complete_hangeul_syllable(f) { // 첫가끝 조합형 낱내를 유니�
 	if(!prev_phoneme.length) return;
 	ohiSelection(f,0);
 	var i;
-	if(!option.input_only_CGG_encoding) {
+	if(!option.only_CGG_encoding) {
 		if(unicode_modern_cheot.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[0])>=0
 		 || unicode_modern_cheot.indexOf(prev_combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(prev_combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(prev_combined_phoneme[0])>=0) {
 		// 첫+가 또는 첫+가+끝
@@ -1865,8 +1874,8 @@ function show_options() {
 		if(option.enable_Sin3_yeshangeul_combination && current_layout.type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
-		opt = document.getElementById('option_input_only_CGG_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','option_input_only_CGG_encoding','<div class="option"><input name="input_only_CGG_encoding" class="checkbox" onclick="option.input_only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.input_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝으로만 넣기</label></div>');
+		opt = document.getElementById('option_only_CGG_encoding');
+		if(!opt) opt = appendChild(opts,'div','option','option_only_CGG_encoding','<div class="option"><input name="only_CGG_encoding" class="checkbox" onclick="option.only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝으로만 넣기</label></div>');
 		if(current_layout.type_name.substr(-2)=='-y' || option.enable_Sin3_yeshangeul_combination&&current_layout.type_name.substr(0,5)=='Sin3-'&&typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
