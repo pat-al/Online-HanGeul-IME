@@ -8,7 +8,7 @@
 	<meta name="Keywords" content="Hangeul, Korean, on-screen, IME, keyboard layout, Javascript, 한글, 자판 배열, 화상 자판, 세벌식, 두벌식, 옛한글, 타자기" />
 	<script type="text/javascript">
 	<!--
-		Ko_type = 'Sin3-P';  // 한글 자판
+		Ko_type = 'Sin3-P2';  // 한글 자판
 		En_type = 'QWERTY';  // 영문 자판
 		ohi_KBD_type = 'QWERTY';  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
 		ohi_KE = 'Ko';  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
@@ -107,7 +107,7 @@
 		#NCR_options { margin-top:0px; height:1em; clear:both; }
 
 		table#keyboardLayoutTable { clear:both; margin:auto;}
-		table#keyboardLayoutTable table { margin:-3px 0 -2px 0;}
+		table#keyboardLayoutTable table { margin:-2px 0 -2px 0;}
 		table#keyboardLayoutTable .row {}
 		tr#row4 { text-align:center; }
 		td.e1, td.e2, td.e3, td.h1, td.h2, td.h3 { font-size: 13px; height: 34px; padding-top:0; padding-bottom:0; border: outset 1px wheat; cursor:pointer;}
@@ -194,7 +194,7 @@
 					</li>
 					<li>
 						3벌식 :	<kbd class="menu" onclick="javascript:ohiChange_between_same_type('K3')" onmouseover="this.className='over'" onmouseout="this.className='menu'">Alt+3</kbd>
-						【<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P')" onmouseover="this.className='over'" onmouseout="this.className='menu'">신세벌식 P</kbd>
+						【<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P2')" onmouseover="this.className='over'" onmouseout="this.className='menu'">신세벌식 P2</kbd>
 						→ <kbd class="menu" onclick="javascript:ohiChange('Ko','3m-Semoe')" onmouseover="this.className='over'" onmouseout="this.className='menu'">세모이</kbd>
 						→ <kbd class="menu" onclick="javascript:ohiChange('Ko','3-P3')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-P3</kbd>】
 					</li>
@@ -231,7 +231,8 @@
 								신세벌식 : 
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-2003')" onmouseover="this.className='over'" onmouseout="this.className='menu'">박경남 수정</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-M')" onmouseover="this.className='over'" onmouseout="this.className='menu'">M</kbd>,
-								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P</kbd>
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P</kbd>,
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P2')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P2</kbd>
 							</li>
 							<li>
 								모아치기 세벌식 :	
