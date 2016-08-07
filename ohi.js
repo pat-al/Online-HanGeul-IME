@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/08/06
+ * Last Update : 2016/08/07
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -97,9 +97,9 @@ function basic_layout_list() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
 	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'http://pat.im/938'});
 
-	if(typeof K3_Sin3_P_extended_sign_layout == 'undefined') K3_Sin3_P_extended_sign_layout = null;
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_P_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1110'});
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_P_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'http://pat.im/1136'});
+	if(typeof K3_Sin3_extended_sign_layout == 'undefined') K3_Sin3_extended_sign_layout = null;
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P2_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P2_extended_combination_table, link: 'http://pat.im/1110'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P2_sublayout, extended_hangeul_layout: K3_Sin3_P2_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P2_extended_combination_table, link: 'http://pat.im/1136'});
 }
 
 function option() {
@@ -3688,8 +3688,8 @@ function basic_layout_table() {
 		0x007e  /* 0x7E asciitilde */
 	];
 
-	// 신세벌식 P 겹낱자 확장 배열
-	K3_Sin3_P_sublayout = [
+	// 신세벌식 P / P2 겹낱자 확장 배열
+	K3_Sin3_P2_sublayout = [
 		0x0000,	/* 0x21 exclam: */
 		0x0000,	/* 0x22 quotedbl: */
 		0x0000,	/* 0x23 numbersign: */
@@ -3790,6 +3790,11 @@ function basic_layout_table() {
 	K3_Sin3_P_y_layout = K3_Sin3_P_layout.slice(0);
 	K3_Sin3_P_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
 	K3_Sin3_P_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
+	
+	// 신세벌식 P2 옛한글
+	K3_Sin3_P2_y_layout = K3_Sin3_P2_layout.slice(0);
+	K3_Sin3_P2_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
+	K3_Sin3_P2_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
 
 } // basic_layout_table()
 
@@ -4180,8 +4185,8 @@ function basic_layout_combination_table() {
 		[0xd7f711b8,0xd7f8]  /* jongseong jieuj-bieub + bieub = jieuj-ssangbieub */
 	];
 
-	K3_Sin3_P_extended_combination_table = hangeul_combination_table_full.slice(0);
-	K3_Sin3_P_extended_combination_table.unshift(
+	K3_Sin3_P2_extended_combination_table = hangeul_combination_table_full.slice(0);
+	K3_Sin3_P2_extended_combination_table.unshift(
 		[0x11001109,0x1140], /* choseong gieug + siues = ssanggieug */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
 		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolinhieuh */
