@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/08/07
+ * Last Update : 2016/08/09
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -718,7 +718,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 		}
 
 		if(Ko_type.substr(-2)!='-y' && !prev_phoneme.length && Ko_type.substr(1,2)!='t-' &&
-		 (typeof current_layout.hangeul_combination_table != 'undefined' || typeof current_layout.moachigi_hangeul_combination_table  != 'undefined' || typeof current_layout.hangeul_convenience_combination_table != 'undefined')
+		 (typeof current_layout.hangeul_combination_table != 'undefined' || typeof current_layout.moachigi_hangeul_combination_table != 'undefined' || typeof current_layout.hangeul_convenience_combination_table != 'undefined')
 		) {
 		// 옛한글 자판이 아니고 타자기 자판이 아닐 때 낱자 결합 규칙 적용하기
 			var ch;
@@ -2422,7 +2422,7 @@ function ohiChange(KE, layout) {
 function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열 바꾸기 (Ko는 주요 배열만 간추림)
 	var i,j=-1;
 	var En_type_array = ['QWERTY','Dvorak','Colemak'];
-	var Ko_type_array = ['2-KSX5002','2-KPS9256','Sin3-P','3m-Semoe','3-P3'];
+	var Ko_type_array = ['2-KSX5002','2-KPS9256','Sin3-P2','3m-Semoe','3-P3'];
 
 	if(type=='En') {
 		for(i=0;i<En_type_array.length;++i) {
@@ -2468,7 +2468,7 @@ function ohiChange_between_same_type(type) {	// 같은 한·영 종류의 배열
 
 	if(type!='Ko' && (Ko_type.substr(0,1)=='2'&&Ko_type_array[(j+1)%i].substr(0,1)!='2' || Ko_type.substr(0,1)!='2'&&Ko_type_array[(j+1)%i].substr(0,1)=='2')) Ko_type = Ko_type_array[0];
 	else Ko_type = Ko_type_array[(j+1)%i];
-	ohiChange('Ko',Ko_type);	
+	ohiChange('Ko',Ko_type);
 }
 
 function ohiChange_KE(type) {	// 한·영 상태 바꾸기
@@ -2626,7 +2626,7 @@ function ohiKeypress(e) {
 				}
 				else {
 					pressing_key_accumulation(f,e,c);
-				}	
+				}
 			}
 			else {
 				if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0,0,0];
@@ -2642,7 +2642,7 @@ function ohiKeypress(e) {
 		}
 	}
 
-	if(key_pressed) {		
+	if(key_pressed) {
 		tableKey_press(c);
 		if(f.id=='inputText') show_NCR();
 	}
@@ -2725,10 +2725,10 @@ function ohiKeydown(e) {
 				if(!option.phonemic_writing || Ko_type.substr(0,4)!='Sin3') {
 					complete_hangeul_syllable(f);
 					ohiInsert(f,0,32);
-					ohiBackspace(f);					
+					ohiBackspace(f);
 				}
 			}
-			esc_ext_layout();			
+			esc_ext_layout();
 		}
 /*
 		if(e.keyCode==17) { // Ctrl
