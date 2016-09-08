@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="ko">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
@@ -49,8 +49,8 @@
 	<style type="text/css">
 	<!--
 		body { margin: 8pt; overflow:scroll; }
-		body, th, td, input, textarea {
-			font-family: "함초롬돋움 LVT","HCR Dotum LVT","함초롬바탕 LVT","본고딕","Source Han Sans K","본고딕 KR","Source Han Sans KR","Noto Sans CJK KR","나눔바른고딕 옛한글","NanumBarunGothic YetHangul","나눔명조 옛한글","NanumMyeongjo YetHangul", 'HCR dotum', '함초롬돋움', '함초롬돋움 확장', '함초롬바탕', '함초롬바탕 확장', 'Un Jamo Batang Ex', '은 자모 바탕 확장', Unbatang, '은 바탕', Undotum, '은 돋움', "맑은 고딕", "Malgun Gothic", "NanumGothic", 나눔고딕;
+		body, th, td, input {
+			font-family: "맑은 고딕", "Malgun Gothic", '함초롬돋움', "함초롬돋움 LVT", "HCR Dotum LVT", 'Un Jamo Batang Ex', '은 자모 바탕 확장';
 		}
 		span.emph { color: black; }
 		div.title { color: tan; font-weight: bold; font-size: 18pt; line-height: 14pt; padding-bottom: 6pt; }
@@ -64,10 +64,12 @@
 		div.right_menu a { color:#000; text-decoration:none; padding:1px 15px 1px 15px; border:2px wheat solid;}
 		div.right_menu a:hover { cursor:pointer; background-color:burlywood; }
 
-		div#ohi_content { border: solid 2px wheat; background-color: oldlace; padding:0 5px; margin-top:1px; }
+		div#ohi_content { border: solid 2px wheat; background-color: oldlace; padding:0 6px 0 4px; margin-top:1px; }
 
 		input.text, textarea#inputText { border: solid 1px wheat; ime-mode:disable; resize:vertical; }
-		textarea#inputText { width:572px; margin:0 0 0 5px; }
+		textarea#inputText { width:572px; margin:0 0 0 5px; 
+			font-family: "함초롬돋움 LVT","HCR Dotum LVT","함초롬바탕 LVT","본고딕","Source Han Sans K","본고딕 KR","Source Han Sans KR","Noto Sans CJK KR","나눔바른고딕 옛한글","NanumBarunGothic YetHangul","나눔명조 옛한글","NanumMyeongjo YetHangul", 'HCR dotum', '함초롬돋움', '함초롬돋움 확장', '함초롬바탕', '함초롬바탕 확장', 'Un Jamo Batang Ex', '은 자모 바탕 확장', Unbatang, '은 바탕', Undotum, '은 돋움', "맑은 고딕", "Malgun Gothic", "NanumGothic", 나눔고딕;
+		}
 		form { margin: 0; padding: 0; }
 
 		div#manual {display:block; margin: 0 0 0.4em 5px;}
@@ -92,42 +94,54 @@
 		div.layout_group_tab { display:none; }
 		a.layout_group_link { text-decoration:none; color:#00b;}
 
-		#options { /*height:1.8em;*/ margin-right:0.5em; }
-		.option { float:right; }
-		.option label { font-size:12px; }
+		#top_options { /*height:1.8em;*/ margin-right:0.5em; }
+		#top_options .option, #NCR_options .option,  #NCR_options { float:right; }
+		.option label { font-size:12px;}
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
 
-		div#keyboardLayout { position:absolute; margin-bottom:3px; clear:both; }
+		div#keyboardLayout { margin:2px 0px 3px 0px; clear:both; /*text-align:center;*/}
 		div#keyboardLayout .show_layout { height:1.5em; }
 		div#keyboardLayout span.menu { float:right; }
-		div#keyboardLayoutInfo { float:left; margin-left:5px; }
+		div#keyboardLayoutInfo { float:left; margin:0 0 0 5px; }
 		div#keyboardLayoutInfo a {text-decoration:none;}
 		div#keyboardLayoutVisibility { float:right; }		
 
 		#NCR_options { margin-top:0px; height:1em; clear:both; }
 
-		table#keyboardLayoutTable { clear:both; margin:auto;}
-		table#keyboardLayoutTable table { margin:-2px 0 -2px 0;}
-		table#keyboardLayoutTable .row {}
-		tr#row4 { text-align:center; }
-		td.e1, td.e2, td.e3, td.h1, td.h2, td.h3 { font-size: 13px; height: 34px; padding-top:0; padding-bottom:0; border: outset 1px wheat; cursor:pointer;}
-		td.e1 { background-color:wheat; }
-		td.e2 { background-color:#C5D2E7;}
-		td.e3 { background-color:antiquewhite;}
-		td.h1 { background-color:lightblue; }
-		td.h2 { background-color:lightpink; }
-		td.gin-hol { background-color:#ccbbff; }
-		td.h3 { background-color:lightgreen; }
-		td.e1:hover, td.e2:hover, td.e3:hover, td.h1:hover, td.h2:hover, td.h3:hover { background-color:#EBF4FA; }
-		td.e1:active, td.e2:active, td.e3:active, td.h1:active, td.h2:active, td.h3:active { border:inset 1px wheat; }
-		td.pressed { background-color: lightyellow; }
-		td:hover.clicked {}
+		#keyboardLayoutTable { clear:both; width:586px; margin:0 auto; }
+		#keyboardLayoutTable .row { margin:0px 0px; }
+
+		div.e1, div.e2, div.e3, div.h1, div.h2, div.h3 {
+			display:inline-block; font-size:13px; vertical-align:bottom; height:38px; cursor:pointer;
+			border-width:2px; border-style:solid; border-color:#fff #aaa #aaa #fff;
+		}
+		div.e1 { background-color:wheat; }
+		div.e2 { background-color:#C5D2E7;}
+		div.e3 { background-color:antiquewhite;}
+		div.h1 { background-color:lightblue; }
+		div.h2 { background-color:lightpink; }
+		div.gin-hol { background-color:#ccbbff; }
+		div.h3 { background-color:lightgreen; }
+		div.e1:hover, div.e2:hover, div.e3:hover, div.h1:hover, div.h2:hover, div.h3:hover { background-color:#EBF4FA; }
+		div.e1:active, div.e2:active, div.e3:active, div.h1:active, div.h2:active, div.h3:active { 
+			border-style:solid; border-width 2px; border-color: #aaa #fff #fff #aaa;
+		}
+		div.pressed { background-color: lightyellow; }
 		kbd { font-family: "Courier New", monospace; word-spacing: -0.3em; }
 		kbd.status { font-family: "GulimChe", monospace; color: white; background-color: royalblue; }
-		td.h1 span, td.h2 span, td.h3 span, td.e1 span { float:right; }
-		td.h1 span.e1, td.h2 span.e1, td.h3 span.e1, td.e1 span.e1 { float:left; }
-		span.e1 { font-family: "Consolas", monospace, sans-serif; color: gray; display:inline; }
-		td.e2 span.e1 {color:#000;}
+		div.up, div.down { height:18px; }
+		div.up { margin:2px 1px 0 2px; }
+		@-moz-document url-prefix() { div.up { margin:1px 1px 1px 2px; } }
+		div.down { margin:0 1px 0px 2px; }
+		div.ue, div.de { clear:both; float:left; font-family: "Consolas", monospace, sans-serif; color:#777; }
+		div.e2 div.ue { color:#000; }
+		div.dh, div.uh { float:right; }
+
+		div#row4 div.ue, div#row4 div.de { margin:0px auto; width:100%; text-align:center; }
+		div#row4 #ue56 { text-align:left; }
+		div#row4 div.up, div#row4 div.down {}
+		div#row4 .special div.ue, div#row4 .special div.de  { font-size:12px; font-family: "맑은 고딕", "Malgun Gothic", '함초롬돋움', "함초롬돋움 LVT", "HCR Dotum LVT", 'Un Jamo Batang Ex', '은 자모 바탕 확장'}
+
 		span.menu, kbd.menu { cursor: pointer; background-color:bisque; }
 
 		div#NCR { background-color:#FFFEFD; display:none; width:580px; border: solid 2px wheat; margin-top:10px; word-break: break-all; }
@@ -461,9 +475,11 @@
 				</ul>
 			</div>
 
-			<div id="options"></div>
+			<div id="top_options"></div>
 			<div id="keyboardLayout"></div>
+			
 			<div id="NCR_options"></div>
+			<div id="bottom_options"></div>
 			<div id="NCR"></div>
 
 			<div class="ref">

@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/08/09
+ * Last Update : 2016/09/08
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -49,6 +49,7 @@ var default_enable_Sin3_diphthong_key = 1;
 var default_phonemic_writing = 0;
 var default_abbreviation = 0;
 var default_convenience_combination = 0;
+var default_square_layout = 1;
 
 var En_type; // 영문 자판 종류 (ohiChange 함수로 바꿈)
 var Ko_type; // 한글 자판 종류 (ohiChange 함수로 바꿈)
@@ -64,6 +65,7 @@ if(typeof ohi_KE != 'undefined') default_ohi_KE = ohi_KE; else ohi_KE = default_
 if(typeof enable_sign_ext != 'undefined') default_enable_sign_ext = enable_sign_ext;
 if(typeof force_normal_typing != 'undefined') default_force_normal_typing = force_normal_typing;
 if(typeof phonemic_writing != 'undefined') default_phonemic_writing = phonemic_writing;
+if(typeof square_layout != 'undefined') default_square_layout = square_layout;
 
 function basic_layouts() {
 	var KE; // 한글·영문 상태 (Ko:한글, En:영문)
@@ -102,8 +104,6 @@ function basic_layout_list() {
 }
 
 function option() {
-	var turn_off_OHI; // OHI 입력 기능 멈추기 (화상 자판은 그대로 씀)
-	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var enable_double_final_ext; // 겹받침 확장 배열 쓰기 --> ohiChange_enable_double_final_ext() 함수로 값을 바꿈
 	var enable_diphthong_ext; // 겹홀소리 확장 배열 쓰기 --> ohiChange_enable_diphthong_ext() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열 쓰기 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
@@ -114,6 +114,10 @@ function option() {
 	var phonemic_writing; // 풀어쓰기
 	var abbreviation; // 이어치기 자판에서 줄임말 기능 쓰기
 	var convenience_combination; // 입력 편의를 높이는 추가 낱자 조합 쓰기
+	
+	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
+	var turn_off_OHI; // OHI 입력 기능 멈추기 (화상 자판은 그대로 씀)
+	var squred_layout; // 화상 배열표를 네모지게 나타내기
 }
 
 function NCR_option() {
@@ -134,6 +138,7 @@ option.enable_Sin3_diphthong_key = default_enable_Sin3_diphthong_key;
 option.phonemic_writing = default_phonemic_writing;
 option.abbreviation = default_abbreviation;
 option.convenience_combination = default_convenience_combination;
+option.square_layout = default_square_layout;
 
 var NCR_option = new NCR_option();
 NCR_option.enable_NCR = 0;
@@ -1816,7 +1821,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('NCR_option_convert_only_CGG_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_option.convert_only_CGG_encoding=this.checked;show_NCR();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형 한글만 바꾸기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_CGG_encoding','<div class="option"><input name="convert_only_CGG_encoding" class="checkbox" onclick="NCR_option.convert_only_CGG_encoding=this.checked;show_NCR();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝 조합형만 바꾸기</label></div>');
 	}
 
 	if(t && option.enable_NCR) {
@@ -1846,13 +1851,12 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 }
 
 function show_options() {
-	var opts = document.getElementById('options'), opt;
 	var KE=ohi_KE;
+	if(typeof ohi_menu_num == 'undefined') ohi_menu_num=0;
+	var opts = document.getElementById('top_options'), opt;
 
 	if(opts) {
 		opts.style.display = 'block';
-
-		if(typeof ohi_menu_num == 'undefined') ohi_menu_num=0;
 
 		opt = document.getElementById('option_turn_off_OHI');
 		if(!opt) opt = appendChild(opts,'div','option','option_turn_off_OHI','<div class="option"><input name="turn_off_OHI" class="checkbox" onclick="option.turn_off_OHI=this.checked;ohiStart();inputText_focus()" type="checkbox"' + (option.turn_off_OHI ? ' checked="checked"' : '') + '><label>OHI 끄기</label></div>');
@@ -1917,6 +1921,18 @@ function show_options() {
 		if(current_layout.type_name.substr(-2)!='-y' && (!option.enable_Sin3_yeshangeul_combination || current_layout.type_name.substr(0,4)!='Sin3')) opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
+	
+	var opts = document.getElementById('bottom_options'), opt;
+
+	if(opts) {
+		opts.style.display = 'block';
+
+		opt = document.getElementById('option_square_layout');
+		if(!opt) opt = appendChild(opts,'div','option','option_square_layout','<div class="option"><input name="square_layout" class="checkbox" onclick="option.square_layout=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (option.square_layout ? ' checked="checked"' : '') + '><label>가지런한 배열표</label></div>');
+		if(ohi_menu_num<3 && option.show_layout) opt.style.display = 'block';
+		else opt.style.display = 'none';
+	}
+	
 }
 
 function show_keyboard_layout(type) {
@@ -1940,6 +1956,8 @@ function show_keyboard_layout(type) {
 	else if(!type) {
 		option.show_layout = 0;
 		rows.innerHTML = '<div class="show_layout"><span class="menu" onclick="option.show_layout=1;show_keyboard_layout(1);inputText_focus()">배열표 보이기</span></div>';
+		opt = document.getElementById('option_square_layout');
+		opt.style.display = 'none';
 		return false;
 	}
 	
@@ -1947,7 +1965,9 @@ function show_keyboard_layout(type) {
 	
 	if(ohi_menu_num>2) {
 		rows.style.display = 'none';
-		opts = document.getElementById('options');
+		opts = document.getElementById('top_options');
+		opts.style.display = 'none';
+		opts = document.getElementById('bottom_options');
 		opts.style.display = 'none';
 	}
 
@@ -2051,13 +2071,13 @@ function show_keyboard_layout(type) {
 	de.push(['자판','바꿈','바꿈','','','바꿈','바꿈']);
 
 	inner_html += '<div id="keyboardLayoutInfo"></div><span class="menu" onclick="show_keyboard_layout(0);inputText_focus()" onmouseover="this.className=\'menu over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span>';
-	inner_html += '<table id="keyboardLayoutTable">';
-	inner_html += '<tr><td><table><tr id="row0" class="row"></tr></table></td></tr>';
-	inner_html += '<tr><td><table><tr id="row1" class="row"></tr></table></td></tr>';
-	inner_html += '<tr><td><table><tr id="row2" class="row"></tr></table></td></tr>';
-	inner_html += '<tr><td><table><tr id="row3" class="row"></tr></table></td></tr>';
-	inner_html += '<tr><td><table><tr id="row4" class="row"></tr></table></td></tr>';
-	inner_html += '</table>';
+	inner_html += '<div id="keyboardLayoutTable">';
+	inner_html += '<div id="row0" class="row"></div>';
+	inner_html += '<div id="row1" class="row"></div>';
+	inner_html += '<div id="row2" class="row"></div>';
+	inner_html += '<div id="row3" class="row"></div>';
+	inner_html += '<div id="row4" class="row"></div>';
+	inner_html += '</div>';
 
 	rows.innerHTML = inner_html;
 
@@ -2104,24 +2124,48 @@ function show_keyboard_layout(type) {
 				charCode = ue[i][j].charCodeAt(0);
 				ue[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
 			}
-			var col = appendChild(row,'td',tdclass,tdid,'','30px','1px 3px 1px 3px');
+			var col = appendChild(row,'div',tdclass,tdid,'','36px','0 0 0 0');
 
 			col.onclick = function(e){
 				e=e||window.event;
 				tableKey_clicked(e, this.id.substr(3), dkey[this.id.substr(3)],ukey[this.id.substr(3)]);
 			};
 			col.tabindex = 0;
-			if(ue[i][j]=='Back' || ue[i][j]=='Tab') col.style.width = '54px';
-			if(ue[i][j]=='Shift' && de[i][j]!='Lock') col.style.width = '84px';
-			if(de[i][j]=='Lock' || ue[i][j]=='Enter') col.style.width = '64px';
-			if(ue[i][j]=='Back' || ue[i][j]=='Tab' || ue[i][j]=='Enter' || ue[i][j]=='Shift')
-				col.style.padding = '1px', col.style.textAlign = 'center';
+			if(!option.square_layout) {
+				if(k==13) col.style.width = '62px'; // backspace
+				if(k==14) col.style.width = '56px'; // tab
+				if(k==27) col.style.width = '42px';
+				if(k==28) col.style.width = '67px'; // shift lock
+				if(k==40) col.style.width = '71px'; // Enter
+				if(k==41) col.style.width = '87px'; // 왼쪽 shift
+				if(k==52) col.style.width = '91px'; // 오른쪽 shift
+				
+			}
+			else { // 가지런한 배열표
+				if(k==0) col.style.width = '69px';
+				if(k==13) { // backspace
+					col.style.letterSpacing = '-2px';
+					col.style.width = '33px';
+				}
+				if(k==12 || k==26) col.style.width = '32px';
+				if(k==14) col.style.width = '69px'; // tab
+				if(k==27) col.style.width = '33px'; // \ 글쇠
+				if(k==28) col.style.width = '69px'; // shift lock
+				if(k==40) col.style.width = '69px'; // Enter
+				if(k==41) col.style.width = '69px'; // 왼쪽 shift
+				if(k==52) col.style.width = '109px'; // 오른쪽 shift
+			}
+			
+			if(ue[i][j]=='Back' || ue[i][j]=='Tab' || ue[i][j]=='Enter' || ue[i][j]=='Shift') col.style.textAlign = 'center';
 			
 			if(i==4) {
-				if(ue[i][j]=='Space') col.style.width = '300px';
-				else col.style.width = '35px', col.style.fontSize = '12px', col.className = 'e3';
+				if(ue[i][j]=='Space') col.style.width = '312px';
+				else col.style.width = '41px', col.className = 'e3 special';
+				
 			}
-			appendChild(col,'span','e1','ue'+k,ue[i][j]);
+			
+			var up = appendChild(col,'div','up','up'+k);
+			appendChild(up,'div','ue','ue'+k,ue[i][j]);
 			if(uh[i]) {
 				if(uh[i][j]) {
 					charCode = uh[i][j].charCodeAt(0);
@@ -2133,24 +2177,25 @@ function show_keyboard_layout(type) {
 					}
 				}
 				if(uh[i][j]==ue[i][j] || uh[i][j]=='&'&&ue[i][j]=='&amp;' || uh[i][j]=='<'&&ue[i][j]=='&lt;' || uh[i][j]=='>'&&ue[i][j]=='&gt;') uh[i][j]=' ';
-				appendChild(col,'span','','uh'+k,uh[i][j]);
+				appendChild(up,'div','uh','uh'+k,uh[i][j]);
 			}
 			if(de[i][j]) {
+				var down = appendChild(col,'div','down','down'+k);
 				charCode = de[i][j].charCodeAt(0);
 				if(unicode_CGG_hangeul_phoneme.indexOf(charCode)>=0) de[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
-				appendChild(col,'br');
-				appendChild(col,'span','e1','de'+k,de[i][j]);
+				/*appendChild(col,'br');*/
+				appendChild(down,'div','de','de'+k,de[i][j]);
 				if(dh[i] && (!dh[i][j] || dh[i][j]==de[i][j])) dh[i][j]=' ';
-				if(dh[i]) appendChild(col,'span','','dh'+k,dh[i][j]);
+				if(dh[i] && dh[i][j]) appendChild(down,'div','dh','dh'+k,dh[i][j]);
 			}
 		}
 	}
 
-	var sign_ext_tag = '<span style="margin-left:-1px;background:black;color:#fff;letter-spacing:-1px;font-size:8px;">기호</span>';
-	var sign_ext_tag1 = '<span style="margin:2px -2px 0 0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.8em;">기호①</span>';
-	var sign_ext_tag2 = '<span style="margin:2px -2px 0 0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.8em">기호②</span>';
-	var han_ext_tag1 = '<span style="margin:2px -2px 0 0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.8em;">한글①</span>';
-	var han_ext_tag2 = '<span style="margin:2px -2px 0 0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.8em;">한글②</span>';
+	var sign_ext_tag = '<span style="margin-left:-1px;background:black;color:#fff;letter-spacing:-1px;font-size:8px;">기호</div>';
+	var sign_ext_tag1 = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.7em;">기호①</span>';
+	var sign_ext_tag2 = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.7em">기호②</span>';
+	var han_ext_tag1 = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.7em;">한글①</span>';
+	var han_ext_tag2 = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.7em;">한글②</span>';
 	var Moachigi_modifier_tag = '<span style="background:black;color:#fff;font-size:1em;">⇦</span>';
 
 	if(option.enable_sign_ext && KE=='Ko' && (Ko_type=='3-2011' || Ko_type=='3-2012')) {
@@ -2857,6 +2902,9 @@ function url_query() {
 		}
 		else if(field == 'double_final_ext' || field == 'df_ext') { // 겹받침 확장 (신세벌식)
 			ohiChange_enable_double_final_ext(TF);
+		}
+		else if(field == 'sl' || field == 'square layout') {
+			option.square_layout = TF;
 		}
 		else if(field == 'normal_typing' || field == 'nt') { // 모아치기 자판을 이어치기로 쓰기
 			option.force_normal_typing = TF;
