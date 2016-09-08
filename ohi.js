@@ -1981,7 +1981,7 @@ function show_keyboard_layout(type) {
 		['`','1','2','3','4','5','6','7','8','9','0','-','=','Space'],
 		['','　','　','　','　','　','　','　','　','　','　','[',']','\\'],
 		['Lock','　','　','　','　','　','　','　','　','　',';','\''],
-		['','　','　','　','　','　','　','　',',','.','/']
+		['　','　','　','　','　','　','　','　',',','.','/','　']
 	];
 
 	var ue_dvorak=[
@@ -2134,7 +2134,7 @@ function show_keyboard_layout(type) {
 			if(!option.square_layout) {
 				if(k==13) col.style.width = '62px'; // backspace
 				if(k==14) col.style.width = '56px'; // tab
-				if(k==27) col.style.width = '42px';
+				if(k==27) col.style.width = '42px'; // \ 글쇠
 				if(k==28) col.style.width = '67px'; // shift lock
 				if(k==40) col.style.width = '71px'; // Enter
 				if(k==41) col.style.width = '87px'; // 왼쪽 shift
@@ -2142,12 +2142,12 @@ function show_keyboard_layout(type) {
 				
 			}
 			else { // 가지런한 배열표
-				if(k==0) col.style.width = '69px';
+				if(k==0) col.style.width = '69px'; // ` 글쇠
 				if(k==13) { // backspace
 					col.style.letterSpacing = '-2px';
 					col.style.width = '33px';
 				}
-				if(k==12 || k==26) col.style.width = '32px';
+				if(k==12 || k==26) col.style.width = '32px'; // =, ] 글쇠
 				if(k==14) col.style.width = '69px'; // tab
 				if(k==27) col.style.width = '33px'; // \ 글쇠
 				if(k==28) col.style.width = '69px'; // shift lock
@@ -2161,7 +2161,6 @@ function show_keyboard_layout(type) {
 			if(i==4) {
 				if(ue[i][j]=='Space') col.style.width = '312px';
 				else col.style.width = '41px', col.className = 'e3 special';
-				
 			}
 			
 			var up = appendChild(col,'div','up','up'+k);
@@ -2169,10 +2168,12 @@ function show_keyboard_layout(type) {
 			if(uh[i]) {
 				if(uh[i][j]) {
 					charCode = uh[i][j].charCodeAt(0);
-					uh[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
+					if(unicode_CGG_hangeul_phoneme.indexOf(charCode)>=0) charCode=convert_into_compatibility_hangeul_phoneme(charCode);
+					uh[i][j] = String.fromCharCode(charCode);
 					if(compatibility_hangeul_phoneme.indexOf(uh[i][j].charCodeAt(0))<0) uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
 					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
 					if( (Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 || typeof current_layout.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
+						// 갈마들이 공세벌식 자판의 기본 배열에 들어가는 겹받침을 회색으로 나타냄
 						uh[i][j] = '<span style="color:gray;">'+uh[i][j]+'</span>';
 					}
 				}
@@ -2183,7 +2184,6 @@ function show_keyboard_layout(type) {
 				var down = appendChild(col,'div','down','down'+k);
 				charCode = de[i][j].charCodeAt(0);
 				if(unicode_CGG_hangeul_phoneme.indexOf(charCode)>=0) de[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_phoneme(charCode));
-				/*appendChild(col,'br');*/
 				appendChild(down,'div','de','de'+k,de[i][j]);
 				if(dh[i] && (!dh[i][j] || dh[i][j]==de[i][j])) dh[i][j]=' ';
 				if(dh[i] && dh[i][j]) appendChild(down,'div','dh','dh'+k,dh[i][j]);
@@ -2291,8 +2291,10 @@ function show_keyboard_layout(type) {
 	}	
 
 	if(KE=='Ko' && (Ko_type=='3t-Oesol' || Ko_type=='4t-Pyojun1985')) {
-		document.getElementById('ue41').innerHTML = 'Shift(받침)';
-		document.getElementById('ue52').innerHTML = 'Shift(받침)';
+		document.getElementById('ue41').innerHTML = 'Shift';
+		document.getElementById('de41').innerHTML = '(받침)';
+		document.getElementById('ue52').innerHTML = 'Shift';
+		document.getElementById('de52').innerHTML = '(받침)';
 	}
 
 	if(shiftlock_click) {
