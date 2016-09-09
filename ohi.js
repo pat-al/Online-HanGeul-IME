@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/09/08
+ * Last Update : 2016/09/09
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1759,7 +1759,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 
 	for(i=0;i<de.length;++i) {
 		for(j=0;j<de[i].length;++j) {
-			if(!u[i][j].charCodeAt(0) && !d[i][j].charCodeAt(0)) continue;
+			if( (!u[i][j] || !u[i][j].charCodeAt(0)) && (!d[i][j] || !d[i][j].charCodeAt(0)) ) continue;
 			ds = de[i][j];
 			us = ue[i][j];
 			if(u[i][j].charCodeAt(0)) {
