@@ -86,7 +86,7 @@
 		div#tab2 .searchEngine input.text { width:300px; }
 		div#tab2 .searchEngine input.submit { width:50px; }
 		div#tab3 { height:1px; overflow:hidden; visibility:hidden; line-height:1.5em; }
-		div#tab3 h2 { font-weight:bold; font-size:16px; }
+		div#tab3 h2 { font-weight:bold; font-size:16px; margin-left:6px; }
 		div#tab3 ol, div#tab3 li { margin:0 10px 5px 0;}
 		div#tab3 a {text-decoration:none; font-weight:bold; color:#23a;}
 		div#tab3 a:hover {text-decoration:underline;}
@@ -214,9 +214,9 @@
 					</li>
 				</ul>
 				<div id="more_layouts_wrap">
-					<a id="more_layouts_link" class="layout_group_link" onclick="document.getElementById('more_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【더 많은 한글 자판+】</a>
+					<a id="more_layouts_link" class="layout_group_link" onclick="document.getElementById('more_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【더 많은 한글 자판＋】</a>
 					<div id="more_layouts" class="layout_group_tab">
-						<a class="layout_group_link" onclick="var ml=document.getElementById('more_layouts');ml.style.display='none';getElementById('more_layouts_link').style.display='inline-block'" href="javascript:void(0)">【더 많은 한글 자판-】</a>
+						<a class="layout_group_link" onclick="var ml=document.getElementById('more_layouts');ml.style.display='none';getElementById('more_layouts_link').style.display='inline-block'" href="javascript:void(0)">【더 많은 한글 자판－】</a>
 						<ul>
 							<li>
 								두벌식 : 
@@ -255,9 +255,9 @@
 						</ul>
 					</div>
 
-					<a id="more_old_layouts_link" class="layout_group_link" onclick="document.getElementById('more_old_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【옛 배열+】</a>
+					<a id="more_old_layouts_link" class="layout_group_link" onclick="document.getElementById('more_old_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【옛 배열＋】</a>
 					<div id="more_old_layouts" class="layout_group_tab">
-						<a class="layout_group_link" onclick="var ml=document.getElementById('more_old_layouts');ml.style.display='none';getElementById('more_old_layouts_link').style.display='inline-block'" href="javascript:void(0)">【옛 배열-】</a>
+						<a class="layout_group_link" onclick="var ml=document.getElementById('more_old_layouts');ml.style.display='none';getElementById('more_old_layouts_link').style.display='inline-block'" href="javascript:void(0)">【옛 배열－】</a>
 						<ul>
 							<li>
 								공세벌식 : 
@@ -308,9 +308,9 @@
 						</ul>
 					</div>
 
-					<a id="more_study_layouts_link" class="layout_group_link" onclick="document.getElementById('more_study_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【연구 설계안+】</a>
+					<a id="more_study_layouts_link" class="layout_group_link" onclick="document.getElementById('more_study_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">【연구 설계안＋】</a>
 					<div id="more_study_layouts" class="layout_group_tab" >
-						<a class="layout_group_link" onclick="var ml=document.getElementById('more_study_layouts');ml.style.display='none';getElementById('more_study_layouts_link').style.display='inline-block'" href="javascript:void(0)">【연구 설계안-】</a>
+						<a class="layout_group_link" onclick="var ml=document.getElementById('more_study_layouts');ml.style.display='none';getElementById('more_study_layouts_link').style.display='inline-block'" href="javascript:void(0)">【연구 설계안－】</a>
 						<ul>
 							<li>
 								두벌식 응용 :
@@ -459,17 +459,22 @@
 				<h2>III. 그밖의 정보</h2>
 				<ul>
 					<li>
-					<strong>OHI</strong>의 onkeypress, onkeydown, onkeyup 이벤트 핸들러가 다른 자바스크립트와 부딛히면 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
-						웹 누비개 안에서 다른 입력기가 작동할 때에도 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
+						다음 주소로 들어오면, 쿼티(QWERTY)를 기준 글쇠판으로 하여 영문 쿼티 자판과 한국 두벌식 표준 자판(KS X 5002)을 바로 쓸 수 있습니다.<br />
+						<a href="http://ohi.pat.im/?kbd=qwerty&amp;en=qwerty&amp;ko=2-KSX5002" target="_blank">http://ohi.pat.im/?kbd=qwerty&amp;en=qwerty&amp;ko=2-KSX5002</a>
 					</li>
 					<li>
-						<a href="http://ohi.pat.im/?kbd=azerty&amp;en=dvorak&amp;ko=3-90" target="_blank">http://ohi.pat.im/?kbd=azerty&amp;en=dvorak&amp;ko=3-90</a>처럼 매개변수를 넣은 주소로 자판 배열을 미리 고른 입력기 화면을 바로 띄울 수 있습니다.
+						<strong>OHI</strong>의 onkeypress, onkeydown, onkeyup 일거리 다루개(이벤트 핸들러)가 다른 자바스크립트와 부딛히면 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
+					</li>
+					<li>
+						다른 한글 입력기가 작동할 때에도 웹 누비개에서 <strong>OHI</strong>가 작동하지 않을 수 있습니다.
 					</li>
 					<li>
 						<strong>OHI</strong>는 <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a>에 따라 자유롭게 고쳐서 배포할 수 있습니다.
 					</li>
 					<li>
-						이 입력기는 이호석 님의 <a href="http://ohi.pat.im/org" target="_blank">OHI 원판</a>에 2벌식/3벌식 한글 자판들과 화상 자판 기능을 더 넣은 판입니다.
+						이 입력기는 이호석 님의 <a href="http://ohi.pat.im/org" target="_blank">OHI 원판</a>에 더 많은 한글/영문 자판 배열들과 확장 입력 기능들과 화상 자판 기능을 더 넣은 판입니다.
+					</li>
+					<li>
 						더 자세한 정보는 <a href="http://pat.im/910" target="_blank">http://pat.im/910</a>을 참고하기 바랍니다.
 					</li>
 				</ul>
