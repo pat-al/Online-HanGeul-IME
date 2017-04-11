@@ -1030,14 +1030,14 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	backspaces_for_restoring_prev_state=0;
 
 	for(i=0;i<front_etc.length;++i) {
-		ohiHangeul3(f,e,front_etc[i]);
+		ohiInsert(f,0,front_etc[i]);
 	}
 
 	insert_chars(f,cheot.concat(ga,ggeut));
 
 	for(i=0;i<rear_etc.length;++i) {
 		backspaces_for_restoring_prev_state=0;
-		ohiHangeul3(f,e,rear_etc[i]);
+		ohiInsert(f,0,rear_etc[i]);
 	}
 
 	for(i=0;i<rear_special.length;++i) {
