@@ -1,7 +1,7 @@
-/** Modified Version (http://ohi.pat.im)
+/** Modified Version (https://ohi.pat.im)
 
- * Modifier : Pat-al <pat@pat.im> (http://pat.im/910)
- * Last Update : 2016/09/09
+ * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
+ * Last Update : 2017/04/22
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -12,7 +12,7 @@
 
 **/
 
-/** Original Version (copy - http://ohi.pat.im/org)
+/** Original Version (copy - https://ohi.pat.im/org)
 
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
@@ -97,10 +97,10 @@ function basic_layout_list() {
 	basic_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
 	basic_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
 	basic_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
-	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'http://pat.im/938'});
+	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'https://pat.im/938'});
 
 	if(typeof K3_Sin3_extended_sign_layout == 'undefined') K3_Sin3_extended_sign_layout = null;
-	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P2_sublayout, extended_hangeul_layout: K3_Sin3_P2_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P2_extended_combination_table, link: 'http://pat.im/1136'});
+	basic_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P2_sublayout, extended_hangeul_layout: K3_Sin3_P2_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P2_extended_combination_table, link: 'https://pat.im/1136'});
 }
 
 function option() {
@@ -385,7 +385,7 @@ function ohiInsert(f,m,c) { // Insert
 			f.scrollLeft = (scrollLeft > scrollWidth-f.clientWidth) ? scrollLeft : scrollWidth-f.clientWidth;
 			f.setSelectionRange(m || c<32 ? selectionStart:selectionStart+1, selectionStart+1);
 		}
-	}	
+	}
 }
 
 function ohiSelection(f,length) {
@@ -628,7 +628,6 @@ function seek_abbreviation(ieochigi_abbreviation_table, c1, c2) { // 줄임말 �
 }
 
 function ohiHangeul3_abbreviation(f,e,c) { // 이어치기 세벌식 자판에서 줄임말 처리
-	//if(Ko_type.substr(0,4)=='Sin3') return 0;
 	if(!option.abbreviation || typeof current_layout.ieochigi_abbreviation_table == 'undefined') return 0;
 
 	var i,j;
@@ -2371,7 +2370,7 @@ function ohiStart() {
 				ohiStatus.style.bottom = '0px';
 			}
 			ohiStatus.target = '_blank';
-			//ohiStatus.href = 'http://ohi.pat.im';
+			//ohiStatus.href = 'https://ohi.pat.im';
 			ohiStatus.style.fontFamily = 'GulimChe,monospace';
 			ohiStatus.style.fontWeight = 'normal';
 			ohiStatus.style.color = 'white';
@@ -2393,7 +2392,7 @@ function ohiStart() {
 			for(var i=0; i<window.frames.length; i++) {
 				var ohi = document.createElement('script');
 				ohi.type= 'text/javascript';
-				ohi.src = 'http://ohi.pat.im/ohi.js';
+				ohi.src = 'https://ohi.pat.im/ohi.js';
 				if(typeof(window.frames[i].document)!='unknown') window.frames[i].document.body.appendChild(ohi);
 			}
 
