@@ -1,7 +1,7 @@
-/** Modified Version (https://ohi.pat.im)
+/** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/04/22
+ * Last Update : 2017/04/25
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -12,7 +12,7 @@
 
 **/
 
-/** Original Version (copy - https://ohi.pat.im/org)
+/** Original Version (copy - http://ohi.pat.im/org)
 
  * Author : Ho-Seok Ee <hsee@korea.ac.kr>
  * Release: 2006/07/18
@@ -2370,7 +2370,7 @@ function ohiStart() {
 				ohiStatus.style.bottom = '0px';
 			}
 			ohiStatus.target = '_blank';
-			//ohiStatus.href = 'https://ohi.pat.im';
+			//ohiStatus.href = 'http://ohi.pat.im';
 			ohiStatus.style.fontFamily = 'GulimChe,monospace';
 			ohiStatus.style.fontWeight = 'normal';
 			ohiStatus.style.color = 'white';
@@ -2392,7 +2392,7 @@ function ohiStart() {
 			for(var i=0; i<window.frames.length; i++) {
 				var ohi = document.createElement('script');
 				ohi.type= 'text/javascript';
-				ohi.src = 'https://ohi.pat.im/ohi.js';
+				ohi.src = '//ohi.pat.im/ohi.js';
 				if(typeof(window.frames[i].document)!='unknown') window.frames[i].document.body.appendChild(ohi);
 			}
 
