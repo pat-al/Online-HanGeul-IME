@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/04/25
+ * Last Update : 2017/04/27
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2271,13 +2271,31 @@ function show_keyboard_layout(type) {
 		document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 	}
 
-	if(KE=='Ko' && Ko_type=='3m-Semoe') {
+	if(KE=='Ko' && Ko_type=='3m-Semoe2016') {
 		if(Hangeul_SignExtKey1<=0) {
 			document.getElementById('uh25').innerHTML = Moachigi_modifier_tag;
 			document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
 			document.getElementById('ue45').removeAttribute('class');
 			document.getElementById('ue45').style.float = 'left';
 			document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
+			}
+
+		if(option.enable_sign_ext) {
+			document.getElementById('uh35').innerHTML = sign_ext_tag;
+			if(Hangeul_SignExtKey1<0) {
+				for(i=0;i<3;++i)
+					document.getElementById('uh'+(36+i)).innerHTML = '<span style="padding:0 1px;background:black;color:#fff;font-size:10px;">'+String.fromCharCode(0x2460+i)+'</span>';
+			}
+		}
+	}
+	
+	if(KE=='Ko' && Ko_type=='3m-Semoe') {
+		if(Hangeul_SignExtKey1<=0) {
+			document.getElementById('uh38').innerHTML = Moachigi_modifier_tag;
+			document.getElementById('ue45').removeAttribute('class');
+			document.getElementById('ue45').style.float = 'left';
+			document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
+			document.getElementById('uh50').innerHTML = Moachigi_modifier_tag;
 		}
 
 		if(option.enable_sign_ext) {
