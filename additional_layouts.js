@@ -44,7 +44,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2012-y', full_name: '3-2012 옛
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
 additional_layouts.push({KE: 'Ko', type_name: '3-Gimguk-38A', full_name: '김국 38A', layout: K3_Gimguk_38A_layout, hangeul_combination_table: Gimguk38A_combination_table, link: 'http://cafe.daum.net/kbd-p/8OTK/6'});
 
-additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 (김창용 자판안)', layout: K3_95_layout, link: 'http://'});
+additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 김창용 자판안', layout: K3_95_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931&p=1060'});
 additional_layouts.push({KE: 'Ko', type_name: '314', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
