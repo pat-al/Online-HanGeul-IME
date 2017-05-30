@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/04/27
+ * Last Update : 2017/05/30
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2170,7 +2170,7 @@ function show_keyboard_layout(type) {
 					if(unicode_CGG_hangeul_phoneme.indexOf(charCode)>=0) charCode=convert_into_compatibility_hangeul_phoneme(charCode);
 					uh[i][j] = String.fromCharCode(charCode);
 					if(compatibility_hangeul_phoneme.indexOf(uh[i][j].charCodeAt(0))<0) uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
-					if(uh[i][j]==dh[i][j]) uh[i][j]=' ';
+					if(uh[i][j]==dh[i][j] && uh[i][j]!=de[i][j]) uh[i][j]=' ';  // 한글 배열에서 윗글과 아랫글 자리의 문자가 같을 때 윗글 자리를 나타내지 않음
 					if( (Ko_type.substr(0,2)=='3-' && Number(Ko_type.substr(2,4))>=2014 || typeof current_layout.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
 						// 갈마들이 공세벌식 자판의 기본 배열에 들어가는 겹받침을 회색으로 나타냄
 						uh[i][j] = '<span style="color:gray;">'+uh[i][j]+'</span>';
