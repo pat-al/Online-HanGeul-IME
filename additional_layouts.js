@@ -29,26 +29,26 @@ input_hangeul_combination_table_info();
 
 var additional_layouts=[];
 
-additional_layouts.push({KE: 'Ko', type_name: '2-GimJunSeong', full_name: '김준성 풀어쓰기 수동 타자기 (1940년대)', layout: K2_GimJunSeong_typewriter_layout, link: 'https://pat.im/1024'});
-additional_layouts.push({KE: 'Ko', type_name: '2-HGS', full_name: '한당욱·김철수·신한종 풀어쓰기 전신 타자기 (1952)', layout: K2_HGS_1952_teletypewriter_layout, link: 'https://pat.im/1025'});
-additional_layouts.push({KE: 'Ko', type_name: '2-Jang', full_name: '장봉선 풀어쓰기 전신 타자기 (1953, 체신부 통신용)', layout: K2_Jang_1953_teletypewriter_layout, link: 'https://pat.im/1025'});
-additional_layouts.push({KE: 'Ko', type_name: '2-Bak-Song', full_name: '박영효·송계범 전신 타자기 자판 설계안 (1968)', layout: K2_Bak_Song_1968_layout, link: 'https://pat.im/1025'});
+additional_layouts.push({KE: 'Ko', type_name: '2-GJS_1946', full_name: '김준성 풀어쓰기 수동 타자기 (1940년대)', layout: K2_GimJunseong_typewriter_layout, link: 'https://pat.im/1024'});
+additional_layouts.push({KE: 'Ko', type_name: '2-HGS_1952', full_name: '한당욱·김철수·신한종 풀어쓰기 전신 타자기 (1952)', layout: K2_HGS_1952_teletypewriter_layout, link: 'https://pat.im/1025'});
+additional_layouts.push({KE: 'Ko', type_name: '2-Jang_1953', full_name: '장봉선 풀어쓰기 전신 타자기 (1953) (체신부 통신용)', layout: K2_Jang_1953_teletypewriter_layout, link: 'https://pat.im/1025'});
+additional_layouts.push({KE: 'Ko', type_name: '2-Bag_Song_1968', full_name: '박영효·송계범 전신 타자기 자판 설계안 (1968)', layout: K2_Bag_Song_1968_layout, link: 'https://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Gaon26KM', full_name: '가온한글26KM', layout: K2_Gaon_KSX5002_layout, link: 'http://cafe.daum.net/kbd-p/8OTK/10'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-87', full_name: '3-87', layout: K3_87_layout, extended_sign_layout: K3_87_extended_layout, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3-89', full_name: '3-89', layout: K3_89_layout, link: ''});
-additional_layouts.push({KE: 'Ko', type_name: '3-sun1990', full_name: '순아래 1990 (안종혁, 한 손 자판, no-shift)', layout: K3_sun1990_layout, link: ''});
+additional_layouts.push({KE: 'Ko', type_name: '3-sun1990', full_name: '안종혁 순아래 1990 (한 손 자판, no-shift)', layout: K3_sun1990_layout, link: ''});
 
-additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011', layout: K3_2011_layout, extended_sign_layout: K3_2011_extended_sign_layout, link: 'https://pat.im/855'});
+additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011 (문장 입력용)', layout: K3_2011_layout, extended_sign_layout: K3_2011_extended_sign_layout, link: 'https://pat.im/855'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2011-y', full_name: '3-2011 옛한글', layout: K3_2011_layout, extended_sign_layout: K3_2011y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/908'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2012-y', full_name: '3-2012 옛한글', layout: K3_2012_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/938#4-2'});
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
-additional_layouts.push({KE: 'Ko', type_name: '3-Gimguk-38A', full_name: '김국 38A', layout: K3_Gimguk_38A_layout, hangeul_combination_table: Gimguk38A_combination_table, link: 'http://cafe.daum.net/kbd-p/8k2B/1'});
+additional_layouts.push({KE: 'Ko', type_name: '3-GimGug_38A', full_name: '김국 38A', layout: K3_GimGug_38A_layout, hangeul_combination_table: GimGug_38A_combination_table, link: 'http://cafe.daum.net/kbd-p/8k2B/1'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 김창용 자판안', layout: K3_95_proposal_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931'});
 additional_layouts.push({KE: 'Ko', type_name: '314', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
-additional_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '순아래 2014 (안종혁)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
+additional_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '안종혁 순아래 2014', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2014', full_name: '3-2014', layout: K3_2014_layout, sublayout: K3_2014_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'https://pat.im/1088'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2014-y', full_name: '3-2014 옛한글', layout: K3_2014_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015', full_name: '3-2015', layout: K3_2015_layout, sublayout: K3_2015_sublayout, hangeul_combination_table: K3_2015_combination_table, hangeul_convenience_combination_table: K3_2015_additional_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/34'});
@@ -65,9 +65,9 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2003', full_name: '박경남
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2012', full_name: '신세벌식 2012', layout: K3_Sin3_2012_layout, sublayout: K3_Sin3_2012_sublayout, link: 'https://pat.im/978'});
 
 if(typeof K3_Sin3_extended_sign_layout == 'undefined') K3_Sin3_extended_sign_layout = null;
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2015', full_name: '(바꾼꼴) 신세벌식 2015', layout: K3_Sin3_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '(바꾼꼴) 신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3-G', full_name: '신세벌식 공동개발안 (연구)', layout: K3_Sin3_G_layout, sublayout: K3_Sin3_G_sublayout, ieochigi_abbreviation_table: K3_Sin3_G_abbreviation_table, hangeul_convenience_combination_table: K3_Sin3_G_additional_combination_table, link: 'http://cafe.daum.net/3bulsikmini0A0/JYgd/31'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3-2015', full_name: '신세벌식 2015', layout: K3_Sin3_2015_layout, hangeul_combination_table: K3_Sin3_2015_combination_table, link: 'http://sebeol.org/gnuboard/bbs/board.php?bo_table=lab&wr_id=28'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3-Gongdong', full_name: '신세벌식 공동개발안 (연구)', layout: K3_Sin3_Gongdong_layout, sublayout: K3_Sin3_G_sublayout, ieochigi_abbreviation_table: K3_Sin3_G_abbreviation_table, hangeul_convenience_combination_table: K3_Sin3_G_additional_combination_table, link: 'http://cafe.daum.net/3bulsikmini0A0/JYgd/31'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, sublayout: K3_Sin3_P_sublayout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table, link: 'https://pat.im/1110'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, moachigi_hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
@@ -76,14 +76,14 @@ additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2015', full_name: '세모
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2016', full_name: '세모이 2016 (옛 배열)', layout: K3_Semoe_2016_layout, sublayout: K3_Semoe_2016_sublayout, moachigi_hangeul_combination_table: K3_Semoe_2016_combination_table, extended_sign_layout: K3_Semoe_extended_sign_layout});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2017)', layout: K3_Semoe_2017_layout, sublayout: K3_Semoe_2017_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_abbreviation_table: K3_Semoe_2017_moachigi_abbreviation_table, multikey_abbreviation_table: K3_Semoe_2017_multikey_abbreviation_table, moachigi_hangeul_combination_table: K3_Semoe_2017_combination_table, link: 'http://ssg.wo.tc/220526834927'});
 
-additional_layouts.push({KE: 'Ko', type_name: '4t-Pyojun1969', full_name: '1969 표준 네벌식 타자기 (1969)', layout: K4_Pyojun_1969_Typewriter_layout, link: 'https://pat.im/965'});
-additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'https://pat.im/1026'});
-additional_layouts.push({KE: 'Ko', type_name: '4t-Pyojun1985', full_name: '1985 표준 배열 기계식 타자기', layout: K4_Pyojun_1985_Typewriter_layout, link: 'https://pat.im/1026'});
+additional_layouts.push({KE: 'Ko', type_name: '4t-GGC_1969', full_name: '1969 네벌식 타자기 (과학기술처)', layout: K4_1969_Typewriter_layout, link: 'https://pat.im/965'});
+additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol_101', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'https://pat.im/1026'});
+additional_layouts.push({KE: 'Ko', type_name: '4t-GGC_1985', full_name: '1985 두벌식 배열 호환형 타자기 (과학기술처)', layout: K4_1985_Typewriter_layout, link: 'https://pat.im/1026'});
 
 function additional_keyboard_layout_table_info() {
 	var i,j;
 	
-	K2_GimJunSeong_typewriter_layout = [
+	K2_GimJunseong_typewriter_layout = [
 		0x0000, //0x0021,	/* 0x21 exclam: exclamation mark */
 		0x003a, /* 0x22 quotedbl: colon */
 		0x0033,	/* 0x23 numbersign: 3 */
@@ -374,7 +374,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e	/* 0x7E asciitilde: tilde */
 	];
 
-	K2_Bak_Song_1968_layout = [
+	K2_Bag_Song_1968_layout = [
 		0x0021,	/* 0x21 exclam: exclamation mark */
 		0x0022,	/* 0x22 quotedbl: quotatioin mark */
 		0x0023,	/* 0x23 numbersign: number sign */
@@ -568,7 +568,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e	/* 0x7E asciitilde: tilde */
 	];
 
-	K4_Pyojun_1969_Typewriter_layout = [
+	K4_1969_Typewriter_layout = [
 		0x0021,	/* 0x21 exclam: exclamation mark */
 		0x11ae,	/* 0x22 quotedbl: jongseong dieud */		
 		0xFFE6,	/* 0x23 numbersign: won sign */
@@ -762,7 +762,7 @@ function additional_keyboard_layout_table_info() {
 		0x007e	/* 0x7E asciitilde: tilde */
 	];
 	
-	K4_Pyojun_1985_Typewriter_layout = [
+	K4_1985_Typewriter_layout = [
 		0x0021,	/* 0x21 exclam: exclamation mark */
 		0x11bb,	/* 0x22 quotedbl: jongseong ssangsieus */
 		0xFFE6,	/* 0x23 numbersign: won sign */
@@ -1346,7 +1346,7 @@ function additional_keyboard_layout_table_info() {
 	];
 
 
-	K3_Gimguk_38A_layout = [
+	K3_GimGug_38A_layout = [
 		0x0021,	/* 0x21 exclam: */
 		0x0022,	/* 0x22 quotedbl: */
 		0x0023,	/* 0x23 numbersign: */
@@ -3971,7 +3971,7 @@ function additional_keyboard_layout_table_info() {
 	K3_Sin3_P_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
 
 	// 신세벌식 공동개발안
-	K3_Sin3_G_layout = [
+	K3_Sin3_Gongdong_layout = [
 		0x0021,	/* 0x21 exclam */
 		0x0022,	/* 0x22 quotedbl */
 		0x0023,	/* 0x23 numbersign */
@@ -6262,7 +6262,7 @@ function input_hangeul_combination_table_info() {
 		[0x11AF11AB,0x11B4]  /* jongseong lieul + nieun = lieul-tieut */
 	);
 
-	Gimguk38A_combination_table = hangeul_combination_table_default.concat([
+	GimGug_38A_combination_table = hangeul_combination_table_default.concat([
 		[0x11611175,0x1162], /* jungseong a + i = ae */
 		[0x11631175,0x1164], /* jungseong ya + i = yae */
 		[0x11651175,0x1166], /* jungseong eo + i = e */
@@ -6271,7 +6271,7 @@ function input_hangeul_combination_table_info() {
 		[0x116f1175,0x1170], /* jungseong weo + i  = we */	
 	]);
 
-	Gimguk38Ay_combination_table = hangeul_combination_table_full.concat([
+	GimGug_38Ay_combination_table = hangeul_combination_table_full.concat([
 		[0x110C113C,0x114E], /* jieuj + ap-sieus = ap-jieuj */
 		[0x110C113E,0x1150], /* jieuj + dwit-sieus = dwit-jieuj */
 		[0x110D113C,0x114F], /* ssang-jieuj + ap-sieus = ssang-ap-jieuj */

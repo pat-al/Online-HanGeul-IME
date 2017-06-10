@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/06/09
+ * Last Update : 2017/06/10
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -94,9 +94,9 @@ function basic_layout_list() {
 	basic_layouts.push({KE: 'Ko', type_name: '2-KPS9256', full_name: '조선 국규 (KPS 9256)'});
 	basic_layouts.push({KE: 'Ko', type_name: '2-sun-KSX5002', full_name: '순아래 두벌식 (KS X 5002) (꼬마집오리)', link: 'https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae'});
 
-	basic_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90', layout: K3_90_layout, link: ''});
-	basic_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판)', layout: K3_91_layout, link: ''});
-	basic_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.pnu.kr/data/data_002_006.html'});
+	basic_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90 (IBM 세벌식)', layout: K3_90_layout, link: ''});
+	basic_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판) (매킨토시 세벌식)', layout: K3_91_layout, link: ''});
+	basic_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글', layout: K3_93y_layout, link: 'http://asadal.busan.ac.kr/~gimgs0/hangeul/kbd/'});
 	basic_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: typeof K3_2012_extended_sign_layout != 'undefined' ? K3_2012_extended_sign_layout : null, link: 'https://pat.im/938'});
 
 	if(typeof K3_Sin3_extended_sign_layout == 'undefined') K3_Sin3_extended_sign_layout = null;
@@ -2458,8 +2458,6 @@ function show_keyboard_layout_info() {
 			else if(current_layout.type_name.substr(0,1)=='4') beol = '4';
 			name = '<strong>[한글 ' + beol + '벌식' + kbd + ']</strong> ';
 			if(typeof current_layout.full_name != 'undefined') name += current_layout.full_name;
-			if(Ko_type=='3-91') name+=' (옛 매킨토시 직결식 배열)';
-			if(Ko_type=='3-2011') name+=' (문장 입력용)';
 			if(typeof current_layout.link != 'undefined' && current_layout.link) name += ' <a href="'+current_layout.link+'" target="_blank">ⓘ</a>';
 		}
 
