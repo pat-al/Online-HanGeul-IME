@@ -49,6 +49,8 @@ var default_enable_Sin3_diphthong_key = 1;
 var default_phonemic_writing = 0;
 var default_abbreviation = 0;
 var default_convenience_combination = 0;
+var default_sunalae = 0;
+
 var default_square_layout = 1;
 
 var En_type; // 영문 자판 종류 (ohiChange 함수로 바꿈)
@@ -114,6 +116,7 @@ function option() {
 	var phonemic_writing; // 풀어쓰기
 	var abbreviation; // 이어치기 자판에서 줄임말 기능 쓰기
 	var convenience_combination; // 입력 편의를 높이는 추가 낱자 조합 쓰기
+	var sunalae; // 두벌식 자판 순아래 조합
 	
 	var show_layout; // 1: 자판 배열표 보이기  0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var turn_off_OHI; // OHI 입력 기능 멈추기 (화상 자판은 그대로 씀)
@@ -126,8 +129,6 @@ function NCR_option() {
 }
 
 var option=new option();
-option.turn_off_OHI = 0;
-option.show_layout = 1;
 option.enable_double_final_ext = default_enable_double_final_ext;
 option.enable_diphthong_ext = default_enable_diphthong_ext;
 option.enable_sign_ext = default_enable_sign_ext;
@@ -138,6 +139,10 @@ option.enable_Sin3_diphthong_key = default_enable_Sin3_diphthong_key;
 option.phonemic_writing = default_phonemic_writing;
 option.abbreviation = default_abbreviation;
 option.convenience_combination = default_convenience_combination;
+option.sunalae = default_sunalae;
+
+option.turn_off_OHI = 0;
+option.show_layout = 1;
 option.square_layout = default_square_layout;
 
 var NCR_option = new NCR_option();
@@ -599,7 +604,7 @@ function ohiHangeul2(f,e,c) { // 2-Beolsik
 		if(ohiQ[7]) ohiQ[7]=cc;
 	}
 	else { // Moum
-		if(Ko_type.substr(0,5)=='2-sun') {
+		if(option.sunalae || Ko_type.substr(0,5)=='2-sun') {
 			if(ohiQ[3]==cc && !ohiQ[1] && !ohiQ[6] && (ohiQ[0]==1 || ohiQ[0]==7 || ohiQ[0]==18 || ohiQ[0]==21 || ohiQ[0]==24)) {
 			// 홀소리 글쇠를 거듭 눌러 된소리 만들기
 				ohiQ[1]=1;
@@ -608,7 +613,7 @@ function ohiHangeul2(f,e,c) { // 2-Beolsik
 			}
 		}
 
-		if(Ko_type.substr(0,5)=='2-sun' || Ko_type=='2-Gaon26KM') {
+		if(option.sunalae || Ko_type.substr(0,5)=='2-sun' || Ko_type=='2-Gaon26KM') {
 			if((ohiQ[3]==37 || ohiQ[3]==33) && cc==51) {
 			// ㅕ+ㅣ→ㅖ, ㅑ+ㅣ→ㅒ
 				ohiQ[4]=1;
@@ -1883,6 +1888,7 @@ function show_options() {
 
 	if(opts) {
 		opts.style.display = 'block';
+		var type_name = current_layout.type_name;
 
 		opt = document.getElementById('option_turn_off_OHI');
 		if(!opt) opt = appendChild(opts,'div','option','option_turn_off_OHI','<div class="option"><input name="turn_off_OHI" class="checkbox" onclick="option.turn_off_OHI=this.checked;ohiStart();inputText_focus()" type="checkbox"' + (option.turn_off_OHI ? ' checked="checked"' : '') + '><label>OHI 끄기</label></div>');
@@ -1896,23 +1902,23 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_Sin3_yeshangeul_combination');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_yeshangeul_combination','<div class="option"><input name="enable_Sin3_yeshangeul_combination" class="checkbox" onclick="option.enable_Sin3_yeshangeul_combination=this.checked;ohiChange_enable_enable_Sin3_yeshangeul_combination();inputText_focus()" type="checkbox"' + (option.enable_Sin3_yeshangeul_combination ? ' checked="checked"' : '') + '><label>옛한글 조합</label></div>');
-		if(current_layout.type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
+		if(type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_Sin3_diphthong_key');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_diphthong_key','<div class="option"><input name="enable_Sin3_diphthong_key" class="checkbox" onclick="option.enable_Sin3_diphthong_key=this.checked;inputText_focus()" type="checkbox"' + (option.enable_Sin3_diphthong_key ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
-		if(option.enable_Sin3_yeshangeul_combination && current_layout.type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
+		if(option.enable_Sin3_yeshangeul_combination && type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
 		opt = document.getElementById('option_only_CGG_encoding');
 		if(!opt) opt = appendChild(opts,'div','option','option_only_CGG_encoding','<div class="option"><input name="only_CGG_encoding" class="checkbox" onclick="option.only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.only_CGG_encoding ? ' checked="checked"' : '') + '><label>첫가끝으로만 넣기</label></div>');
-		if(current_layout.type_name.substr(-2)=='-y' || option.enable_Sin3_yeshangeul_combination&&current_layout.type_name.substr(0,5)=='Sin3-'&&typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
+		if(type_name.substr(-2)=='-y' || option.enable_Sin3_yeshangeul_combination&&type_name.substr(0,5)=='Sin3-'&&typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_double_final_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_double_final_ext','<div class="option"><input name="enable_double_final_ext" class="checkbox" onclick="ohiChange_enable_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_double_final_ext ? ' checked="checked"' : '') + '><label>겹받침 확장</label></div>');
 		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined'
-		 && !(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
+		 && !(type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
 		 && current_layout.sublayout.indexOf(0x11AD)>=0
 		) opt.style.display = 'block';
 		else opt.style.display = 'none';
@@ -1920,7 +1926,7 @@ function show_options() {
 		opt = document.getElementById('option_enable_diphthong_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_diphthong_ext','<div class="option"><input name="enable_diphthong_ext" class="checkbox" onclick="ohiChange_enable_diphthong_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_diphthong_ext ? ' checked="checked"' : '') + '><label>겹홀소리 확장</label></div>');
 		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined'
-		 && !(current_layout.type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
+		 && !(type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
 		 && current_layout.sublayout.indexOf(0x116A)>=0
 		) opt.style.display = 'block';
 		else opt.style.display = 'none';
@@ -1939,13 +1945,18 @@ function show_options() {
 
 		opt = document.getElementById('option_convenience_combination');
 		if(!opt) opt = appendChild(opts,'div','option','option_convenience_combination','<div class="option"><input name="convenience_combination" class="checkbox" onclick="option.convenience_combination=this.checked;inputText_focus()" type="checkbox"' + (option.convenience_combination ? ' checked="checked"' : '') + '><label>편의 낱자 조합</label></div>');
-		if(current_layout.type_name.substr(-2)!='-y' && typeof current_layout.hangeul_convenience_combination_table!='undefined') opt.style.display = 'block';
+		if(type_name.substr(-2)!='-y' && typeof current_layout.hangeul_convenience_combination_table!='undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_phonemic_writing');
 		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing','<div class="option"><input name="phonemic_writing" class="checkbox" onclick="option.phonemic_writing=this.checked;option.enable_Sin3_yeshangeul_combination=0;inputText_focus()" type="checkbox"' + (option.phonemic_writing ? ' checked="checked"' : '') + '><label>풀어쓰기</label></div>');
-		if(current_layout.type_name.substr(-2)!='-y' && (!option.enable_Sin3_yeshangeul_combination || current_layout.type_name.substr(0,4)!='Sin3')) opt.style.display = 'block';
+		if(type_name.substr(-2)!='-y' && (!option.enable_Sin3_yeshangeul_combination || type_name.substr(0,4)!='Sin3')) opt.style.display = 'block';
 		else opt.style.display = 'none';
+			
+		opt = document.getElementById('option_sunalae');
+		if(!opt) opt = appendChild(opts,'div','option','option_sunalae','<div class="option"><input name="sunalae" class="checkbox" onclick="option.sunalae=this.checked;inputText_focus()" type="checkbox"' + (option.sunalae ? ' checked="checked"' : '') + '><label>순아래 조합 <a href="https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae" target="_blank">ⓘ</a></label></div>');
+		if(type_name.substr(-2)!='-y' && type_name.substr(0,2)=='2-' && type_name.substr(0,5)!='2-sun') opt.style.display = 'block';
+		else opt.style.display = 'none';	
 	}
 	
 	var opts = document.getElementById('bottom_options'), opt;
@@ -2979,6 +2990,9 @@ function url_query() {
 		}
 		else if(field == 'cc' || field == 'convenience_combination') { // 입력 편의를 높이는 한글 편의 조합 쓰기 (조합표가 지정되어 있을 때)
 			option.convenience_combination = TF;
+		}
+		else if(field == 'sun' || field == 'sunalae') { // 두벌식 자판 순아래 조합
+			option.sunalae = TF;
 		}
 		else if(field == 'row') { // 글상자(textarea)의 줄 수
 			 setTimeout(function(){inputText_rows(value);}, 250);
