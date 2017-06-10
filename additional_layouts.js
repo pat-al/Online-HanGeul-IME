@@ -76,9 +76,9 @@ additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2015', full_name: '세모
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2016', full_name: '세모이 2016 (옛 배열)', layout: K3_Semoe_2016_layout, sublayout: K3_Semoe_2016_sublayout, moachigi_hangeul_combination_table: K3_Semoe_2016_combination_table, extended_sign_layout: K3_Semoe_extended_sign_layout});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2017)', layout: K3_Semoe_2017_layout, sublayout: K3_Semoe_2017_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_abbreviation_table: K3_Semoe_2017_moachigi_abbreviation_table, multikey_abbreviation_table: K3_Semoe_2017_multikey_abbreviation_table, moachigi_hangeul_combination_table: K3_Semoe_2017_combination_table, link: 'http://ssg.wo.tc/220526834927'});
 
-additional_layouts.push({KE: 'Ko', type_name: '4t-GGC_1969', full_name: '1969 네벌식 타자기 (과학기술처)', layout: K4_1969_Typewriter_layout, link: 'https://pat.im/965'});
+additional_layouts.push({KE: 'Ko', type_name: '4t-1969', full_name: '1969 네벌식 타자기 (과학기술처)', layout: K4_1969_Typewriter_layout, link: 'https://pat.im/965'});
 additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol_101', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'https://pat.im/1026'});
-additional_layouts.push({KE: 'Ko', type_name: '4t-GGC_1985', full_name: '1985 두벌식 배열 호환형 타자기 (과학기술처)', layout: K4_1985_Typewriter_layout, link: 'https://pat.im/1026'});
+additional_layouts.push({KE: 'Ko', type_name: '4t-1985', full_name: '1985 두벌식 배열 호환형 타자기 (과학기술처)', layout: K4_1985_Typewriter_layout, link: 'https://pat.im/1026'});
 
 function additional_keyboard_layout_table_info() {
 	var i,j;
