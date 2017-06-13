@@ -29,7 +29,7 @@ input_hangeul_combination_table_info();
 
 var additional_layouts=[];
 
-additional_layouts.push({KE: 'Ko', type_name: '2-GJS_1946', full_name: '김준성 풀어쓰기 수동 타자기 (1940년대)', layout: K2_GimJunseong_typewriter_layout, link: 'https://pat.im/1024'});
+additional_layouts.push({KE: 'Ko', type_name: '2-GJS', full_name: '김준성 풀어쓰기 수동 타자기 (1940년대)', layout: K2_GimJunseong_typewriter_layout, link: 'https://pat.im/1024'});
 additional_layouts.push({KE: 'Ko', type_name: '2-HGS_1952', full_name: '한당욱·김철수·신한종 풀어쓰기 전신 타자기 (1952)', layout: K2_HGS_1952_teletypewriter_layout, link: 'https://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Jang_1953', full_name: '장봉선 풀어쓰기 전신 타자기 (1953) (체신부 통신용)', layout: K2_Jang_1953_teletypewriter_layout, link: 'https://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Bag_Song_1968', full_name: '박영효·송계범 전신 타자기 자판 설계안 (1968)', layout: K2_Bag_Song_1968_layout, link: 'https://pat.im/1025'});
@@ -45,7 +45,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2012-y', full_name: '3-2012 옛
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
 additional_layouts.push({KE: 'Ko', type_name: '3-GimGug_38A', full_name: '김국 38A', layout: K3_GimGug_38A_layout, hangeul_combination_table: GimGug_38A_combination_table, link: 'http://cafe.daum.net/kbd-p/8k2B/1'});
 
-additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 김창용 자판안', layout: K3_95_proposal_layout, extended_sign_layout: K3_95_extended_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931'});
+additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 (김창용 자판안)', layout: K3_95_proposal_layout, extended_sign_layout: K3_95_extended_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931'});
 additional_layouts.push({KE: 'Ko', type_name: '314', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '안종혁 순아래 2014', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
@@ -76,8 +76,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2015', full_name: '세모
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2016', full_name: '세모이 2016 (옛 배열)', layout: K3_Semoe_2016_layout, sublayout: K3_Semoe_2016_sublayout, moachigi_hangeul_combination_table: K3_Semoe_2016_combination_table, extended_sign_layout: K3_Semoe_extended_sign_layout});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2017)', layout: K3_Semoe_2017_layout, sublayout: K3_Semoe_2017_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_abbreviation_table: K3_Semoe_2017_moachigi_abbreviation_table, multikey_abbreviation_table: K3_Semoe_2017_multikey_abbreviation_table, moachigi_hangeul_combination_table: K3_Semoe_2017_combination_table, link: 'http://ssg.wo.tc/220526834927'});
 
-additional_layouts.push({KE: 'Ko', type_name: '4t-1969', full_name: '1969 네벌식 타자기 (과학기술처)', layout: K4_1969_Typewriter_layout, link: 'https://pat.im/965'});
-additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol_101', full_name: '외솔 타자기 101 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'https://pat.im/1026'});
+additional_layouts.push({KE: 'Ko', type_name: '4t-1969', full_name: '1969 네벌식 타자기 표준 (과학기술처)', layout: K4_1969_Typewriter_layout, link: 'https://pat.im/965'});
+additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타자기 (1980, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'https://pat.im/1026'});
 additional_layouts.push({KE: 'Ko', type_name: '4t-1985', full_name: '1985 두벌식 배열 호환형 타자기 (과학기술처)', layout: K4_1985_Typewriter_layout, link: 'https://pat.im/1026'});
 
 function additional_keyboard_layout_table_info() {
