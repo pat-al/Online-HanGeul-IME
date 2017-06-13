@@ -2236,7 +2236,7 @@ function show_keyboard_layout(type) {
 	var han_ext_tag2 = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:-2px;font-size:0.7em;">한글②</span>';
 	var Moachigi_modifier_tag = '<span style="background:black;color:#fff;font-size:1em;">⇦</span>';
 
-	if(option.enable_sign_ext && KE=='Ko') {
+	if(option.enable_sign_ext && KE=='Ko' && Ko_type.substr(0,2)=='3-' && typeof current_layout.extended_sign_layout != 'undefined') { // 공세벌식 자판의 기호 확장 글쇠 나타내기
 		if(Ko_type=='3-87') {
 			document.getElementById('ue9').innerHTML = '<span style="margin:0;padding:0;background:black;color:#fff;font-size:0.7em;">기호②</span>';
 			document.getElementById('ue51').innerHTML = '<span style="margin:0;padding:0;background:black;color:#fff;font-size:0.7em">기호①</span>';
@@ -2245,7 +2245,7 @@ function show_keyboard_layout(type) {
 			document.getElementById('de8').innerHTML = sign_ext_tag;
 			document.getElementById('de45').innerHTML = sign_ext_tag;
 		}
-		else if(Ko_type=='3-2011-y' || Ko_type=='3-2012-y' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P' || Ko_type.substr(0,3)=='3-P') {
+		else {
 			document.getElementById('uh9').innerHTML = sign_ext_tag2;
 			document.getElementById('uh51').innerHTML = sign_ext_tag1;
 		}
