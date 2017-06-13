@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/06/10
+ * Last Update : 2017/06/13
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -529,7 +529,7 @@ function convert_into_compatibility_hangeul_phoneme(c) {
 		c=compatibility_yeshangeul_dah[yeshangeul_cheos.indexOf(c)]
 	}
 	else if(yeshangeul_ga.indexOf(c)>=0) {
-		c=compatibility_yeshangeul_dah[yeshangeul_ga.indexOf(c)]
+		c=compatibility_yeshangeul_hol[yeshangeul_ga.indexOf(c)]
 	}
 	else if(yeshangeul_ggeut.indexOf(c)>=0) {
 		c=compatibility_yeshangeul_dah[yeshangeul_ggeut.indexOf(c)]
