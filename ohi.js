@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/06/13
+ * Last Update : 2017/06/14
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2241,6 +2241,9 @@ function show_keyboard_layout(type) {
 			document.getElementById('ue9').innerHTML = '<span style="margin:0;padding:0;background:black;color:#fff;font-size:0.7em;">기호②</span>';
 			document.getElementById('ue51').innerHTML = '<span style="margin:0;padding:0;background:black;color:#fff;font-size:0.7em">기호①</span>';
 		}
+		else if(Ko_type=='3-95') {
+			document.getElementById('de45').innerHTML = sign_ext_tag;
+		}
 		else if(Ko_type=='3-2011' || Ko_type=='3-2012') {
 			document.getElementById('de8').innerHTML = sign_ext_tag;
 			document.getElementById('de45').innerHTML = sign_ext_tag;
@@ -2286,7 +2289,7 @@ function show_keyboard_layout(type) {
 		}
 
 		if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined'
-		 && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2)) { // 신세벌식 P 옛한글 받침 배열
+		 && !(Hangeul_SignExtKey1+Hangeul_SignExtKey2)) { // 신세벌식 P, P2 옛한글 받침 배열
 			document.getElementById('de32').innerHTML = '<span style="margin-left:-1px;background:black;color:#fff;letter-spacing:-1px;font-size:8px;">받침</span>';
 			document.getElementById('de15').innerHTML = '<span style="color:#666">ㅿ</span>';
 			document.getElementById('de29').innerHTML = '<span style="color:#666">ㆁ</span>';
