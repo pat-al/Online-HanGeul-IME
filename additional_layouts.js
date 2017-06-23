@@ -917,7 +917,7 @@ function additional_keyboard_layout_table_info() {
 		0x300C,	/* 0x56 V: left corner bracket 「 */
 		0x11B1,	/* 0x57 W: jongseong lieul-mieum */
 		0x11AC,	/* 0x58 X: jongseong nieun-jieuj */
-		0x0027,	/* 0x59 Y: apostrophe */
+		0x0035,	/* 0x59 Y: 5 */
 		0x11BF,	/* 0x5A Z: jongseong kieuk */
 		0x116E,	/* 0x5B bracketleft: jungseong u */
 		0x0000,	/* 0x5C backslash: */
