@@ -676,7 +676,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 	var layout=current_layout.layout;
 	var sublayout=null;
 	var extended_sign_layout=null;
-
+	
 	if(!abbriviation_processing_state) {
 		if(typeof current_layout.sublayout != 'undefined') sublayout = current_layout.sublayout;
 		if(typeof current_layout.extended_sign_layout != 'undefined') extended_sign_layout = current_layout.extended_sign_layout;
@@ -694,6 +694,12 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 	if(!cc) {
 		ohiInsert(f,0,0);
 		return 0;
+	}
+
+	if(cc<158) {
+	// 아스키 영역 또는 그 가까이에 낀 영문자들과 기호들을 한글 낱자로 처리하지 않고 그대로 넣음
+		ohiInsert(f,0,cc);
+		return cc;
 	}
 
 	if(Ko_type.substr(-2)!='-y') {
