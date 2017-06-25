@@ -45,7 +45,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2012-y', full_name: '3-2012 옛
 additional_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
 additional_layouts.push({KE: 'Ko', type_name: '3-GimGug_38A', full_name: '김국 38A', layout: K3_GimGug_38A_layout, hangeul_combination_table: GimGug_38A_combination_table, link: 'http://cafe.daum.net/kbd-p/8k2B/1'});
 
-additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 (김창용 자판안)', layout: K3_95_proposal_layout, extended_sign_layout: K3_95_extended_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931'});
+additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 자판안 (김창용)', layout: K3_95_proposal_layout, extended_sign_layout: K3_95_extended_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931'});
 additional_layouts.push({KE: 'Ko', type_name: '314', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '안종혁 순아래 2014', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
@@ -1347,7 +1347,7 @@ function additional_keyboard_layout_table_info() {
 	];
 
 
-	K3_95_proposal_layout = [ // 3-95 김창용 자판안
+	K3_95_proposal_layout = [ // 3-95 자판안 (김창용)
 		0x11a9, /* 0x21 exclam: jongseong ssanggieug */
 		0x0022, /* 0x22 quotedbl: quotatioin mark */
 		0x11bd, /* 0x23 numbersign: jognseong jieuj */
@@ -1461,7 +1461,7 @@ function additional_keyboard_layout_table_info() {
 		[[0x00B7],[0x0000]],	/* 0x2E period: middle dot · */
 		[[0x0000],[0x0000]],	/* 0x2F slash: */
 		[[0x300B],[0x0000]],	/* 0x30 0: right double angle bracket 》 */
-		[[0x0000],[0x0000]],	/* 0x31 1: apple logo */
+		[[0xF8FF],[0x0000]],	/* 0x31 1: apple logo (PUA) */
 		[[0x0040],[0x0000]],	/* 0x32 2: commercial at */
 		[[0x0023],[0x0000]],	/* 0x33 3: number sign # */
 		[[0x0024],[0x0000]],	/* 0x34 4: dollar sign $ */
