@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/06/24
+ * Last Update : 2017/06/26
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1678,7 +1678,7 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 	var cc=convert_into_ohi_hangeul_phoneme(layout[c-33]);
 	var cc2=convert_into_ohi_hangeul_phoneme(layout[ukey[dkey.indexOf(c)]-33]);	// 윗글 자리
 	
-	if(Ko_type=='4t-Pyojun1969') {
+	if(Ko_type=='4t-1969') {
 		if(ohiQ[3]==68-35 && !ohiQ[4] && (!ohiRQ[3]&&cc==86 || ohiRQ[3]==1&&cc==0x3163)) {
 		// ㅑ+ㅣ→ㅒ
 			ohiQ[4]=1;
@@ -1694,7 +1694,7 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 		}
 	}
 
-	if(Ko_type=='4t-Pyojun1985') {
+	if(Ko_type=='4t-1985') {
 		i=0;
 		if(ohi_cheos.indexOf(convert_into_ohi_hangeul_phoneme(cc))>=0) i=1;
 		if(shift_lock) cc=cc2;
@@ -2359,7 +2359,7 @@ function show_keyboard_layout(type) {
 		}
 	}	
 
-	if(KE=='Ko' && (Ko_type=='3t-Oesol' || Ko_type=='4t-Pyojun1985')) {
+	if(KE=='Ko' && (Ko_type=='3t-Oesol' || Ko_type=='4t-1985')) {
 		document.getElementById('ue41').innerHTML = 'Shift';
 		document.getElementById('de41').innerHTML = '(받침)';
 		document.getElementById('ue52').innerHTML = 'Shift';
@@ -2859,7 +2859,7 @@ function ohiKeydown(e) {
 				pressing_key_accumulation(f,e,c);
 				tableKey_press(e.keyCode);
 			}
-			if(KE=='Ko' && Ko_type=='4t-Pyojun1985') {
+			if(KE=='Ko' && Ko_type=='4t-1985') {
 				tableKey_press(e.keyCode);
 			}
 		}
@@ -2903,7 +2903,7 @@ function ohiKeyup(e) {
 			pressed_keys=[];
 		}
 	}
-	else if(KE=='Ko' && Ko_type=='4t-Pyojun1985') {
+	else if(KE=='Ko' && Ko_type=='4t-1985') {
 		if(e.keyCode==16) {
 			shift_lock=1;
 		}
@@ -3029,7 +3029,7 @@ function tableKey_press(key) {
 	if(key==191) key=47; // / 자리 글쇠
 	if(key==192) key=96; // ` 자리 글쇠
 	
-	if(key==16 || current_layout.type_name=='4t-Pyojun1985'&&shift_lock) {
+	if(key==16 || current_layout.type_name=='4t-1985'&&shift_lock) {
 		shift1.className += ' pressed';
 		shift2.className += ' pressed';
 		return;
