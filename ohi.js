@@ -492,10 +492,12 @@ function complete_hangeul_syllable(f) { // 첫가끝 조합형 낱내를 유니�
 }
 
 function convert_into_ohi_hangeul_phoneme(c) {
-// 유니코드의 요즘한글 낱자 코드를 ohi에서 쓰는 코드로 바꾸기 (옛한글 낱자는 바꾸지 않음)
+// 유니코드의 요즘한글 낱자 코드와 홀소리 호환 낱자 코드를 ohi에서 쓰는 코드로 바꾸기 (옛한글 낱자는 바꾸지 않음)
 	if(unicode_modern_cheos.indexOf(c)>=0) c=ohi_cheos[unicode_modern_cheos.indexOf(c)];
 	else if(unicode_modern_ga.indexOf(c)>=0) c=ohi_ga[unicode_modern_ga.indexOf(c)];
 	else if(unicode_modern_ggeut.indexOf(c)>=0) c=ohi_ggeut[unicode_modern_ggeut.indexOf(c)];
+	else if(compatibility_ga.indexOf(c)>=0) c=ohi_ga[compatibility_ga.indexOf(c)];
+
 	return c;
 }
 
@@ -1673,11 +1675,12 @@ function Hangeul_Gong3_gm(f,c) {
 }
 
 function hangeul_typewriter(f,c) { // 타자기 자판
-	var i;
 	var layout=current_layout.layout;
+	var ch;
 	var cc=convert_into_ohi_hangeul_phoneme(layout[c-33]);
 	var cc2=convert_into_ohi_hangeul_phoneme(layout[ukey[dkey.indexOf(c)]-33]);	// 윗글 자리
-	
+	ch=layout[c-33];
+
 	if(Ko_type=='4t-1969') {
 		if(ohiQ[3]==68-35 && !ohiQ[4] && (!ohiRQ[3]&&cc==86 || ohiRQ[3]==1&&cc==0x3163)) {
 		// ㅑ+ㅣ→ㅒ
@@ -1695,23 +1698,24 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 	}
 
 	if(Ko_type=='4t-1985') {
-		i=0;
-		if(ohi_cheos.indexOf(convert_into_ohi_hangeul_phoneme(cc))>=0) i=1;
-		if(shift_lock) cc=cc2;
-		if(i || ohi_hangeul_phoneme.indexOf(convert_into_ohi_hangeul_phoneme(cc))<0) shift_lock=0;
+		if(shift_lock) {
+			ch=cc2;
+			if(ohi_ga.indexOf(cc)<0 || ohi_ga.indexOf(cc2)<0) shift_lock=0;				
+			// 홀소리만 든 글쇠를 누르면 받침 글쇠가 풀리지 않음. 그밖의 글쇠를 누르면 받침 글쇠가 풀림
+		}
 	}
 
-	if(ohi_cheos.indexOf(convert_into_ohi_hangeul_phoneme(cc))>=0) {
+	if(ohi_cheos.indexOf(convert_into_ohi_hangeul_phoneme(ch))>=0) {
 		ohiRQ = [0,0,0,0,0,0,0,0,0];
 	}
 
-	if(compatibility_ga.indexOf(cc)>=0) { // 받침 안 붙는 홀소리
-		cc=ohi_ga[compatibility_ga.indexOf(cc)];
-		if(Ko_type.substr(-1)=='y') cc=convert_into_unicode_hangeul_phoneme(cc);
+	if(compatibility_ga.indexOf(ch)>=0) { // 받침 안 붙는 홀소리
+		ch=ohi_ga[compatibility_ga.indexOf(ch)];
+		if(Ko_type.substr(-1)=='y') ch=convert_into_unicode_hangeul_phoneme(ch);
 		if(!ohiQ[3]) ohiRQ[3]=1;
 		else ohiRQ[4]=1;
 	}
-	return cc;
+	return convert_into_ohi_hangeul_phoneme(ch);
 }
 
 function push_to_key_table(u,d,t) {
@@ -2003,9 +2007,9 @@ function show_keyboard_layout(type) {
 		opt.style.display = 'none';
 		return false;
 	}
-	
+
 	if(!option.show_layout) return;
-	
+
 	if(ohi_menu_num>2) {
 		rows.style.display = 'none';
 		opts = document.getElementById('top_options');
@@ -2364,6 +2368,12 @@ function show_keyboard_layout(type) {
 		document.getElementById('de41').innerHTML = '(받침)';
 		document.getElementById('ue52').innerHTML = 'Shift';
 		document.getElementById('de52').innerHTML = '(받침)';
+		if(Ko_type=='4t-1985') {
+			// 홀소리와 받침이 함께 든 글쇠를 받침이 든 글쇠와 같은 색으로 나타냄
+			document.getElementById('key25').className = 'h3';
+			document.getElementById('key38').className = 'h3';
+			document.getElementById('key39').className = 'h3';
+		}
 	}
 
 	if(shiftlock_click) {
@@ -3032,7 +3042,6 @@ function tableKey_press(key) {
 	if(key==16 || current_layout.type_name=='4t-1985'&&shift_lock) {
 		shift1.className += ' pressed';
 		shift2.className += ' pressed';
-		return;
 	}
 
 	var key_td;
