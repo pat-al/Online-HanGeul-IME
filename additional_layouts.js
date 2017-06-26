@@ -604,7 +604,7 @@ function additional_keyboard_layout_table_info() {
 		0x0022,	/* 0x40 at: quotation mark */
 		0x110f,	/* 0x41 A: choseong kieuk */
 		0x3160,	/* 0x42 B: hangeul letter yu */
-		0x11c2,	/* 0x43 C: jongseong hieuh */
+		0x11be,	/* 0x43 C: jongseong chieuch */
 		0x110e,	/* 0x44 D: choseong chieuch */
 		0x1104,	/* 0x45 E: choseong ssangdieud */
 		0x1111,	/* 0x46 F: choseong pieup */
@@ -627,7 +627,7 @@ function additional_keyboard_layout_table_info() {
 		0x110d,	/* 0x57 W: choseong ssangjieuj */
 		0x11c0,	/* 0x58 X: jongseong tieut */
 		0x116d,	/* 0x59 Y: jungseong yo */
-		0x11bf,	/* 0x5A Z: jongseong kieuk */
+		0x11c2,	/* 0x5A Z: jongseong hieuh */
 		0x11a8,	/* 0x5B bracketleft: jongseong gieug */
 		0x0000,	/* 0x5C backslash: */
 		0x0000,	/* 0x5D bracketright: */
