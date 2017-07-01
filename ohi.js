@@ -698,7 +698,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 		return 0;
 	}
 
-	if(cc<158 && !(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2 && extended_sign_layout)) {
+	if(cc>0 && cc<158 && !(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2 && extended_sign_layout)) {
 	// 아스키 영역의 영문자들을 한글 낱자로 처리하지 않고 그대로 넣기 위함 (기호 확장 배열을 쓰지 않을 때)
 		ohiInsert(f,0,cc);
 		return cc;
@@ -710,8 +710,8 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 		cc2=convert_into_ohi_hangeul_phoneme(cc2);
 	}
 
-	if(!abbriviation_processing_state) {
-		if(Ko_type.substr(0,2)=='3-' || Ko_type.substr(0,3)=='3m-')	{
+	if(!abbriviation_processing_state || Ko_type.substr(0,3)=='3m-') {
+		if(Ko_type.substr(0,1)=='3') {
 			if(Hangeul3_sign_ext(f,e,c)) return 0; // 기호 확장 배열
 			if(cc<0) return 0;
 		}
@@ -949,7 +949,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && Hangeul_SignExtKey1) {
 	// 기호 확장 배열에서 기호를 넣음
 		if(pressed_keys.length==1 && Hangeul3_sign_ext(f,e,pressed_keys[0])) return;
-		if(pressed_keys.length>1)	esc_ext_layout();
+		if(pressed_keys.length>1) esc_ext_layout();
 	}
 
 	if(typeof current_layout.multikey_abbreviation_table != 'undefined') {
