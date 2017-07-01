@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/06/26
+ * Last Update : 2017/07/01
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -698,8 +698,8 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 		return 0;
 	}
 
-	if(cc<158) {
-	// 아스키 영역의 영문자들을 한글 낱자로 처리하지 않고 그대로 넣기 위함
+	if(cc<158 && !(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2 && extended_sign_layout)) {
+	// 아스키 영역의 영문자들을 한글 낱자로 처리하지 않고 그대로 넣기 위함 (기호 확장 배열을 쓰지 않을 때)
 		ohiInsert(f,0,cc);
 		return cc;
 	}
@@ -716,7 +716,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 			if(cc<0) return 0;
 		}
 
-		if(Ko_type.indexOf('Sin3')==0) {	// 신세벌식 자판 또는 바꾼꼴(공세벌식형) 신세벌식 자판
+		if(Ko_type.indexOf('Sin3')==0) {	// 신세벌식 자판
 			if(Ko_type.substr(0,5)=='Sin3-') {
 				if(option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') {
 					cc=CGG_Hangeul_Sin3(f,e,c);
@@ -1389,7 +1389,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		ohiBackspace(f);
 		ohiInsert(f,0,cc);
 		esc_ext_layout();
-		
+
 		return -1;
 	}
 	else if(option.enable_sign_ext && !Hangeul_SignExtKey1 && Sin3_extended_sign_layout && ohiQ[0]==150-92-35 && (cc==128 || cc==151 || cc==145) && !ohiQ[3] && !ohiQ[6]) {
