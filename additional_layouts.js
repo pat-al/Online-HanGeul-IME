@@ -770,7 +770,7 @@ function additional_keyboard_layout_table_info() {
 		0x0024,	/* 0x24 dollar: dollar sign */
 		0x0025,	/* 0x25 percent: percent sign */
 		0x003a,	/* 0x26 ampersand: colon */
-		0x3162,	/* 0x27 apostrophe: hangeul letter eui */
+		0x1174,	/* 0x27 apostrophe: jungseong eui */
 		0x0029,	/* 0x28 parenleft: right parenthesis */
 		0x002d,	/* 0x29 parenright: minus sign */
 		0x0028,	/* 0x2A asterisk: left parenthesis *///0x0027 apostrophe
@@ -790,7 +790,7 @@ function additional_keyboard_layout_table_info() {
 		0x0038,	/* 0x38 8: 8 */
 		0x0039,	/* 0x39 9: 9 */
 		0x11ad,	/* 0x3A colon: jongseong nieun-jieuj */
-		0x3156,	/* 0x3B semicolon: hangeul letter ye */
+		0x1168,	/* 0x3B semicolon: jungseong ye */		
 		0x11b9,	/* 0x3C less: jongseong bieub-sieus */
 		0x002b,	/* 0x3D equal: plus sign */
 		0x002e,	/* 0x3E greater: period */
@@ -822,7 +822,7 @@ function additional_keyboard_layout_table_info() {
 		0x11c0,	/* 0x58 X: jongseong tieut */
 		0x116d, /* 0x59 Y: jungseong yo */
 		0x110f,	/* 0x5A Z: choseong kieuk */
-		0x3152,	/* 0x5B bracketleft: hangeul letter yae */
+		0x1164,	/* 0x5B bracketleft: jungseong yae */
 		0x0000,	/* 0x5C backslash: */
 		0x0000,	/* 0x5D bracketright: */
 		0x002f,	/* 0x5E asciicircum: slash */
@@ -5478,7 +5478,7 @@ function additional_keyboard_layout_table_info() {
 	];
 
 
-		K3_Semoe_2017_layout = [
+	K3_Semoe_2017_layout = [
 		0x0021, /* 0x21 exclam: exclamation mark */
 		0x0022, /* 0x22 quotedbl: quotatioin mark */
 		0x0023, /* 0x23 numbersign: number sign */
