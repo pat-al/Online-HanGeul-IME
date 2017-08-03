@@ -48,35 +48,39 @@
 
 	<style type="text/css">
 	<!--
-		body { margin: 8pt; overflow:scroll; }
-		body, th, td, input {
-			font-family: "맑은 고딕", "Malgun Gothic", '함초롬돋움', "함초롬돋움 LVT", "HCR Dotum LVT", 'Un Jamo Batang Ex', '은 자모 바탕 확장';
-		}
-		span.emph { color: black; }
-		div.title { color: tan; font-weight: bold; font-size: 18pt; line-height: 14pt; padding-bottom: 6pt; }
-		div#content { margin:5px auto 0 auto; /*display:table;*/ width:600px; }
-		#ohi_wrap, textarea { font-size: 10pt; }
-		div.menu, div.this { display:inline; width:auto; font-size: 11pt; font-weight:bold; margin-right:-2px; padding:1px 14px 1px 16px; border:2px wheat solid;}
-		div.menu { cursor: pointer; background-color:snow; }
+		body { margin: 8pt 0; overflow:scroll; }
+		body, th, td, input {	font-family:'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장'; }
+		span.emph { color:black; }
+		div.title { color:tan; font-weight:bold; font-size:18pt; line-height:14pt; padding-bottom:6pt; }
+		div#content { margin:5px auto 0 auto; width:600px; }
+		div#ohi_wrap, textarea { font-size:10pt; }
+
+		div#ohi_menu {}
+		div.menu, div.this { display:inline; font-size:11pt; font-weight:bold; padding:1px 14px 1px 16px; border-style:solid; border-color:wheat; }
+		div.menu { cursor:pointer; background-color:snow; }
+		div.menu a { color:#000; text-decoration:none; }
+		/*div.menu a:hover { cursor:pointer; background-color:burlywood; }*/
 		div.this { background-color:bisque; }
-		div.over, kbd.over, .menu:hover { cursor:pointer; background-color:burlywood; }
-		div.right_menu { float:right; margin:0 0 0 -2px; padding:0; border:none; }
-		div.right_menu a { color:#000; text-decoration:none; padding:1px 15px 1px 15px; border:2px wheat solid;}
-		div.right_menu a:hover { cursor:pointer; background-color:burlywood; }
+		div.over, kbd.over, div.menu:hover { cursor:pointer; background-color:burlywood; }
 
-		div#ohi_content { border: solid 2px wheat; background-color: oldlace; padding:0 6px 0 4px; margin-top:1px; }
+		div.left_menu, div.right_menu { display:inline; }
+		div.left_menu {}
+		div.right_menu { float:right; }
 
-		input.text, textarea#inputText { border: solid 1px wheat; ime-mode:disable; resize:vertical; }
-		textarea#inputText { width:572px; margin:0 0 0 5px; 
-			font-family: "함초롬돋움 LVT","HCR Dotum LVT","함초롬바탕 LVT","본고딕","Source Han Sans K","본고딕 KR","Source Han Sans KR","Noto Sans CJK KR","나눔바른고딕 옛한글","NanumBarunGothic YetHangul","나눔명조 옛한글","NanumMyeongjo YetHangul", 'HCR dotum', '함초롬돋움', '함초롬돋움 확장', '함초롬바탕', '함초롬바탕 확장', 'Un Jamo Batang Ex', '은 자모 바탕 확장', Unbatang, '은 바탕', Undotum, '은 돋움', "맑은 고딕", "Malgun Gothic", "NanumGothic", 나눔고딕;
-		}
+		div.left_menu div.menu, div.left_menu div.this, div.right_menu div.menu, div.right_menu div.this { border-width:2px 2px 2px 0; }
+		div.left_menu div:first-child, div.right_menu div:first-child { border-width:2px; }
+
+		div#ohi_content { clear:both; border:solid 2px wheat; background-color:oldlace; padding:0 6px 0 4px; margin-top:1px; }
+
+		input.text, textarea#inputText { border:solid 1px wheat; ime-mode:disable; resize:vertical; }
+		textarea#inputText { width:572px; margin:0 0 0 5px; font-family:'함초롬돋움 LVT','HCR Dotum LVT','함초롬바탕 LVT','본고딕','Source Han Sans K','본고딕 KR','Source Han Sans KR','Noto Sans CJK KR','나눔바른고딕 옛한글','NanumBarunGothic YetHangul','나눔명조 옛한글','NanumMyeongjo YetHangul','HCR dotum','함초롬돋움','함초롬돋움 확장','함초롬바탕','함초롬바탕 확장','Un Jamo Batang Ex','은 자모 바탕 확장',Unbatang,'은 바탕',Undotum,'은 돋움','맑은 고딕','Malgun Gothic','NanumGothic',나눔고딕; }
 		form { margin: 0; padding: 0; }
 
-		div#manual {display:block; margin: 0 0 0.4em 5px;}
-		div#manual a {margin-right:0.3em;}
-		div#manual ul { margin: 0.8em 0; }
-		div#manual ul li { text-align:left; text-indent:-55px;padding-left:53px; word-break:keep-all;}
-		div#manual div#more_layouts_wrap { margin:0 0 0.8em 0;}
+		div#manual { display:block; margin: 0 0 0.4em 5px; }
+		div#manual a { margin-right:0.3em; }
+		div#manual ul { margin:0.8em 0; }
+		div#manual ul li { text-align:left; text-indent:-55px; padding-left:53px; word-break:keep-all; }
+		div#manual div#more_layouts_wrap { margin:0 0 0.8em 0; }
 		div#manual, div#tab1, div#tab2, div#tab3 { width:570px; }
 		div#tab2 { height:1px; overflow:hidden; visibility:hidden; }
 		div#tab2 #searchEngines { margin:14px auto; display:table; }
@@ -88,19 +92,19 @@
 		div#tab3 { height:1px; overflow:hidden; visibility:hidden; line-height:1.5em; }
 		div#tab3 h2 { font-weight:bold; font-size:16px; margin-left:6px; }
 		div#tab3 ol, div#tab3 li { margin:0 10px 5px 0;}
-		div#tab3 a {text-decoration:none; font-weight:bold; color:#23a;}
-		div#tab3 a:hover {text-decoration:underline;}
+		div#tab3 a { text-decoration:none; font-weight:bold; color:#23a; }
+		div#tab3 a:hover { text-decoration:underline; }
 
 		div.layout_group_tab { display:none; }
-		a.layout_group_link { text-decoration:none; color:#00b;}
+		a.layout_group_link { text-decoration:none; color:#00b; }
 
-		#top_options { /*height:1.8em;*/ margin-right:0.5em; }
+		#top_options { margin-right:0.5em; }
 		#top_options .option, #NCR_options .option,  #NCR_options { float:right; }
-		.option label { font-size:12px;}
+		.option label { font-size:12px; }
 		.option label a { text-decoration:none; }
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
 
-		div#keyboardLayout { margin:2px 0px 3px 0px; clear:both; }
+		div#keyboardLayout { margin:2px 0 3px 0; clear:both; }
 		div#keyboardLayout .show_layout { height:1.5em; }
 		div#keyboardLayout span.menu { float:right; }
 		div#keyboardLayoutInfo { float:left; margin:0 0 0 5px; }
@@ -110,15 +114,15 @@
 		#NCR_options { margin-top:0px; height:1em; clear:both; }
 
 		#keyboardLayoutTable { clear:both; width:586px; margin:0 auto; }
-		#keyboardLayoutTable .row { margin:0px 0px; }
+		#keyboardLayoutTable .row { margin:0; }
 
 		div.e1, div.e2, div.e3, div.h1, div.h2, div.h3 {
 			display:inline-block; font-size:13px; vertical-align:bottom; height:38px; cursor:pointer;
 			border-width:2px; border-style:solid; border-color:#fff #aaa #aaa #fff;
 		}
 		div.e1 { background-color:wheat; }
-		div.e2 { background-color:#C5D2E7;}
-		div.e3 { background-color:antiquewhite;}
+		div.e2 { background-color:#C5D2E7; }
+		div.e3 { background-color:antiquewhite; }
 		div.h1 { background-color:lightblue; }
 		div.h2 { background-color:lightpink; }
 		div.gin-hol { background-color:#ccbbff; }
@@ -134,18 +138,18 @@
 		div.up { margin:2px 1px 0 2px; }
 		@-moz-document url-prefix() { div.up { margin:1px 1px 1px 2px; } }
 		div.down { margin:0 1px 0px 2px; }
-		div.ue, div.de { clear:both; float:left; font-family: "Consolas", monospace, sans-serif; color:#777; }
+		div.ue, div.de { clear:both; float:left; font-family:'Consolas',monospace,sans-serif; color:#777; }
 		div.e2 div.ue { color:#000; }
 		div.dh, div.uh { float:right; }
 
 		div#row4 div.ue, div#row4 div.de { margin:0px auto; width:100%; text-align:center; }
 		div#row4 #ue56 { text-align:left; }
 		div#row4 div.up, div#row4 div.down {}
-		div#row4 .special div.ue, div#row4 .special div.de  { font-size:12px; font-family: "맑은 고딕", "Malgun Gothic", '함초롬돋움', "함초롬돋움 LVT", "HCR Dotum LVT", 'Un Jamo Batang Ex', '은 자모 바탕 확장'}
+		div#row4 .special div.ue, div#row4 .special div.de  { font-size:12px; font-family:'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장'}
 
 		span.menu, kbd.menu { cursor: pointer; background-color:bisque; }
 
-		div#NCR { background-color:#FFFEFD; display:none; width:580px; border: solid 2px wheat; margin-top:10px; word-break: break-all; }
+		div#NCR { background-color:#FFFEFD; display:none; width:580px; border:solid 2px wheat; margin-top:10px; word-break:break-all; }
 
 		div.ref { padding:0.5em 0 0.5em 0; clear:both; }
 		div.ref p { text-indent:-0.7em; padding:0 0 0 1em; margin:3px 0; }
@@ -165,20 +169,24 @@
 	</div>
 	<div id="ohi_wrap">
 		<div id="ohi_menu">
-			<div class="this" id="menu1" onclick="gotoTab(1)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
-				<span>글 넣기</span>
+			<div class="left_menu">
+				<div class="this" id="menu1" onclick="gotoTab(1)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
+					<span>글 넣기</span>
+				</div>
+				<div class="menu" id="menu2" onclick="gotoTab(2)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
+					<span>찾기</span>
+				</div>
+				<div class="menu" id="menu3" onclick="gotoTab(3)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
+					<span>도움말</span>
+				</div>
 			</div>
-			<div class="menu" id="menu2" onclick="gotoTab(2)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
-				<span>찾기</span>
-			</div>
-			<div class="menu" id="menu3" onclick="gotoTab(3)" onmouseover="this.className+=' over'" onmouseout="this.className=this.className.replace(' over','')">
-				<span>도움말</span>
-			</div>
-			<div class="menu right_menu">
-				<a href="https://pat.im/910" target="_blank">ⓘ</a>
-			</div>
-			<div class="menu right_menu">
-				<a href="http://3beol.github.io" target="_blank"><span>3beol OHI</span></a>	
+			<div class="right_menu">
+				<div class="menu">
+					<a href="http://3beol.github.io" target="_blank"><span>3beol OHI</span></a>	
+				</div>
+				<div class="menu">
+					<a href="https://pat.im/910" target="_blank">ⓘ</a>
+				</div>
 			</div>
 		</div>
 
@@ -522,7 +530,7 @@
 	</div>
 
 	<div class="credit">
-		OHI original version was created by Ho-Seok Ee &lt;hsee@korea.ac.kr&gt;.<br />
+		<a href="https://ohi.pat.im/org">OHI original version</a> was created by Ho-Seok Ee &lt;hsee@korea.ac.kr&gt;.<br />
 		This version was modified by Pat-al &lt;pat@pat.im&gt; (<a href="https://pat.im/910" target="_blank">https://pat.im/910</a>).<br />
 	</div>
 </div>
