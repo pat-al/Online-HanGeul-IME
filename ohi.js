@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/07/01
+ * Last Update : 2017/08/08
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -353,7 +353,7 @@ function ohiInsert(f,m,c) { // Insert
 	else {
 		var m=m||'0,0,0,0,0,0,0,0,0', i=c[0]+c[1]+c[2], j=c[3]+c[4]+c[5], k=c[6]+c[7]+c[8];
 		c=i&&j?0xac00+(i-(i<3?1:i<5?2:i<10?4:i<20?11:12))*588+(j-31)*28+k-(k<8?0:k<19?1:k<25?2:3):0x3130+(i||j||k);
-		
+
 		if(option.phonemic_writing && current_layout.type_name.substr(0,4)!='Sin3') {
 		// 풀어쓰기로 낱자 넣기
 			ohiInsert(f,0,32);
@@ -637,7 +637,7 @@ function ohiHangeul2(f,e,c) { // 2-Beolsik
 function seek_abbreviation(ieochigi_abbreviation_table, c1, c2) { // 줄임말 조합을 찾기 (이어치기 자판)
 	var i;
 	var chars=null;
-	
+
 	for(i=0; i<ieochigi_abbreviation_table.length; ++i) {
 		if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && ieochigi_abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2)) {
 			return ieochigi_abbreviation_table[i].chars;
@@ -661,7 +661,7 @@ function ohiHangeul3_abbreviation(f,e,c) { // 이어치기 세벌식 자판에�
 		if(ohiQ[6]) ch=ohiQ[6]+ohiQ[7];
 		else if(ohiQ[3]) ch=ohiQ[3]+ohiQ[4]+35;
 		else if(ohiQ[0]) ch=ohiQ[0]+ohiQ[1]+127;
-	
+
 		chars=seek_abbreviation(abbreviation_table, convert_into_unicode_hangeul_phoneme(ch), convert_into_unicode_hangeul_phoneme(cc));
 
 		if(chars) {
@@ -678,7 +678,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 	var layout=current_layout.layout;
 	var sublayout=null;
 	var extended_sign_layout=null;
-	
+
 	if(!abbriviation_processing_state) {
 		if(typeof current_layout.sublayout != 'undefined') sublayout = current_layout.sublayout;
 		if(typeof current_layout.extended_sign_layout != 'undefined') extended_sign_layout = current_layout.extended_sign_layout;
@@ -1195,7 +1195,8 @@ function Hangeul3_sign_ext(f,e,c) {
 	 && (((!ohiQ[0]&&!ohiQ[3] || ohiQ[3] || ohiQ[0]&&(c==0x2F || c==0x39) && Hangeul_SignExtKey1+Hangeul_SignExtKey2)
 	 && ((unicode_cheos.indexOf(prev_phoneme[0])<0&&unicode_ga.indexOf(prev_phoneme[0])<0&&unicode_ggeut.indexOf(prev_phoneme[0])<0) || unicode_ga.indexOf(prev_phoneme[0])>=0 || unicode_ggeut.indexOf(prev_phoneme[0])>=0)))
 	) { // 나머지 공세벌식 자판의 기호 확장 글쇠가 눌린 횟수 더하기
-		if(ohiRQ[3]) {
+		if(ohiRQ[3] && !ohiQ[4] && !ohiQ[6] && (ohiQ[3]==39 || ohiQ[3]==44)) {
+			// 받침이 들어가지 않은 때에 오른쪽 ㅗ 또는 ㅜ 자리 글쇠가 두 번 눌리면 ㅗ 또는 ㅜ를 지움 (첫소리 다음에 확장 기호를 넣기 위함)
 			ohiRQ[3]=0;
 			ohiHangeul_backspace(f,e);
 		}
