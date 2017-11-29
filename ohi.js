@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/10/12
+ * Last Update : 2017/11/29
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -698,8 +698,9 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 		return 0;
 	}
 
-	if(cc>0 && cc<158 && !(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2 && extended_sign_layout)) {
+	if( (cc>64 && cc<91 || cc>96 && cc<123) && !(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2 && extended_sign_layout)) {
 	// 아스키 영역의 영문자들을 한글 낱자로 처리하지 않고 그대로 넣기 위함 (기호 확장 배열을 쓰지 않을 때)
+		if(prev_phoneme.length)	complete_hangeul_syllable(f);
 		ohiInsert(f,0,cc);
 		return cc;
 	}
