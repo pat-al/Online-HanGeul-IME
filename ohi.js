@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/11/29
+ * Last Update : 2017/12/05
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -560,7 +560,7 @@ function ohiRoman(f,e,c) { // Roman keyboard basic_layouts (Dvorak, Colemak)
 }
 
 function ohiHangeul2(f,e,c) { // 2-Beolsik
-	if((Ko_type.indexOf('KSX5002')>=0 || Ko_type=='KPS9256') && (c<65 || (c-1)%32>25)) {
+	if((Ko_type.indexOf('KSX5002')>=0 || Ko_type=='2-KPS9256') && (c<65 || (c-1)%32>25)) {
 		ohiInsert(f,0,c);
 		return;
 	}
