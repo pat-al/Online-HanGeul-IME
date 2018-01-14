@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2017/12/05
+ * Last Update : 2018/01/14
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1503,7 +1503,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 	return cc;
 }
 
-function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리
+function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
 	var i,j,cc,cc2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
@@ -1515,7 +1515,7 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 
 	if(no_shift(c)) {
 		cc=convert_into_unicode_hangeul_phoneme(Sin3_layout[c-33]);
-		cc2=convert_into_unicode_hangeul_phoneme(Sin3_layout[c-33-32]);	// 윗글 자리
+		cc2=convert_into_unicode_hangeul_phoneme(Sin3_layout[c-33-32]);	 // 윗글 자리
 	}
 	else {		
 		cc=convert_into_unicode_hangeul_phoneme(Sin3_layout[c-33]);
@@ -1550,14 +1550,14 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 		cc=-Sin3_sublayout[c-33];
 	}
 	else if(!no_shift(c) && prev_phoneme.length && unicode_cheos.indexOf(prev_phoneme[0])>=0 && unicode_ga.indexOf(cc)>=0 && unicode_ggeut.indexOf(cc2)>=0) {
-	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음
+	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음 (미완성 낱내 조합)
 		cc=cc2;
 	}
-	/*else if(!no_shift(c) && prev_phoneme.length && unicode_cheos.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc)>=0 || unicode_ga.indexOf(Sin3_sublayout[c-33-16])>=0)) {
+	else if(!no_shift(c) && prev_phoneme.length && unicode_cheos.indexOf(prev_phoneme[0])>=0 && (unicode_ga.indexOf(cc)>=0 || unicode_ga.indexOf(Sin3_sublayout[c-33-16])>=0)) {
 	// 첫소리만 들어갔고, 오른손 쪽의 홀소리가 있는 첫소리 글쇠를 윗글쇠와 함께 눌렀을 때 첫소리를 넣음
 		cc=cc2;
 		if(c==63) cc=Sin3_layout[c-33-16]; // 빗금(/) 자리
-	}*/
+	}
 	else if(option.enable_Sin3_diphthong_key && c==47 && prev_phoneme.length && unicode_cheos.indexOf(prev_phoneme[0])>=0) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		cc=-0x1169;
