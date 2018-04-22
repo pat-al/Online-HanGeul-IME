@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/04/19
+ * Last Update : 2018/04/23
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -174,8 +174,8 @@ var shiftlock_click = 0; // 배열표에서 Shift Lock을 누른 상태
 var browser = '', browser_ver = 0, nu = navigator.userAgent;
 var dkey, ukey;
 
-var pressed_keys = []; // 함께 눌려 있는 글쇠들의 값
-var pressing_keys = 0; // 함께 눌려 있는 글쇠 수
+var pressed_keys = []; // 모아친 글쇠들의 값
+var pressing_keys = 0; // 눌려 있는 글쇠 수
 var prev_phoneme = []; // 조합하고 있는 한글 낱내에 들어간 낱자들을 담는 배열 (글쇠 기준)
 var prev_combined_phoneme = []; // 조합하고 있는 한글 낱내의 조합된 낱자들을 담는 배열
 var prev_phoneme_R = []; // 조합하고 있는 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
@@ -928,7 +928,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 	var pressed_chars = [];
 	var temp_pressed_chars = [];
-	var special_keys = [32,13,8]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8)
+	var special_keys = [32,13,8/*,16*/]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8), 윗글쇠(16)
 
 	var chars=[];
 	var cheos = [], ga = [], ggeut = [];
@@ -941,6 +941,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	var necessary_backspaces_sign=0;
 
 	for(i=0;i<pressed_keys.length;++i) {
+		// 특수 글쇠를 추림
 		if(special_keys.indexOf(pressed_keys[i])>=0) {
 			if(!i) front_special.push(pressed_keys[0]);
 			else rear_special.push(pressed_keys[i]);
@@ -2762,15 +2763,10 @@ function ohiKeypress(e) {
 			key_pressed=1;
 
 			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) {
+				pressed_key_accumulation(f,e,c);
 				if(e.shiftKey) {
-				// 모아치기 자판이면서 윗글쇠가 함께 눌렸다면 이미 들어간 글쇠 정보를 먼저 처리하고 새로 넣음
-					ohiHangeul3_moa(f,e);
-					pressing_keys=0;
-					pressed_keys=[];
-					ohiHangeul3(f,e,c);
 				}
 				else {
-					pressing_key_acumulation(f,e,c);
 				}
 			}
 			else {
@@ -2821,7 +2817,7 @@ function ohiKeydown(e) {
 			tableKey_press(e.keyCode);
 			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) {
 				if(e.preventDefault) e.preventDefault();
-				pressing_key_acumulation(f,e,c);
+				pressed_key_accumulation(f,e,c);
 				onkeyup_skip=0;
 				return false;
 			}
@@ -2841,7 +2837,7 @@ function ohiKeydown(e) {
 			tableKey_press(e.keyCode);
 			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) {
 				if(e.preventDefault) e.preventDefault();
-				pressing_key_acumulation(f,e,c);
+				pressed_key_accumulation(f,e,c);
 				esc_ext_layout();
 				return false;
 			}
@@ -2855,7 +2851,7 @@ function ohiKeydown(e) {
 			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) {
 				if(!pressing_keys) return false;
 				if(e.preventDefault) e.preventDefault();
-				pressing_key_acumulation(f,e,c);
+				pressed_key_accumulation(f,e,c);
 				backspaces_for_restoring_prev_state=0;
 				onkeyup_skip=0;
 				return false;
@@ -2888,10 +2884,13 @@ function ohiKeydown(e) {
 */
 		if(e.keyCode==16) { // shift
 			if(KE=='Ko' && Ko_type=='2-Gaon26KM') {
-				pressing_key_acumulation(f,e,c);
+				pressed_key_accumulation(f,e,c);
 				tableKey_press(e.keyCode);
 			}
 			if(KE=='Ko' && Ko_type=='4t-1985') {
+				tableKey_press(e.keyCode);
+			}
+			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) {
 				tableKey_press(e.keyCode);
 			}
 		}
@@ -2916,14 +2915,14 @@ function ohiKeyup(e) {
 	var e=e||window.event, f=e.target||e.srcElement;
 	var KE=ohi_KE.substr(0,2);
 	var exceptional_keys = [32,13,8,16]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8), 윗글쇠(16)
-
+	
 	if(onkeyup_skip || option.turn_off_OHI || (e.keyCode<47 && exceptional_keys.indexOf(e.keyCode)<0)) {
 	}
-	else if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {
-		if(pressing_keys && !--pressing_keys) {
+	else if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {	
+		if(e.keyCode==16 ||  pressing_keys && !--pressing_keys) { // 윗글쇠(16)를 떼었거나 모든 글쇠를 뗌 
 			ohiHangeul3_moa(f,e);
-			prev_ohiQ = ohiQ.slice(0);
 			pressed_keys=[];
+			pressing_keys=0;
 		}
 	}
 	else if(KE=='Ko' && Ko_type=='2-Gaon26KM') {
@@ -2944,14 +2943,12 @@ function ohiKeyup(e) {
 	if(f.id=='inputText') show_NCR();
 }
 
-function pressing_key_acumulation(f,e,c) {
-	if(!pressing_keys) {
-		//tableKey_press(0);
-	}
-		
+function pressed_key_accumulation(f,e,c) {
 	if(pressed_keys.length && pressed_keys[pressed_keys.length-1]==c) {
 	// 한 글쇠가 오래 눌려서 같은 문자가 들어왔을 때
-		pressing_key=0;
+		ohiHangeul3_moa(f,e);
+		pressed_keys=[];
+		pressing_keys=0;
 		backspaces_for_restoring_prev_state=0;
 		if(c==8) {
 			ohiHangeul_moa_backspace(f,e);
@@ -3071,7 +3068,7 @@ function tableKey_press(key) {
 		if(j==41 || j==52) continue;
 		key_td = document.getElementById('key'+j);
 		key_td.className = key_td.className.replace(/ clicked| pressed/,'');
-		if(key==dkey[j] || key==ukey[j] || (layout_name.substr(0,3)=='3m-' && !option.force_normal_typing && pressed_keys.indexOf(dkey[j])>=0)) {
+		if(key==dkey[j] || key==ukey[j] || (layout_name.substr(0,3)=='3m-' && !option.force_normal_typing && (pressed_keys.indexOf(dkey[j])>=0 || pressed_keys.indexOf(ukey[j])>=0))) {
 			key_td.className += ' pressed';
 		}
 
