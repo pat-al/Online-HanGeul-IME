@@ -5520,7 +5520,7 @@ function additional_keyboard_layout_table_info() {
 		0x00D7, /* 0x47 G: × */
 		0x00B7, /* 0x48 H: · */
 		0x2015, /* 0x49 I: ― */
-		-100,   /* 0x4A J: */
+		0x0000,  /* 0x4A J: */
 		0x0027, /* 0x4B K: apostrophe */
 		0x003B, /* 0x4C L: colon */
 		0x300F, /* 0x4D M: 』 */
@@ -6935,7 +6935,9 @@ function input_hangeul_combination_table_info() {
 	];
 	
 	K3_Semoe_2017_multikey_abbreviation_table = [
-		{keys: ['u','w'], chars: [0x11b8,0x1102,0x1175,0x1103,0x1161]}, /* ㅂ니다 */
+		{keys: ['J','K'], chars: [-1]}, /* 기호 확장 상태 ① */
+		{keys: ['J','L'], chars: [-2]}, /* 기호 확장 상태 ② */
+		{keys: ['J',':'], chars: [-3]}, /* 기호 확장 상태 ③ */
 		{keys: ['k','u'], chars: [0x1100,0x1173,0x1105,0x1165,0x1102,0x1161]}, /* 그러나 */
 		{keys: [',','u','w'], chars: [0x11b8,0x1102,0x1175,0x1103,0x1161,0x2e,0x20]}, /* ㅂ니다. */
 		{keys: ['j','w'], chars: [0x110b,0x1175,0x11b8,0x1102,0x1175,0x1103,0x1161,0x2e,0x20]}, /* 입니다. */

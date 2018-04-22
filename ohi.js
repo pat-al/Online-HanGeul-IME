@@ -928,7 +928,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 	var pressed_chars = [];
 	var temp_pressed_chars = [];
-	var special_keys = [32,13,8/*,16*/]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8), 윗글쇠(16)
+	var special_keys = [32,13,8]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8)
 
 	var chars=[];
 	var cheos = [], ga = [], ggeut = [];
@@ -951,7 +951,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	}
 
 	if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && Hangeul_SignExtKey1) {
-	// 기호 확장 배열에서 기호를 넣음
+		// 기호 확장 배열에서 기호를 넣음
 		if(pressed_keys.length==1 && Hangeul3_sign_ext(f,e,pressed_keys[0])) return;
 		if(pressed_keys.length>1) esc_ext_layout();
 	}
@@ -967,6 +967,11 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			}
 
 			if(j!=combination_table[i].keys.length) continue;
+			if(combination_table[i].chars.length==1 && combination_table[i].chars[0]<0) {
+				// 기호 확장 배열 상태로 들어감
+				Hangeul3_sign_ext(f,e,combination_table[i].chars[0]);
+				return;
+			}
 			insert_chars(f,combination_table[i].chars);
 			return;
 		}
@@ -1139,7 +1144,7 @@ function insert_chars(f,chars) { // 여러 문자를 넣음 (줄임말을 넣을
 function Hangeul3_sign_ext(f,e,c) {
 	if(!option.enable_sign_ext || current_layout.extended_sign_layout === undefined || current_layout.extended_sign_layout == null) return 0;
 
-	if(Ko_type.substr(0,3)=='3m-') {
+	if(Ko_type.substr(0,3)=='3m-') { // 세모이 자판을 비롯한 모아치기 자판
 		c1=current_layout.layout[c-33];
 		if(Hangeul_SignExtKey1>0) {
 		// 기호 확장 배열에서 기호를 넣음
@@ -1148,22 +1153,11 @@ function Hangeul3_sign_ext(f,e,c) {
 			esc_ext_layout();
 			return 1;
 		}
-		else if(c1<0) {
+		else if(c<0 && c>-4) {
 		// 기호 확장 배열로 들어감
-			Hangeul_SignExtKey1=c1;
+			Hangeul_SignExtKey1=-c;
 			show_keyboard_layout();
 			return 1;
-		}
-		else if(Hangeul_SignExtKey1<0) {
-			// 기호 확장 배열 상태에서 다음 상태(기호를 넣을 확장 배열)를 결정함
-			if(c==75) Hangeul_SignExtKey1=1;
-			else if(c==76) Hangeul_SignExtKey1=2;
-			else if(c==58) Hangeul_SignExtKey1=3;
-
-			if(Hangeul_SignExtKey1>0) {
-				show_keyboard_layout();
-				return 1;
-			}
 		}
 		esc_ext_layout();
 		return 0;
@@ -2377,11 +2371,9 @@ function show_keyboard_layout(type) {
 		}
 
 		if(option.enable_sign_ext) {
-			document.getElementById('uh35').innerHTML = sign_ext_tag;
-			if(Hangeul_SignExtKey1<0) {
-				for(i=0;i<3;++i)
-					document.getElementById('uh'+(36+i)).innerHTML = '<span style="padding:0 1px;background:black;color:#fff;font-size:10px;">'+String.fromCharCode(0x2460+i)+'</span>';
-			}
+			document.getElementById('de35').innerHTML = sign_ext_tag;
+			for(i=0;i<3;++i)
+				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 1px;background:black;color:#fff;font-size:10px;">'+String.fromCharCode(0x2460+i)+'</span>';
 		}
 	}	
 
