@@ -952,7 +952,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 	if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && Hangeul_SignExtKey1) {
 		// 기호 확장 배열에서 기호를 넣음
-		if(pressed_keys.length==1 && Hangeul3_sign_ext(f,e,pressed_keys[0])) return;
+		if(Hangeul3_sign_ext(f,e,pressed_keys[0])) pressed_keys.splice(0,1);
 		if(pressed_keys.length>1) esc_ext_layout();
 	}
 
@@ -1157,7 +1157,7 @@ function Hangeul3_sign_ext(f,e,c) {
 		// 기호 확장 배열로 들어감
 			Hangeul_SignExtKey1=-c;
 			show_keyboard_layout();
-			return 1;
+			return 0;
 		}
 		esc_ext_layout();
 		return 0;
