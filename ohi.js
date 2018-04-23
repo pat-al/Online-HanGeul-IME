@@ -2911,8 +2911,9 @@ function ohiKeyup(e) {
 	if(onkeyup_skip || option.turn_off_OHI || (e.keyCode<47 && exceptional_keys.indexOf(e.keyCode)<0)) {
 	}
 	else if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {	
-		if(e.keyCode==16 ||  pressing_keys && !--pressing_keys) { // 윗글쇠(16)를 떼었거나 모든 글쇠를 뗌 
-			ohiHangeul3_moa(f,e);
+		if(e.keyCode==16 ||  pressing_keys && !--pressing_keys) { // 윗글쇠(16)를 떼었거나 모든 글쇠를 뗌
+			while(pressed_keys.indexOf(16)>=0) pressed_keys.splice(pressed_keys.indexOf(16),1);
+			if(pressed_keys.length) ohiHangeul3_moa(f,e);
 			pressed_keys=[];
 			pressing_keys=0;
 		}
