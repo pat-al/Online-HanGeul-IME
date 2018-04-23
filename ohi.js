@@ -155,7 +155,7 @@ var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자를 �
 var ohiRQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 요즘한글 낱자의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
 var backup_ohiQ = []; // 요즘한글에서 옛한글 상태로 바뀔 때에 복사해 두는 배열
 var backup_ohiRQ = [];
-var backspaces_for_restoring_prev_state = 0; // 모아치기 자판이나 줄임말 기능을 쓸 때 바로 앞선 상태로 돌아가는 데에 필요한 되걸음쇠 타수
+var backspaces_for_restoring_prev_state = 0; // 모아치기 자판이나 줄임말 기능을 쓸 때 바로 앞선 상태로 돌아가는 데에 필요한 뒷걸음쇠 타수
 var abbriviation_processing_state = 0; // 줄임말 처리를 하고 있는지
 
 var ohiStatus = document.createElement('div');
