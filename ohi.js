@@ -40,7 +40,6 @@ var default_ohi_KBD_type = 'QWERTY';
 var default_ohi_KE = 'Ko';
 
 var default_enable_double_final_ext = 0;
-var default_enable_diphthong_ext = 0;
 var default_enable_sign_ext = 1;
 var default_force_normal_typing = 0;
 var default_only_CGG_encoding = 0;
@@ -108,7 +107,6 @@ function basic_layout_list() {
 
 function option() {
 	var enable_double_final_ext; // 겹받침 확장 배열 쓰기 --> ohiChange_enable_double_final_ext() 함수로 값을 바꿈
-	var enable_diphthong_ext; // 겹홀소리 확장 배열 쓰기 --> ohiChange_enable_diphthong_ext() 함수로 값을 바꿈
 	var enable_sign_ext; // 세벌식 자판의 기호 확장 배열 쓰기 --> ohiChange_enable_sign_ext() 함수로 값을 바꿈
 	var force_normal_typing; // 모아치기 자판을 이어치기(일반 타자법)로 치게 하기
 	var only_CGG_encoding; // 옛한글 자판에서 첫가끝 부호 체계만 쓰기
@@ -131,7 +129,6 @@ function NCR_option() {
 
 var option=new option();
 option.enable_double_final_ext = default_enable_double_final_ext;
-option.enable_diphthong_ext = default_enable_diphthong_ext;
 option.enable_sign_ext = default_enable_sign_ext;
 option.force_normal_typing = default_force_normal_typing;
 option.only_CGG_encoding = default_only_CGG_encoding;
@@ -1420,10 +1417,6 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		c1=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]);
 		ohiRQ[3]=1;
 	}
-	/*else if(option.enable_diphthong_ext && no_shift(c) && ohiQ[0] && !ohiQ[3] && Sin3_sublayout && unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(Sin3_sublayout[c-33]))>=0) {
-	// 첫소리가 들어갔고 가운뎃소리가 들어가지 않았을 때 보조 배열(sublayout)에서 홀소리를 넣음 (겹홀소리 확장)
-		c1=convert_into_ohi_hangeul_phoneme(Sin3_sublayout[c-33]);
-	}*/
 	else if(c==47 && ohiQ[0] && !ohiQ[3]) {
 	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		c1=74;
@@ -1831,13 +1824,6 @@ function ohiChange_enable_double_final_ext(op) {
 }
 
 
-function ohiChange_enable_diphthong_ext(op) {
-	if(op===undefined || op==1) option.enable_diphthong_ext=1;
-	else option.enable_diphthong_ext=0;
-
-	show_keyboard_layout();
-}
-
 function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
 	if(typeof op != 'undefined') {
 		if(op) option.enable_NCR=1;
@@ -1934,14 +1920,6 @@ function show_options() {
 		) opt.style.display = 'block';
 		else opt.style.display = 'none';
 			
-		opt = document.getElementById('option_enable_diphthong_ext');
-		if(!opt) opt = appendChild(opts,'div','option','option_enable_diphthong_ext','<div class="option"><input name="enable_diphthong_ext" class="checkbox" onclick="ohiChange_enable_diphthong_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_diphthong_ext ? ' checked="checked"' : '') + '><label>겹홀소리 확장</label></div>');
-		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined'
-		 && !(type_name.substr(0,4)=='Sin3' && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined')
-		 && current_layout.sublayout.indexOf(0x116A)>=0
-		) opt.style.display = 'block';
-		else opt.style.display = 'none';
-
 		opt = document.getElementById('option_abbreviation');
 		if(!opt) opt = appendChild(opts,'div','option','option_abbreviation','<div class="option"><input name="abbreviation" class="checkbox" onclick="option.abbreviation=this.checked;inputText_focus()" type="checkbox"' + (option.abbreviation ? ' checked="checked"' : '') + '><label>줄임말 조합</label></div>');
 		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.ieochigi_abbreviation_table != 'undefined'
@@ -2297,17 +2275,7 @@ function show_keyboard_layout(type) {
 				else {
 					document.getElementById('de24').innerHTML = '<font size="1">'+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[79]))+'</font>';
 				}
-			}
-			
-			if(option.enable_diphthong_ext && typeof current_layout.sublayout != 'undeinfed' && current_layout.sublayout.indexOf(0x116A)>=0) {
-				// 쉼표, 마침표, 숫자(0~9) 자리의 겹낱자(홀소리) 확장 배열
-				var a=[[11,49],[13,50], [15,10],[16,1],[17,2],[18,3],[19,4],[20,5],[21,6],[22,7],[23,8],[24,9]];
-				for(i=0;i<a.length;++i) {
-					if(current_layout.sublayout[a[i][0]]) {
-						document.getElementById('dh'+a[i][1]).innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[a[i][0]]))+')</font>';
-					}
-				}
-			}
+			}			
 		}
 		
 		if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout) {
