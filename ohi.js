@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/04/26
+ * Last Update : 2018/04/27
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1750,8 +1750,7 @@ function push_extended_hangeul_layout_to_key_table(u,d,ext_layout) {
 }
 
 function push_extended_sign_layout_to_key_table(u,d,e) {
-	var ext=[], c, i, j=SignExt_state-1;
-	j=j%10;
+	var ext=[], c, i, j=(SignExt_state-1)%10;
 	if(j>=0) {
 		if(Ko_type=='3-2011' || Ko_type=='3-2012') {
 			if(j<3) {
@@ -1913,7 +1912,7 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_Sin3_diphthong_key');
-		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_diphthong_key','<div class="option"><input name="enable_Sin3_diphthong_key" class="checkbox" onclick="option.enable_Sin3_diphthong_key=this.checked;inputText_focus()" type="checkbox"' + (option.enable_Sin3_diphthong_key ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_diphthong_key','<div class="option"><input name="enable_Sin3_diphthong_key" class="checkbox" onclick="option.enable_Sin3_diphthong_key=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (option.enable_Sin3_diphthong_key ? ' checked="checked"' : '') + '><label>오른쪽 홀소리</label></div>');
 		if(option.enable_Sin3_yeshangeul_combination && type_name.substr(0,5)=='Sin3-' && typeof current_layout.extended_hangeul_combination_table != 'undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	
@@ -2273,7 +2272,7 @@ function show_keyboard_layout(type) {
 	}
 
 	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') {
-		if(!SignExt_state && typeof current_layout.sublayout != 'undefined') {
+		if( !SignExt_state && typeof current_layout.sublayout != 'undefined' && !(!option.enable_Sin3_diphthong_key && option.enable_Sin3_yeshangeul_combination && typeof current_layout.extended_hangeul_combination_table != 'undefined') ) {
 			// 빗금(/) 자리의 겹낱자 확장 배열 홀소리
 			if(current_layout.sublayout[14]) {
 				document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_phoneme(current_layout.sublayout[14]))+')</font>';
