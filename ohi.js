@@ -1,14 +1,14 @@
 /** Modified Version (http://ohi.pat.im)
 
- * Modifier : Pat-al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/04/23
+ * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
+ * Last Update : 2018/04/26
 
  * Added support for more keyboard basic_layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
  * Added support for Firefox 12 and higher version.
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
- * Added support for simultaneous input(moachigi) of some Hangeul keyboards.
+ * Added support for multi-key input (MoaChiGi).
 
 **/
 
@@ -263,7 +263,7 @@ function ohiHangeul_backspace(f,e) {
 	var i,j;
 	var KE=ohi_KE;
 
-	// Backspace (세벌식 기호 확장 배열 상태일 때)
+	// Backspace (기호 확장 배열 상태일 때)
 	if(option.enable_sign_ext && Hangeul_SignExtKey1+Hangeul_SignExtKey2) {
 		if(e.preventDefault) e.preventDefault();
 		if(Ko_type.substr(0,4)=='Sin3') ohiBackspace(f);
