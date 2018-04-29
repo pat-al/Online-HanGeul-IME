@@ -14,6 +14,7 @@
 		ohi_KE = 'Ko';  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
 	-->
 	</script>
+	<script type="text/javascript" src="keyboard_layouts.js"></script>
 	<script type="text/javascript" src="additional_layouts.js"></script>
 	<script type="text/javascript" src="ohi.js"></script>
 
@@ -224,10 +225,10 @@
 				</ul>
 				<div id="more_layouts_wrap">
 					<a id="more_layouts_link" class="layout_group_link" onclick="document.getElementById('more_layouts').style.display='inline';this.style.display='none';" href="javascript:void(0)">
-						【더 많은 한글 자판＋】
+						【주요 한글 자판＋】
 					</a>
 					<div id="more_layouts" class="layout_group_tab">
-						<a class="layout_group_link" onclick="var ml=document.getElementById('more_layouts');ml.style.display='none';getElementById('more_layouts_link').style.display='inline-block'" href="javascript:void(0)">【더 많은 한글 자판－】</a>
+						<a class="layout_group_link" onclick="var ml=document.getElementById('more_layouts');ml.style.display='none';getElementById('more_layouts_link').style.display='inline-block'" href="javascript:void(0)">【주요 한글 자판－】</a>
 						<ul>
 							<li>
 								두벌식 : 
@@ -247,15 +248,15 @@
 								공세벌식 응용 : 
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','3-93-y')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-93 옛한글</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','3-91_noshift')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-91 조합 순아래</kbd>,
-								<kbd class="menu" onclick="javascript:ohiChange('Ko','3-sun2014')" onmouseover="this.className='over'" onmouseout="this.className='menu'">순아래 2014</kbd>							
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','3-sun2014')" onmouseover="this.className='over'" onmouseout="this.className='menu'">순아래 2014</kbd>
 							</li>
 						</ul>
 						<ul>
 							<li>
 								신세벌식 : 
-								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-2003')" onmouseover="this.className='over'" onmouseout="this.className='menu'">박경남 수정</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-M')" onmouseover="this.className='over'" onmouseout="this.className='menu'">M</kbd>,								
-								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P2')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P2</kbd>
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P2')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P2</kbd>,
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-Gongdong')" onmouseover="this.className='over'" onmouseout="this.className='menu'">공동개발안</kbd>
 							</li>
 							<li>
 								모아치기 :	
@@ -301,7 +302,9 @@
 								신세벌식 :	
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-1995')" onmouseover="this.className='over'" onmouseout="this.className='menu'">1995</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-BGN')" onmouseover="this.className='over'" onmouseout="this.className='menu'">박경남</kbd>,
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-2003')" onmouseover="this.className='over'" onmouseout="this.className='menu'">박경남 수정</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-2012')" onmouseover="this.className='over'" onmouseout="this.className='menu'">2012</kbd>,
+								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">2015</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P</kbd>
 							</li>
 							<li>
@@ -357,14 +360,8 @@
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','3-GimGug_38A')" onmouseover="this.className='over'" onmouseout="this.className='menu'">김국 38A</kbd>,
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','314_gm')" onmouseover="this.className='over'" onmouseout="this.className='menu'">314</kbd>
 							</li>
-							<li>
-								신세벌식 : 
-								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-2015')" onmouseover="this.className='over'" onmouseout="this.className='menu'">2015</kbd>,
-								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-Gongdong')" onmouseover="this.className='over'" onmouseout="this.className='menu'">공동개발안</kbd>
-							</li>
 						</ul>
 					</div>
-
 				</div>
 			</div>
 
@@ -458,19 +455,19 @@
 					<li>
 						특정 자판 배열을 즐겨찾기에 넣어 바로 불러 쓸 수도 있습니다.<br />
  						영문 자판 :
- 						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','QWERTY')},1000)})()">QWERTY</a>,
- 						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','Dvorak')},1000)})()">Dvorak</a>,
- 						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('En','Colemak')},1000)})()">Colemak</a>
+ 						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('En','QWERTY')},1000)})()">QWERTY</a>,
+ 						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('En','Dvorak')},1000)})()">Dvorak</a>,
+ 						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('En','Colemak')},1000)})()">Colemak</a>
 						<br />
 						2벌식 자판 :
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KSX5002')},1000)})()">KSX5002</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','2-KPS9256')},1000)})()">KPS9256</a>
+						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','2-KSX5002')},1000)})()">KSX5002</a>,
+						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','2-KPS9256')},1000)})()">KPS9256</a>
 						<br />
 						3벌식 자판 :
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','Sin3-P2')},1000)})()">신세벌식 P2</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3m-Semoe')},1000)})()">세모이</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-90')},1000)})()">3-90</a>,
-						<a href="javascript:(function(s,t){s=document.createElement('script');t=document.createElement('script');s.type=t.type='text/javascript';if(typeof ohiStart=='undefined') {s.src='//ohi.pat.im/additional_layouts.js';document.body.appendChild(s);t.src='//ohi.pat.im/ohi.js';document.body.appendChild(t)}setTimeout(function(){ohiChange('Ko','3-P3')},1000)})()">3-P3</a>
+						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','Sin3-P2')},1000)})()">신세벌식 P2</a>,
+						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','3m-Semoe')},1000)})()">세모이</a>,
+						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','3-90')},1000)})()">3-90</a>,
+						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','3-P3')},1000)})()">3-P3</a>
 					</li>
 					<li>
 						오른쪽 아래에 나타나는 보람줄의 왼쪽에 있는 <kbd class="status" style="color:#Gold">&nbsp;KO&nbsp;</kbd> 또는 <kbd class="status" style="color:#Gold">&nbsp;EN&nbsp;</kbd>을 딸깍하여 한·영 상태를 바꿀 수도 있습니다.
@@ -481,12 +478,13 @@
 				<ul>
 					<li>
 						HTML 문서에 다음 내용을 끼워 넣으면 <strong>OHI</strong>가 작동합니다.<br />
-<pre><kbd>&lt;script type=&quot;text/javascript&quot;&gt;
+<pre><kbd>&lt;script&gt;
 	Ko_type = &quot;2-KSX5002&quot;;  // 한글 자판 (두벌식 표준)
 	En_type = &quot;QWERTY&quot;;  // 영문 자판 (쿼티)
 	ohi_KBD_type = &quot;QWERTY&quot;;  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
 	ohi_KE = &quot;Ko&quot;;  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
 &lt;/script&gt;
+&lt;script src=&quot;//ohi.pat.im/keyboard_layouts.js&quot;&gt; &lt;/script&gt;
 &lt;script src=&quot;//ohi.pat.im/additional_layouts.js&quot;&gt; &lt;/script&gt;
 &lt;script src=&quot;//ohi.pat.im/ohi.js&quot;&gt; &lt;/script&gt;</kbd></pre>
 					</li>
