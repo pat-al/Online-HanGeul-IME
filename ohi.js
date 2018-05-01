@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/04/28
+ * Last Update : 2018/05/01
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1806,7 +1806,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 	}
 
 	if(t && option.enable_NCR) {
-		t.style.display='block';
+		t.style.display='inline-block';
 		opt.style.display='block';
 	}
 	else {
