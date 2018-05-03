@@ -1,24 +1,30 @@
 /*
 ※ keyboard_layouts.js : 널리 쓰이거나 기능·배열에 주목할 면이 있는 자판 배열들을 모음
 ※ additional_layouts.js : 이제는 쓰이지 않거나 개선판이 나왔거나 연구 중인 자판 배열들을 모음
+
+※ 첫가끝 방식으로 옛한글을 조합하는 자판은 type_name 끝에 '-y'를 붙인다.
+※ 신세벌식 자판은 type_name 앞에 'Sin3-'를 붙인다.
+※ 갈마들이 방식을 쓰는 공병우식 자판은 type_name 끝에 '_gm'을 붙인다.
+※ 모아치기 방식으로 쓰는 세벌식 자판은 type_name 앞에 '3m-'를 붙인다.
+※ 타자기 자판은 벌 수 다음에 't-'를 붙인다. ('3t-', 4t-')
+※ 모아치기 자판의 보조 배열(sublayout)은 입력에 반영되지 않고 배열표에만 나타남
 */
 
 function keyboard_layout_info() {
-	var KE;	// 한글·영문 상태 (Ko:한글, En:영문)
+	var KE;	// 한글·영문 종류 (Ko:한글, En:영문)
 	var type_name;	// 자판 배열 이름 (OHI에서 쓰는 로마자 이름)
 	var full_name;	// 자판 배열 이름
 	var layout;	// 기본 배열
 	var sublayout;	// 덧붙여 쓰는 보조 배열
-	var extended_sign_layout; // 기호 확장 배열
 	var extended_hangeul_layout;	// 한글 확장 배열
-	var extended_hangeul_layout_type_name;	// 옛한글 확장 배열로 쓸 자판 배열의 이름 (extended_hangeul_layout 등을 지정하지 않을 때)
+	var extended_sign_layout; // 기호 확장 배열
 	var hangeul_combination_table;	// 한글 낱자 조합 규칙 (이어치기)
 	var hangeul_convenience_combination_table;	// 입력 편의를 높이려고 더해 쓰는 한글 낱자 조합 규칙 (이어치기)
-	var extended_hangeul_combination_table;	// 옛한글 낱자 조합 규칙 (이어치기)
-	var moachigi_hangeul_combination_table;	// 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
 	var ieochigi_hangeul_abbreviation_table;	// 낱자로 조합하는 이어치기 줄임말 규칙
+	var moachigi_hangeul_combination_table;	// 모아치기 자판의 한글 조합 규칙 (낱자 차례를 따지지 않음)
 	var moachigi_multikey_abbreviation_table;	// 글쇠로 조합하는 모아치기 줄임말 규칙 (모아치기 조합 규칙 가운데 가장 먼저 적용됨)
 	var moachigi_hangeul_abbreviation_table;	// 낱자로 조합하는 모아치기 줄임말 규칙
+	var old_hangeul_layout_type_name;	// 옛한글 자판으로 쓸 자판 배열 이름
 	var link;	// 자판 배열의 정보가 있는 웹 주소
 }
 
@@ -35,7 +41,7 @@ keyboard_layouts.push({KE: 'En', type_name: 'Colemak', full_name: 'Colemak', lay
 keyboard_layouts.push({KE: 'Ko', type_name: '2-KSX5002', full_name: '한국 표준 (KS X 5002)'});
 keyboard_layouts.push({KE: 'Ko', type_name: '2-KPS9256', full_name: '조선 국규 (KPS 9256)'});
 
-keyboard_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90 (IBM 세벌식)', layout: K3_90_layout, extended_hangeul_layout_type_name: '3-93-y', link: ''});
+keyboard_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90 (IBM 세벌식)', layout: K3_90_layout, old_hangeul_layout_type_name: '3-93-y', link: ''});
 keyboard_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판) (매킨토시 세벌식)', layout: K3_91_layout, link: ''});
 keyboard_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'https://pat.im/1128'});
 
@@ -44,7 +50,8 @@ keyboard_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조
 keyboard_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '안종혁 순아래 2014', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
-keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P2_sublayout, extended_hangeul_layout: K3_Sin3_P2_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, extended_hangeul_combination_table: K3_Sin3_P2_exceptional_yeshangeul_combination_table, link: 'https://pat.im/1136'});
+keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P2_sublayout, extended_sign_layout: K3_Sin3_extended_sign_layout, old_hangeul_layout_type_name: 'Sin3-P2-y', link: 'https://pat.im/1136'});
+keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글 조합', layout: K3_Sin3_P2_y_layout, sublayout: K3_Sin3_P2_sublayout, extended_sign_layout: K3_Sin3_extended_sign_layout, combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, moachigi_hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 keyboard_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2017)', layout: K3_Semoe_2017_layout, sublayout: K3_Semoe_2017_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_abbreviation_table: K3_Semoe_2017_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2017_moachigi_multikey_abbreviation_table, moachigi_hangeul_combination_table: K3_Semoe_2017_combination_table, moachigi_hangeul_abbreviation_table: K3_Semoe_2017_moachigi_hangeul_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
@@ -2139,8 +2146,8 @@ function input_combination_table_info() {
 		[0x11AF11AB,0x11B4]  /* jongseong lieul + nieun = lieul-tieut */
 	);
 
-	K3_Sin3_P2_exceptional_yeshangeul_combination_table = hangeul_combination_table_full.slice(0);
-	K3_Sin3_P2_exceptional_yeshangeul_combination_table.unshift(
+	K3_Sin3_P2_yeshangeul_combination_table = hangeul_combination_table_full.slice(0);
+	K3_Sin3_P2_yeshangeul_combination_table.unshift(
 		[0x11001109,0x1140], /* choseong gieug + siues = ssanggieug */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
 		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolinhieuh */
