@@ -15,9 +15,9 @@ function keyboard_layout_info() {
 	var type_name;	// 자판 배열 이름 (OHI에서 쓰는 로마자 이름)
 	var full_name;	// 자판 배열 이름
 	var layout;	// 기본 배열
-	var sublayout;	// 덧붙여 쓰는 보조 배열
-	var extended_hangeul_layout;	// 한글 확장 배열
-	var extended_sign_layout; // 기호 확장 배열
+	var sublayout;	// 보조 배열 (신세벌식 자판: 겹낱자 확장 배열) (세모이 자판: 배열표에만 나타냄)
+	var extended_hangeul_layout;	// 한글 확장 배열 (전환 글쇠를 누르고 씀)
+	var extended_sign_layout;	// 기호 확장 배열
 	var hangeul_combination_table;	// 한글 낱자 조합 규칙 (이어치기)
 	var hangeul_convenience_combination_table;	// 입력 편의를 높이려고 더해 쓰는 한글 낱자 조합 규칙 (이어치기)
 	var ieochigi_hangeul_abbreviation_table;	// 낱자로 조합하는 이어치기 줄임말 규칙

@@ -8,7 +8,7 @@
  * Added support for Firefox 12 and higher version.
  * Added the on-screen keyboard function.
  * Added support for old Hangeul combination by Syllable-Initial-Peak-Final Encoding Approach.
- * Added support for multi-key input (MoAChiGi).
+ * Added support for multi-key input (moachigi).
 
 **/
 
@@ -1240,7 +1240,7 @@ function CGG_yesHangeul(f,c,c1) {	// 세벌식 옛한글 처리
 	if(Ko_type.substr(-1)!='y') c1=convert_into_unicode_hangeul_phoneme(c1);
 
 	if(is_old_hangeul_input() && (Ko_type.substr(0,6)=='3-2011' || Ko_type.substr(0,6)=='3-2012' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
-	// 한글 확장 배열 처리
+	// 전환 글쇠를 쓰는 한글 확장 배열 처리
 		if(c==55 || c1==0x1168) {	// 첫째 한글 확장 글쇠(ㅖ 자리 글쇠)가 눌렸을 때
 			if(ohiHangeul3_HanExtKey%0x10==2 || ohiHangeul3_HanExtKey==0x11) { esc_ext_layout(); complete_hangeul_syllable(f); return false;}
 			if(ohiHangeul3_HanExtKey>0x10) {esc_ext_layout(); return false;}
@@ -1255,7 +1255,7 @@ function CGG_yesHangeul(f,c,c1) {	// 세벌식 옛한글 처리
 			return false;
 		}
 
-		if(ohiHangeul3_HanExtKey) {
+		if(ohiHangeul3_HanExtKey) { // 한글 확장 배열에서 넣기
 			layout = K3_2012y_extended_hangeul_layout;
 			c1=layout[c-33][ohiHangeul3_HanExtKey%0x10-1][ohiHangeul3_HanExtKey/0x10];
 			c1=layout[c-33][ohiHangeul3_HanExtKey%0x10-1][ohiHangeul3_HanExtKey>0x10 ? 1:0];
@@ -1349,7 +1349,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 	// 홀소리를 아랫글 자리에 두는 바꾼꼴 신세벌식 자판을 처리하기 위한 작업
 	if(no_shift(c) && ohi_ga.indexOf(c1)>=0 && (prev_phoneme.length || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
 		transform=1;
-		[c1,c2] = [c2,c1]
+		[c1,c2] = [c2,c1];
 	}
 
 	if(option.enable_sign_ext && sign_ext_state && Sin3_extended_sign_layout) {
@@ -1517,7 +1517,7 @@ function CGG_Hangeul_Sin3(f,e,c) { // 첫가끝 방식으로 조합하는 신세
 		c1=c2;
 	}	
 	else if(option.enable_Sin3_diphthong_key && c==47 && prev_phoneme.length && unicode_cheos.indexOf(prev_phoneme[0])>=0) {
-	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
+	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		c1=-0x1169;
 	}
 	else if((!prev_phoneme.length || unicode_ga.indexOf(prev_phoneme[0])<0) && (c==79 || c==80 || c==73) && (c1==0x1169/*ㅗ*/ || c1==0x116E/*ㅜ*/ || c1==0x1173/*ㅡ*/ || c1==0x119E/*ㆍ*/)) {
@@ -3083,15 +3083,15 @@ function tableKey_clicked(e, key_num, dk, uk){
 		return;
 	}
 
-	if(dk==-1) {	// 기준 자판 바꾸기 단추
+	if(dk==-1) { // 기준 자판 바꾸기 단추
 		ohiChange_KBD_type();
 		inputText_focus();
 	}
-	if(dk==-2) {
-		ohiChange_between_same_type('En'); // 영문 자판 바꾸기 단추
+	if(dk==-2) { // 영문 자판 바꾸기 단추
+		ohiChange_between_same_type('En');
 	}
-	if(dk==-3) {	// 
-		ohiChange_between_same_type('Ko'); // 한글 자판 바꾸기 단추
+	if(dk==-3) { // 한글 자판 바꾸기 단추
+		ohiChange_between_same_type('Ko');
 		inputText_focus();
 	}
 	if(dk==-11) {	// 3벌식 자판 바꾸기 단추
