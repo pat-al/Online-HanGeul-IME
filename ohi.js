@@ -320,11 +320,13 @@ function ohiInsert(f,m,c) { // Insert
 		var m=m||'0,0,0,0,0,0,0,0,0', i=c[0]+c[1]+c[2], j=c[3]+c[4]+c[5], k=c[6]+c[7]+c[8];
 		c=i&&j?0xac00+(i-(i<3?1:i<5?2:i<10?4:i<20?11:12))*588+(j-31)*28+k-(k<8?0:k<19?1:k<25?2:3):0x3130+(i||j||k);
 
-		if(option.phonemic_writing && current_layout.type_name.substr(0,4)!='Sin3') {
+		if(option.phonemic_writing) {
 		// 풀어쓰기로 낱자 넣기
-			ohiInsert(f,0,32);
-			ohiBackspace(f);
-			c=0x3130+(i||j||k);
+			if(current_layout.type_name.substr(0,5)!='Sin3-') {
+				ohiInsert(f,0,32);
+				ohiBackspace(f);
+				c=0x3130+(i||j||k);
+			}
 		}
 	}
 
@@ -784,7 +786,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 	if(Ko_type.substr(0,4)=='Sin3' && option.phonemic_writing && !prev_phoneme.length) {
 	// 신세벌식 자판으로 풀어쓰기 처리
 		if( (ohiQ[3] || ohiQ[6]) && (c1>127 && c1<158 && c1!=147 || ohi_hangeul_phoneme.indexOf(c1)<0) ) {
-			convert_syllable_into_phoneme(f);
+			convert_syllable_into_phonemes(f);
 		}
 	}
 
@@ -878,7 +880,7 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 	return 0;
 }
 
-function convert_syllable_into_phoneme(f) {
+function convert_syllable_into_phonemes(f) {
 	backup_ohiQ = ohiQ.slice(0);
 	ohiInsert(f,0,0);
 	ohiBackspace(f);
@@ -1346,7 +1348,7 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 	c1=convert_into_ohi_hangeul_phoneme(Sin3_layout[c-33]);
 	c2=convert_into_ohi_hangeul_phoneme(Sin3_layout[shift_table[c-33]-33]);
 
-	// 홀소리를 아랫글 자리에 두는 바꾼꼴 신세벌식 자판을 처리하기 위한 작업
+	// 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 신세벌식 자판을 함께 처리하기 위한 작업
 	if(no_shift(c) && ohi_ga.indexOf(c1)>=0 && (prev_phoneme.length || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
 		transform=1;
 		[c1,c2] = [c2,c1];
@@ -1358,7 +1360,6 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 		ohiBackspace(f);
 		ohiInsert(f,0,c1);
 		esc_ext_layout();
-
 		return -1;
 	}
 	else if(option.enable_sign_ext && !sign_ext_state && Sin3_extended_sign_layout && ohiQ[0]==150-92-35 && (c1==128 || c1==151 || c1==145) && !ohiQ[3] && !ohiQ[6]) {
@@ -1461,6 +1462,11 @@ function Hangeul_Sin3(f,e,c) { // 신세벌식
 	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 받침 처리
 		i=combine_unicode_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),convert_into_unicode_hangeul_phoneme(c1));
 		if(!i) c1=c2;
+	}
+
+	if(option.phonemic_writing && ohiQ[6] && c1<31 && !ohiDoubleJamo(2,ohiQ[6],c1)) {
+	// 풀어쓰기할 때 조합되지 않는 받침이 들어왔으면 조합하던 낱자들을 풀어 넣음
+		convert_syllable_into_phonemes(f);
 	}
 
 	if(!c1) {
@@ -2853,7 +2859,7 @@ function ohiKeydown(e) {
 		if(e.keyCode<45 && e.keyCode!=16) {
 			if(option.phonemic_writing && Ko_type.substr(0,4)=='Sin3' && (ohiQ[0]+ohiQ[3]+ohiQ[6])) {
 			// 신세벌식 자판으로 풀어쓰기
-				convert_syllable_into_phoneme(f);
+				convert_syllable_into_phonemes(f);
 			}
 			if(prev_phoneme.length) {	// 옛한글 자판
 				complete_hangeul_syllable(f);
