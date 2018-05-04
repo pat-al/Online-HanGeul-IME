@@ -2476,7 +2476,10 @@ function show_keyboard_layout_info() {
 					full_name = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).full_name;
 			}
 			if(typeof current_layout.full_name != 'undefined') name += full_name;
-			if(typeof current_layout.link != 'undefined' && current_layout.link) name += ' <a href="'+current_layout.link+'" target="_blank">ⓘ</a>';
+			if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined' && typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link != 'undefined')
+				name += ' <a href="'+find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link+'" target="_blank">ⓘ</a>';
+			else if(typeof current_layout.link != 'undefined' && current_layout.link)
+				name += ' <a href="'+current_layout.link+'" target="_blank">ⓘ</a>';
 		}
 
 		keyboardLayoutInfo.innerHTML = name;
@@ -2858,7 +2861,7 @@ function ohiKeydown(e) {
 
 		if(e.keyCode<45 && e.keyCode!=16) {
 			if(option.phonemic_writing && Ko_type.substr(0,4)=='Sin3' && (ohiQ[0]+ohiQ[3]+ohiQ[6])) {
-			// 신세벌식 자판으로 풀어쓰기
+			// 신세벌식 자판 풀어쓰기
 				convert_syllable_into_phonemes(f);
 			}
 			if(prev_phoneme.length) {	// 옛한글 자판
