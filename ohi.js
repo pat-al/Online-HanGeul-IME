@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/03
+ * Last Update : 2018/05/05
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -47,6 +47,7 @@ var default_enable_old_hangeul_input = 0;
 var default_enable_Sin3_diphthong_key = 1;
 var default_enable_adding_cheos_with_shift_key = 1;
 var default_phonemic_writing = 0;
+var default_phonemic_writing_in_single_phoneme = 1;
 var default_abbreviation = 0;
 var default_convenience_combination = 0;
 var default_sunalae = 0;
@@ -67,6 +68,7 @@ if(typeof ohi_KE != 'undefined') default_ohi_KE = ohi_KE; else ohi_KE = default_
 if(typeof enable_sign_ext != 'undefined') default_enable_sign_ext = enable_sign_ext;
 if(typeof force_normal_typing != 'undefined') default_force_normal_typing = force_normal_typing;
 if(typeof phonemic_writing != 'undefined') default_phonemic_writing = phonemic_writing;
+if(typeof phonemic_writing_in_single_phoneme != 'undefined') default_phonemic_writing_in_single_phoneme = phonemic_writing_in_single_phoneme;
 if(typeof square_layout != 'undefined') default_square_layout = square_layout;
 
 
@@ -101,6 +103,7 @@ option.enable_old_hangeul_input = default_enable_old_hangeul_input;
 option.enable_Sin3_diphthong_key = default_enable_Sin3_diphthong_key;
 option.enable_Sin3_adding_cheos_with_shift_key = default_enable_adding_cheos_with_shift_key;
 option.phonemic_writing = default_phonemic_writing;
+option.phonemic_writing_in_single_phoneme = default_phonemic_writing_in_single_phoneme;
 option.abbreviation = default_abbreviation;
 option.convenience_combination = default_convenience_combination;
 option.sunalae = default_sunalae;
@@ -321,7 +324,7 @@ function ohiInsert(f,m,c) { // Insert
 		c=i&&j?0xac00+(i-(i<3?1:i<5?2:i<10?4:i<20?11:12))*588+(j-31)*28+k-(k<8?0:k<19?1:k<25?2:3):0x3130+(i||j||k);
 
 		if(option.phonemic_writing) {
-		// 풀어쓰기로 낱자 넣기
+		// 풀어쓰기로 낱자 넣기 (신세벌식 자판이 아닐 때)
 			if(current_layout.type_name.substr(0,5)!='Sin3-') {
 				ohiInsert(f,0,32);
 				ohiBackspace(f);
@@ -484,6 +487,7 @@ function convert_into_unicode_hangeul_phoneme(c) {
 }
 
 function convert_into_compatibility_hangeul_phoneme(c) {
+// 호환 한글 자모로 바꾸기
 	c=convert_into_unicode_hangeul_phoneme(c);
 
 	yeshangeul_cheos = [0x1140,0x114C,0x1159];
@@ -514,6 +518,20 @@ function convert_into_compatibility_hangeul_phoneme(c) {
 	return c;
 }
 
+function convert_into_single_phonemes(combined_phoneme) {
+// 겹낱자를 홀낱자들로 바꿈
+	var i, single_phonemes=[];
+	combined_phoneme = convert_into_unicode_hangeul_phoneme(combined_phoneme);
+	combination_table = hangeul_combination_table_default;
+	for(var i=0; i<combination_table.length; ++i) {
+		if(combined_phoneme==combination_table[i][1]) {
+			single_phonemes[0]=parseInt(combination_table[i][0]/0x10000);
+			single_phonemes[1]=combination_table[i][0]%0x10000;
+			break;
+		}
+	}
+	return single_phonemes;
+}
 
 function no_shift(c) {	// 윗글쇠를 누르지 않고 치는 글쇠인지
 	if(c==0x27) return 1;
@@ -881,12 +899,37 @@ function ohiHangeul3(f,e,c) { // 세벌식 자판 - 낱자 단위 처리
 }
 
 function convert_syllable_into_phonemes(f) {
+// 낱내를 낱자로 풀어 넣기 (풀어쓰기)
+	var i,j,k;
+	var single_phonemes=[];
 	backup_ohiQ = ohiQ.slice(0);
+	//alert(backup_ohiQ);
 	ohiInsert(f,0,0);
 	ohiBackspace(f);
-	if(backup_ohiQ[0]) ohiInsert(f,0,0x3130+backup_ohiQ[0]+backup_ohiQ[1]+backup_ohiQ[2]);
-	if(backup_ohiQ[3]) ohiInsert(f,0,0x3130+backup_ohiQ[3]+backup_ohiQ[4]+backup_ohiQ[5]);
-	if(backup_ohiQ[6]) ohiInsert(f,0,0x3130+backup_ohiQ[6]+backup_ohiQ[7]+backup_ohiQ[8]);
+	//alert();
+	if(option.phonemic_writing_in_single_phoneme) {
+	// 겹낱자를 홑낱자로 풀어 넣기
+		for(i=0;i<3;++i) {
+			//if(convert_into_unicode_hangeul_phoneme(backup_ohiQ[i*3]+backup_ohiQ[i*3+1]+backup_ohiQ[i*3+2])==0x1171+i==1?35:0) alert();
+			//alert(convert_into_unicode_hangeul_phoneme(backup_ohiQ[i*3]+backup_ohiQ[i*3+1]+backup_ohiQ[i*3+2]));
+			single_phonemes = convert_into_single_phonemes(convert_into_unicode_hangeul_phoneme(backup_ohiQ[i*3]+backup_ohiQ[i*3+1]+backup_ohiQ[i*3+2]+(i==1?35:0)));
+			
+			if(single_phonemes.length) {
+				//alert(single_phonemes);
+				ohiInsert(f,0,convert_into_compatibility_hangeul_phoneme(single_phonemes[0]));
+				ohiInsert(f,0,convert_into_compatibility_hangeul_phoneme(single_phonemes[1]));
+				//ohiInsert(f,0,0x3130+convert_into_compatibility_ohi_phoneme(single_phonemes[0]));
+				//ohiInsert(f,0,0x3130+convert_into_compatibility_ohi_phoneme(single_phonemes[1]));
+				continue;
+			}
+			if(backup_ohiQ[i*3]) ohiInsert(f,0,0x3130+backup_ohiQ[i*3]+backup_ohiQ[i*3+1]+backup_ohiQ[i*3+2]);
+		}
+	} else {
+	// 겹낱자를 그대로 넣기
+		if(backup_ohiQ[0]) ohiInsert(f,0,0x3130+backup_ohiQ[0]+backup_ohiQ[1]+backup_ohiQ[2]);
+		if(backup_ohiQ[3]) ohiInsert(f,0,0x3130+backup_ohiQ[3]+backup_ohiQ[4]+backup_ohiQ[5]);
+		if(backup_ohiQ[6]) ohiInsert(f,0,0x3130+backup_ohiQ[6]+backup_ohiQ[7]+backup_ohiQ[8]);
+	}
 }
 
 function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
@@ -1239,7 +1282,7 @@ function CGG_yesHangeul(f,c,c1) {	// 세벌식 옛한글 처리
 		diphthong=1;
 	}
 
-	if(Ko_type.substr(-1)!='y') c1=convert_into_unicode_hangeul_phoneme(c1);
+	if(!is_old_hangeul_input()) c1=convert_into_unicode_hangeul_phoneme(c1);
 
 	if(is_old_hangeul_input() && (Ko_type.substr(0,6)=='3-2011' || Ko_type.substr(0,6)=='3-2012' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
 	// 전환 글쇠를 쓰는 한글 확장 배열 처리
@@ -1274,7 +1317,7 @@ function CGG_yesHangeul(f,c,c1) {	// 세벌식 옛한글 처리
 	if(typeof current_layout.hangeul_combination_table != 'undefined') combination_table=current_layout.hangeul_combination_table;
 
 	var combined_phoneme=combine_unicode_hangeul_phoneme(prev_combined_phoneme[0],c1);
-	
+
 	// 앞 낱자와 조합하지 않는 첫소리나 한글이 아닌 문자가 들어왔을 때에 조합을 끊고 앞 낱내를 요즘한글 방식 코드로 바꿈
 	if(!combined_phoneme&&unicode_cheos.indexOf(c1)>=0 || unicode_cheos.indexOf(c1)<0&&unicode_ga.indexOf(c1)<0&&unicode_ggeut.indexOf(c1)<0) {
 		if(unicode_cheos.indexOf(prev_phoneme[0])>=0) {
@@ -1686,8 +1729,7 @@ function hangeul_typewriter(f,c) { // 타자기 자판
 
 function is_old_hangeul_input() {
 	if(current_layout.type_name.substr(-2)=='-y') return true;
-	if(!option.enable_old_hangeul_input) return false;
-	if(typeof current_layout.old_hangeul_layout_type_name != 'undefined')	return true;
+	if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined')	return true;
 	return false;
 }
 
@@ -1878,7 +1920,7 @@ function show_options() {
 
 		opt = document.getElementById('option_enable_old_hangeul_input');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_old_hangeul_input','<div class="option"><input name="enable_old_hangeul_input" class="checkbox" onclick="option.enable_old_hangeul_input=this.checked;ohiChange_enable_old_hangeul_input();ohiStart();inputText_focus()" type="checkbox"' + (option.enable_old_hangeul_input ? ' checked="checked"' : '') + '><label title="옛한글 넣기">옛한글</label></div>');
-		if(typeof current_layout.old_hangeul_layout_type_name != 'undefined') opt.style.display = 'block';
+		if(typeof current_layout.old_hangeul_layout_type_name != 'undefined'&& !option.phonemic_writing) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_enable_Sin3_diphthong_key');
@@ -1918,8 +1960,13 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_phonemic_writing');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing','<div class="option"><input name="phonemic_writing" class="checkbox" onclick="option.phonemic_writing=this.checked;option.enable_old_hangeul_input=0;inputText_focus()" type="checkbox"' + (option.phonemic_writing ? ' checked="checked"' : '') + '><label title="한글을 낱자 단위로 풀어서 넣기">풀어쓰기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing','<div class="option"><input name="phonemic_writing" class="checkbox" onclick="option.phonemic_writing=this.checked;ohiChange_enable_phonemic_writing();inputText_focus()" type="checkbox"' + (option.phonemic_writing ? ' checked="checked"' : '') + '><label title="한글을 낱자 단위로 풀어서 넣기">풀어쓰기</label></div>');
 		if(!is_old_hangeul_input()) opt.style.display = 'block';
+		else opt.style.display = 'none';
+			
+		opt = document.getElementById('option_phonemic_writing_in_single_phoneme');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_single_phoneme','<div class="option"><input name="phonemic_writing_in_single_phoneme" class="checkbox" onclick="option.phonemic_writing_in_single_phoneme=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_single_phoneme ? ' checked="checked"' : '') + '><label title="모두 홑낱자로 풀기">겹낱자 풀기</label></div>');
+		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_sunalae');
@@ -2456,8 +2503,8 @@ function ohiStart() {
 function show_keyboard_layout_info() {
 	var KE=ohi_KE;
 	var kbd = ohi_KBD_type=='QWERTY' ? '' : ':'+ohi_KBD_type;
+	var name='', link='', keyboardLayoutInfo = document.getElementById('keyboardLayoutInfo');
 
-	var name='', keyboardLayoutInfo = document.getElementById('keyboardLayoutInfo');
 	if(keyboardLayoutInfo) {
 		if(KE=='En') {
 			name = '<strong>[영문' + kbd + ']</strong> ';
@@ -2470,16 +2517,22 @@ function show_keyboard_layout_info() {
 			if(current_layout.type_name.substr(0,1)=='2') beol = '2';
 			else if(current_layout.type_name.substr(0,1)=='4') beol = '4';
 			name = '<strong>[한글 ' + beol + '벌식' + kbd + ']</strong> ';
+
 			var full_name = current_layout.full_name;
 			if(is_old_hangeul_input()) {
 				if(typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).full_name != 'undefined')
 					full_name = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).full_name;
 			}
 			if(typeof current_layout.full_name != 'undefined') name += full_name;
-			if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined' && typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link != 'undefined')
-				name += ' <a href="'+find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link+'" target="_blank">ⓘ</a>';
+
+			if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined'
+			 && typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link != 'undefined'
+			 && find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link)
+				link = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).link;
 			else if(typeof current_layout.link != 'undefined' && current_layout.link)
-				name += ' <a href="'+current_layout.link+'" target="_blank">ⓘ</a>';
+				link = current_layout.link;
+
+			if(link) name += ' <a href="'+link+'" target="_blank">ⓘ</a>';
 		}
 
 		keyboardLayoutInfo.innerHTML = name;
@@ -2625,6 +2678,15 @@ function ohiChange_enable_old_hangeul_input(op) {
 	var f=document.getElementById('inputText');
 	if(f) complete_hangeul_syllable(f);
 	Sin3_hangeul_extension();
+	show_keyboard_layout(option.show_layout);
+}
+
+function ohiChange_enable_phonemic_writing(op) {
+	if(op=='off' && op=='0') option.enable_phonemic_writing = 0;
+	else option.enable_phonemic_writing = 1;
+
+	var f=document.getElementById('inputText');
+	if(f) complete_hangeul_syllable(f);
 	show_keyboard_layout(option.show_layout);
 }
 
