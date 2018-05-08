@@ -1942,18 +1942,50 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 }
 
 function show_options() {
-	var KE=ohi_KE;
+	var KE=ohi_KE, opts, opt;
+	var type_name = current_layout.type_name;
 	if(typeof ohi_menu_num == 'undefined') ohi_menu_num=0;
-	var opts = document.getElementById('top_options'), opt;
+	
+	var opts = document.getElementById('top_options')
 
 	if(opts) {
 		opts.style.display = 'block';
-		var type_name = current_layout.type_name;
 
 		opt = document.getElementById('option_turn_off_OHI');
-		if(!opt) opt = appendChild(opts,'div','option','option_turn_off_OHI','<div class="option"><input name="turn_off_OHI" class="checkbox" onclick="option.turn_off_OHI=this.checked;ohiStart();inputText_focus()" type="checkbox"' + (option.turn_off_OHI ? ' checked="checked"' : '') + '><label title="온라인 한글 입력기의 입력 기능 끄기">OHI 끔</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_turn_off_OHI','<div class="option"><input name="turn_off_OHI" class="checkbox" onclick="option.turn_off_OHI=this.checked;ohiStart();inputText_focus()" type="checkbox"' + (option.turn_off_OHI ? ' checked="checked"' : '') + '><label title="온라인 한글 입력기의 입력 기능 끄기">OHI 끄기</label></div>');
 		if(ohi_menu_num<3) opt.style.display = 'block';
 		else opt.style.display = 'none';
+
+		opt = document.getElementById('option_sunalae');
+		if(!opt) opt = appendChild(opts,'div','option','option_sunalae','<div class="option"><input name="sunalae" class="checkbox" onclick="option.sunalae=this.checked;inputText_focus()" type="checkbox"' + (option.sunalae ? ' checked="checked"' : '') + '><label title="홀소리 글쇠를 거듭 눌러 겹닿소리(된소리) 넣기">순아래 조합 <a href="https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae" target="_blank">ⓘ</a></label></div>');
+		if(!is_old_hangeul_input() && type_name.substr(0,2)=='2-' && type_name.substr(0,5)!='2-sun') opt.style.display = 'block';
+		else opt.style.display = 'none';
+
+		opt = document.getElementById('option_phonemic_writing');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing','<div class="option"><input name="phonemic_writing" class="checkbox" onclick="option.phonemic_writing=this.checked;ohiChange_enable_phonemic_writing();inputText_focus()" type="checkbox"' + (option.phonemic_writing ? ' checked="checked"' : '') + '><label title="한글을 낱자 단위로 풀어서 넣기">풀어쓰기</label></div>');
+		if(!is_old_hangeul_input()) opt.style.display = 'block';
+		else opt.style.display = 'none';
+			
+		opt = document.getElementById('option_phonemic_writing_in_single_phoneme');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_single_phoneme','<div class="option"><input name="phonemic_writing_in_single_phoneme" class="checkbox" onclick="option.phonemic_writing_in_single_phoneme=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_single_phoneme ? ' checked="checked"' : '') + '><label title="모두 홑낱자로 풀기">겹낱자 풀기</label></div>');
+		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
+		else opt.style.display = 'none';
+	
+		opt = document.getElementById('option_phonemic_writing_in_halfwidth_letter');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_halfwidth_letter','<div class="option"><input name="phonemic_writing_in_halfwidth_letter" class="checkbox" onclick="option.phonemic_writing_in_halfwidth_letter=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_halfwidth_letter ? ' checked="checked"' : '') + '><label title="모두 홑낱자로 풀기">반각 낱자</label></div>');
+		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
+		else opt.style.display = 'none';
+
+		opt = document.getElementById('option_only_CGG_encoding');
+		if(!opt) opt = appendChild(opts,'div','option','option_only_CGG_encoding','<div class="option"><input name="only_CGG_encoding" class="checkbox" onclick="option.only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.only_CGG_encoding ? ' checked="checked"' : '') + '><label title="모든 한글을 첫가끝 방식으로만 넣기">첫가끝으로만</label></div>');
+		if(is_old_hangeul_input()) opt.style.display = 'block';
+		else opt.style.display = 'none';
+	}
+	
+	opts = document.getElementById('middle_options');
+
+	if(opts) {
+		opts.style.display = 'block';
 
 		opt = document.getElementById('option_enable_sign_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_sign_ext','<div class="option"><input name="sign_extension" class="checkbox" onclick="ohiChange_enable_sign_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_sign_ext ? ' checked="checked"' : '') + '><label title="기호 확장 배열">기호 확장</label></div>');
@@ -1973,11 +2005,6 @@ function show_options() {
 		opt = document.getElementById('option_enable_Sin3_adding_cheos_with_shift_key');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_Sin3_adding_cheos_with_shift_key','<div class="option"><input name="enable_Sin3_adding_cheos_with_shift_key" class="checkbox" onclick="option.enable_Sin3_adding_cheos_with_shift_key=this.checked;inputText_focus()" type="checkbox"' + (option.enable_Sin3_adding_cheos_with_shift_key ? ' checked="checked"' : '') + '><label title="오른쪽 홀소리 자리에서 윗글쇠 눌러 첫소리 넣기">윗글 첫소리</label></div>');
 		if(type_name.substr(0,5)=='Sin3-' && is_old_hangeul_input()) opt.style.display = 'block';
-		else opt.style.display = 'none';
-			
-		opt = document.getElementById('option_only_CGG_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','option_only_CGG_encoding','<div class="option"><input name="only_CGG_encoding" class="checkbox" onclick="option.only_CGG_encoding=this.checked;inputText_focus()" type="checkbox"' + (option.only_CGG_encoding ? ' checked="checked"' : '') + '><label title="모든 한글을 첫가끝 방식으로만 넣기">첫가끝으로만</label></div>');
-		if(is_old_hangeul_input()) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_abbreviation');
@@ -1999,26 +2026,6 @@ function show_options() {
 		opt = document.getElementById('option_enable_double_final_ext');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_double_final_ext','<div class="option"><input name="enable_double_final_ext" class="checkbox" onclick="ohiChange_enable_double_final_ext(this.checked);inputText_focus()" type="checkbox"' + (option.enable_double_final_ext ? ' checked="checked"' : '') + '><label title="윗글쇠를 함께 누르거나 같은 글쇠를 거듭 눌러 겹받침 넣기">겹받침 확장</label></div>');
 		if(Ko_type.substr(0,3)!='3m-' && typeof current_layout.sublayout != 'undefined' && !is_old_hangeul_input() && current_layout.sublayout.indexOf(0x11AD)>=0) opt.style.display = 'block';
-		else opt.style.display = 'none';
-
-		opt = document.getElementById('option_phonemic_writing');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing','<div class="option"><input name="phonemic_writing" class="checkbox" onclick="option.phonemic_writing=this.checked;ohiChange_enable_phonemic_writing();inputText_focus()" type="checkbox"' + (option.phonemic_writing ? ' checked="checked"' : '') + '><label title="한글을 낱자 단위로 풀어서 넣기">풀어쓰기</label></div>');
-		if(!is_old_hangeul_input()) opt.style.display = 'block';
-		else opt.style.display = 'none';
-			
-		opt = document.getElementById('option_phonemic_writing_in_single_phoneme');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_single_phoneme','<div class="option"><input name="phonemic_writing_in_single_phoneme" class="checkbox" onclick="option.phonemic_writing_in_single_phoneme=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_single_phoneme ? ' checked="checked"' : '') + '><label title="모두 홑낱자로 풀기">겹낱자 풀기</label></div>');
-		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
-		else opt.style.display = 'none';
-	
-		opt = document.getElementById('option_phonemic_writing_in_halfwidth_letter');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_halfwidth_letter','<div class="option"><input name="phonemic_writing_in_halfwidth_letter" class="checkbox" onclick="option.phonemic_writing_in_halfwidth_letter=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_halfwidth_letter ? ' checked="checked"' : '') + '><label title="모두 홑낱자로 풀기">반각 낱자</label></div>');
-		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
-		else opt.style.display = 'none';
-
-		opt = document.getElementById('option_sunalae');
-		if(!opt) opt = appendChild(opts,'div','option','option_sunalae','<div class="option"><input name="sunalae" class="checkbox" onclick="option.sunalae=this.checked;inputText_focus()" type="checkbox"' + (option.sunalae ? ' checked="checked"' : '') + '><label title="홀소리 글쇠를 거듭 눌러 겹닿소리(된소리) 넣기">순아래 조합 <a href="https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae" target="_blank">ⓘ</a></label></div>');
-		if(!is_old_hangeul_input() && type_name.substr(0,2)=='2-' && type_name.substr(0,5)!='2-sun') opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
 
@@ -2065,7 +2072,7 @@ function show_keyboard_layout(type) {
 
 	if(ohi_menu_num>2) {
 		rows.style.display = 'none';
-		opts = document.getElementById('top_options');
+		opts = document.getElementById('middle_options');
 		opts.style.display = 'none';
 		opts = document.getElementById('bottom_options');
 		opts.style.display = 'none';

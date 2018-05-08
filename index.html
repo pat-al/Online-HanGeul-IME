@@ -81,7 +81,7 @@
 		div#manual a { margin-right:0.3em; }
 		div#manual ul { margin:0.8em 0; }
 		div#manual ul li { text-align:left; text-indent:-55px; padding-left:53px; word-break:keep-all; }
-		div#manual div#more_layouts_wrap { margin:0 0 0.8em 0; }
+		div#manual div#more_layouts_wrap { margin:0 0 0em 0; }
 		div#manual, div#tab1, div#tab2, div#tab3 { width:570px; }
 		div#tab2 { height:1px; overflow:hidden; visibility:hidden; }
 		div#tab2 #searchEngines { margin:14px auto; display:table; }
@@ -99,8 +99,9 @@
 		div.layout_group_tab { display:none; }
 		a.layout_group_link { text-decoration:none; color:#00b; }
 
-		#top_options { margin-right:0.5em; }
-		#top_options .option, #NCR_options .option, #NCR_options { float:right; }
+		#top_options { margin:0 0.5em 0 0; }
+		#middle_options { margin:0 0.5em 1.8em 0; }
+		#top_options .option, #middle_options .option, #NCR_options .option, #NCR_options { float:right; }
 		.option label { font-size:12px; }
 		.option label a { text-decoration:none; }
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
@@ -369,7 +370,7 @@
 					</div>-->
 				</div>
 			</div>
-
+			<div id="top_options"></div>
 			<div id="tab1">
 				<textarea id="inputText" rows="7"></textarea>
 			</div>
@@ -518,7 +519,7 @@
 				</ul>
 			</div>
 
-			<div id="top_options"></div>
+			<div id="middle_options"></div>
 			<div id="keyboardLayout"></div>
 			
 			<div id="NCR_options"></div>
