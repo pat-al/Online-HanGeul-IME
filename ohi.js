@@ -165,7 +165,7 @@ var ohiHangeul3_HanExtKey=0; // 한글 확장 글쇠가 눌린 상태
 
 var ohi_cheos, ohi_ga, ohi_ggeut, ohi_hotbadchim; // OHI에서 쓰는 요즘한글 첫·가·끝 낱자
 var unicode_CGG_hangeul_phoneme = [], unicode_cheos = [], unicode_ga = [], unicode_ggeut=[]; // 유니코드 한글 낱자, 유니코드 한글 첫·가·끝 낱자
-var unicode_modern_cheos = [], unicode_modern_ga = [], unicode_modern_ggeut = []; // 유니코드 요즘한글 첫·가·끝 낱자
+var unicode_modern_hangeul_phoneme= [], unicode_modern_cheos = [], unicode_modern_ga = [], unicode_modern_ggeut = []; // 유니코드 조합형 한글 낱자, 유니코드 조합형 요즘한글 첫·가·끝 낱자
 var compatibility_hangeul_phoneme = [], compatibility_cheos = [], compatibility_ga = [], compatibility_ggeut = []; // 유니코드 한글 호환 자모
 var halfwidth_cheos = [], halfwidth_ga = [], halfwidth_ggeut= [];
 
@@ -487,7 +487,7 @@ function combine_unicode_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱자 
 
 function complete_hangeul_syllable(f) {
 // 한글 낱내 조합을 끊음
-// option.only_CGG_encoding 값이 참이면 첫가끝 조합형 낱내를 유니코드 완성형 낱내로 바꿈
+// option.only_CGG_encoding 값이 참이면 첫가끝 조합형 낱내(NFD)를 유니코드 완성형 낱내(NFC)로 바꿈
 	if(typeof f == 'undefined' || !f) f = document.getElementById('inputText');
 	ohiSelection(f,0);
 	var i;
@@ -577,6 +577,37 @@ function convert_into_single_phonemes(combined_phoneme) {
 	}
 	return single_phonemes;
 }
+
+function convert_NFC_into_NFD(NFC_c) {
+	if(NFC_c<0xAC00 || NFC_c>0xD7A3) return false;
+	var i,j,k;
+	i=parseInt((NFC_c-0xAC00)/588)+0x1100;
+	j=parseInt((NFC_c-0xAC00)%588/28)+0x1161;
+	k=(NFC_c-0xAC00)%588%28+0x11A7;
+	k = k==0x11A7 ? 0 : k;
+	return [i,j,k];
+} 
+
+function convert_NFD_into_NFC(NFD_phonemes) {
+// 첫가끝 조합형 요즘한글 낱내 부호값(NFD)을 받아 유니코드 완성형 요즘한글 낱내 부호값(NFC)으로 돌려줌
+	var p=[], h,i,j,k;
+
+	if(NFD_phonemes.length>3 || NFD_phonemes.length<2) return false;
+	h = unicode_modern_cheos.indexOf(NFD_phonemes[0])<0 ? 0 : 1;
+
+	for(i=0;i<NFD_phonemes.length;++i) {
+	// p의 낱자 차례를 '첫+가' 또는 '첫+가+끝'으로 맞춤
+		j = h ? i : NFD_phonemes.length-i-1;
+		p[i]=NFD_phonemes[j];
+		if(unicode_modern_hangeul_phoneme.indexOf(p[i])<0) return false;
+	}
+
+	if(unicode_modern_cheos.indexOf(p[0])<0 || unicode_modern_ga.indexOf(p[1])<0) return false;
+	if(p.length==3 && unicode_modern_ggeut.indexOf(p[2])<0) return false;
+
+	return 0xac00+(p[0]-0x1100)*588+(p[1]-0x1161)*28+(p[2]-0x11A8);
+}
+
 
 function no_shift(key) {	// 윗글쇠를 누르지 않고 치는 글쇠인지
 	if(key==0x27) return 1;
@@ -1170,6 +1201,13 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 				for(j=0;j<a.length;++j)	chars.splice(i+j, !j?1:0, a[j]);
 			}
 		}
+	}
+
+	a = convert_NFC_into_NFD(chars[chars.length-1]);
+	if(a.constructor == Array && a[0] && a.length==3) {
+	// 줄임말 맨 마지막의 완성형 낱내(NFC)를 첫가끝 조합형 낱내(NFD)로 바꿈
+		chars.splice(chars.length-1, 1, a[0],a[1]);
+		if(a[2]) chars.push(a[2]);
 	}
 
 	for(i=0;i<chars.length;++i) {
@@ -2771,9 +2809,6 @@ function ohiChange_enable_old_hangeul_input(op) {
 }
 
 function ohiChange_enable_phonemic_writing(op) {
-//	var f=document.getElementById('inputText');
-//	if(f) complete_hangeul_syllable(f);
-
 	if(op=='off' || op=='0') option.enable_phonemic_writing = 0;
 	else option.enable_phonemic_writing = 1;
 	show_keyboard_layout(option.show_layout);
@@ -3325,6 +3360,7 @@ function ohi_code_tables() {
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheos.push(i++);
 	i=0x1161;	while(i<=0x1175) unicode_modern_ga.push(i++);
 	i=0x11A8;	while(i<=0x11C2) unicode_modern_ggeut.push(i++);
+	unicode_modern_hangeul_phoneme = unicode_modern_cheos.concat(unicode_modern_ga, unicode_modern_ggeut); // 유니코드 조합형 요즘한글 낱자
 
 	// 쿼티 자판 아랫글 배열 문자값
 	dkey = [96,49,50,51,52,53,54,55,56,57,48,45,61,8,
