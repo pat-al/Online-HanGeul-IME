@@ -50,7 +50,7 @@ var default_phonemic_writing = 0;
 var default_phonemic_writing_in_single_phoneme = 1;
 var default_phonemic_writing_in_halfwidth_letter = 0;
 var default_phonemic_writing_initial_ieung_ellipsis = 1;
-var default_phonemic_writing_adding_space_every_syllable = 0;
+var default_phonemic_writing_adding_space_every_syllable_end = 0;
 var default_abbreviation = 0;
 var default_convenience_combination = 0;
 var default_sunalae = 0;
@@ -87,7 +87,7 @@ function option() {
 	var phonemic_writing_in_single_phoneme; // 풀어쓰기: 겹낱자를 홑낱자로 풀기
 	var phonemic_writing_in_halfwidth_letter; // 풀어쓰기: 한글 낱자를 반각 문자로 넣기
 	var phonemic_writing_initial_ieung_ellipsis; // 풀어쓰기: 첫소리 ㅇ 넣지 않기
-	var phonemic_writing_adding_space_every_syllable; // 풀어쓰기: 낱내(음절)마다 빈칸 넣기
+	var phonemic_writing_adding_space_every_syllable_end; // 풀어쓰기: 낱내(음절)마다 빈칸 넣기
 	var abbreviation; // 이어치기 자판에서 줄임말 기능 쓰기
 	var convenience_combination; // 입력 편의를 높이는 추가 낱자 조합 쓰기
 	var sunalae; // 두벌식 자판 순아래 조합
@@ -113,7 +113,7 @@ option.enable_Sin3_adding_cheos_with_shift_key = default_enable_adding_cheos_wit
 option.phonemic_writing = default_phonemic_writing;
 option.phonemic_writing_in_single_phoneme = default_phonemic_writing_in_single_phoneme;
 option.phonemic_writing_initial_ieung_ellipsis = default_phonemic_writing_initial_ieung_ellipsis;
-option.phonemic_writing_adding_space_every_syllable = default_phonemic_writing_adding_space_every_syllable;
+option.phonemic_writing_adding_space_every_syllable_end = default_phonemic_writing_adding_space_every_syllable_end;
 option.abbreviation = default_abbreviation;
 option.convenience_combination = default_convenience_combination;
 option.sunalae = default_sunalae;
@@ -364,8 +364,7 @@ function ohiInsert(f,m,c) { // Insert
 		if(g>1 && h<2 || d) {
 			phoneme_input_state=1;
 			ohiQ = prev_ohiQ.slice();
-			//ohiInsert(f,0,32);
-			convert_syllable_into_phonemes(f,e);
+			if(ohiQ[0]+ohiQ[3]+ohiQ[6])	convert_syllable_into_phonemes(f,e);
 			ohiQ=[h&&i?i:0,0,0,h&&j?j:0,0,0,h&&k?k:0,0,0];
 			phoneme_input_state=0;
 		}
@@ -984,7 +983,6 @@ function convert_syllable_into_phonemes(f,e) {
 
 	if(option.phonemic_writing_initial_ieung_ellipsis) {
 	// 첫소리 ㅇ 넣지 않기
-		//if(convert_into_unicode_hangeul_phoneme(ohiQ[0]+ohiQ[1]+ohiQ[2])==0x110B) ohiQ[0]=ohiQ[1]=ohiQ[2]=0;
 		if(ohiQ[0]+ohiQ[1]+ohiQ[2]==23) ohiQ[0]=ohiQ[1]=ohiQ[2]=0;
 	}
 
@@ -1012,9 +1010,10 @@ function convert_syllable_into_phonemes(f,e) {
 		ohiInsert(f,0,c);
 	}
 
-	if(option.phonemic_writing_adding_space_every_syllable) {
-	// 낱내마다 빈칸 넣기
+	if(option.phonemic_writing_adding_space_every_syllable_end) {
+	// 낱내 뒤에 빈칸 넣기
 		ohiInsert(f,0,32);
+		if(backspaces_for_restoring_prev_state) ++backspaces_for_restoring_prev_state;
 	}
 }
 
@@ -1210,7 +1209,7 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 		chars.splice(chars.length-1, 1, a[0],a[1]);
 		if(a[2]) chars.push(a[2]);
 	}
-alert(chars);
+
 	for(i=0;i<chars.length;++i) {
 		if(unicode_CGG_hangeul_phoneme.indexOf(chars[i])>=0) {
 			for(j=0,k=0; j<ohiQ.length; ++j) {
@@ -2039,8 +2038,8 @@ function show_options() {
 		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
-		opt = document.getElementById('option_phonemic_writing_adding_space_every_syllable');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_adding_space_every_syllable','<div class="option"><input name="phonemic_writing_adding_space_every_syllable" class="checkbox" onclick="option.phonemic_writing_adding_space_every_syllable=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_adding_space_every_syllable ? ' checked="checked"' : '') + '><label title="낱내(음절)마다 반칸 넣기">낱내마다 빈칸</label></div>');
+		opt = document.getElementById('option_phonemic_writing_adding_space_every_syllable_end');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_adding_space_every_syllable_end','<div class="option"><input name="phonemic_writing_adding_space_every_syllable_end" class="checkbox" onclick="option.phonemic_writing_adding_space_every_syllable_end=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_adding_space_every_syllable_end ? ' checked="checked"' : '') + '><label title="낱내(음절)마다 반칸 넣기">낱내 뒤에 빈칸</label></div>');
 		if(option.phonemic_writing && !is_old_hangeul_input()) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
