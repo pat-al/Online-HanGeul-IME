@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/13
+ * Last Update : 2018/05/14
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -466,7 +466,7 @@ function complete_hangeul_syllable(f) {
 // option.only_NFD_hangeul_encoding=1 : 유니코드 완성형 낱내(NFC)로 첫가끝 조합형 낱내(NFD)로 바꿈
 
 	if(typeof f == 'undefined' || !f) f = document.getElementById('inputText');
-	//ohiSelection(f,0);
+	ohiSelection(f,0);
 	var c,i,j,k;
  
 	// 첫가끝(NFD) → 완성형(NFC)
@@ -3030,7 +3030,7 @@ function ohiKeydown(e) {
 			if(hangeul_stack.phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
 				if(e.keyCode==46) {
 					initialize_hangeul_stack();
-					ohiQ = ohiRQ =[0,0,0,0,0,0,0,0,0];
+					ohiQ = ohiRQ = [0,0,0,0,0,0,0,0,0];
 				}
 				prev_cursor_position = -1;
 				complete_hangeul_syllable(f);
