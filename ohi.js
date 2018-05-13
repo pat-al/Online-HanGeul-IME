@@ -164,6 +164,7 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 	else {
 		var bs_start = f.selectionStart;
 		var bs_end = f.selectionEnd;
+		if(!bs_end) return;
 		if(bs_start == bs_end) {
 			f.value = f.value.substr(0,bs_start-1)+f.value.substr(bs_end);
 			f.selectionStart=f.selectionEnd=bs_start-1;
@@ -465,7 +466,7 @@ function complete_hangeul_syllable(f) {
 // option.only_NFD_hangeul_encoding=1 : 유니코드 완성형 낱내(NFC)로 첫가끝 조합형 낱내(NFD)로 바꿈
 
 	if(typeof f == 'undefined' || !f) f = document.getElementById('inputText');
-	ohiSelection(f,0);
+	//ohiSelection(f,0);
 	var c,i,j,k;
  
 	// 첫가끝(NFD) → 완성형(NFC)
@@ -3027,13 +3028,27 @@ function ohiKeydown(e) {
 
 		if((e.keyCode>=35 && e.keyCode<=40) || e.keyCode==45 || e.keyCode==46) { // end(35), home(36), 화살표(37~40), insert(45), del(46)
 			if(hangeul_stack.phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
+				if(e.keyCode==46) {
+					initialize_hangeul_stack();
+					ohiQ = ohiRQ =[0,0,0,0,0,0,0,0,0];
+				}
+				prev_cursor_position = -1;
 				complete_hangeul_syllable(f);
 			}
 			esc_ext_layout();
 		}
-/*
+
 		if(e.keyCode==17) { // Ctrl
+			pressed_key_accumulation(f,e,key);
 		}
+		
+		if(e.keyCode==65 && pressed_keys.length==1 && pressed_keys[0]==17) { // Ctrl + a
+			pressed_keys = [];
+			pressing_keys=0;
+			complete_hangeul_syllable(f);
+		}
+		
+/*
 		if(e.keyCode==18) { // Alt
 		}
 		if(e.keyCode==91 || e.keyCode==93) { // menu
@@ -3062,8 +3077,7 @@ function ohiKeydown(e) {
 				complete_hangeul_syllable(f);
 			}
 			esc_ext_layout();
-			//prev_cursor_position = -1;
-			prev_sursor_positions = [-1];
+			prev_cursor_position = -1;
 			ohiInsert(f,0,0);
 		}
 	}
@@ -3074,7 +3088,7 @@ function ohiKeyup(e) {
 	var e=e||window.event, f=e.target||e.srcElement;
 	var KE=ohi_KE.substr(0,2);
 	var exceptional_keys = [32,13,8,16]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8), 윗글쇠(16)
-	
+
 	if(onkeyup_skip || option.turn_off_OHI || (e.keyCode<47 && exceptional_keys.indexOf(e.keyCode)<0)) {
 	}
 	else if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {	
