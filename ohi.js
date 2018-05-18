@@ -2848,14 +2848,14 @@ function Sin3_hangeul_extension() {
 	}
 }
 
-function ohiKeyswap(key,e) {
+function ohiKeyswap(e,key) {
 	var KE=ohi_KE;
-	var i=0, swaped = [];
+	var i=0, swaped=[];
 	if(ohi_KBD_type=='QWERTZ') swaped=[89,90,90,89,121,122,122,121];
 	if(ohi_KBD_type=='AZERTY') swaped=[65,81,81,65,87,90,90,87,97,113,113,97,119,122,122,119,77,58,109,59,44,109,58,46,59,44];
 
 	while(swaped[i] && swaped[i]!=key) i+=2;
-	if(i!=swaped.length) c=swaped[i+1];
+	if(i!=swaped.length) key=swaped[i+1];
 	if(KE!='En' || En_type!='QWERTY') {
 	// 영문 쿼티 자판이 아니면 Caps Lock이 적용되지 않게 함
 		if(key>64 && key<91 && !e.shiftKey) key+=32;
@@ -2872,7 +2872,7 @@ function ohiKeypress(e) {
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
 	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, key=e.which||e.which==0?e.which:e.keyCode;
 
-	key=ohiKeyswap(key,e);
+	key=ohiKeyswap(e,key);
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개 (enter) 또는 사이띄개 (space bar)
