@@ -1190,6 +1190,12 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	var necessary_backspaces_ggeut=0;
 	var necessary_backspaces_sign=0;
 
+	if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && sign_ext_state) {
+		// 기호 확장 배열에서 기호를 넣음
+		if(sign_layout_input(f,e,pressed_keys[0])) pressed_keys.splice(0,1);
+		if(pressed_keys.length>1) esc_ext_layout();
+	}
+
 	for(i=0;i<pressed_keys.length;++i) {
 		// 특수 글쇠를 추림
 		if(special_keys.indexOf(pressed_keys[i])>=0) {
@@ -1198,12 +1204,6 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			pressed_keys.splice(i,1);
 		}
 		else pressed_chars.push(convert_into_unicode_hangeul_phoneme(layout[pressed_keys[i]-33]));
-	}
-
-	if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && sign_ext_state) {
-		// 기호 확장 배열에서 기호를 넣음
-		if(sign_layout_input(f,e,pressed_keys[0])) pressed_keys.splice(0,1);
-		if(pressed_keys.length>1) esc_ext_layout();
 	}
 
 	if(typeof current_layout.moachigi_multikey_abbreviation_table != 'undefined') {
