@@ -7028,7 +7028,7 @@ function input_additional_combination_table_info() {
 		{keys: ['i','q','u'], chars: [0x110B,0x1175,0x11AB,0x1110,0x1165,0x1102,0x1166,0x11BA]}, /* 인터넷 */
 		{keys: ['g','k','m','q'], chars: [0x1100,0x1173,0x1105,0x1173,0x11BA]}, /* 그릇 */
 		{keys: ['k','m','q'], chars: [0x1100,0x1173,0x1105,0x1162,0x11BB]}, /* 그랬 */
-		{keys: ['s','u'], chars: [0x1102,0x1162,0x1102,0x1167,0x11AB]} /* 내년 */
+		{keys: ['s','u'], chars: [0x1102,0x1162,0x1102,0x1167,0x11AB]}, /* 내년 */
 	];
 
 	K3_Sin3_Gongdong_additional_combination_table = [
@@ -7074,9 +7074,15 @@ function input_additional_combination_table_info() {
 		{phonemes: [0x1112,0x11AB], chars: [0x1112,0x1161,0x110C,0x1175,0xB9CC,0x20]}, /* ㅎ *ㄴ : 하지만  */
 		{phonemes: [0x110C,0x1107], chars: [0x110C,0x1165,0x11BC,0x1107,0x116E]} /* ㅈㅂ : 정부 */
 	];
-	
+
 	K3_test_moachigi_hangeul_abbreviation_table = [
 		//{phonemes: [0x1109,0x11B8], chars: [0x1109,0x1173,0x11B8,0x1102,0x1175,0x1103,0x1161,0x2E,0x20]}, /* ㅅ *ㅂ : 습니다.  */
+	];
+	
+	K3_test_multikey_abbreviation_table = [
+		{keys: ['s','u'], keys: ['c'], chars: [0xB0B4,0xB144]}, /* 내년 */
+		{prev_keys: ['s','u'], keys: ['c'], chars: [0xB0B4,0xB144,0xC5D0]}, /* 내년에 */
+		{prev_keys: ['s','u'], keys: ['s','u'], chars: [0xB0B4,0xB144,0xC5D0]} /* 내년에 */
 	];
 
 } // input_additional_combination_table_info()

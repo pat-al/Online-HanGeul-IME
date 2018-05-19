@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/18
+ * Last Update : 2018/05/20
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -80,7 +80,7 @@ var backup_ohiQ = []; // 완성형 한글 낱내를 옛한글 상태로 바꿀 �
 var backup_ohiRQ = [];
 var backspacing_state = 0; // 뒷걸음쇠 처리를 하고 있는지를 알리는 상태 변수 (ohiInsert 함수에 알림)
 var prev_cursor_position = -1; // 앞선 상태의 가리키개 자리 (모아치기 자판이나 줄임말 기능으로 넣은 글을 한꺼번에 지울 때 쓰임)
-var abbriviation_processing_state = 0; // 줄임말 처리를 하고 있는지를 나타내는 변수
+var abbreviation_processing_state = 0; // 줄임말 처리를 하고 있는지를 나타내는 변수
 
 var ohiStatus = document.createElement('div');
 var ohiTimeout = 0;
@@ -100,7 +100,9 @@ var browser = '', browser_ver = 0, nu = navigator.userAgent;
 var dkey, ukey;
 
 var pressed_keys = []; // 모아친 글쇠들의 값
+var prev_pressed_keys = []; // 바로 앞에 모아친 글쇠들의 값
 var pressing_keys = 0; // 눌려 있는 글쇠 수
+var double_multikey_abbreviated_state = 0; // 줄여넣기를 두 차례 잇달아 했는지를 나타냄
 
 function NFD_stack() {
 	phoneme = []; // 글쇠로 친 첫가끝 낱자들을 겹낱자로 조합하지 않은 채로 담음 (마지막으로 넣은 낱자가 배열의 맨 앞에 들어감)
@@ -176,12 +178,13 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 }
 
 function ohiHangeul_moa_backspace(f,e) {
-	if(!f.selectionEnd) return;
-	if(prev_cursor_position>=0) {
-		while(f.selectionEnd && f.selectionEnd > prev_cursor_position) if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
-		prev_cursor_position = -1;
+	if(f.selectionEnd) {
+		if(prev_cursor_position>=0) {
+			while(f.selectionEnd && f.selectionEnd > prev_cursor_position) if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
+			prev_cursor_position = -1;
+		}
+		else if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
 	}
-	else if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
 	esc_ext_layout();
 	return 0;
 }
@@ -476,7 +479,7 @@ function complete_hangeul_syllable(f) {
 
 	ohiInsert(f,0,0);
 	initialize_NFD_stack();
-	if(!abbriviation_processing_state) prev_cursor_position = -1;
+	if(!abbreviation_processing_state) prev_cursor_position = -1;
 }
 
 function convert_into_ohi_hangeul_phoneme(c) {
@@ -762,17 +765,76 @@ function NFD_2set_hangeul_input(f,e,key) {
 	}
 }
 
-function seek_abbreviation(ieochigi_hangeul_abbreviation_table, c1, c2) { // 줄임말 조합을 찾기 (이어치기 자판)
+function seek_ieochigi_abbreviation(abbreviation_table, c1, c2) { // 줄임말 조합을 찾기 (이어치기 자판)
 	var i;
 	var chars=null;
 
-	for(i=0; i<ieochigi_hangeul_abbreviation_table.length; ++i) {
-		if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && ieochigi_hangeul_abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2)) {
-			return ieochigi_hangeul_abbreviation_table[i].chars;
+	for(i=0; i<abbreviation_table.length; ++i) {
+		if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2)) {
+			return abbreviation_table[i].chars;
 		}
 	}
 	return null;
 }
+
+function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판의 줄임말 조합을 찾기
+	var i,j,l=[];
+
+	for(i=0; i<abbreviation_table.length; ++i) {
+		if(double_multikey_abbreviated_state) {
+		// 줄여넣기 조합을 이미 두 차례 이어서 했을 때
+			if(typeof abbreviation_table[i].prev_keys != 'undefined' && abbreviation_table[i].prev_keys.length) continue;
+		}
+		
+		if(pressed_keys.length != abbreviation_table[i].keys.length) continue;
+
+		for(j=0;j<abbreviation_table[i].keys.length;++j) {
+			if(pressed_keys.indexOf(abbreviation_table[i].keys[j].charCodeAt(0))<0) break;
+		}
+		if(j!=abbreviation_table[i].keys.length) continue;
+
+		if(abbreviation_table[i].keys.length==1 && abbreviation_table[i].keys[0]<0) {
+		// 기호 확장
+			return abbreviation_table[i].chars;
+		}
+
+		if(typeof abbreviation_table[i].prev_keys == 'undefined' || !abbreviation_table[i].prev_keys.length) {
+			if(double_multikey_abbreviated_state) {
+			// 줄여넣기 조합을 이미 두 차례 이어서 했을 때
+				double_multikey_abbreviated_state = 0;
+				return abbreviation_table[i].chars;
+			}
+			
+			if(!prev_pressed_keys.length) {
+			// 이전 글쇠값 정보가 없을 때
+				return abbreviation_table[i].chars;
+			}
+		}
+		
+		if(!prev_pressed_keys.length && typeof abbreviation_table[i].prev_keys != 'undefined' && abbreviation_table[i].prev_keys.length) continue;
+
+		if(prev_pressed_keys.length && typeof abbreviation_table[i].prev_keys != 'undefined') {
+			if(prev_pressed_keys.length == abbreviation_table[i].prev_keys.length) {
+				for(j=0;j<prev_pressed_keys.length;++j) {
+					if(prev_pressed_keys.indexOf(abbreviation_table[i].prev_keys[j].charCodeAt(0))<0) break;
+				}
+				if(j==prev_pressed_keys.length) {
+				// 앞의 글쇠값과 맞을 때
+					prev_pressed_keys = [];
+					double_multikey_abbreviated_state = 1;
+					return abbreviation_table[i].chars;
+				}
+			}
+		}
+
+		// 앞의 글쇠값과 맞지 않을 때 후보로 넣음
+		l.push(i);
+	}
+
+	if(l.length) return abbreviation_table[l[0]].chars;
+	else return [];
+}
+
 
 function ohiHangeul3_abbreviation(f,e,key) { // 이어치기 세벌식 자판에서 줄임말 처리
 	if(!option.abbreviation || typeof current_layout.ieochigi_hangeul_abbreviation_table == 'undefined') return 0;
@@ -790,7 +852,7 @@ function ohiHangeul3_abbreviation(f,e,key) { // 이어치기 세벌식 자판에
 		else if(ohiQ[3]) ch=ohiQ[3]+ohiQ[4]+35;
 		else if(ohiQ[0]) ch=ohiQ[0]+ohiQ[1]+127;
 
-		chars=seek_abbreviation(abbreviation_table, convert_into_unicode_hangeul_phoneme(ch), convert_into_unicode_hangeul_phoneme(c));
+		chars=seek_ieochigi_abbreviation(abbreviation_table, convert_into_unicode_hangeul_phoneme(ch), convert_into_unicode_hangeul_phoneme(c));
 
 		if(chars) {
 			if(!is_phonemic_writing_input()) ohiBackspace(f);
@@ -814,7 +876,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined')
 		layout = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).layout;
 
-	if(!abbriviation_processing_state) {
+	if(!abbreviation_processing_state) {
 		if(typeof current_layout.sublayout != 'undefined') sublayout = current_layout.sublayout;
 		if(typeof current_layout.extended_sign_layout != 'undefined') extended_sign_layout = current_layout.extended_sign_layout;
 		prev_cursor_position = -1;
@@ -842,7 +904,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		c2=convert_into_ohi_hangeul_phoneme(c2);
 	}
 
-	if(!abbriviation_processing_state || is_moachigi_input()) {
+	if(!abbreviation_processing_state || is_moachigi_input()) {
 		if(Ko_type.substr(0,1)=='3') {
 			if(sign_layout_input(f,e,key)) return 0; // 기호 확장 배열
 			if(c1<=0) return 0;
@@ -1115,6 +1177,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 	var pressed_chars = [];
 	var temp_pressed_chars = [];
+	var backup_prev_pressed_keys = [];
 	var special_keys = [32,13,8]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8)
 
 	var chars=[];
@@ -1146,21 +1209,22 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	if(typeof current_layout.moachigi_multikey_abbreviation_table != 'undefined') {
 	// 모아치기 글쇠 기준 줄임말·예외 조합 (모아치기 조합 가운데 가장 먼저 적용됨)
 		combination_table = current_layout.moachigi_multikey_abbreviation_table;
+		backup_prev_pressed_keys = prev_pressed_keys.slice();
+		chars = seek_moachigi_abbreviation(combination_table);
 
-		for(i=0;i<combination_table.length;++i) {
-			if(pressed_keys.length != combination_table[i].keys.length ) continue;
-			for(j=0;j<combination_table[i].keys.length;++j) {
-				if(pressed_keys.indexOf(combination_table[i].keys[j].charCodeAt(0))<0) break;
-			}
-
-			if(j!=combination_table[i].keys.length) continue;
-			if(combination_table[i].chars.length==1 && combination_table[i].chars[0]<0) {
-				// 기호 확장 배열 상태로 들어감
-				sign_layout_input(f,e,combination_table[i].chars[0]);
-				return;
-			}
-			insert_chars(f,combination_table[i].chars);
+		if(chars.length==1 && combination_table[i].chars[0]<0 && combination_table[i].chars[0]>=-3) {
+		// 부호값이 -1 ~ -3이면 기호 확장 배열 상태로 들어감
+			sign_layout_input(f,e,combination_table[i].chars[0]);
 			return;
+		}
+
+		if(chars.length) {
+			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length) {
+			// 줄임말 조합을 이어서 했으면 먼저 들어간 줄임말을 지움
+				ohiHangeul_moa_backspace(f,e);
+			}
+			insert_chars(f,chars);
+			return;	
 		}
 	}
 
@@ -1179,6 +1243,8 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 			return;
 		}
 	}
+
+	chars = [];
 
 	if(typeof current_layout.moachigi_hangeul_combination_table != 'undefined') {
 	// 모아치기 한글 낱자 조합 규칙 (낱자 차례를 따지지 않음)
@@ -1262,13 +1328,16 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 		if(c==13) complete_hangeul_syllable(f); // 줄바꾸개(enter)
 	}
+
+	pressed_keys = [];
+	return;
 }
 
 function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (줄임말을 넣을 때)
 	if(typeof combination_table_chars == 'undefined' || typeof combination_table_chars.length == 'undefined') return;
 	var chars = combination_table_chars.slice();
 	var a=[],h=0,i,j,k,l;
-	abbriviation_processing_state=1;
+	abbreviation_processing_state=1;
 
 	if(is_phonemic_writing_input() && option.phonemic_writing_in_single_phoneme) {
 	// 겹낱자를 홑낱자로 풀어서 풀어쓰기할 때
@@ -1295,7 +1364,7 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 		else ohiInsert(f,0,chars[i]); // 한글 낱자가 아닐 때
 	}
 
-	abbriviation_processing_state = 0;
+	abbreviation_processing_state = 0;
 }
 
 
@@ -1316,6 +1385,8 @@ function sign_layout_input(f,e,key) {
 			c=sign_layout[key-33][sign_ext_state-1];
 			ohiInsert(f,0,c);
 			esc_ext_layout();
+			//pressed_keys.splice(pressed_keys.indexOf(key),1);
+			//pressed_keys=[];
 			return 1;
 		}
 		else if(key<0 && key>-4) {
@@ -3074,6 +3145,7 @@ function ohiKeyup(e) {
 		if(e.keyCode==16 ||  pressing_keys && !--pressing_keys) { // 윗글쇠(16)를 떼었거나 모든 글쇠를 뗌
 			while(pressed_keys.indexOf(16)>=0) pressed_keys.splice(pressed_keys.indexOf(16),1);
 			if(pressed_keys.length) ohiHangeul3_moa(f,e);
+			prev_pressed_keys = pressed_keys.slice();
 			pressed_keys=[];
 			pressing_keys=0;
 		}
@@ -3380,14 +3452,14 @@ function ohi_code_tables() {
 	unicode_single_phoneme_ggeut = [0x11A8,0x11AB,0x11AE,0x11AF,0x11B7,0x11B8,0x11BA,0x11BC,0x11BD,0x11BE,0x11BF,0x11C0,0x11C1,0x11C2];
 	unicode_single_phoneme = unicode_single_phoneme_cheos.concat(unicode_single_phoneme_ga, unicode_single_phoneme_ggeut);
 
-	// 쿼티 자판 아랫글 배열 문자값
+	// 쿼티를 기준으로 한 화상 배열표의 아랫글 자리 부호값
 	dkey = [96,49,50,51,52,53,54,55,56,57,48,45,61,8,
 	9,113,119,101,114,116,121,117,105,111,112,91,93,92,
 	20,97,115,100,102,103,104,106,107,108,59,39,13,
 	16,122,120,99,118,98,110,109,44,46,47,16,
 	-1,-2,-3,32,-13,-12,-11];
 
-	// 쿼티 자판 윗글 배열
+	// 쿼티를 기준으로 한 화상 배열표의 윗글 자리 부호값
 	ukey = [126,33,64,35,36,37,94,38,42,40,41,95,43,8,
 	9,81,87,69,82,84,89,85,73,79,80,123,125,124,
 	20,65,83,68,70,71,72,74,75,76,58,34,13,
