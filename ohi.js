@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/20
+ * Last Update : 2018/05/21
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1369,7 +1369,7 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 
 
 function sign_layout_input(f,e,key) {
-	var c, sign_layout, layout_info;
+	var c, i, sign_layout, layout_info;
 
 	if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined') {
 		layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
@@ -1385,8 +1385,6 @@ function sign_layout_input(f,e,key) {
 			c=sign_layout[key-33][sign_ext_state-1];
 			ohiInsert(f,0,c);
 			esc_ext_layout();
-			//pressed_keys.splice(pressed_keys.indexOf(key),1);
-			//pressed_keys=[];
 			return 1;
 		}
 		else if(key<0 && key>-4) {
@@ -1403,18 +1401,23 @@ function sign_layout_input(f,e,key) {
 	if(!is_old_hangeul_input() && (Ko_type=='3-2011' || Ko_type=='3-2012') && !is_old_hangeul_input()) {
 		if((key==118 || key==56) && ( !NFD_stack.phoneme.length&&(!ohiQ[0]&&!ohiQ[3] || ohiQ[3]) || NFD_stack.phoneme.length&&unicode_cheos.indexOf(NFD_stack.combined_phoneme[0])<0&&(unicode_ga.indexOf(NFD_stack.combined_phoneme[0])>=0 || unicode_ggeut.indexOf(NFD_stack.combined_phoneme[0])>=0)) ) {
 		// 3-2011, 3-2012 자판의 왼쪽 특수기호 확장 글쇠(ㅗ·ㅢ)가 눌린 횟수 더하기
-			if(key==118) { // 왼쪽 ㅗ
+			i=0;
+			if(key==118 && !sign_layout[key-33][sign_ext_state%10-1]) { // 왼쪽 ㅗ
 				if(sign_ext_state<10) ++sign_ext_state;
 				else sign_ext_state+=2;
+				i=1;
 			}
-			if(key==56) { // 오른쪽 ㅢ
+			if(key==56 && !sign_layout[key-33][sign_ext_state%10-1]) { // 오른쪽 ㅢ
 				if(!sign_ext_state) sign_ext_state=10;
 				if(sign_ext_state>=10) ++sign_ext_state;
 				else sign_ext_state+=2;
+				i=1;
 			}
-			if(sign_ext_state%10>3)	sign_ext_state=0;
-			show_keyboard_layout(Ko_type);
-			return 1;
+			if(i) {
+				if(sign_ext_state%10>3)	sign_ext_state=0;
+				show_keyboard_layout(Ko_type);
+				return 1;
+			}
 		}
 
 		if(sign_ext_state) {
@@ -2021,7 +2024,6 @@ function is_old_hangeul_input() {
 
 function is_phonemic_writing_input() {
 	if(option.only_NFD_hangeul_encoding) return false;
-	//if(is_old_hangeul_input()) return false;
 	if(option.phonemic_writing) return true;
 	return false;
 }
