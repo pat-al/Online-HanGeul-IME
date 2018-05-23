@@ -2971,7 +2971,12 @@ function ohiKeypress(e) {
 	key=ohiKeyswap(e,key);
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
-		if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개 (enter) 또는 사이띄개 (space bar)
+		if(e.ctrlKey && !e.shiftKey && !e.altKey) {
+			if(ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length) {
+				complete_hangeul_syllable(f);
+			}
+		}
+		else if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개 (enter) 또는 사이띄개 (space bar)
 			if(!(browser=="MSIE" && browser_ver<9)) {
 				if(key==32) if(e.preventDefault) e.preventDefault();
 				if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
@@ -3115,14 +3120,16 @@ function ohiKeydown(e) {
 			esc_ext_layout();
 		}
 
-		if(e.keyCode==17) { // Ctrl
+		if(e.keyCode==17) { // ctrl
 			pressed_key_accumulation(f,e,key);
 		}
 		
-		if(e.keyCode==65 && pressed_keys.length==1 && pressed_keys[0]==17) { // Ctrl + a
+		if(pressed_keys[0]==17) { // ctrl + ?
+			if(e.keyCode==65) { // ctrl + a
+				complete_hangeul_syllable(f);
+			}
 			pressed_keys = [];
 			pressing_keys=0;
-			complete_hangeul_syllable(f);
 		}
 		
 /*
