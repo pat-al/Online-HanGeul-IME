@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/22
+ * Last Update : 2018/05/23
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -355,6 +355,11 @@ function ohiInsert(f,m,q) { // Insert
 
 function ohiSelection(f,length) {
 	if(document.selection && browser=="MSIE" && browser_ver<9) { // IE ~8
+		/*var s=document.selection.createRange();
+		if(document.selection.clear) document.selection.clear();
+		if(s.moveStart('character',-length)) {
+			s.select();
+		}*/
 	}
 	else if(f.selectionEnd+1) {
 		var e=document.createEvent('KeyboardEvent');
@@ -2028,7 +2033,7 @@ function is_no_shift(key) {	// 윗글쇠를 누르지 않고 치는 글쇠인지
 }
 
 function is_old_hangeul_input() {
-	if(current_layout.type_name.substr(-2)=='-y') return true;
+	if(current_layout.type_name && current_layout.type_name.substr(-2)=='-y') return true;
 	if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined')	return true;
 	return false;
 }
@@ -2202,7 +2207,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 
 function show_options() {
 	var KE=ohi_KE, opts, opt;
-	var type_name = current_layout.type_name;
+	var type_name = typeof current_layout.type_name != 'undefined' ? current_layout.type_name : '';
 	if(typeof ohi_menu_num == 'undefined') ohi_menu_num=0;
 	
 	var opts = document.getElementById('top_options')
@@ -2559,7 +2564,7 @@ function show_keyboard_layout(type) {
 				if(En_type=='Dvorak') {
 					document.getElementById('de51').innerHTML = '<font size="1">(ㅗ)</font>';
 				}
-				else if(current_layout.layout[30]==0x3F) {
+				else if(current_layout.layout == Array && current_layout.layout[30]==0x3F) {
 					document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
 				}
 			}
@@ -2753,7 +2758,9 @@ function ohiStart() {
 function show_keyboard_layout_info() {
 	var KE=ohi_KE;
 	var kbd = ohi_KBD_type=='QWERTY' ? '' : ':'+ohi_KBD_type;
+	var type_name = typeof current_layout.type_name != 'undefined' ? current_layout.type_name : '';
 	var name='', link='', keyboardLayoutInfo = document.getElementById('keyboardLayoutInfo');
+	
 
 	if(keyboardLayoutInfo) {
 		if(KE=='En') {
@@ -2765,11 +2772,11 @@ function show_keyboard_layout_info() {
 		}
 		else {
 			var beol = '3';
-			if(current_layout.type_name.substr(0,1)=='2') beol = '2';
-			else if(current_layout.type_name.substr(0,1)=='4') beol = '4';
+			if(type_name.substr(0,1)=='2') beol = '2';
+			else if(type_name.substr(0,1)=='4') beol = '4';
 			name = '<strong>[한글 ' + beol + '벌식' + kbd + ']</strong> ';
 
-			var full_name = current_layout.full_name;
+			var full_name = typeof current_layout.full_name != undefined ? current_layout.full_name : '';
 			if(is_old_hangeul_input()) {
 				if(typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).full_name != 'undefined')
 					full_name = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).full_name;
