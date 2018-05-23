@@ -413,6 +413,7 @@ function chagne_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NF
 		 i==3 ? (NFD_stack.combined_phoneme[0]-0x11A8+1+(NFD_stack.combined_phoneme[0]>0x11AE ? 1:0)+(NFD_stack.combined_phoneme[0]>0x11B8 ? 1:0)+(NFD_stack.combined_phoneme[0]>0x11BD ? 1:0)):0,0,0
 		];
 		ohiInsert(f,0,ohiQ);
+		f.selectionStart = f.selectionEnd;
 	}
 }
 
@@ -2612,7 +2613,6 @@ function show_keyboard_layout(type) {
 			document.getElementById('ue45').style.float = 'left';
 			document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 		}
-
 		if(option.enable_sign_ext) {
 			document.getElementById('uh35').innerHTML = sign_ext_tag;
 			if(sign_ext_state<0) {
@@ -2630,7 +2630,6 @@ function show_keyboard_layout(type) {
 			document.getElementById('ue45').innerHTML = Moachigi_modifier_tag;
 			document.getElementById('uh50').innerHTML = Moachigi_modifier_tag;
 		}
-
 		if(option.enable_sign_ext) {
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
@@ -2973,10 +2972,11 @@ function ohiKeypress(e) {
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개 (enter) 또는 사이띄개 (space bar)
-			complete_hangeul_syllable(f);
-			if(key==32 && !(browser=="MSIE" && browser_ver<9)) {
-				if(e.preventDefault) e.preventDefault();
+			if(!(browser=="MSIE" && browser_ver<9)) {
+				if(key==32) if(e.preventDefault) e.preventDefault();
+				if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
 			}
+			complete_hangeul_syllable(f);
 			ohiInsert(f,0,key);
 			esc_ext_layout();
 		}
