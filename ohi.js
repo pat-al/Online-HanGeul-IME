@@ -413,7 +413,7 @@ function chagne_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NF
 		 i==3 ? (NFD_stack.combined_phoneme[0]-0x11A8+1+(NFD_stack.combined_phoneme[0]>0x11AE ? 1:0)+(NFD_stack.combined_phoneme[0]>0x11B8 ? 1:0)+(NFD_stack.combined_phoneme[0]>0x11BD ? 1:0)):0,0,0
 		];
 		ohiInsert(f,0,ohiQ);
-		f.selectionStart = f.selectionEnd;
+		if(typeof f.selectionEnd != 'undefined') f.selectionStart = f.selectionEnd;
 	}
 }
 
@@ -1333,7 +1333,7 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 
 	if(!chars.length) return;
 	prev_cursor_position = f.selectionStart==f.selectionEnd ? f.selectionEnd : f.selectionEnd + (is_phonemic_writing_input() && (ohiQ[0]+ohiQ[3]+ohiQ[6]) ? 1:0) + (option.only_NFD_hangeul_encoding ? !ohiQ[6] ? 1 : 2 : 0);
-
+	
 	for(i=0;i<chars.length;++i) {
 		if(unicode_NFD_hangeul_phoneme.indexOf(chars[i])>=0) ohiHangeul3(f,0,chars[i]); // 한글 낱자일 때
 		else ohiInsert(f,0,chars[i]); // 한글 낱자가 아닐 때
@@ -3079,6 +3079,7 @@ function ohiKeydown(e) {
 			tableKey_press(e.keyCode);
 			if(is_moachigi_input()) {
 				if(e.preventDefault) e.preventDefault();
+				if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length && typeof f.selectionEnd != 'undefined' && f.selectionStart != f.selectionEnd) ohiBackspace(f);
 				pressed_key_accumulation(f,e,key);
 				esc_ext_layout();
 				return false;
