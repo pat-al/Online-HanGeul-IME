@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/23
+ * Last Update : 2018/05/24
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -351,7 +351,7 @@ function ohiInsert(f,m,q) { // Insert
 // c가 숫자이면 그 부호값에 맞는 유니코드 부호를 넣음
 // c가 배열(ohiQ)이면 유니코드 완성형 한글로 넣음
 
-	var a,b,c=q,d=m?1:0,g=0,h=0,i=0,j=0,k=0;
+	var a,c=q,d=m?1:0,g=0,h=0,i=0,j=0,k=0;
 
 	if(!q) {
 		ohiQ = ohiRQ = [0,0,0,0,0,0,0,0,0];
@@ -374,19 +374,18 @@ function ohiInsert(f,m,q) { // Insert
 			ohiInsert(f,0,c);
 			return;
 		}
-		else {
+		else {	
 			for(a=0;a<9;++a) if(prev_ohiQ[a]>0) ++g;
 			if(g>0 && h<2 || d) {
 				phoneme_input_state=1;
 				ohiQ = prev_ohiQ.slice();
 				if(ohiQ[0]+ohiQ[3]+ohiQ[6])	{
-					if(is_phonemic_writing_input()) convert_syllable_into_phonemes(f);
-					else {
-						if(Ko_type.substr(0,2)=='2-' && h && i && j)
-						// 두벌식 자판의 도깨비불 상태에서 홀소리와 들어와 앞 낱내의 끝이 가려짐 → 앞 낱내의 받침에 들어간 닿소리를 뒤 낱내의 첫소리로 넘기고 앞 낱내의 조합을 끊음
-							for(a=8;a>=0;--a)	if(ohiQ[a]) {	ohiQ[a]=0; break;	}
-							complete_hangeul_syllable(f);
-					}
+					// 두벌식 자판의 도깨비불 상태에서 홀소리가 들어와 앞 낱내의 끝이 가려짐 → 앞 낱내의 받침에 들어간 닿소리를 뒤 낱내의 첫소리로 넘기고 앞 낱내의 조합을 끊음
+					if(Ko_type.substr(0,2)=='2-' && h && i && j)
+						for(a=8;a>=0;--a)	if(ohiQ[a]) {	ohiQ[a]=0; break;	}
+					complete_hangeul_syllable(f);
+					// 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+					if(option.phonemic_writing_adding_space_every_syllable_end && h && i+j+k) ohiInsert(f,0,32);
 				}
 				ohiQ=[h&&i?i:0,0,0,h&&j?j:0,0,0,h&&k?k:0,0,0];
 				phoneme_input_state=0;
@@ -1213,11 +1212,6 @@ function convert_syllable_into_phonemes(f) {
 			if(option.phonemic_writing_in_halfwidth_letter) c = convert_into_halfwidth_hangeul_letter(c);
 			ohiInsert(f,0,c);
 		}
-	}
-
-	// 낱내 뒤에 빈칸 넣기
-	if(option.phonemic_writing_adding_space_every_syllable_end) {
-		ohiInsert(f,0,32);
 	}
 }
 
@@ -3003,6 +2997,8 @@ function ohiKeypress(e) {
 				if(key==32) if(e.preventDefault) e.preventDefault();
 				if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
 			}
+			// 풀어쓰기를 하고 있고 '낱내 뒤 빈칸 넣기' 기능을 쓰는데 한글을 조합하다가 사이띄개가 눌리면 빈칸을 더하여 넣음
+			if(key==32 && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end && ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiInsert(f,0,32);
 			complete_hangeul_syllable(f);
 			ohiInsert(f,0,key);
 			esc_ext_layout();
