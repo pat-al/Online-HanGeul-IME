@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/24
+ * Last Update : 2018/05/26
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -385,7 +385,7 @@ function ohiInsert(f,m,q) { // Insert
 						for(a=8;a>=0;--a)	if(ohiQ[a]) {	ohiQ[a]=0; break;	}
 					complete_hangeul_syllable(f);
 					// 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
-					if(option.phonemic_writing_adding_space_every_syllable_end && h && i+j+k) ohiInsert(f,0,32);
+					if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end && h && i+j+k) ohiInsert(f,0,32);
 				}
 				ohiQ=[h&&i?i:0,0,0,h&&j?j:0,0,0,h&&k?k:0,0,0];
 				phoneme_input_state=0;
@@ -432,11 +432,6 @@ function ohiInsert(f,m,q) { // Insert
 
 function ohiSelection(f,length) {
 	if(document.selection && browser=="MSIE" && browser_ver<9) { // IE ~8
-		/*var s=document.selection.createRange();
-		if(document.selection.clear) document.selection.clear();
-		if(s.moveStart('character',-length)) {
-			s.select();
-		}*/
 	}
 	else if(f.selectionEnd+1) {
 		var e=document.createEvent('KeyboardEvent');
@@ -2992,7 +2987,7 @@ function ohiKeypress(e) {
 				complete_hangeul_syllable(f);
 			}
 		}
-		else if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개 (enter) 또는 사이띄개 (space bar)
+		else if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개(enter)와 사이띄개(space bar)
 			if(!(browser=="MSIE" && browser_ver<9)) {
 				if(key==32) if(e.preventDefault) e.preventDefault();
 				if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
@@ -3039,7 +3034,6 @@ function ohiKeypress(e) {
 			else {
 				if((document.selection && document.selection.createRange().text.length!=1) || (f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1))
 					ohiQ=ohiRQ=[0,0,0,0,0,0,0,0,0];
-
 				if(ohi_KE.substr(0,2)=='Ko') {
 					if(current_layout.type_name.substr(0,2)=='2-') ohiHangeul2(f,e,key);
 					else if(!ohiHangeul3_abbreviation(f,e,key)) ohiHangeul3(f,e,key);
