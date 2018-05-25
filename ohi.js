@@ -243,7 +243,6 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 		}
 	}
 	ohiInsert(f,0,0);
-	prev_ohiQ = prev_ohiRQ = [0,0,0,0,0,0,0,0,0];
 }
 
 function ohiHangeul_moa_backspace(f,e) {
@@ -354,7 +353,7 @@ function ohiInsert(f,m,q) { // Insert
 	var a,c=q,d=m?1:0,g=0,h=0,i=0,j=0,k=0;
 
 	if(!q) {
-		ohiQ = ohiRQ = [0,0,0,0,0,0,0,0,0];
+		ohiQ = ohiRQ = prev_ohiQ = prev_ohiRQ = [0,0,0,0,0,0,0,0,0];
 		return true;
 	}
 
@@ -546,8 +545,8 @@ function combine_unicode_NFD_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱
 
 function complete_hangeul_syllable(f) {
 // 한글 낱내 조합을 끊음
-// option.only_NFD_hangeul_encoding==0 : 첫가끝 조합형 낱내(NFD)를 유니코드 완성형 낱내(NFC)로 바꿈
-// option.only_NFD_hangeul_encoding==1 : 유니코드 완성형 낱내(NFC)로 첫가끝 조합형 낱내(NFD)로 바꿈
+// option.only_NFD_hangeul_encoding==0 : 첫가끝 조합형 낱내(NFD)를 완성형 낱내(NFC)로 바꿈
+// option.only_NFD_hangeul_encoding==1 : 완성형 낱내(NFC)를 첫가끝 조합형 낱내(NFD)로 바꿈
 
 	if(typeof f == 'undefined' || !f) f = document.getElementById('inputText');
 	var c,i,j,k;
@@ -2982,7 +2981,7 @@ function ohiKeypress(e) {
 	key=ohiKeyswap(e,key);
 
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
-		if(e.ctrlKey && !e.shiftKey && !e.altKey) {
+		if(e.ctrlKey && !e.shiftKey && !e.altKey) { // ctrl + ?
 			if(ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length) {
 				complete_hangeul_syllable(f);
 			}
@@ -3033,7 +3032,7 @@ function ohiKeypress(e) {
 			}
 			else {
 				if((document.selection && document.selection.createRange().text.length!=1) || (f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1))
-					ohiQ=ohiRQ=[0,0,0,0,0,0,0,0,0];
+					ohiInsert(f,0,0);
 				if(ohi_KE.substr(0,2)=='Ko') {
 					if(current_layout.type_name.substr(0,2)=='2-') ohiHangeul2(f,e,key);
 					else if(!ohiHangeul3_abbreviation(f,e,key)) ohiHangeul3(f,e,key);
@@ -3123,10 +3122,6 @@ function ohiKeydown(e) {
 		if((e.keyCode>=35 && e.keyCode<=40) || e.keyCode==45 || e.keyCode==46) { // end(35), home(36), 화살표(37~40), insert(45), del(46)
 			if(NFD_stack.phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
 				complete_hangeul_syllable(f);
-				if(e.keyCode==46) {
-					initialize_NFD_stack();
-					ohiQ = ohiRQ = [0,0,0,0,0,0,0,0,0];
-				}
 				prev_cursor_position = -1;
 			}
 			esc_ext_layout();
@@ -3422,7 +3417,7 @@ function tableKey_clicked(e, key_num, dk, uk){
 	key = (shift_click+shiftlock_click)%2 ? uk : dk;
 	if(ohi_KE.substr(0,2)=='En' && key>32 && key<127) ohiRoman(f,0,key);
 	if(ohi_KE.substr(0,2)!='En' && key>32 && key<127) {
-		if(document.selection && document.selection.createRange().text.length!=1) ohiQ=[0,0,0,0,0,0,0,0,0];
+		if(document.selection && document.selection.createRange().text.length!=1) ohiInsert(f,0,0);
 		if(KE=='Ko') {
 			if(current_layout.type_name.substr(0,2)=='2-') ohiHangeul2(f,e,key);
 			else {
