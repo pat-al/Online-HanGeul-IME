@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/27
+ * Last Update : 2018/05/28
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1128,7 +1128,6 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 function convert_syllable_into_phonemes(f) {
 // 낱내를 낱자로 풀어 넣기 (풀어쓰기)
 	var c,i,j,k,chars=[];
-	//var e=document.createEvent('KeyboardEvent');
 	var single_phonemes=[], hangeul_conversion_function;
 	if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length) return;
 
@@ -1156,19 +1155,16 @@ function convert_syllable_into_phonemes(f) {
 			 (unicode_ga.indexOf(_combined_phoneme[i])>=0 && unicode_ga.indexOf(_combined_phoneme[i+1])>=0) ||
 			 (unicode_ggeut.indexOf(_combined_phoneme[i])>=0 && unicode_ggeut.indexOf(_combined_phoneme[i+1])>=0))) continue; 
 
-			single_phonemes = convert_into_single_phonemes(_combined_phoneme[i]);
+			single_phonemes = [];
+			if(option.only_NFD_hangeul_encoding && !option.phonemic_writing_in_single_phoneme) single_phonemes.push(_combined_phoneme[i]);
+			else single_phonemes = convert_into_single_phonemes(_combined_phoneme[i]);
 			for(j=0;j<single_phonemes.length;++j) {
-				//alert();
-				if(option.only_NFD_hangeul_encoding) {
-					NFD_hangeul_single_phoneme_syllable_input(f,single_phonemes[j]);
-				}
+				if(option.only_NFD_hangeul_encoding) NFD_hangeul_single_phoneme_syllable_input(f,single_phonemes[j]);
 				else {
 					c = hangeul_conversion_function(single_phonemes[j]);
 					ohiInsert(f,0,c);
-					if(single_phonemes.length==1 && unicode_NFD_hangeul_phoneme.indexOf(single_phonemes[0]>=0) && unicode_cheos.indexOf(c)>=0) {
 					// 호환 자모에 없는 첫소리에 채움 부호를 붙임
-						ohiInsert(f,0,0x1160);
-					}
+					if(single_phonemes.length==1 && unicode_NFD_hangeul_phoneme.indexOf(single_phonemes[0]>=0) && unicode_cheos.indexOf(c)>=0) ohiInsert(f,0,0x1160);
 				}
 			}
 			initialize_NFD_stack();
@@ -1195,11 +1191,7 @@ function convert_syllable_into_phonemes(f) {
 				single_phonemes = convert_into_single_phonemes(c);
 				if(single_phonemes.length) {
 					for(j=0;j<single_phonemes.length;++j) {
-						if(option.only_NFD_hangeul_encoding) {
-							NFD_hangeul_single_phoneme_syllable_input(f,single_phonemes[j]);
-							//NFD_hangeul_input(f,e,0,single_phonemes[j]);
-							complete_hangeul_syllable(f);
-						}
+						if(option.only_NFD_hangeul_encoding) NFD_hangeul_single_phoneme_syllable_input(f,single_phonemes[j]);
 						else ohiInsert(f,0,hangeul_conversion_function(single_phonemes[j]));
 					}
 					continue;
@@ -1527,8 +1519,8 @@ function sign_layout_input(f,e,key) {
 
 		// 옛한글 자판이 아닐 때 옛한글 방점에 한글 채움 부호를 더하여 넣음
 		if((c==0x302E || c==0x302F) && !is_old_hangeul_input()) {
-				ohiInsert(f,0,0x115F);
-				ohiInsert(f,0,0x1160);
+			ohiInsert(f,0,0x115F);
+			ohiInsert(f,0,0x1160);
 		}
 
 		ohiInsert(f,0,c);
@@ -1684,7 +1676,7 @@ function NFD_hangeul_single_phoneme_syllable_input(f,c) {
 	var a=[],i;
 	c=convert_into_unicode_hangeul_phoneme(c);
 	
-	if(is_phonemic_writing_input() && option.only_NFD_hangeul_encoding && option.phonemic_writing_NFD_ggeut_to_cheos) {
+	if(is_phonemic_writing_input() && option.only_NFD_hangeul_encoding && option.phonemic_writing_in_single_phoneme && option.phonemic_writing_NFD_ggeut_to_cheos) {
 		if(unicode_ggeut.indexOf(c)>=0) {	// 풀어쓰기 끝소리 → 첫소리
 			a=convert_into_single_phonemes(c);
 			if(a.length>1) for(i=0;i<a.length;++i) NFD_hangeul_single_phoneme_syllable_input(f,a[i]);
@@ -2266,11 +2258,6 @@ function show_options() {
 		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing','<div class="option"><input name="phonemic_writing" class="checkbox" onclick="complete_hangeul_syllable();option.phonemic_writing=this.checked;ohiChange_enable_phonemic_writing();inputText_focus()" type="checkbox"' + (option.phonemic_writing ? ' checked="checked"' : '') + '><label title="한글을 낱자 단위로 풀어서 넣기">풀어쓰기</label></div>');
 		opt.style.display = 'block';
 
-		opt = document.getElementById('option_phonemic_writing_NFD_ggeut_to_cheos');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_NFD_ggeut_to_cheos','<div class="option"><input name="phonemic_writing_NFD_ggeut_to_cheos" class="checkbox" onclick="option.phonemic_writing_NFD_ggeut_to_cheos=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_NFD_ggeut_to_cheos ? ' checked="checked"' : '') + '><label title="끝소리를 첫소리로 바꾸어 넣기">끝→첫</label></div>');
-		if(is_phonemic_writing_input() && option.only_NFD_hangeul_encoding) opt.style.display = 'block';
-		else opt.style.display = 'none';
-
 		opt = document.getElementById('option_phonemic_writing_in_halfwidth_letter');
 		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_halfwidth_letter','<div class="option"><input name="phonemic_writing_in_halfwidth_letter" class="checkbox" onclick="option.phonemic_writing_in_halfwidth_letter=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_halfwidth_letter ? ' checked="checked"' : '') + '><label title="한글을 반각 낱자로 넣기">반각</label></div>');
 		if(is_phonemic_writing_input() && !is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) opt.style.display = 'block';
@@ -2287,8 +2274,13 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_phonemic_writing_in_single_phoneme');
-		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_single_phoneme','<div class="option"><input name="phonemic_writing_in_single_phoneme" class="checkbox" onclick="option.phonemic_writing_in_single_phoneme=this.checked;inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_single_phoneme ? ' checked="checked"' : '') + '><label title="모든 겹낱자를 풀어서 홑낱자로 나타내기">겹낱자 풀기</label></div>');
-		if(is_phonemic_writing_input() && !is_old_hangeul_input() && !option.phonemic_writing_directly) opt.style.display = 'block';
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_in_single_phoneme','<div class="option"><input name="phonemic_writing_in_single_phoneme" class="checkbox" onclick="option.phonemic_writing_in_single_phoneme=this.checked;show_options();inputText_focus()" type="checkbox"' + (option.phonemic_writing_in_single_phoneme ? ' checked="checked"' : '') + '><label title="모든 겹낱자를 풀어서 홑낱자로 나타내기">겹낱자 풀기</label></div>');
+		if(is_phonemic_writing_input() && (!is_old_hangeul_input() || option.only_NFD_hangeul_encoding) && !option.phonemic_writing_directly) opt.style.display = 'block';
+		else opt.style.display = 'none';
+
+		opt = document.getElementById('option_phonemic_writing_NFD_ggeut_to_cheos');
+		if(!opt) opt = appendChild(opts,'div','option','option_phonemic_writing_NFD_ggeut_to_cheos','<div class="option"><input name="phonemic_writing_NFD_ggeut_to_cheos" class="checkbox" onclick="option.phonemic_writing_NFD_ggeut_to_cheos=this.checked;show_options();inputText_focus()" type="checkbox"' + (option.phonemic_writing_NFD_ggeut_to_cheos ? ' checked="checked"' : '') + '><label title="끝소리를 첫소리로 바꾸어 넣기">끝→첫</label></div>');
+		if(is_phonemic_writing_input() && option.only_NFD_hangeul_encoding && option.phonemic_writing_in_single_phoneme) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_phonemic_writing_initial_ieung_ellipsis');
