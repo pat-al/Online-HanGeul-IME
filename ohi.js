@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/28
+ * Last Update : 2018/05/29
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -169,10 +169,10 @@ var prev_pressed_keys = []; // 바로 앞에 모아친 글쇠들의 값
 var pressing_keys = 0; // 눌려 있는 글쇠 수
 var double_multikey_abbreviated_state = 0; // 줄여넣기를 두 차례 잇달아 했는지를 나타냄
 
-function NFD_stack() {
-	phoneme = []; // 글쇠로 친 첫가끝 낱자들을 겹낱자로 조합하지 않은 채로 담음 (마지막으로 넣은 낱자가 배열의 맨 앞에 들어감)
-	phoneme_R = []; // 조합하는 첫가끝 낱자들의 추가 정보를 담음 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
-	combined_phoneme = []; // 조합해 나간 첫가끝 낱자들을 담음
+function NFD_stack() { // 먼저 넣은 낱자 정보가 배열의 뒤에 들어가고, 마지막으로 들어온 낱자가 배열의 맨 앞에 들어감
+	var phoneme = []; // 글쇠로 친 첫가끝 낱자들을 겹낱자로 조합하지 않은 채로 담음
+	var phoneme_R = []; // 조합하는 첫가끝 낱자들의 추가 정보를 담음 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
+	var combined_phoneme = []; // 조합한 첫가끝 낱자들을 담음 (첫+가 또는 첫+가+끝)
 }
 
 function initialize_NFD_stack() {
@@ -196,12 +196,8 @@ function browser_detect() {
 	var trident_ver = trident===undefined || !trident ? 0 : parseFloat(trident[1]);
 	if(nu.indexOf('MSIE')>=0 || trident_ver>=7) {
 		browser = "MSIE";
-		if(trident_ver<7) {
-			browser_ver = parseFloat(nu.substring(nu.indexOf("MSIE ")+5));
-		}
-		else if(trident_ver==7) {
-			browser_ver=11;
-		}
+		if(trident_ver<7) browser_ver = parseFloat(nu.substring(nu.indexOf("MSIE ")+5));
+		else if(trident_ver==7) browser_ver=11;
 	}
 	else if(nu.indexOf('Firefox')>=0) {
 		browser = "Firefox";
@@ -349,8 +345,8 @@ function ohiDoubleJamo(a,c,d) {
 }
 
 function ohiInsert(f,m,q) { // Insert
-// c가 숫자이면 그 부호값에 맞는 유니코드 부호를 넣음
-// c가 배열(ohiQ)이면 유니코드 완성형 한글로 넣음
+// q가 숫자이면 그 부호값에 맞는 유니코드 부호를 넣음
+// q가 배열(ohiQ)이면 유니코드 완성형 한글로 넣음
 
 	var a,c=q,d=m?1:0,g=0,h=0,i=0,j=0,k=0;
 
@@ -545,7 +541,7 @@ function complete_hangeul_syllable(f) {
 	var c,i,j,k;
 
 	if(NFD_stack.phoneme.length) {
-	// 첫가끝 조합형으로 조합하다가 채움 부호만 남았으면 채움 문자를 지움
+	// 첫가끝 조합형으로 조합하다가 채움 부호만 남았으면 채움 부호를 지움
 		for(j=0, i=NFD_stack.phoneme.length-1; i>=0; --i) 
 			if(unicode_NFD_hangeul_filler.indexOf(NFD_stack.phoneme[i])>=0) ++j;
 		if(j==NFD_stack.phoneme.length) ohiBackspace(f);
@@ -1074,7 +1070,6 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	else if(c1>127 && c1<158 && c1!=147) { // Cho
 		if(NFD_stack.phoneme.length) {
 			ohiSelection(f,0);
-			//initialize_NFD_stack();
 		}
 
 		i=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],c1-127);
@@ -1148,12 +1143,8 @@ function convert_syllable_into_phonemes(f) {
 			// 첫소리 ㅇ 넣지 않기
 			if(option.phonemic_writing_initial_ieung_ellipsis && _combined_phoneme[i]==0x110B) continue;
 
+			// 채움 부호 넣지 않기
 			if(_combined_phoneme[i]==0x115F || _combined_phoneme[i]==0x1160) continue;
-
-			if(i>_combined_phoneme.length-1 && (
-			 (unicode_cheos.indexOf(_combined_phoneme[i])>=0 && unicode_cheos.indexOf(_combined_phoneme[i+1])>=0) ||
-			 (unicode_ga.indexOf(_combined_phoneme[i])>=0 && unicode_ga.indexOf(_combined_phoneme[i+1])>=0) ||
-			 (unicode_ggeut.indexOf(_combined_phoneme[i])>=0 && unicode_ggeut.indexOf(_combined_phoneme[i+1])>=0))) continue; 
 
 			single_phonemes = [];
 			if(option.only_NFD_hangeul_encoding && !option.phonemic_writing_in_single_phoneme) single_phonemes.push(_combined_phoneme[i]);
@@ -1261,10 +1252,8 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		}
 
 		if(chars.length) {
-			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length) {
-			// 줄임말 조합을 이어서 했으면 먼저 들어간 줄임말을 지움
-				ohiHangeul_moa_backspace(f,e);
-			}
+		// 줄임말 조합을 이어서 하는 때에는 먼저 들어간 줄임말을 지우고 다음 줄임말을 넣음
+			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length) ohiHangeul_moa_backspace(f,e);
 			insert_chars(f,chars);
 			return;	
 		}
@@ -1625,7 +1614,7 @@ function NFD_hangeul_input(f,e,key,c) {	// 세벌식(첫가끝) 옛한글 처리
 		complete_hangeul_syllable(f);
 		if(i && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 		ohiInsert(f,0,0x115F); // 첫소리 채움 부호 넣음
-		NFD_stack.combined_phoneme.splice(0);
+		NFD_stack.combined_phoneme = [];
 		NFD_stack.combined_phoneme.unshift(0x115F);
 	}
 	else if(!combined_phoneme && unicode_ggeut.indexOf(c)>=0) {
@@ -1845,9 +1834,7 @@ function NFD_hangeul_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합
 		ohiBackspace(f);
 		ohiInsert(f,0,c1);
 		esc_ext_layout();
-		NFD_stack.phoneme.splice(0);
-		NFD_stack.phoneme_R.splice(0);
-		NFD_stack.combined_phoneme.splice(0);
+		initialize_NFD_stack();
 		return -1;
 	}
 	else if(option.enable_sign_ext && !sign_ext_state && NFD_stack.phoneme.length==1 && NFD_stack.phoneme[0]==0x110B/*ㅇ*/ && (c1==0x1100/*ㄱ*/ || c1==0x110C/*ㅈ*/ || c1==0x1107/*ㅂ*/)) {
@@ -1978,9 +1965,7 @@ function hangeul_Gong3_gm(f,key) {
 		// 홑받침이 들어와 있는데 가운뎃소리와 끝소리가 함께 있는 글쇠가 눌렸을 때
 			if(NFD_stack.phoneme.length>0&&unicode_ggeut.indexOf(NFD_stack.phoneme[1])>=0) {
 			// 아래아가 들어 있고 겹받침이 조합되었을 때
-				NFD_stack.phoneme.splice(0);
-				NFD_stack.phoneme_R.splice(0);
-				NFD_stack.combined_phoneme.splice(0);
+				initialize_NFD_stack();
 			}
 			else {
 				// 겹받침 조합 규칙이 있으면 겹받침을 넣고, 그렇지 않으면 홀소리를 넣음
@@ -3182,8 +3167,7 @@ function ohiKeyup(e) {
 	var KE=ohi_KE.substr(0,2);
 	var exceptional_keys = [32,13,8,16]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8), 윗글쇠(16)
 
-	if(onkeyup_skip || option.turn_off_OHI || (e.keyCode<47 && exceptional_keys.indexOf(e.keyCode)<0)) {
-	}
+	if(onkeyup_skip || option.turn_off_OHI || (e.keyCode<47 && exceptional_keys.indexOf(e.keyCode)<0)) {}
 	else if(!option.force_normal_typing && KE=='Ko' && Ko_type.substr(0,3)=='3m-') {	
 		if(e.keyCode==16 || pressing_keys && !--pressing_keys) { // 윗글쇠(16)를 떼었거나 모든 글쇠를 뗌
 			while(pressed_keys.indexOf(16)>=0) pressed_keys.splice(pressed_keys.indexOf(16),1);
@@ -3247,58 +3231,58 @@ function url_query() {
 		TF = !value || value=='0' || value.toLowerCase=='f' || value.toLowerCase=='false' ? 0 : 1;
 		if(value===undefined || !value) continue;
 
-		if(field == 'kbd') { // 기준 자판
+		if(field=='kbd') { // 기준 자판
 			if(value.toUpperCase()=='QWERTY' || value.toUpperCase()=='QWERTZ' || value.toUpperCase()=='AZERTY')
 				ohiChange_KBD_type(value.toUpperCase());
 		}
-		else if(field == 'en')	{ // 영문 자판
+		else if(field=='en')	{ // 영문 자판
 			ohiChange('En',value.toLowerCase());
 		}
-		else if(field == 'ko' || field == 'k2' || field == 'k3') { // 한글 자판
+		else if(field=='ko' || field=='k2' || field=='k3') { // 한글 자판
 			ohiChange('Ko',value.toLowerCase());
 		}
-		else if(field == 'statusbar') { // 오른쪽 아래에 보람줄 나타내기
+		else if(field=='statusbar') { // 오른쪽 아래에 보람줄 나타내기
 			setTimeout(function(){show_ohiStatusBar(TF);}, 250);
 		}
-		else if(field == 'sign_ext') { // 기호 확장
+		else if(field=='sign_ext') { // 기호 확장
 			ohiChange_enable_sign_ext(TF);
 		}
-		else if(field == 'double_final_ext' || field == 'df_ext') { // 겹받침 확장
+		else if(field=='double_final_ext' || field=='df_ext') { // 겹받침 확장
 			ohiChange_enable_double_final_ext(TF);
 		}
-		else if(field == 'sl' || field == 'square layout') {
+		else if(field=='sl' || field=='square layout') {
 			option.square_layout = TF;
 		}
-		else if(field == 'normal_typing' || field == 'nt') { // 모아치기 자판을 이어치기로 쓰기
+		else if(field=='normal_typing' || field=='nt') { // 모아치기 자판을 이어치기로 쓰기
 			option.force_normal_typing = TF;
 		}
-		else if(field == 'ncr') { // HTML 문자 참조 보이기
+		else if(field=='ncr') { // HTML 문자 참조 보이기
 			option.NCR = TF;
 		}
-		else if(field == 'ncr_only_cgg') { // 첫가끝 조합형 한글만 HTML 문자 참조로 바꾸어 보이기
+		else if(field=='ncr_only_cgg') { // 첫가끝 조합형 한글만 HTML 문자 참조로 바꾸어 보이기
 			NCR_option.convert_only_NFD_hangeul_encoding = TF;
 		}
-		else if(field == 'y') { // 신세벌식 자판으로 옛한글 겹낱자 조합하기
+		else if(field=='y') { // 신세벌식 자판으로 옛한글 겹낱자 조합하기
 			option.enable_old_hangeul_input = TF;
 			ohiChange_enable_old_hangeul_input();
 		}
-		else if(field == 'diph' || field == 'diphthong') { // 신세벌식 자판으로 옛한글을 조합할 때 오른쪽 아랫글 자리에서 홀소리를 넣을지
+		else if(field=='diph' || field=='diphthong') { // 신세벌식 자판으로 옛한글을 조합할 때 오른쪽 아랫글 자리에서 홀소리를 넣을지
 			option.enable_Sin3_diphthong_key = TF;
 		}
-		else if(field == 'pw' || field == 'phonemic_writing') { // 풀어쓰기
+		else if(field=='pw' || field=='phonemic_writing') { // 풀어쓰기
 			option.phonemic_writing = TF;
 		}
-		else if(field == 'abbr' || field == 'abbreviation') { // 이어치기 자판에서 줄임말 기능 쓰기
+		else if(field=='abbr' || field=='abbreviation') { // 이어치기 자판에서 줄임말 기능 쓰기
 			option.abbreviation = TF;
 		}
-		else if(field == 'cc' || field == 'convenience_combination') { // 입력 편의를 높이는 한글 편의 조합 쓰기 (조합표가 지정되어 있을 때)
+		else if(field=='cc' || field=='convenience_combination') { // 입력 편의를 높이는 한글 편의 조합 쓰기 (조합표가 지정되어 있을 때)
 			option.convenience_combination = TF;
 		}
-		else if(field == 'sun' || field == 'sunalae') { // 두벌식 자판 순아래 조합
+		else if(field=='sun' || field=='sunalae') { // 두벌식 자판 순아래 조합
 			option.sunalae = TF;
 		}
 		else if(field == 'row') { // 글상자(textarea)의 줄 수
-			setTimeout(function(){inputText_rows(value);}, 250);
+			setTimeout(function(){inputText_rows(value);},250);
 		}
 	}
 }
