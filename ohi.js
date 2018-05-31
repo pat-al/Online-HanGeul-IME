@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/29
+ * Last Update : 2018/05/31
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -465,7 +465,7 @@ function chagne_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NF
 	if(i>=0 && _ohiQ[6]+_ohiQ[7]+_ohiQ[8]) ohiInsert(f,0,unicode_ggeut[i]);
 }
 
-function chagne_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NFC) (조합을 끝낸 낱내를 바꿈)
+function change_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NFC) (조합을 끝낸 낱내를 바꿈)
 	var i,j;
 	if(unicode_modern_cheos.indexOf(NFD_stack.combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(NFD_stack.combined_phoneme[0])>=0
 	 || unicode_modern_cheos.indexOf(NFD_stack.combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(NFD_stack.combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(NFD_stack.combined_phoneme[0])>=0) {
@@ -549,12 +549,12 @@ function complete_hangeul_syllable(f) {
 
 	ohiSelection(f,0);
 
+	// 풀어쓰기 처리
+	if(is_phonemic_writing_input()) convert_syllable_into_phonemes(f);
 	// 첫가끝(NFD) → 완성형(NFC)
-	if(!option.only_NFD_hangeul_encoding && NFD_stack.phoneme.length && !is_phonemic_writing_input()) chagne_syllable_from_NFD_to_NFC(f);
+	else if(!option.only_NFD_hangeul_encoding && NFD_stack.phoneme.length) change_syllable_from_NFD_to_NFC(f);
 	// 완성형(NFC) → 첫가끝(NFD)
-	else if(option.only_NFD_hangeul_encoding && !is_phonemic_writing_input() && ohiQ[0]+ohiQ[3]+ohiQ[6] && !is_old_hangeul_input()) chagne_syllable_from_NFC_to_NFD(f);
-	// 풀어쓰기 처리(첫가끝)
-	else if(is_phonemic_writing_input()) convert_syllable_into_phonemes(f);
+	else if(option.only_NFD_hangeul_encoding && !is_old_hangeul_input() && ohiQ[0]+ohiQ[3]+ohiQ[6]) chagne_syllable_from_NFC_to_NFD(f);
 
 	ohiInsert(f,0,0);
 	initialize_NFD_stack();
@@ -619,7 +619,7 @@ function convert_into_single_phonemes(combined_phoneme) {
 
 	var combination_table = hangeul_combination_table_default;
 	if(is_old_hangeul_input()) combination_table = hangeul_combination_table_full;
-	if(unicode_single_phoneme.indexOf(combined_phoneme)>=0) return single_phonemes;
+	if(unicode_non_combined_phoneme.indexOf(combined_phoneme)>=0) return single_phonemes;
 
 	for(i=0; i<combination_table.length; ++i) {
 		if(combined_phoneme==combination_table[i][1]) {
@@ -667,7 +667,7 @@ function convert_NFD_into_NFC(NFD_phonemes) {
 	if(unicode_modern_cheos.indexOf(p[0])<0 || unicode_modern_ga.indexOf(p[1])<0) return false;
 	if(p.length==3 && unicode_modern_ggeut.indexOf(p[2])<0) return false;
 
-	return 0xac00+(p[0]-0x1100)*588+(p[1]-0x1161)*28+(p[2]-0x11A8);
+	return 0xAC00+(p[0]-0x1100)*588+(p[1]-0x1161)*28+(p[2]-0x11A8);
 }
 
 function ohiRoman(f,e,key) { // Roman keyboard basic_layouts (Dvorak, Colemak)
@@ -803,14 +803,10 @@ function NFD_hangeul2_preprocess(f,e,key) {
 }
 
 function seek_ieochigi_abbreviation(abbreviation_table, c1, c2) { // 줄임말 조합을 찾기 (이어치기 자판)
-	var i;
-	var chars=null;
-
-	for(i=0; i<abbreviation_table.length; ++i) {
-		if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2)) {
+	var i, chars=null;
+	for(i=0; i<abbreviation_table.length; ++i)
+		if(abbreviation_table[i].phonemes[0]==convert_into_unicode_hangeul_phoneme(c1) && abbreviation_table[i].phonemes[1]==convert_into_unicode_hangeul_phoneme(c2))
 			return abbreviation_table[i].chars;
-		}
-	}
 	return null;
 }
 
@@ -3469,10 +3465,10 @@ function ohi_code_tables() {
 	i=0x11A8;	while(i<=0x11C2) unicode_modern_ggeut.push(i++);
 	unicode_modern_hangeul_phoneme = unicode_modern_cheos.concat(unicode_modern_ga, unicode_modern_ggeut); // 유니코드 조합형 요즘한글 낱자
 
-	unicode_single_phoneme_cheos = [0x1100,0x1102,0x1103,0x1105,0x1106,0x1107,0x1109,0x110B,0x110C,0x110E,0x110F,0x1110,0x1111,0x1112];
-	unicode_single_phoneme_ga = [0x1161,0x1162,0x1164,0x1165,0x1166,0x1169,0x116E,0x1173,0x1175,0x119E];
-	unicode_single_phoneme_ggeut = [0x11A8,0x11AB,0x11AE,0x11AF,0x11B7,0x11B8,0x11BA,0x11BC,0x11BD,0x11BE,0x11BF,0x11C0,0x11C1,0x11C2];
-	unicode_single_phoneme = unicode_single_phoneme_cheos.concat(unicode_single_phoneme_ga, unicode_single_phoneme_ggeut);
+	unicode_non_combined_phoneme_cheos = [0x1100,0x1102,0x1103,0x1105,0x1106,0x1107,0x1109,0x110B,0x110C,0x110E,0x110F,0x1110,0x1111,0x1112];
+	unicode_non_combined_phoneme_ga = [0x1161,0x1162,/*0x1164,*/0x1165,0x1166,/*0x1168,*/0x1169,0x1172,0x1173,0x1175,0x119E];
+	unicode_non_combined_phoneme_ggeut = [0x11A8,0x11AB,0x11AE,0x11AF,0x11B7,0x11B8,0x11BA,0x11BC,0x11BD,0x11BE,0x11BF,0x11C0,0x11C1,0x11C2];
+	unicode_non_combined_phoneme = unicode_non_combined_phoneme_cheos.concat(unicode_non_combined_phoneme_ga, unicode_non_combined_phoneme_ggeut);
 
 	// 쿼티를 기준으로 한 화상 배열표의 아랫글 자리 부호값
 	dkey = [96,49,50,51,52,53,54,55,56,57,48,45,61,8,
