@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/05/31
+ * Last Update : 2018/06/05
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -166,6 +166,7 @@ var dkey, ukey;
 
 var pressed_keys = []; // 모아친 글쇠들의 값
 var prev_pressed_keys = []; // 바로 앞에 모아친 글쇠들의 값
+var prev_class = []; // 바로 앞에 모아친 줄임말의 종류(품사 등)
 var pressing_keys = 0; // 눌려 있는 글쇠 수
 var double_multikey_abbreviated_state = 0; // 줄여넣기를 두 차례 잇달아 했는지를 나타냄
 
@@ -816,9 +817,10 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 	for(i=0; i<abbreviation_table.length; ++i) {
 		if(double_multikey_abbreviated_state) {
 		// 줄여넣기 조합을 이미 두 차례 이어서 했을 때
+			// 이전 글쇠 조합이 지정된 줄임말 글쇠 조합은 건너뜀
 			if(typeof abbreviation_table[i].prev_keys != 'undefined' && abbreviation_table[i].prev_keys.length) continue;
 		}
-		
+
 		if(pressed_keys.length != abbreviation_table[i].keys.length) continue;
 
 		for(j=0;j<abbreviation_table[i].keys.length;++j)
@@ -828,14 +830,31 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 		// 기호 확장
 		if(abbreviation_table[i].keys.length==1 && abbreviation_table[i].keys[0]<0) return abbreviation_table[i].chars;
 
+		// 줄임말 종류(class)
+		if(typeof abbreviation_table[i].prev_class != 'undefined' && abbreviation_table[i].prev_class.length) {
+			if(prev_class.length) {
+				for(j=0;j<abbreviation_table[i].prev_class.length;++j)
+					if(prev_class.indexOf(abbreviation_table[i].prev_class[j])>=0) break;
+				if(j!=abbreviation_table[i].prev_class.length) {
+					prev_class = typeof abbreviation_table[i].class != 'undefined' ? abbreviation_table[i].class.slice() : [];
+					prev_pressed_keys = [];
+					prev_cursor_position = -1;
+					return abbreviation_table[i].chars;
+				}
+			} else continue;
+		}
+
 		if(typeof abbreviation_table[i].prev_keys == 'undefined' || !abbreviation_table[i].prev_keys.length) {
 			// 줄여넣기 조합을 이미 두 차례 이어서 했을 때
-			if(double_multikey_abbreviated_state) {
+			if(double_multikey_abbreviated_state) {//alert();
 				double_multikey_abbreviated_state = 0;
 				return abbreviation_table[i].chars;
 			}
 			// 이전 글쇠값 정보가 없을 때
-			if(!prev_pressed_keys.length) return abbreviation_table[i].chars;
+			if(!prev_pressed_keys.length) {
+				prev_class = typeof abbreviation_table[i].class != 'undefined' ? abbreviation_table[i].class.slice() : [];
+				return abbreviation_table[i].chars;
+			}
 		}
 		
 		if(!prev_pressed_keys.length && typeof abbreviation_table[i].prev_keys != 'undefined' && abbreviation_table[i].prev_keys.length) continue;
@@ -846,6 +865,7 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 					if(prev_pressed_keys.indexOf(abbreviation_table[i].prev_keys[j].charCodeAt(0))<0) break;
 				if(j==prev_pressed_keys.length) {
 				// 앞의 글쇠값과 들어맞을 때
+					prev_class = typeof abbreviation_table[i].class != 'undefined' ? abbreviation_table[i].class.slice() : [];
 					prev_pressed_keys = [];
 					double_multikey_abbreviated_state = 1;
 					return abbreviation_table[i].chars;
@@ -857,7 +877,10 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 		l.push(i);
 	}
 
-	if(l.length) return abbreviation_table[l[0]].chars;
+	if(l.length) {
+		prev_class = typeof abbreviation_table[l[0]].class != 'undefined' ? abbreviation_table[l[0]].class.slice() : [];
+		return abbreviation_table[l[0]].chars;
+	}
 	else return [];
 }
 
@@ -1248,8 +1271,8 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 		}
 
 		if(chars.length) {
-		// 줄임말 조합을 이어서 하는 때에는 먼저 들어간 줄임말을 지우고 다음 줄임말을 넣음
-			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length) ohiHangeul_moa_backspace(f,e);
+		// 줄임말 조합을 글쇠 조합으로 이어서 하는 때에 먼저 들어간 줄임말을 지우고 다음 줄임말을 넣음
+			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length && prev_cursor_position > 0) ohiHangeul_moa_backspace(f,e);
 			insert_chars(f,chars);
 			return;	
 		}
@@ -3466,7 +3489,7 @@ function ohi_code_tables() {
 	unicode_modern_hangeul_phoneme = unicode_modern_cheos.concat(unicode_modern_ga, unicode_modern_ggeut); // 유니코드 조합형 요즘한글 낱자
 
 	unicode_non_combined_phoneme_cheos = [0x1100,0x1102,0x1103,0x1105,0x1106,0x1107,0x1109,0x110B,0x110C,0x110E,0x110F,0x1110,0x1111,0x1112];
-	unicode_non_combined_phoneme_ga = [0x1161,0x1162,/*0x1164,*/0x1165,0x1166,/*0x1168,*/0x1169,0x1172,0x1173,0x1175,0x119E];
+	unicode_non_combined_phoneme_ga = [0x1161,0x1162,0x1164,0x1165,0x1166,0x1168,0x1169,0x1172,0x1173,0x1175,0x119E];
 	unicode_non_combined_phoneme_ggeut = [0x11A8,0x11AB,0x11AE,0x11AF,0x11B7,0x11B8,0x11BA,0x11BC,0x11BD,0x11BE,0x11BF,0x11C0,0x11C1,0x11C2];
 	unicode_non_combined_phoneme = unicode_non_combined_phoneme_cheos.concat(unicode_non_combined_phoneme_ga, unicode_non_combined_phoneme_ggeut);
 

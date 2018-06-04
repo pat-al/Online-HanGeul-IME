@@ -63,6 +63,8 @@ additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2015', full_name: '세모
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2016', full_name: '세모이 2016 (옛 배열)', layout: K3_Semoe_2016_layout, sublayout: K3_Semoe_2016_sublayout, moachigi_hangeul_combination_table: K3_Semoe_2016_combination_table, extended_sign_layout: K3_Semoe_extended_sign_layout});
 additional_layouts.push({KE: 'Ko', type_name: '3m-Semoe2017', full_name: '세모이 2017 (옛 배열)', layout: K3_Semoe_2017_layout, sublayout: K3_Semoe_2017_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2017_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2017_moachigi_multikey_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
 
+additional_layouts.push({KE: 'Ko', type_name: '3m-test', full_name: '모아치기 시험', layout: K3_Semoe_2017_layout, sublayout: K3_Semoe_2017_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2017_combination_table, moachigi_multikey_abbreviation_table: K3_test_multikey_abbreviation_table, link: ''});
+
 function input_additional_keyboard_layout_info() {
 	var i,j;
 	
@@ -7064,9 +7066,10 @@ function input_additional_combination_table_info() {
 	];
 	
 	K3_test_multikey_abbreviation_table = [
-		{keys: ['s','u'], keys: ['c'], chars: [0xB0B4,0xB144]}, /* 내년 */
-		{prev_keys: ['s','u'], keys: ['c'], chars: [0xB0B4,0xB144,0xC5D0]}, /* 내년에 */
-		{prev_keys: ['s','u'], keys: ['s','u'], chars: [0xB0B4,0xB144,0xC5D0]} /* 내년에 */
+		{class: ['명사',1], keys: ['s','u'], chars: [0xB0B4,0xB144]}, /* 내년 */
+		//{prev_keys: ['s','u'], keys: ['c'], chars: [0xB0B4,0xB144,0xC5D0]}, /* 내년에 */
+		//{prev_keys: ['s','u'], keys: ['s','u'], chars: [0xB0B4,0xB144,0xC5D0]}, /* 내년에 */
+		{prev_class: [1,'명사'], keys: ['c'], chars: [0xC5D0]} /* 내년에 */
 	];
 
 } // input_additional_combination_table_info()
