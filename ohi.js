@@ -844,7 +844,9 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 					prev_cursor_position = -1;
 					return abbreviation_table[i].chars;
 				}
-			} else continue;
+				else continue;
+			}
+			else continue;
 		}
 
 		if(typeof abbreviation_table[i].prev_keys == 'undefined' || !abbreviation_table[i].prev_keys.length) {
@@ -3121,6 +3123,7 @@ function ohiKeydown(e) {
 
 		if(e.keyCode==13) { // Enter (한글 조합 상태)
 			tableKey_press(e.keyCode);
+			prev_class = [];
 			if(is_moachigi_input()) {
 				if(e.preventDefault) e.preventDefault();
 				if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length && typeof f.selectionEnd != 'undefined' && f.selectionStart != f.selectionEnd) ohiBackspace(f);
@@ -3132,12 +3135,12 @@ function ohiKeydown(e) {
 
 		if(e.keyCode==32) { // Space
 			tableKey_press(e.keyCode);
-			if(NFD_stack.phoneme.length) ohiSelection(f,0);
+			if(NFD_stack.phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiSelection(f,0);
+			prev_class = [];
 			if(is_moachigi_input()) {
 				if(!pressing_keys) return false;
 				if(e.preventDefault) e.preventDefault();
 				pressed_key_accumulation(f,e,key);
-				prev_cursor_position = -1;
 				onkeyup_skip = 0;
 				return false;
 			}
@@ -3150,6 +3153,7 @@ function ohiKeydown(e) {
 		if((e.keyCode>=35 && e.keyCode<=40) || e.keyCode==45 || e.keyCode==46) { // end(35), home(36), 화살표(37~40), insert(45), del(46)
 			if(NFD_stack.phoneme.length || ohiQ[0]+ohiQ[3]+ohiQ[6]) { // 한글 조합 상태
 				complete_hangeul_syllable(f);
+				prev_class = [];
 				prev_cursor_position = -1;
 			}
 			esc_ext_layout();
@@ -3175,10 +3179,11 @@ function ohiKeydown(e) {
 			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) tableKey_press(e.keyCode);
 		}
 
-		if(e.keyCode<45 && e.keyCode<16 && e.keyCode>18) {
+		if(e.keyCode<45 && e.keyCode!=16) {
 			if(is_phonemic_writing_input() && (ohiQ[0]+ohiQ[3]+ohiQ[6])) complete_hangeul_syllable(f); // 특수 글쇠가 눌렸을 때 풀어쓰기 처리
 			if(NFD_stack.phoneme.length) complete_hangeul_syllable(f); // 옛한글 자판
 			esc_ext_layout();
+			prev_class = [];
 			prev_cursor_position = -1;
 			ohiInsert(f,0,0);
 		}
