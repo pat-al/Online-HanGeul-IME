@@ -252,6 +252,7 @@ function ohiHangeul_moa_backspace(f,e) {
 		else if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
 	}
 	prev_cursor_position = -1;
+	prev_class = [];
 	esc_ext_layout();
 	return 0;
 }
