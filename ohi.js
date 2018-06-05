@@ -145,6 +145,7 @@ var backup_ohiQ = []; // 완성형 한글 낱내를 옛한글 상태로 바꿀 �
 var backup_ohiRQ = [];
 var backspacing_state = 0; // 뒷걸음쇠 처리를 하고 있는지를 알리는 상태 변수 (ohiInsert 함수에 알림)
 var prev_cursor_position = -1; // 앞선 상태의 가리키개 자리 (모아치기 자판이나 줄임말 기능으로 넣은 글을 한꺼번에 지울 때 쓰임)
+var backup_prev_cursor_position = -1; // 앞선 상태의 가리키개 자리 (모아치기 자판이나 줄임말 기능으로 넣은 글을 한꺼번에 지울 때 쓰임)
 var abbreviation_processing_state = 0; // 줄임말 처리를 하고 있는지를 나타내는 변수
 
 var ohiStatus = document.createElement('div');
@@ -244,7 +245,7 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 	ohiInsert(f,0,0);
 }
 
-function ohiHangeul_moa_backspace(f,e) {
+function ohiHangeul_moa_backspace(f,e) {console.log(prev_cursor_position);
 	if(f.selectionEnd) {
 		if(prev_cursor_position>=0 && f.selectionEnd > prev_cursor_position) {
 			while(f.selectionEnd && f.selectionEnd > prev_cursor_position) if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
@@ -839,6 +840,7 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 				if(j!=abbreviation_table[i].prev_class.length) {
 					prev_class = typeof abbreviation_table[i].class != 'undefined' ? abbreviation_table[i].class.slice() : [];
 					prev_pressed_keys = [];
+					backup_prev_cursor_position = prev_cursor_position;
 					prev_cursor_position = -1;
 					return abbreviation_table[i].chars;
 				}
@@ -1263,6 +1265,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	// 모아치기 글쇠 기준 줄임말·예외 조합 (모아치기 조합 가운데 가장 먼저 적용됨)
 		combination_table = current_layout.moachigi_multikey_abbreviation_table;
 		backup_prev_pressed_keys = prev_pressed_keys.slice();
+		backup_prev_cursor_position = -1;
 		chars = seek_moachigi_abbreviation(combination_table);
 
 		if(chars.length==1 && combination_table[i].chars[0]<0 && combination_table[i].chars[0]>=-3) {
@@ -1273,8 +1276,9 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 
 		if(chars.length) {
 		// 줄임말 조합을 글쇠 조합으로 이어서 하는 때에 먼저 들어간 줄임말을 지우고 다음 줄임말을 넣음
-			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length && prev_cursor_position > 0) ohiHangeul_moa_backspace(f,e);
+			if(backup_prev_pressed_keys.length && !prev_pressed_keys.length && prev_cursor_position > -1) ohiHangeul_moa_backspace(f,e);
 			insert_chars(f,chars);
+			if(backup_prev_cursor_position > -1) prev_cursor_position = backup_prev_cursor_position;
 			return;	
 		}
 	}
