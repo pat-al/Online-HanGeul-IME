@@ -7066,10 +7066,34 @@ function input_additional_combination_table_info() {
 	];
 	
 	K3_test_multikey_abbreviation_table = [
-		{class: ['명사',1], keys: ['s','u'], chars: [0xB0B4,0xB144]}, /* 내년 */
-		//{prev_keys: ['s','u'], keys: ['c'], chars: [0xB0B4,0xB144,0xC5D0]}, /* 내년에 */
-		//{prev_keys: ['s','u'], keys: ['s','u'], chars: [0xB0B4,0xB144,0xC5D0]}, /* 내년에 */
-		{prev_class: [1,'명사'], keys: ['c'], chars: [0xC5D0]} /* 내년에 */
+		{class: ['이름1'], keys: ['e','k'], chars: [0xACB0,0xACFC]}, /* 결과 */
+		{class: ['이름1'], keys: ['k','x'], chars: [0xAD6D,0xAC00]}, /* 국가 */
+		{class: ['이름1'], keys: ['f','l','s','y'], chars: [0xB9C8,0xCC2C,0xAC00,0xC9C0]}, /* 마찬가지 */
+		{class: ['이름2'], keys: ['k','z'], chars: [0xAC1C,0xB150]}, /* 개념 */
+		{class: ['이름2'], keys: ['s','u'], chars: [0xB0B4,0xB144]}, /* 내년 */
+		{class: ['이름2'], keys: ['m','s','t','y'], chars: [0xB77C,0xBA74]}, /* 라면 */
+		{class: ['이름3'], keys: ['i','k','r'], chars: [0xAC70,0xB300]}, /* 거대 */
+		{class: ['이름3'], keys: ['l','m','r'], chars: [0xCC98,0xB9AC]}, /* 처리 */
+		{class: ['이름4'], keys: ['k','o','x'], chars: [0xADF9,0xBCF5]}, /* 극복 */
+		{class: ['이름4'], keys: ['a','f','o','y'], chars: [0xBC29,0xBB38]}, /* 방문 */	
+		{class: ['풀이1'], keys: ['j','q','r','w'], chars: [0xC5C6,0xC560]}, /* 없애 */
+		{class: ['풀이2'], keys: ['j','k','q','w'], chars: [0xB04A,0xC784,0xC5C6]}, /* 끊임없 */
+
+		{prev_class: ['이름1','이름2','이름3'], keys: ['c'], chars: [0xC5D0,0x20]}, /* 에  */
+		{prev_class: ['이름1','이름3'], keys: ['e','y'], chars: [0xC57C,0xB9D0,0xB85C,0x20]}, /* 야말로  */
+		{prev_class: ['이름2','이름4'], keys: ['e','y'], chars: [0xC774,0xC57C,0xB9D0,0xB85C,0x20]}, /* 이야말로  */
+		{prev_class: ['이름1','이름2','이름3','이름4'], keys: ['l','m','z'], chars: [0xCC98,0xB7FC,0x20]}, /* 처럼  */
+		{prev_class: ['이름1','이름3'], keys: ['m','s','t'], chars: [0xB77C,0xBA74]}, /* 라면 */
+		{prev_class: ['이름2','이름4'], keys: ['m','s','t'], chars: [0xC774,0xB77C,0xBA74]}, /* 이라면 */
+		{prev_class: ['풀이1'], keys: ['u','w'], chars: [0x11B8,0xB2C8,0xB2E4,0x2E,0x20]}, /* ㅂ니다.  */
+		{prev_class: ['풀이2'], keys: ['u','w'], chars: [0xC2B5,0xB2C8,0xB2E4,0x2E,0x20]}, /* 습니다.  */
+		{prev_class: ['풀이1'], keys: ['u'], chars: [0xC73C,0xB2C8,0x20]}, /* 니  */
+		{prev_class: ['풀이2'], keys: ['u'], chars: [0xC73C,0xB2C8,0x20]}, /* 으니 */
+		{prev_class: ['풀이1'], keys: ['d','f','u','k'], chars: [0xB2C8,0xAE4C]}, /* 니까 */
+		{prev_class: ['풀이2'], keys: ['d','f','u','k'], chars: [0xC73C,0xB2C8,0xAE4C]}, /* 으니까 */
+		{prev_class: ['이름3','이름4'], keys: ['g','h','u'], chars: [0xD558,0xB294,0x20]}, /* 하는  */
+		{prev_class: ['이름1','이름3','풀이1','풀이2'], keys: ['l','s','y'], chars: [0xC9C0,0xB9CC,0x20]}, /* 지만  */
+		{prev_class: ['이름2','이름4'], keys: ['l','s','y'], chars: [0xC774,0xC9C0,0xB9CC,0x20]}, /* 이지만  */
 	];
 
 } // input_additional_combination_table_info()
