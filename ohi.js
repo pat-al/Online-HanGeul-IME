@@ -702,7 +702,8 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 			return;
 		}
 		if(is_old_hangeul_input()) {
-			NFD_hangeul2_preprocess(f,e,key);
+			c = NFD_hangeul2_preprocess(f,e,key);
+			NFD_hangeul_input(f,e,key,c);
 			return;
 		}
 		
@@ -783,20 +784,20 @@ function NFD_hangeul2_preprocess(f,e,key) {
 
 			if(combined_phoneme) {
 			// 먼저 들어온 끝소리와 조합되는 닿소리이면 끝소리로 넣음
-				NFD_hangeul_input(f,e,key,unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)]);
+				return unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)];
 			}
 			else {
 			// 먼저 들어온 끝소리와 조합되지 않은 닿소리이면 조합을 끊고 첫소리로 넣음
 				complete_hangeul_syllable(f);
 				if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
-				NFD_hangeul_input(f,e,key,c);
+				return c;
 			}
 		}
 		else if(unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme[0]==0x1160) { // 바로 앞에 홀소리 또는 홀소리 채움 부호가 들어왔다면
-			c=unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)];
-			NFD_hangeul_input(f,e,key,c); // 끝소리로 넣음
+			c=unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)]; // 끝소리로 넣음
+			return c;
 		}
-		else NFD_hangeul_input(f,e,key,c);
+		else return c;
 	}
 	else if(unicode_ga.indexOf(c)>=0 || c==0x1160) { // 홀소리 또는 홀소리 채움 부호일 때
 		if(unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0) { // 바로 앞에 끝소리가 들어왔다면
@@ -808,9 +809,10 @@ function NFD_hangeul2_preprocess(f,e,key) {
 			NFD_hangeul_input(f,e,key,backup_phoneme); // 앞에 넣은 끝소리를 첫소리로 바꾸어 넣음
 			NFD_stack.phoneme_R[0]=backup_phoneme_R;
 		}
-		NFD_hangeul_input(f,e,key,c);
+		return c;
 	}
-	else ohiInsert(f,0,c);
+
+	return c;
 }
 
 function seek_ieochigi_abbreviation(abbreviation_table, c1, c2) { // 줄임말 조합을 찾기 (이어치기 자판)
