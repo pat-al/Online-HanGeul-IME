@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/06/05
+ * Last Update : 2018/06/12
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -851,7 +851,7 @@ function seek_moachigi_abbreviation(abbreviation_table) { // 모아치기 자판
 
 		if(typeof abbreviation_table[i].prev_keys == 'undefined' || !abbreviation_table[i].prev_keys.length) {
 			// 줄여넣기 조합을 이미 두 차례 이어서 했을 때
-			if(double_multikey_abbreviated_state) {//alert();
+			if(double_multikey_abbreviated_state) {
 				double_multikey_abbreviated_state = 0;
 				return abbreviation_table[i].chars;
 			}
@@ -3019,8 +3019,9 @@ function ohiKeypress(e) {
 		else if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개(enter)와 사이띄개(space bar)
 			if(!(browser=="MSIE" && browser_ver<9)) {
 				if(key==32) if(e.preventDefault) e.preventDefault();
-				if(!i && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
+				//if(!i && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
 			}
+			prev_cursor_position = -1;
 			complete_hangeul_syllable(f);
 			// 풀어쓰기를 하고 있고 '낱내 뒤 빈칸 넣기' 기능을 쓰는데 한글을 조합하다가 사이띄개가 눌리면 빈칸을 더하여 넣음
 			if(i && key==32 && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32);
@@ -3179,7 +3180,7 @@ function ohiKeydown(e) {
 			if(Ko_type.substr(0,3)=='3m-' && !option.force_normal_typing) tableKey_press(e.keyCode);
 		}
 
-		if(e.keyCode<45 && e.keyCode!=16) {
+		if(e.keyCode<45 && e.keyCode!=16 && e.keyCode!=13 && e.keyCode!=32) {
 			if(is_phonemic_writing_input() && (ohiQ[0]+ohiQ[3]+ohiQ[6])) complete_hangeul_syllable(f); // 특수 글쇠가 눌렸을 때 풀어쓰기 처리
 			if(NFD_stack.phoneme.length) complete_hangeul_syllable(f); // 옛한글 자판
 			esc_ext_layout();
