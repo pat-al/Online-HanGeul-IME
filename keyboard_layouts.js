@@ -332,7 +332,7 @@ function input_keyboard_layout_info() {
 		0x114E, /* 0x43 C: choseong ap-jieuj */
 		0x114C, /* 0x44 D: choseong yes-ieung */
 		0x1104, /* 0x45 E: choseong ssangdieud */
-		0x1105, /* 0x46 F: choseong lieul */
+		0x001B, /* 0x46 F: escape */
 		0x1159, /* 0x47 G: choseong yeolin-hieuh */
 		0x1169, /* 0x48 H: jungseong o */
 		0x1163, /* 0x49 I: jungseong ya */

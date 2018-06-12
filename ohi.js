@@ -245,7 +245,7 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 	ohiInsert(f,0,0);
 }
 
-function ohiHangeul_moa_backspace(f,e) {console.log(prev_cursor_position);
+function ohiHangeul_moa_backspace(f,e) {
 	if(f.selectionEnd) {
 		if(prev_cursor_position>=0 && f.selectionEnd > prev_cursor_position) {
 			while(f.selectionEnd && f.selectionEnd > prev_cursor_position) if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
@@ -694,7 +694,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 	if(typeof layout != 'undefined') {
 		c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
 
-		if(!c) { // 글쇠값이 0이면 조합 끊기
+		if(!c || c==0x1B) { // 글쇠값이 0 또는 escape이면 조합 끊기
 			complete_hangeul_syllable(f);
 			return;
 		}
@@ -956,7 +956,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		c2=layout[shift_table[key-33]-33]; // 윗글 자리
 	}
 
-	if(!c1) { // 글쇠값이 0이면 조합 끊기
+	if(!c1 || c1==0x1B) { // 글쇠값이 0 또는 escape이면 조합 끊기
 		complete_hangeul_syllable(f);
 		return;
 	}
@@ -2473,8 +2473,8 @@ function show_keyboard_layout(type) {
 
 	rows.innerHTML = inner_html;
 
-	char_converting_table_original_code = [0x1160];
-  char_converting_table_target_string = ['🄵'];
+	char_converting_table_original_code = [0x1B, 0x1160];
+  char_converting_table_target_string = ['🄴', '🄵'];
  
 	for(i=0, k=-1; ue[i]; i++) {
 		var row = document.getElementById('row'+i);
