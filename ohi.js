@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/06/12
+ * Last Update : 2018/06/13
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -688,17 +688,14 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 
 	var c;
 	var layout_info = current_layout;
-	if(typeof current_layout.old_hangeul_layout_type_name != 'undefined')	layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
+	if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined')	layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
 	var layout = layout_info.layout;
 
 	if(typeof layout != 'undefined') {
 		c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
+
 		if(!c) { // 글쇠값이 0이면 조합 끊기
 			complete_hangeul_syllable(f);
-			return;
-		}
-		if(c==layout[key-33]) {
-			ohiInsert(f,0,key);
 			return;
 		}
 		if(is_old_hangeul_input()) {
@@ -706,7 +703,11 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 			NFD_hangeul_input(f,e,key,c);
 			return;
 		}
-		
+		if(c==layout[key-33]) {
+			ohiInsert(f,0,key);
+			return;
+		}
+
 		if(ohi_cheos.indexOf(c)>=0) c-=127;
 		else if(ohi_ga.indexOf(c)>=0) c-=35;
 		else if(ohi_ggeut.indexOf(c)>=0) c-=127;
