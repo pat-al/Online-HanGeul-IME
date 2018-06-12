@@ -686,19 +686,26 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 		return;
 	}
 
-	if(is_old_hangeul_input()) {
-		NFD_hangeul2_preprocess(f,e,key);
-		return;
-	}
-
 	var c;
+	var layout_info = current_layout;
+	if(typeof current_layout.old_hangeul_layout_type_name != 'undefined')	layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
+	var layout = layout_info.layout;
 
-	if(typeof current_layout.layout != 'undefined') {
-		c = convert_into_ohi_hangeul_phoneme(current_layout.layout[key-33]);
-		if(c==current_layout.layout[key-33]) {
+	if(typeof layout != 'undefined') {
+		c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
+		if(!c) { // 글쇠값이 0이면 조합 끊기
+			complete_hangeul_syllable(f);
+			return;
+		}
+		if(c==layout[key-33]) {
 			ohiInsert(f,0,key);
 			return;
 		}
+		if(is_old_hangeul_input()) {
+			NFD_hangeul2_preprocess(f,e,key);
+			return;
+		}
+		
 		if(ohi_cheos.indexOf(c)>=0) c-=127;
 		else if(ohi_ga.indexOf(c)>=0) c-=35;
 		else if(ohi_ggeut.indexOf(c)>=0) c-=127;
@@ -803,6 +810,7 @@ function NFD_hangeul2_preprocess(f,e,key) {
 		}
 		NFD_hangeul_input(f,e,key,c);
 	}
+	else ohiInsert(f,0,c);
 }
 
 function seek_ieochigi_abbreviation(abbreviation_table, c1, c2) { // 줄임말 조합을 찾기 (이어치기 자판)
@@ -943,6 +951,11 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	else if(layout) {
 		c1=layout[key-33];
 		c2=layout[shift_table[key-33]-33]; // 윗글 자리
+	}
+
+	if(!c1) { // 글쇠값이 0이면 조합 끊기
+		complete_hangeul_syllable(f);
+		return;
 	}
 
 	if( (c1>64 && c1<91 || c1>96 && c1<123) && !(option.enable_sign_ext && sign_ext_state && extended_sign_layout)) {
