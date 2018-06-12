@@ -1413,12 +1413,12 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 		}
 	}
 
-	if(!chars.length) return;
-	prev_cursor_position = f.selectionStart==f.selectionEnd ? f.selectionEnd : f.selectionEnd + (is_phonemic_writing_input() && (ohiQ[0]+ohiQ[3]+ohiQ[6]) ? 1:0) + (option.only_NFD_hangeul_encoding ? !ohiQ[6] ? 1 : 2 : 0);
-
-	for(i=0;i<chars.length;++i) {
-		if(unicode_NFD_hangeul_phoneme.indexOf(chars[i])>=0) ohiHangeul3(f,0,chars[i]); // 한글 낱자일 때
-		else ohiInsert(f,0,chars[i]); // 한글 낱자가 아닐 때
+	if(chars.length) {
+		prev_cursor_position = f.selectionStart==f.selectionEnd ? f.selectionEnd : f.selectionEnd + (is_phonemic_writing_input() && (ohiQ[0]+ohiQ[3]+ohiQ[6]) ? 1:0) + (option.only_NFD_hangeul_encoding ? !ohiQ[6] ? 1 : 2 : 0);
+		for(i=0;i<chars.length;++i) {
+			if(unicode_NFD_hangeul_phoneme.indexOf(chars[i])>=0) ohiHangeul3(f,0,chars[i]); // 한글 낱자일 때
+			else ohiInsert(f,0,chars[i]); // 한글 낱자가 아닐 때
+		}
 	}
 
 	abbreviation_processing_state = 0;
