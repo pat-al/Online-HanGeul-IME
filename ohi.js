@@ -3035,13 +3035,13 @@ function ohiKeypress(e) {
 		else if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개(enter)와 사이띄개(space bar)
 			if(!(browser=="MSIE" && browser_ver<9)) {
 				if(key==32) if(e.preventDefault) e.preventDefault();
-				//if(!i && (f.selectionEnd-f.selectionStart)) ohiBackspace(f);
+				if(!i && f.selectionEnd!=f.selectionStart) ohiBackspace(f),	i=-1;
 			}
 			prev_cursor_position = -1;
 			complete_hangeul_syllable(f);
 			// 풀어쓰기를 하고 있고 '낱내 뒤 빈칸 넣기' 기능을 쓰는데 한글을 조합하다가 사이띄개가 눌리면 빈칸을 더하여 넣음
 			if(i && key==32 && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32);
-			ohiInsert(f,0,key);
+			if(i>-1) ohiInsert(f,0,key);
 			esc_ext_layout();
 		}
 		else if((key==10 || key==13 || key==32) && (e.ctrlKey^e.shiftKey)) { // Toggle
