@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/06/13
+ * Last Update : 2018/06/15
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2425,13 +2425,14 @@ function show_keyboard_layout(type) {
 	layout = find_layout_info('En', En_type).layout;
 	for(i=0;i<layout.length;++i) l[i]=String.fromCharCode(layout[i]);
 	push_to_key_table(ue,de,l);
+
 	ue[0][13] = 'Back';
 	ue[1][0] = 'Tab';
 	ue[2][0] = ue[3][0] = ue[3][11] = 'Shift';
 	ue[2][12] = 'Enter';
 	de[2][0] = 'Lock';
 	de[0][13] = 'Space';
- 
+
 	for(i=0;i<ue.length;++i)
 		for(j=0;j<ue[i].length;++j)
 			if(typeof de[i][j] != 'undefined' && ue[i][j].toLowerCase()==de[i][j].toLowerCase()) de[i][j]='　';
@@ -2464,7 +2465,7 @@ function show_keyboard_layout(type) {
 	}
 
 	ue.push(['기준','영문','한글','Space','한/영','2벌식','3벌식']);
-	de.push(['자판','바꿈','바꿈','','','바꿈','바꿈']);
+	de[4] = ['자판','바꿈','바꿈','','','바꿈','바꿈'];
 
 	inner_html += '<div id="keyboardLayoutInfo"></div><span class="menu" onclick="show_keyboard_layout(0);inputText_focus()" onmouseover="this.className=\'menu over\'" onmouseout="this.className=\'menu\'">배열표 숨기기</span>';
 	inner_html += '<div id="keyboardLayoutTable">';
