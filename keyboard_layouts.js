@@ -43,7 +43,7 @@ keyboard_layouts.push({KE: 'En', type_name: 'Colemak', full_name: 'Colemak', lay
 keyboard_layouts.push({KE: 'En', type_name: 'Workman', full_name: 'Workman', layout: En_Workman_layout});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '2-KSX5002', full_name: '한국 표준 (KS X 5002)', layout: K2_KSX5002_layout, old_hangeul_layout_type_name: '2-KSX5002-y'});
-keyboard_layouts.push({KE: 'Ko', type_name: '2-KSX5002-y', full_name: '두벌식 옛한글 (KS X 5002 응용)', layout: K2_KSX5002_y_layout});
+keyboard_layouts.push({KE: 'Ko', type_name: '2-KSX5002-y', full_name: '두벌식 옛한글 (KS X 5002 응용)', layout: K2_KSX5002_y_layout, link: 'https://pat.im/1179'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '2-KPS9256', full_name: '조선 국규 (KPS 9256)', layout: K2_KPS9256_layout});
 
@@ -335,9 +335,9 @@ function input_keyboard_layout_info() {
 		0x001B, /* 0x46 F: escape */
 		0x1159, /* 0x47 G: choseong yeolin-hieuh */
 		0x1169, /* 0x48 H: jungseong o */
-		0x1163, /* 0x49 I: jungseong ya */
+		0x302E, /* 0x49 I: hangeul single dot tone mark */
 		0x1160, /* 0x4A J: jungseong filler */
-		0X119E, /* 0x4B K: jungseong araea */
+		0x119E, /* 0x4B K: jungseong araea */
 		0x1175, /* 0x4C L: jungseong i */
 		0x1173, /* 0x4D M: jungseong eu */
 		0x1155, /* 0x4E N: choseong dwits-chieuch */
@@ -347,11 +347,11 @@ function input_keyboard_layout_info() {
 		0x1101, /* 0x52 R: choseong ssanggieug */
 		0x1102, /* 0x53 S: choseong nieun */
 		0x110A, /* 0x54 T: choseong ssangsieus */
-		0x302E,	/* 0x55 U: hangeul single dot tone mark */
+		0x302F,	/* 0x55 U: hangeul double dot tone mark */
 		0x1150, /* 0x56 V: choseong dwits-jieuj */
 		0x110D, /* 0x57 W: choseong ssangjieuj */
 		0x113E, /* 0x58 X: choseong dwis-sieus */
-		0X302F,	/* 0x59 Y: hangeul double dot tone mark */
+		0x116D, /* 0x59 Y: jungseong yo */
 		0x113C, /* 0x5A Z: choseong ap-sieus */
 		0x005B,	/* 0x5B bracketleft: left bracket */
 		0x005C,	/* 0x5C backslash: backslash */
