@@ -2258,8 +2258,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 		ref_char = '&amp;#x'+ char_code.toString(16).toUpperCase() + ';';
 		if(NCR_option.convert_only_NFD_hangeul_encoding) {
 		// 첫가끝 조합형 한글만 바꿀 때
-			if(unicode_NFD_hangeul_phoneme.indexOf(char_code)<0 && unicode_NFD_hangeul_filler.indexOf(char_code)<0 && unicode_NFD_hangeul_sidedot.indexOf(char_code)<0)
-				ref_char = f.value.charAt(i);
+			if(unicode_NFD_hangeul_code.indexOf(char_code)<0 && unicode_NFD_hangeul_sidedot.indexOf(char_code)<0) ref_char = f.value.charAt(i);
 		}
 		ref_text += ref_char;
 	}
@@ -3504,12 +3503,10 @@ function ohi_code_tables() {
 	unicode_cheos_to_ggeut = [0x11A8,0x11A9,0x11AB,0x11AE,0xD7CD,0x11AF,0x11B7,0x11B8,0xD7E6,0x11BA,0x11BB,0x11BC,0x11BD,0xD7F9,0x11BE,0x11BF,0x11C0,0x11C1,0x11C2,
 	 0,0,0,0,0,0,0,0,0xD7DD,0,0x11E2,0,0,0,0,0,0,0,0,0,0,0,0,0,0x11E6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x11EB,0,0,0,0,0,0,0,0,0,0,0,0x11F0,0,0,0,0,0,0,0,0,0,0,0,0,0x11F9];
 
-	unicode_NFD_hangeul_phoneme = unicode_cheos.concat(unicode_ga, unicode_ggeut); // 유니코드 조합형 한글 낱자
-	unicode_NFD_hangeul_filler = [0x115F,0x1160]; // 유니코드 조합형 첫소리·가운뎃소리 채움 부호
-	unicode_NFD_hangeul_sidedot = [0x302E,0x302F]; // 유니코드 조합형 방점
-
-	// 유니코드 조합형에 쓰이는 모든 부호
-	unicode_NFD_hangeul_code = unicode_NFD_hangeul_phoneme.concat(unicode_NFD_hangeul_filler, unicode_NFD_hangeul_sidedot);
+	unicode_NFD_hangeul_phoneme = unicode_cheos.concat(unicode_ga, unicode_ggeut); // 첫가끝 조합형 한글 낱자
+	unicode_NFD_hangeul_filler = [0x115F,0x1160]; // 첫가끝 조합형 첫소리·가운뎃소리 채움 부호
+	unicode_NFD_hangeul_code = unicode_NFD_hangeul_phoneme.concat(unicode_NFD_hangeul_filler); 	// 첫가끝 조합형에서 한글 낱내를 나타내는 데에 쓰이는 부호
+	unicode_NFD_hangeul_sidedot = [0x302E,0x302F]; // 옛한글에서 성조를 나타내는 방점
 
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheos.push(i++);
 	i=0x1161;	while(i<=0x1175) unicode_modern_ga.push(i++);
