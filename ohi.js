@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/06/15
+ * Last Update : 2018/07/14
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -982,7 +982,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 
 		if(is_old_hangeul_input()) {
 			if(Ko_type.substr(0,5)=='Sin3-') { // 옛한글 신세벌식 자판
-				c1=NFD_hangeul_Sin3_preprocess(f,e,key);
+				c1=NFD_Sin3_preprocess(f,e,key);
 				if(c1==-1) return 0;
 			}
 			NFD_hangeul_input(f,e,key,c1); // 첫가끝 조합형으로 옛한글 낱자 처리하기
@@ -990,7 +990,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		}
 
 		if(Ko_type.substr(0,5)=='Sin3-') { // 요즘한글 신세벌식 자판
-			c1=NFC_hangeul_Sin3_preprocess(f,e,key);
+			c1=NFC_Sin3_preprocess(f,e,key);
 			if(c1==-1) return 0;
 		}
 		else if(Ko_type.substr(1,2)=='t-') { // 타자기 자판
@@ -1727,7 +1727,7 @@ function NFD_hangeul_single_phoneme_syllable_input(f,c) {
 }
 
 
-function NFC_hangeul_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처리
+function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처리
 	var i, j, c1, c2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
@@ -1856,7 +1856,7 @@ function NFC_hangeul_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자
 	return c1;
 }
 
-function NFD_hangeul_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
+function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
 	var i, j, c1, c2;
 	var Sin3_layout=current_layout.layout;
 	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
