@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/07/14
+ * Last Update : 2018/07/15
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -951,12 +951,12 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	// key가 유니코드 한글 낱자일 때
 		c1=key;
 	}
-	else if(layout) {
-		c1=layout[key-33];
-		c2=layout[shift_table[key-33]-33]; // 윗글 자리
+	else if(layout) {  // 글쇠 자리의 부호값이 0x1B이면 0으로 바꿔 뒤에서 조합 끊는 처리를 하게 함
+		c1 = layout[key-33]==0x1B ? 0 : layout[key-33];
+		c2 = layout[shift_table[key-33]-33]==0x1B ? 0 : layout[shift_table[key-33]-33]; // 윗글 자리
 	}
 
-	if( (c1>64 && c1<91 || c1>96 && c1<123) && !(option.enable_sign_ext && sign_ext_state && extended_sign_layout)) {
+	if((c1>64 && c1<91 || c1>96 && c1<123) && !(option.enable_sign_ext && sign_ext_state && extended_sign_layout)) {
 	// 아스키 영역의 영문자들을 한글 낱자로 처리하지 않고 그대로 넣기 위함 (기호 확장 배열을 쓰지 않을 때)
 		if(NFD_stack.phoneme.length) complete_hangeul_syllable(f);
 		ohiInsert(f,0,c1);
@@ -1058,7 +1058,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		}
 	}
 
-	if(!c1 || c1==0x1B) { // 부호값이 0 또는 escape이면 조합 끊기
+	if(!c1) { // 부호값이 0이면 조합 끊기
 		complete_hangeul_syllable(f);
 		return;
 	}
@@ -1851,6 +1851,7 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 	}
 
 	return c1;
+	return convert_into_unicode_hangeul_phoneme(c1);
 }
 
 function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
