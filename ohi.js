@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/07/15
+ * Last Update : 2018/08/25
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -211,7 +211,7 @@ function browser_detect() {
 	}
 }
 
-function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 backspace 동작을 하게 함
+function ohiBackspace(f) { // backspace 동작
 	if(document.selection && browser=='MSIE' && browser_ver<9) {
 		var s=document.selection.createRange();
 		s.moveStart('character', -f.value.length);
@@ -224,23 +224,43 @@ function ohiBackspace(f) { // backspace 글쇠를 누르지 않았을 때에 bac
 			var range = f.createTextRange();
 			range.collapse(true);
 			range.moveEnd('character', pos);
-			range.moveStart('character', pos-1);
+			range.moveStart('character', pos-length);
 			range.select();
 			range.text = '';
+
+			var scrollTop = f.scrollTop, scrollLeft = f.scrollLeft, selectionStart = f.selectionStart;
+			var endText = f.value.substr(f.selectionEnd,f.value.length);
+			f.value = f.value.substr(0,selectionStart)+String.fromCharCode(c);
+			var scrollHeight = f.scrollHeight, scrollWidth = f.scrollWidth;
+			f.value += endText;
+			if(c==13 && browser=='MSIE' && browser_ver==11 && !endText.length) {
+			// IE 11에서 뒤에 아무 문자 없을 때 줄을 바꾸면 한글 조합이 안 됨
+				f.value += String.fromCharCode(32);
+			}
+			f.scrollTop = (scrollTop > scrollHeight-f.clientHeight) ? scrollTop : scrollHeight-f.clientHeight;
+			f.scrollLeft = (scrollLeft > scrollWidth-f.clientWidth) ? scrollLeft : scrollWidth-f.clientWidth;
+			f.setSelectionRange(m || c<32 ? selectionStart:selectionStart+1, selectionStart+1);
 		}
 	}
 	else {
-		var bs_start = f.selectionStart;
-		var bs_end = f.selectionEnd;
+		var bs_start = f.selectionStart, bs_end = f.selectionEnd;
 		if(!bs_end) return;
 		if(bs_start == bs_end) {
-			f.value = f.value.substr(0,bs_start-1)+f.value.substr(bs_end);
-			f.selectionStart=f.selectionEnd=bs_start-1;
+			if(!NFD_stack.phoneme.length) { // 첫가끝 조합 상태가 아닐 때 
+			// 첫가끝 조합형 낱내를 낱내 단위로 지울 수 있게 낱내의 낱자와 채움 문자 수를 셈
+				var i=0, ggeut=0;
+				do {
+					var code = f.value.substr(bs_start-i-1,1).charCodeAt(0);
+					if(!i && unicode_ggeut.indexOf(code)>=0) {ggeut=1; continue;}
+					if(i-ggeut==0 && (code==0x1160 || unicode_ga.indexOf(code)>=0)) continue;
+					if(i-ggeut==1 && (code==0x115F || unicode_cheos.indexOf(code)>=0)) continue;
+					break;
+				} while(bs_start-(++i));
+			}
+			bs_start -= i?i:1;
 		}
-		else {
-			f.value = f.value.substr(0,bs_start)+f.value.substr(bs_end);
-			f.selectionStart=f.selectionEnd=bs_start;
-		}
+		f.value = f.value.substr(0,bs_start)+f.value.substr(bs_end);
+		f.selectionStart = f.selectionEnd = bs_start;
 	}
 	ohiInsert(f,0,0);
 }
@@ -951,7 +971,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	// key가 유니코드 한글 낱자일 때
 		c1=key;
 	}
-	else if(layout) {  // 글쇠 자리의 부호값이 0x1B이면 0으로 바꿔 뒤에서 조합 끊는 처리를 하게 함
+	else if(layout) { // 글쇠 자리의 부호값이 0x1B이면 0으로 바꿔 뒤에서 조합 끊는 처리를 하게 함
 		c1 = layout[key-33]==0x1B ? 0 : layout[key-33];
 		c2 = layout[shift_table[key-33]-33]==0x1B ? 0 : layout[shift_table[key-33]-33]; // 윗글 자리
 	}
@@ -1851,7 +1871,6 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 	}
 
 	return c1;
-	return convert_into_unicode_hangeul_phoneme(c1);
 }
 
 function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
@@ -2275,7 +2294,7 @@ function show_options() {
 		opts.style.display = 'block';
 
 		opt = document.getElementById('option_only_NFD_hangeul_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','option_only_NFD_hangeul_encoding','<div class="option" style="float:none;"><input name="only_NFD_hangeul_encoding" class="checkbox" onclick="option.only_NFD_hangeul_encoding=this.checked;show_keyboard_layout(option.show_layout);inputText_focus()" type="checkbox"' + (option.only_NFD_hangeul_encoding ? ' checked="checked"' : '') + '><label title="한글을 첫가끝(3벌식) 낱자로 넣기">첫가끝 조합</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_only_NFD_hangeul_encoding','<div class="option" style="float:none;"><input name="only_NFD_hangeul_encoding" class="checkbox" onclick="option.only_NFD_hangeul_encoding=this.checked;show_keyboard_layout(option.show_layout);inputText_focus()" type="checkbox"' + (option.only_NFD_hangeul_encoding ? ' checked="checked"' : '') + '><label title="한글을 모두 첫가끝 조합형으로 넣기">첫가끝 조합</label></div>');
 		opt.style.display = 'block';
 
 		opt = document.getElementById('option_phonemic_writing');
@@ -2472,7 +2491,7 @@ function show_keyboard_layout(type) {
 	rows.innerHTML = inner_html;
 
 	char_converting_table_original_code = [0x1B, 0x1160];
-  char_converting_table_target_string = ['🄴', '🄵'];
+	char_converting_table_target_string = ['🄴', '🄵'];
  
 	for(i=0, k=-1; ue[i]; i++) {
 		var row = document.getElementById('row'+i);
