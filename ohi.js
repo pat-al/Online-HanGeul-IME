@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/08/25
+ * Last Update : 2018/08/26
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -243,7 +243,8 @@ function ohiBackspace(f) { // backspace 동작
 		}
 	}
 	else {
-		var bs_start = f.selectionStart, bs_end = f.selectionEnd;
+		var bs_start = f.selectionStart;
+		var bs_end = f.selectionEnd;
 		if(!bs_end) return;
 		if(bs_start == bs_end) {
 			if(!NFD_stack.phoneme.length) { // 첫가끝 조합 상태가 아닐 때 
@@ -394,14 +395,14 @@ function ohiInsert(f,m,q) { // Insert
 			ohiInsert(f,0,c);
 			return;
 		}
-		else {	
+		else {
 			for(a=0;a<9;++a) if(prev_ohiQ[a]>0) ++g;
 			if(g>0 && h<2 || d) {
 				phoneme_input_state=1;
 				ohiQ = prev_ohiQ.slice();
 				if(ohiQ[0]+ohiQ[3]+ohiQ[6])	{
 					// 두벌식 자판의 도깨비불 상태에서 홀소리가 들어와 앞 낱내의 끝이 가려짐 → 앞 낱내의 받침에 들어간 닿소리를 뒤 낱내의 첫소리로 넘기고 앞 낱내의 조합을 끊음
-					if(Ko_type.substr(0,2)=='2-' && h && i && j)
+					if(Ko_type.substr(0,2)=='2-' && (h && i && j))
 						for(a=8;a>=0;--a)	if(ohiQ[a]) {	ohiQ[a]=0; break;	}
 					complete_hangeul_syllable(f);
 					// 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
@@ -472,7 +473,7 @@ function esc_ext_layout() { // 기호 확장 배열 또는 한글 확장 배열�
 }
 
 
-function chagne_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NFD) (조합을 끝낸 낱내를 바꿈)
+function change_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NFD) (조합을 막 끝낸 낱내를 바꿈)
 	var _ohiQ = ohiQ.slice(), _ohiRQ = ohiRQ.slice();
 	ohiBackspace(f);
 
@@ -488,7 +489,7 @@ function chagne_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NF
 	if(i>=0 && _ohiQ[6]+_ohiQ[7]+_ohiQ[8]) ohiInsert(f,0,unicode_ggeut[i]);
 }
 
-function change_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NFC) (조합을 끝낸 낱내를 바꿈)
+function change_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NFC) (조합을 막 끝낸 낱내를 바꿈)
 	var i,j;
 	if(unicode_modern_cheos.indexOf(NFD_stack.combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(NFD_stack.combined_phoneme[0])>=0
 	 || unicode_modern_cheos.indexOf(NFD_stack.combined_phoneme[2])>=0 && unicode_modern_ga.indexOf(NFD_stack.combined_phoneme[1])>=0 && unicode_modern_ggeut.indexOf(NFD_stack.combined_phoneme[0])>=0) {
@@ -577,7 +578,7 @@ function complete_hangeul_syllable(f) {
 	// 첫가끝(NFD) → 완성형(NFC)
 	else if(!option.only_NFD_hangeul_encoding && NFD_stack.phoneme.length) change_syllable_from_NFD_to_NFC(f);
 	// 완성형(NFC) → 첫가끝(NFD)
-	else if(option.only_NFD_hangeul_encoding && !is_old_hangeul_input() && ohiQ[0]+ohiQ[3]+ohiQ[6]) chagne_syllable_from_NFC_to_NFD(f);
+	else if(option.only_NFD_hangeul_encoding && !is_old_hangeul_input() && ohiQ[0]+ohiQ[3]+ohiQ[6]) change_syllable_from_NFC_to_NFD(f);
 
 	ohiInsert(f,0,0);
 	initialize_NFD_stack();
@@ -754,7 +755,8 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 			ohiInsert(f,(ohiQ=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],c)?ohiQ:0),ohiQ=[c,ohiQ?0:1,0,0,0,0,0,0,0]);
 		else if(!ohiQ[0] && ohiQ[3]) {
 		// 닿소리 없이 홀소리가 들어왔고 닿소리가 눌렸을 때 새 낱내로 조합하기
-			ohiInsert(f,ohiQ,ohiQ);
+			complete_hangeul_syllable(f);
+			//ohiInsert(f,ohiQ,ohiQ);
 			ohiInsert(f,0,ohiQ=[c,0,0,0,0,0,0,0,0]);
 		}
 		else if(!ohiQ[0] && (ohiQ[0]=c) || (ohiQ[6]=ohiQ[6]||c)) ohiInsert(f,0,ohiQ);
@@ -1061,7 +1063,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 				return ch;
 			}
 		}
-		
+
 		// 몇몇 공병우 세벌식 자판에서 첫소리만 들어간 채로 [ 자리 글쇠가 눌렸을 때 아래아를 넣음
 		if(Ko_type.substr(0,2)=='3-' && Ko_type!='3-sun1990' && Ko_type!='3-91_noshift') {
 			if(key==0x5B && ( (ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || unicode_cheos.indexOf(NFD_stack.combined_phoneme[0])>=0 ) || NFD_stack.combined_phoneme[0]==0x119E)) {
