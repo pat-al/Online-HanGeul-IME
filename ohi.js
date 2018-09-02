@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/08/26
+ * Last Update : 2018/09/02
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -322,7 +322,7 @@ function ohiHangeul_backspace(f,e) {
 			}
 		}
 
-		if(!is_old_hangeul_input()) {
+		if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) {
 		// 아래아 등이 지워졌을 때 첫가끝 코드 조합 상태에서 요즘한글(완성형) 코드로 바꾸기
 			for(i=0;i<NFD_stack.combined_phoneme.length;++i) {
 				if(unicode_cheos.indexOf(NFD_stack.combined_phoneme[i]) > ohi_cheos.length-1 || unicode_ga.indexOf(NFD_stack.combined_phoneme[i]) > ohi_ga.length-1 || unicode_ggeut.indexOf(NFD_stack.combined_phoneme[i]) > ohi_ggeut.length-1) break;
@@ -720,7 +720,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 			complete_hangeul_syllable(f);
 			return;
 		}
-		if(is_old_hangeul_input()) {
+		if(is_old_hangeul_input() || option.only_NFD_hangeul_encoding) {
 			c = NFD_hangeul2_preprocess(f,e,key);
 			NFD_hangeul_input(f,e,key,c);
 			return;
@@ -986,8 +986,8 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		return c1;
 	}
 
-	if(!is_old_hangeul_input()) {
-		// 요즘한글 자판일 때에 첫가끝 방식으로 처리하지 않게 함
+	if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) {
+		// 요즘한글 자판이고 첫가끝 조합을 하지 않을 때에 낱자를 첫가끝 방식으로 처리하지 않게 함
 		c1=convert_into_ohi_hangeul_phoneme(c1);
 		c2=convert_into_ohi_hangeul_phoneme(c2);
 	}
@@ -998,7 +998,8 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 			if(c1<0) return 0;
 		}
 
-		if(is_old_hangeul_input()) {
+		if(is_old_hangeul_input() || option.only_NFD_hangeul_encoding) {
+		// 첫가끝 방식으로 조합할 때
 			if(Ko_type.substr(0,5)=='Sin3-') { // 옛한글 신세벌식 자판
 				c1=NFD_Sin3_preprocess(f,e,key);
 				if(c1==-1) return 0;
