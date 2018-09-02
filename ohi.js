@@ -1135,10 +1135,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	}
 	// 요즘한글 자판으로 요즘한글 넣기
 	else if(c1>127 && c1<158 && c1!=147) { // Cho
-		if(NFD_stack.phoneme.length) {
-			ohiSelection(f,0);
-		}
-
+		if(NFD_stack.phoneme.length) ohiSelection(f,0);
 		i=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],c1-127);
 		if(!i) ohiQ=0;
 		ohiInsert(f,i,ohiQ=[c1-127,ohiQ?0:1,0,0,0,0,0,0,0]);
@@ -1198,8 +1195,8 @@ function convert_syllable_into_phonemes(f) {
 	if(option.phonemic_writing_in_halfwidth_letter && !is_old_hangeul_input()) hangeul_conversion_function = convert_into_halfwidth_hangeul_letter;
 	else hangeul_conversion_function = convert_into_compatibility_hangeul_letter;
 
-	if(is_old_hangeul_input()) {
-	// 옛한글 배열을 쓸 때
+	if(is_old_hangeul_input() || option.only_NFD_hangeul_encoding || NFD_stack.phoneme.length && !convert_NFD_into_NFC(NFD_stack.phoneme)) {
+	// 첫가끝 조합형을 쓸 때
 		var _phoneme = NFD_stack.phoneme.slice();
 		var _combined_phoneme = NFD_stack.combined_phoneme.slice();
 
@@ -1255,15 +1252,9 @@ function convert_syllable_into_phonemes(f) {
 					continue;
 				}
 			}
-			if(option.only_NFD_hangeul_encoding) {
-				if(!k) continue;
-				NFD_hangeul_single_phoneme_syllable_input(f,c);
-			}
-			else {
-				c = 0x3130+_ohiQ[i*3]+_ohiQ[i*3+1]+_ohiQ[i*3+2];
-				if(option.phonemic_writing_in_halfwidth_letter) c = convert_into_halfwidth_hangeul_letter(c);
-				ohiInsert(f,0,c);
-			}
+			c = 0x3130+_ohiQ[i*3]+_ohiQ[i*3+1]+_ohiQ[i*3+2];
+			if(option.phonemic_writing_in_halfwidth_letter) c = convert_into_halfwidth_hangeul_letter(c);
+			ohiInsert(f,0,c);
 		}
 	}
 }
