@@ -410,7 +410,7 @@ function ohiInsert(f,m,q) { // Insert
 		}
 	}
 
-	if(NFD_stack.phoneme.length && unicode_NFD_hangeul_code.indexOf(c)<0) complete_hangeul_syllable(f);
+	if(is_moachigi_input() && NFD_stack.phoneme.length && unicode_NFD_hangeul_code.indexOf(c)<0) complete_hangeul_syllable(f);
 
 	if(document.selection && browser=="MSIE" && browser_ver<10 ) { // IE ~9
 		var s=document.selection.createRange(), t=s.text;
