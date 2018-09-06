@@ -1833,6 +1833,12 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 				}
 			}
 		}
+		// 앞의 받침과 조합하지 않는 것이면 조합 끊기
+		complete_hangeul_syllable(f);
+	}
+	else if(NFD_stack.phoneme.length && (unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0) && (unicode_cheos.indexOf(convert_into_unicode_hangeul_phoneme(c1))>=0 || unicode_ga.indexOf(convert_into_unicode_hangeul_phoneme(c1))>=0)) {
+	// 첫가끝 조합 상태에서 홀소리나 받침 뒤에 첫소리가 오면 조합을 끊기
+		complete_hangeul_syllable(f);
 	}
 	else if(ohiRQ[3] && c1<31 && (ohiQ[3]==74-35 || ohiQ[3]==79-35 || ohiQ[3]==84-35) && !ohiQ[4]) {
 		if(ohiQ[3]+35==74 && (c2==66 || c2==67 || c2==86)) {
