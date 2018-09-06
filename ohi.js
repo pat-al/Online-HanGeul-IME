@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/09/05
+ * Last Update : 2018/09/06
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -247,8 +247,8 @@ function ohiBackspace(f) { // backspace 동작
 		var bs_end = f.selectionEnd;
 		if(!bs_end) return;
 		if(bs_start == bs_end) {
-			if(!NFD_stack.phoneme.length) { // 첫가끝 조합 상태가 아닐 때
-			// 첫가끝 조합형 낱내를 낱내 단위로 지울 수 있게 낱내의 낱자와 채움 문자 수를 셈
+			if(!NFD_stack.phoneme.length && prev_cursor_position<0) { // 첫가끝 조합 상태가 아닐 때
+			// 첫가끝 조합형으로 넣은 한글을 낱내 단위로 지울 수 있게 낱내의 낱자와 채움 문자 수를 셈
 				var i=0, ggeut=0;
 				do {
 					var code = f.value.substr(bs_start-i-1,1).charCodeAt(0);
@@ -269,7 +269,8 @@ function ohiBackspace(f) { // backspace 동작
 function ohiHangeul_moa_backspace(f,e) {
 	if(f.selectionEnd) {
 		if(prev_cursor_position>=0 && f.selectionEnd > prev_cursor_position) {
-			while(f.selectionEnd && f.selectionEnd > prev_cursor_position) if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
+			initialize_NFD_stack();
+			while(f.selectionEnd && f.selectionEnd > prev_cursor_position) {if(ohiHangeul_backspace(f,e)) ohiBackspace(f);}
 		}
 		else if(ohiHangeul_backspace(f,e)) ohiBackspace(f);
 	}
@@ -409,6 +410,8 @@ function ohiInsert(f,m,q) { // Insert
 		}
 	}
 
+	if(NFD_stack.phoneme.length && unicode_NFD_hangeul_code.indexOf(c)<0) complete_hangeul_syllable(f);
+
 	if(document.selection && browser=="MSIE" && browser_ver<10 ) { // IE ~9
 		var s=document.selection.createRange(), t=s.text;
 		if(t && document.selection.clear) document.selection.clear();
@@ -433,10 +436,9 @@ function ohiInsert(f,m,q) { // Insert
 			f.setSelectionRange(m || c<32 ? selectionStart:selectionStart+1, selectionStart+1);
 		}
 	}
+
 	prev_ohiQ = ohiQ.slice();
 	prev_ohiRQ = ohiRQ.slice();
-
-	if(unicode_NFD_hangeul_code.indexOf(c)<0 && NFD_stack.phoneme.length) initialize_NFD_stack();
 }
 
 function ohiSelection(f,length) {
@@ -1438,7 +1440,12 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 	}
 
 	if(chars.length) {
-		prev_cursor_position = f.selectionStart==f.selectionEnd ? f.selectionEnd : f.selectionEnd + (is_phonemic_writing_input() && (ohiQ[0]+ohiQ[3]+ohiQ[6]) ? 1:0) + (option.only_NFD_hangeul_encoding ? !ohiQ[6] ? 1 : 2 : 0);
+		prev_cursor_position = f.selectionEnd;
+		if(f.selectionStart!=f.selectionEnd && is_phonemic_writing_input()) {
+			prev_cursor_position += ohiQ[0]+ohiQ[3]+ohiQ[6] ? 1:0;
+			if(NFD_stack.phoneme.length) prev_cursor_position += NFD_stack.combined_phoneme.length + (NFD_stack.combined_phoneme.length==3 && !option.phonemic_writing_NFD_ggeut_to_cheos ? 1:0);
+		}
+		
 		for(i=0;i<chars.length;++i) {
 			if(unicode_NFD_hangeul_phoneme.indexOf(chars[i])>=0) ohiHangeul3(f,0,chars[i]); // 한글 낱자일 때
 			else ohiInsert(f,0,chars[i]); // 한글 낱자가 아닐 때
