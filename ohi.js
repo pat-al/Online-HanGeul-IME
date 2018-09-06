@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/09/06
+ * Last Update : 2018/09/07
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1632,7 +1632,7 @@ function NFD_hangeul_input(f,e,key,c) {	// 첫가끝(세벌식) 부호계를 쓰
 			if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 		}
 
-		// 한글을 조합하지 않는 상태이면 첫소리 채움 문자를 넣음
+		// 한글을 조합하지 않던 상태였으면 첫소리 채움 문자를 넣음
 		if(!NFD_stack.phoneme.length) {
 			NFD_stack.combined_phoneme.unshift(0x115F);
 			ohiInsert(f,0,0x115F); // 첫소리 채움			
@@ -1703,6 +1703,13 @@ function NFD_hangeul_input(f,e,key,c) {	// 첫가끝(세벌식) 부호계를 쓰
 		ohiInsert(f,0,combined_phoneme);
 	}
 	else {
+		if(unicode_ggeut.indexOf(c)>=0 && unicode_ggeut.indexOf(NFD_stack.combined_phoneme[0])>=0) {
+		// 먼저 들어온 끝소리와 조합하지 않는 끝소리가 들어왔으면 낱내 조합을 끊고 채움 문자를 넣음
+			complete_hangeul_syllable(f);
+			ohiInsert(f,0,0x115F); // 첫소리 채움
+			ohiInsert(f,0,0x1160); // 가운뎃소리 채움
+			NFD_stack.combined_phoneme.unshift(0x1160,0x115F);
+		}
 		NFD_stack.combined_phoneme.unshift(c);
 		ohiInsert(f,0,c);
 	}
