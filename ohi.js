@@ -2382,7 +2382,7 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_force_normal_typing');
-		if(!opt) opt = appendChild(opts,'div','option','option_force_normal_typing','<div class="option"><input name="force_normal_typing" class="checkbox" onclick="option.force_normal_typing=this.checked;inputText_focus()" type="checkbox"' + (option.force_normal_typing ? ' checked="checked"' : '') + '><label title="한 글쇠씩 이어서 넣는 방식으로 모아치기 자판 쓰기">이어치기</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','option_force_normal_typing','<div class="option"><input name="force_normal_typing" class="checkbox" onclick="option.force_normal_typing=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (option.force_normal_typing ? ' checked="checked"' : '') + '><label title="한 글쇠씩 이어서 넣는 방식으로 모아치기 자판 쓰기">이어치기</label></div>');
 		if(KE=='Ko' && Ko_type.substr(0,3)=='3m-') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
@@ -2855,7 +2855,8 @@ function show_keyboard_layout_info() {
 			var beol = '3';
 			if(type_name.substr(0,1)=='2') beol = '2';
 			else if(type_name.substr(0,1)=='4') beol = '4';
-			name = '<strong>[한글 ' + beol + '벌식' + kbd + ']</strong> ';
+
+			name = '<strong>[한글 ' + beol + '벌식' + kbd + (is_galmadeuli_input() ? ': 갈마들이' : '') + (is_moachigi_input() ? ': 모아치기' : '') + ']</strong> ';
 
 			var full_name = typeof current_layout.full_name != undefined ? current_layout.full_name : '';
 			if(is_old_hangeul_input()) {
