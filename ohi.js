@@ -2453,8 +2453,9 @@ function show_keyboard_layout(type) {
 	ue[0][13] = 'Back';
 	ue[1][0] = 'Tab';
 	ue[2][0] = ue[3][0] = ue[3][11] = 'Shift';
-	ue[2][12] = 'Enter';
 	de[2][0] = 'Lock';
+	de[3][0] = de[3][11] = ' ';
+	ue[2][12] = 'Enter';
 	de[0][13] = 'Space';
 
 	for(i=0;i<ue.length;++i)
