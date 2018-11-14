@@ -866,8 +866,10 @@ function NFD_hangeul2_preprocess(f,e,key) {
 			}
 		}
 		else if(unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme[0]==0x1160) { // 바로 앞에 홀소리 또는 홀소리 채움 문자가 들어왔다면
-			c=unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)]; // 끝소리로 넣음
-			return c;
+			if(is_old_hangeul_input() || unicode_modern_hangeul_phoneme.indexOf(unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)])>=0) { // 옛한글 자판이거나 요즘낱자에 들어가는 받침이면
+				c=unicode_cheos_to_ggeut[unicode_cheos.indexOf(c)]; // 끝소리로 넣음
+				return c;
+			}
 		}
 		else return c;
 	}
