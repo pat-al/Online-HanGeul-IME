@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2018/11/14
+ * Last Update : 2010/01/07
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2890,10 +2890,19 @@ function ohiStart() {
 				document.onkeyup = ohiKeyup;
 			}
 			for(var i=0; i<window.frames.length; i++) {
+				try {
+					if(typeof(window.frames[i].document) == 'unknown') continue;
+				}
+				catch(e) {
+					continue;
+				}
 				var ohi = document.createElement('script');
 				ohi.type= 'text/javascript';
-				ohi.src = '//ohi.pat.im/ohi.js';
-				if(typeof(window.frames[i].document)!='unknown') window.frames[i].document.body.appendChild(ohi);
+				var js_list = ['keyboard_layouts','additional_layouts','ohi'];				
+				for(var j=0;j<js_list.length;++j) {
+					ohi.src = '//ohi.pat.im/'+js_list[j]+'.js';
+					window.frames[i].document.body.appendChild(ohi);
+				}
 			}
 
 			show_NCR();
