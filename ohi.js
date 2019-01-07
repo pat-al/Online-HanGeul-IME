@@ -63,7 +63,7 @@ function option() {
 
 	var show_layout; // 1: 자판 배열표 보이기 / 0: 자판 배열표 감추기 --> show_keyboard_layout() 함수로 값을 바꿈
 	var turn_off_OHI; // OHI 입력 기능 끄기 (끄더라도 화상 자판은 그대로 쓸 수 있음)
-	var squred_layout; // 화상 배열표를 네모지게 나타내기
+	var square_layout; // 화상 배열표를 네모지게 나타내기
 }
 
 function NCR_option() {
@@ -89,7 +89,7 @@ function initialize_options() {
 	var default_abbreviation = 0;
 	var default_convenience_combination = 0;
 	var default_sunalae = 0;
-	var default_square_layout = 1;
+	var default_square_layout = 0;
 
 	// En_type, Ko_type 등이 미리 지정되어 있으면 지정된 것으로 초기값을 바꿈
 	if(typeof En_type != 'undefined') default_En_type = En_type; else En_type = default_En_type;
@@ -3428,6 +3428,9 @@ function url_query() {
 		}
 		else if(field == 'row') { // 글상자(textarea)의 줄 수
 			setTimeout(function(){inputText_rows(value);},250);
+		}
+		else if(field == 'sq') { // 가지런한 배열표로 나타내기
+			option.square_layout = TF;
 		}
 	}
 }
