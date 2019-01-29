@@ -2323,10 +2323,11 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 	var opts = document.getElementById('NCR_options');
 
 	if(opts) {
+		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
+		else opts.style.display = 'none';
+
 		opt = document.getElementById('option_enable_NCR');
 		if(!opt) opt = appendChild(opts,'div','option','option_enable_NCR','<div class="option"><input name="enable_NCR" class="checkbox" onclick="show_NCR(this.checked);inputText_focus()" type="checkbox"' + (option.enable_NCR ? ' checked="checked"' : '') + '><label title="&apos;한글&apos;을 &amp;#xD55C;&amp;#xAE00; 꼴로 나타내기">HTML 문자 참조</label></div>');
-		if(ohi_menu_num<2) opt.style.display = 'block';
-		else opt.style.display = 'none';
 
 		opt = document.getElementById('NCR_option_convert_only_NFD_hangeul_encoding');
 		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_NFD_hangeul_encoding','<div class="option"><input name="convert_only_NFD_hangeul_encoding" class="checkbox" onclick="NCR_option.convert_only_NFD_hangeul_encoding=this.checked;show_NCR();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_NFD_hangeul_encoding ? ' checked="checked"' : '') + '><label title="완성형으로 나타낼 수 있는 한글은 바꾸지 않기">첫가끝 조합형만 바꾸기</label></div>');
@@ -2361,10 +2362,13 @@ function show_options() {
 	var type_name = typeof current_layout.type_name != 'undefined' ? current_layout.type_name : '';
 	if(typeof ohi_menu_num == 'undefined') ohi_menu_num=0;
 
-	var opts = document.getElementById('top_options')
+	show_NCR();
+
+	var opts = document.getElementById('top_options');
 
 	if(opts) {
-		opts.style.display = 'block';
+		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
+		else opts.style.display = 'none';
 
 		opt = document.getElementById('option_only_NFD_hangeul_encoding');
 		if(!opt) opt = appendChild(opts,'div','option','option_only_NFD_hangeul_encoding','<div class="option" style="float:none;"><input name="only_NFD_hangeul_encoding" class="checkbox" onclick="option.only_NFD_hangeul_encoding=this.checked;show_keyboard_layout(option.show_layout);inputText_focus()" type="checkbox"' + (option.only_NFD_hangeul_encoding ? ' checked="checked"' : '') + '><label title="한글을 모두 첫가끝 조합형으로 넣기">첫가끝 조합</label></div>');
@@ -2412,7 +2416,7 @@ function show_options() {
 
 		opt = document.getElementById('option_turn_off_OHI');
 		if(!opt) opt = appendChild(opts,'div','option','option_turn_off_OHI','<div class="option"><input name="turn_off_OHI" class="checkbox" onclick="option.turn_off_OHI=this.checked;ohiStart();inputText_focus()" type="checkbox"' + (option.turn_off_OHI ? ' checked="checked"' : '') + '><label title="온라인 한글 입력기의 입력 기능 끄기">OHI 끄기</label></div>');
-		if(ohi_menu_num<3) opt.style.display = 'block';
+		if(ohi_menu_num && ohi_menu_num<3) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt = document.getElementById('option_sunalae');
@@ -2469,7 +2473,7 @@ function show_options() {
 
 		opt = document.getElementById('option_square_layout');
 		if(!opt) opt = appendChild(opts,'div','option','option_square_layout','<div class="option"><input name="square_layout" class="checkbox" onclick="option.square_layout=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (option.square_layout ? ' checked="checked"' : '') + '><label>가지런한 배열표</label></div>');
-		if(ohi_menu_num<3 && option.show_layout) opt.style.display = 'block';
+		if(ohi_menu_num && ohi_menu_num<3 && option.show_layout) opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
 }
@@ -2502,7 +2506,7 @@ function show_keyboard_layout(type) {
 
 	if(!option.show_layout) return;
 
-	if(ohi_menu_num>2) {
+	if(ohi_menu_num && ohi_menu_num>2) {
 		rows.style.display = 'none';
 		opts = document.getElementById('middle_options');
 		opts.style.display = 'none';
