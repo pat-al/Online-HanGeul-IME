@@ -63,8 +63,7 @@ keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌�
 
 keyboard_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, moachigi_hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 
-keyboard_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이(세벌식 모아치기 e-2018 beta)', layout: K3_Semoe_2018_layout, sublayout: K3_Semoe_2018_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2018_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2018_moachigi_multikey_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
-keyboard_layouts.push({KE: 'Ko', type_name: '3m-Semoe2018', full_name: '세모이(세벌식 모아치기 e-2018 beta)', layout: K3_Semoe_2018_layout, sublayout: K3_Semoe_2018_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2018_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2018_moachigi_multikey_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
+keyboard_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이 2018 (세벌식 모아치기 e-2018)', layout: K3_Semoe_2018_layout, sublayout: K3_Semoe_2018_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2018_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2018_moachigi_multikey_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
 
 function input_keyboard_layout_info() {
 	var i,j;
