@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2010/01/29
+ * Last Update : 2010/02/13
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1656,7 +1656,11 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 		diphthong=1;
 	}
 
-	if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) c=convert_into_unicode_hangeul_phoneme(c);
+	var type_name='';
+	if(typeof current_layout.type_name != 'undefined') type_name = current_layout.type_name;
+	else if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined') type_name = current_layout.old_hangeul_layout_type_name;
+
+	if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) c = convert_into_unicode_hangeul_phoneme(c);
 
 	if(is_old_hangeul_input() && Ko_type.substr(0,2)=='3-' && Number(type_name.substr(2,4))>=2011 && Number(type_name.substr(2,4))<=2014 && Ko_type != '3-2015') {
 	// 전환 글쇠를 쓰는 한글 확장 배열 처리 (3-2011, 3-2012, 3-2014, 3-2015P
@@ -3365,7 +3369,7 @@ function inputText_focus() {
 	if(f) f.focus();
 }
 
-function inputText_rows(r) {
+function inputText_rows(r) { // 글상자(textarea)의 줄 수를 바꿈
 	var f=document.getElementById('inputText');
 	if(f) f.rows=r.toString();
 }
