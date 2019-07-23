@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2010/02/13
+ * Last Update : 2019/07/23
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -3136,7 +3136,6 @@ function ohiKeypress(e) {
 
 	key=ohiKeyswap(e,key);
 	i = ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length ? 1 : 0;
-
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if(e.ctrlKey && !e.shiftKey && !e.altKey) { // ctrl + ?
 			if(i) complete_hangeul_syllable(f);
@@ -3174,12 +3173,12 @@ function ohiKeypress(e) {
 			if(e.preventDefault) e.preventDefault();
 			key_pressed=0;
 		}
-		else if(ohi_KE.substr(0,2)=='En' && key>32 && key<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
+		else if(ohi_KE.substr(0,2)=='En' && key>32 && key<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) { // 영문 상태에서 일반 글쇠
 			if(e.preventDefault) e.preventDefault();
 			ohiRoman(f,e,key);
 			key_pressed=1;
 		}
-		else if(ohi_KE.substr(0,2)!='En' && key>32 && key<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) {
+		else if(ohi_KE.substr(0,2)!='En' && key>32 && key<127 && e.keyCode<127 && !e.altKey && !e.ctrlKey) { // 영문 상태가 아닐 때 일반 글쇠
 			if(e.preventDefault) e.preventDefault();
 			key_pressed=1;
 
@@ -3195,6 +3194,7 @@ function ohiKeypress(e) {
 				}
 			}
 		}
+		
 	}
 
 	if(key_pressed) {
@@ -3284,10 +3284,12 @@ function ohiKeydown(e) {
 			}
 			esc_ext_layout();
 		}
+
+		if(e.keyCode==17) { // ctrl		
+			if(pressed_keys.indexOf(17)<0) pressed_key_accumulation(f,e,key);
+		}
 		
 /*
-		if(e.keyCode==17) { // ctrl
-		}
 		if(e.keyCode==18) { // Alt
 		}
 		if(e.keyCode==91 || e.keyCode==93) { // menu
@@ -3340,6 +3342,14 @@ function ohiKeyup(e) {
 	else if(KE=='Ko' && Ko_type=='4t-1985') {
 		// 윗글쇠(shift)를 때에 따라 고정되는 윗글쇠(shift lock)로 씀
 		if(e.keyCode==16) shift_lock=1;
+	}
+	
+	if(KE=='Ko' && pressing_keys && pressed_keys.indexOf(17)>=0 && e.keyCode!=17) { // ctrl + ?
+		pressed_keys=[];
+		pressing_keys=0;
+		if(e.keyCode!=65) ohiSelection(f,0); // ctrl + a가 아니면 블록 없앰
+		if(ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiInsert(f,0,0);
+		initialize_NFD_stack();
 	}
 
 	if(f.id=='inputText') show_NCR();
