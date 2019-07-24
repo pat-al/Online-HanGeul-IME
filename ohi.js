@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2019/07/23
+ * Last Update : 2019/07/24
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -3286,7 +3286,17 @@ function ohiKeydown(e) {
 		}
 
 		if(e.keyCode==17) { // ctrl		
-			if(pressed_keys.indexOf(17)<0) pressed_key_accumulation(f,e,key);
+			if(!pressing_keys && pressed_keys.indexOf(17)<0) pressed_key_accumulation(f,e,key);
+		}
+		
+		if(e.keyCode!=17 && pressing_keys && pressed_keys.indexOf(17)>=0) { // ctrl + ?
+			pressed_keys=[];
+			pressing_keys=0;
+			if(e.keyCode!=17) {
+				if(e.keyCode!=65) ohiSelection(f,0); // ctrl + a가 아니면 블록 없앰
+				if(ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiInsert(f,0,0);
+				initialize_NFD_stack();
+			}
 		}
 		
 /*
@@ -3344,12 +3354,9 @@ function ohiKeyup(e) {
 		if(e.keyCode==16) shift_lock=1;
 	}
 	
-	if(KE=='Ko' && pressing_keys && pressed_keys.indexOf(17)>=0 && e.keyCode!=17) { // ctrl + ?
-		pressed_keys=[];
-		pressing_keys=0;
-		if(e.keyCode!=65) ohiSelection(f,0); // ctrl + a가 아니면 블록 없앰
-		if(ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiInsert(f,0,0);
-		initialize_NFD_stack();
+	if(e.keyCode==17 && pressing_keys && pressed_keys.indexOf(17)>=0) { // ctrl을 떼었을 때
+		--pressing_keys;
+		pressed_keys.splice(pressed_keys.indexOf(17));
 	}
 
 	if(f.id=='inputText') show_NCR();
