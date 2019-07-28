@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2019/07/24
+ * Last Update : 2019/07/28
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -152,6 +152,7 @@ var ohiStatus = document.createElement('div');
 var ohiTimeout = 0;
 
 var sign_ext_state = 0; // 기호 확장 배열을 쓰고 있는지를 나타냄
+var bangjeom_input_state = 0 // 방점을 넣고 있는지를 나타냄 (ohiInsert 함수에 알림)
 var phoneme_input_state = 0 // 풀어쓰기로 넣고 있는지를 나타냄 (ohiInsert 함수에 알림)
 
 var onkeypress_skip = 0; // ohiKeypress() 처리를 건너뛰기 (보기: 오른쪽 숫자판을 눌렀을 때)
@@ -402,6 +403,21 @@ function ohiInsert(f,m,q) { // Insert
 			}
 			return;
 		}
+	}
+
+	if(!bangjeom_input_state && unicode_NFD_hangeul_sidedot.indexOf(c)>=0) { // 방점일 때
+		if(ohiQ[0]+ohiQ[3]+ohiQ[6]+NFD_stack.phoneme.length) {
+			complete_hangeul_syllable(f); // 넣고 있던 한글 조합을 끊음
+		}
+		else { // 방점만 넣을 때는 첫소리·가운뎃소리 채움 문자를 앞에 넣음
+			ohiInsert(f,0,0x115F);
+			ohiInsert(f,0,0x1160);
+			
+		}
+		bangjeom_input_state = 1;
+		ohiInsert(f,0,c);
+		bangjeom_input_state = 0;
+		return;
 	}
 
 	if((is_phonemic_writing_input() || option.only_NFD_hangeul_encoding && !is_old_hangeul_input()) && !phoneme_input_state && !backspacing_state) {
@@ -758,8 +774,9 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 				return;
 			}
 		}
+
 		if(c==layout[key-33]) {
-			ohiInsert(f,0,key);
+			ohiInsert(f,0,c);
 			return;
 		}
 
@@ -1629,13 +1646,7 @@ function sign_layout_input(f,e,key) {
 		}
 		else c=sign_layout[key-33];
 
-		if(NFD_stack.phoneme.length && key!=8) complete_hangeul_syllable(f);
-
-		// 옛한글 자판이 아닐 때 옛한글 방점에 한글 채움 문자를 더하여 넣음
-		if((c==0x302E || c==0x302F) && !is_old_hangeul_input()) {
-			ohiInsert(f,0,0x115F);
-			ohiInsert(f,0,0x1160);
-		}
+		if(NFD_stack.phoneme.length && key!=8 && unicode_NFD_hangeul_sidedot.indexOf(c)<0) complete_hangeul_syllable(f);
 
 		ohiInsert(f,0,c);
 		esc_ext_layout();
@@ -1647,6 +1658,10 @@ function sign_layout_input(f,e,key) {
 function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰는 옛한글 처리
 	// 가운뎃소리 채움 문자가 잇달아 들어오면 처리하지 않음
 	if(c==0x1160 && NFD_stack.phoneme[0]==0x1160) return;
+	if(unicode_NFD_hangeul_sidedot.indexOf(c)>=0) { // 성조를 나타내는 방점일 때
+		ohiInsert(f,0,c);
+		return;
+	}
 
 	ohiSelection(f,0);
 	var diphthong=0; // 겹홀소리의 첫 홀소리인지 (신세벌식)
