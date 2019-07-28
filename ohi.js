@@ -3152,10 +3152,7 @@ function ohiKeypress(e) {
 	key=ohiKeyswap(e,key);
 	i = ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length ? 1 : 0;
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
-		if(e.ctrlKey && !e.shiftKey && !e.altKey) { // ctrl + ?
-			if(i) complete_hangeul_syllable(f);
-		}
-		else if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개(enter)와 사이띄개(space bar)
+		if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개(enter)와 사이띄개(space bar)
 			if(!(browser=="MSIE" && browser_ver<9)) {
 				if(key==32) if(e.preventDefault) e.preventDefault();
 				if(!i && f.selectionEnd!=f.selectionStart) ohiBackspace(f);
@@ -3307,7 +3304,7 @@ function ohiKeydown(e) {
 		if(e.keyCode!=17 && pressing_keys && pressed_keys.indexOf(17)>=0) { // ctrl + ?
 			pressed_keys=[];
 			pressing_keys=0;
-			if(e.keyCode!=17) {
+			if(ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length) {
 				if(e.keyCode!=65) ohiSelection(f,0); // ctrl + a가 아니면 블록 없앰
 				if(ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiInsert(f,0,0);
 				initialize_NFD_stack();
