@@ -249,11 +249,24 @@ function ohiBackspace(f) { // backspace 동작
 		if(!bs_end) return;
 		if(bs_start == bs_end) {
 			if(!NFD_stack.phoneme.length && prev_cursor_position<0) { // 첫가끝 조합 상태가 아닐 때
-			// 첫가끝 조합형으로 넣은 한글을 낱내 단위로 지울 수 있게 낱내의 낱자와 채움 문자 수를 셈
-				var i=0, ggeut=0;
+			// 첫가끝 조합형으로 넣은 한글을 낱내 단위로 지울 수 있게 낱내의 낱자, 채움 문자, 방점 수를 셈
+				var i=0, ggeut=0, bangjeom=0;
 				do {
 					var code = f.value.substr(bs_start-i-1,1).charCodeAt(0);
+
+					if(!i && unicode_NFD_hangeul_sidedot.indexOf(code)>=0) {bangjeom=1; continue;}
+					
+					if(bangjeom) { // '첫소리 채움 문자 + 가운뎃소리 채움문자 + 방점'을 한꺼번에 지움
+						if(i==1 && code==0x1160) continue;
+						if(i==2) {
+							if(code==0x115F) continue;
+							else --i;
+						}
+						break;
+					}
+
 					if(!i && unicode_ggeut.indexOf(code)>=0) {ggeut=1; continue;}
+					if(i-ggeut==0 && (code==0x1160 || unicode_ga.indexOf(code)>=0)) continue;
 					if(i-ggeut==0 && (code==0x1160 || unicode_ga.indexOf(code)>=0)) continue;
 					if(i-ggeut==1 && (code==0x115F || unicode_cheos.indexOf(code)>=0)) continue;
 					break;
