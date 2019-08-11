@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2019/07/28
+ * Last Update : 2019/08/12
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -630,7 +630,7 @@ function complete_hangeul_syllable(f) {
 			for(i=0;i<NFD_stack.combined_phoneme.length;++i) ohiBackspace(f);
 	}
 
-	ohiSelection(f,0);
+	if(ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length) ohiSelection(f,0);
 
 	// 풀어쓰기 처리
 	if(is_phonemic_writing_input()) convert_syllable_into_phonemes(f);
