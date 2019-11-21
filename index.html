@@ -2,23 +2,23 @@
 <html lang="ko">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"> -->
 	<title>온라인 한글 입력기 (Online Hangeul IME)</title>
-	<meta name="Description" content="한글 입력기가 깔리지 않은 곳에서도 쓸 수 있는 웹 한글 입력기 (on-screen web IME for Korean Hangeul keyboards)" />
-	<meta name="Keywords" content="Hangeul, Hangul, Korean, IME, Input Method, keyboard layout, Javascript, 한글, 영문, 자판 배열, 세벌식, 두벌식, 옛한글, 타자기, QWERTY, Dvorak, Colemak, Workman, QWERTZ, AZERTY" />
-	<script type="text/javascript">
+	<meta name="Description" content="한글 입력기가 깔리지 않은 곳에서도 한글 자판을 쓸 수 있는 웹 입력기 | On-screen web IME for Korean Hangeul keyboard layouts" />
+	<meta name="Keywords" content="Hangeul, Hangul, Korean, IME, Input Method, keyboard layout, 한글 자판, 영문 자판, 세벌식 자판, 두벌식 자판, 옛한글 자판, 타자기, QWERTY, Dvorak, Colemak, Workman, QWERTZ, AZERTY" />
+	<script>
 	<!--
 		Ko_type = 'Sin3-P2';  // 한글 자판
 		En_type = 'QWERTY';  // 영문 자판
 		ohi_KBD_type = 'QWERTY';  // 기준 자판 (QWERTY, QWERTZ, AZERTY)
 		ohi_KE = 'Ko';  // 시작할 때의 한·영 상태 (한글: Ko, 영문: En)
-	-->
+	//-->
 	</script>
-	<script type="text/javascript" src="keyboard_layouts.js"></script>
-	<script type="text/javascript" src="additional_layouts.js"></script>
-	<script type="text/javascript" src="ohi.js"></script>
+	<script src="keyboard_layouts.js"></script>
+	<script src="additional_layouts.js"></script>
+	<script src="ohi.js"></script>
 
-	<script type="text/javascript">
+	<script>
 	<!--
 		var ohi_menu_num = 1;
 		function gotoTab(n) {
@@ -47,8 +47,7 @@
 	//-->
 	</script>
 
-	<style type="text/css">
-	<!--
+	<style>
 		body { margin: 8pt 0; overflow:scroll; }
 		body, th, td, input {	font-family:'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장'; }
 		span.emph { color:black; }
@@ -73,7 +72,7 @@
 
 		div#ohi_content { clear:both; border:solid 2px wheat; background-color:oldlace; padding:0 6px 0 4px; margin-top:1px; }
 
-		input.text, textarea#inputText { border:solid 1px wheat; ime-mode:disable; resize:vertical; }
+		input.text, textarea#inputText { border:solid 1px wheat; ime-mode:disabled; resize:vertical; }
 		textarea#inputText { width:572px; margin:0 0 0 5px; font-family:'함초롬돋움 LVT','HCR Dotum LVT','함초롬바탕 LVT','본고딕','Source Han Sans K','본고딕 KR','Source Han Sans KR','Noto Sans CJK KR','나눔바른고딕 옛한글','NanumBarunGothic YetHangul','나눔명조 옛한글','NanumMyeongjo YetHangul','HCR dotum','함초롬돋움','함초롬돋움 확장','함초롬바탕','함초롬바탕 확장','Un Jamo Batang Ex','은 자모 바탕 확장',Unbatang,'은 바탕',Undotum,'은 돋움','맑은 고딕','Malgun Gothic','NanumGothic',나눔고딕; }
 		form { margin: 0; padding: 0; }
 
@@ -131,7 +130,7 @@
 		div.h3 { background-color:lightgreen; }
 		div.e1:hover, div.e2:hover, div.e3:hover, div.h1:hover, div.h2:hover, div.h3:hover { background-color:#EBF4FA; }
 		div.e1:active, div.e2:active, div.e3:active, div.h1:active, div.h2:active, div.h3:active { 
-			border-style:solid; border-width 2px; border-color: #aaa #fff #fff #aaa;
+			border-style:solid; border-width:2px; border-color:#aaa #fff #fff #aaa;
 		}
 		div.pressed { background-color: lightyellow; }
 		kbd { font-family: "Courier New", monospace; word-spacing: -0.3em; }
@@ -158,7 +157,6 @@
 		div.credit { font-family:Arial,sans-serif; font-size:10pt; color:RosyBrown; text-align:center; line-height:1.4em; }
 		div.credit a { color:RosyBrown; text-decoration:none; font-weight:bold; }
 		div.credit a:hover { text-decoration:underline; }
-	//-->
 	</style>
 </head>
 
@@ -482,7 +480,7 @@
 						<a href="javascript:(function(){var s=[],i;for(i=0;i<3;++i){s[i]=document.createElement('script');}if(typeof ohiStart=='undefined') {s[0].src='//ohi.pat.im/keyboard_layouts.js';s[1].src='//ohi.pat.im/additional_layouts.js';s[2].src='//ohi.pat.im/ohi.js';for(i=0;i<3;++i) document.body.appendChild(s[i]);}setTimeout(function(){ohiChange('Ko','3-P3')},1000)})()">3-P3</a>
 					</li>
 					<li>
-						오른쪽 아래에 나타나는 보람줄의 왼쪽에 있는 <kbd class="status" style="color:#Gold">&nbsp;KO&nbsp;</kbd> 또는 <kbd class="status" style="color:#Gold">&nbsp;EN&nbsp;</kbd>을 딸깍하여 한·영 상태를 바꿀 수도 있습니다.
+						오른쪽 아래에 나타나는 보람줄의 왼쪽에 있는 <kbd class="status" style="color:Gold">&nbsp;KO&nbsp;</kbd> 또는 <kbd class="status" style="color:Gold">&nbsp;EN&nbsp;</kbd>을 딸깍하여 한·영 상태를 바꿀 수도 있습니다.
 						그 옆에 있는 항목들을 딸깍하여 한·영 배열 종류와 기준 자판(QWERTY, QWERTZ, AZERTY)을 바꿀 수 있습니다.
 					</li>
 				</ul>
