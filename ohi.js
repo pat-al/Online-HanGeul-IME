@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2019/11/14
+ * Last Update : 2019/11/21
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1893,6 +1893,10 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 		ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],c2);
 		ohiInsert(f,0,ohiQ);
 		return -1;
+	}
+	else if(c1<31 && !with_shift_key(key) && !ohiQ[0] && !ohiQ[3] && ohiQ[6] && !ohiQ[7]) {
+	// 홑받침만 들어갔는데 윗글쇠를 누르지 않은 채로 받침 자리 글쇠가 눌렸을 때 조합 끊기 (홑받침 쓰는 초성체 조합)
+		complete_hangeul_syllable(f);
 	}
 	else if(option.enable_double_final_ext && Sin3_sublayout && with_shift_key(key) && Sin3_sublayout[key-33] && Sin3_sublayout[key-33]
 	 && (ohiQ[0] || NFD_stack.phoneme.length&&unicode_cheos.indexOf(NFD_stack.phoneme[NFD_stack.phoneme.length-1])>=0) && (ohiQ[3] && !ohiQ[6] || with_shift_key(key) && NFD_stack.phoneme.length&&unicode_ga.indexOf(NFD_stack.phoneme[0])>=0)) {
