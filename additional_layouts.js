@@ -992,7 +992,7 @@ function input_additional_keyboard_layout_info() {
 		0x11B2,	/* 0x42 B: jongseong lieul-bieub */
 		0x203B,	/* 0x43 C: reference mark */
 		0x1164, /* 0x44 D: jungseong yae */
-		0x0000,	/* 0x45 E: */
+		0x11B8,	/* 0x45 E: jongseong bieub */
 		0x11A9,	/* 0x46 F: jongseong ssanggieug */
 		0x11B0,	/* 0x47 G: jongseong lieul-gieug */
 		0x0022,	/* 0x48 H: quotatioin mark */
@@ -1017,7 +1017,7 @@ function input_additional_keyboard_layout_info() {
 		0x110F,	/* 0x5B bracketleft: choseong kieuk */
 		0x003A,	/* 0x5C backslash: colon */
 		0x003F,	/* 0x5D bracketright: question mark */
-		0x11B5,	/* 0x5E asciicircum: */
+		0x11B5,	/* 0x5E asciicircum: jongseong lieul-pieup */
 		0x0025,	/* 0x5F underscore: percent */
 		0x11B3,	/* 0x60 quoteleft: jongseong lieul-sieus */
 		0x11BC,	/* 0x61 a: jongseong ieung */
