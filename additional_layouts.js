@@ -39,8 +39,10 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2011', full_name: '3-2011 (문�
 additional_layouts.push({KE: 'Ko', type_name: '3-2011-y', full_name: '3-2011 옛한글', layout: K3_2011_layout, extended_sign_layout: K3_2011y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/908'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2012', full_name: '3-2012', layout: K3_2012_layout, extended_sign_layout: K3_2012_extended_sign_layout, old_hangeul_layout_type_name: '3-2012-y', link: 'https://pat.im/938'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2012-y', full_name: '3-2012 옛한글', layout: K3_2012_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/938#4-2'});
+
 additional_layouts.push({KE: 'Ko', type_name: '314', full_name: '한글문화원 314 자판안', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
 additional_layouts.push({KE: 'Ko', type_name: '314_gm', full_name: '한글문화원 314 자판안 (+ 갈마들이)', layout: K3_14_proposal_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/4'});
+
 additional_layouts.push({KE: 'Ko', type_name: '3-2014', full_name: '3-2014', layout: K3_2014_layout, sublayout: K3_2014_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, old_hangeul_layout_type_name: '3-2014-y', link: 'https://pat.im/1088'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2014-y', full_name: '3-2014 옛한글', layout: K3_2014_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-2015', full_name: '3-2015', layout: K3_2015_layout, sublayout: K3_2015_sublayout, hangeul_combination_table: K3_2015_combination_table, hangeul_convenience_combination_table: K3_2015_additional_combination_table, old_hangeul_layout_type_name: '3-2015-y', link: 'http://cafe.daum.net/3bulsik/JMKX/34'});
@@ -1015,7 +1017,7 @@ function input_additional_keyboard_layout_info() {
 		0x110F,	/* 0x5B bracketleft: choseong kieuk */
 		0x003A,	/* 0x5C backslash: colon */
 		0x003F,	/* 0x5D bracketright: question mark */
-		0x0000,	/* 0x5E asciicircum: */
+		0x11B5,	/* 0x5E asciicircum: */
 		0x0025,	/* 0x5F underscore: percent */
 		0x11B3,	/* 0x60 quoteleft: jongseong lieul-sieus */
 		0x11BC,	/* 0x61 a: jongseong ieung */
