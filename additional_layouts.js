@@ -28,7 +28,7 @@ additional_layouts.push({KE: 'Ko', type_name: '4t-1985', full_name: '1985 두벌
 
 additional_layouts.push({KE: 'Ko', type_name: '3t-Gong_Munjang', full_name: '공병우 문장용 타자기', layout: K3_Gong_Munjang_layout, link: 'https://pat.im/960#5'});
 
-additional_layouts.push({KE: 'Ko', type_name: '3-87', full_name: '3-87', layout: K3_87_layout, extended_sign_layout: K3_87_extended_layout, link: ''});
+additional_layouts.push({KE: 'Ko', type_name: '3-87', full_name: '3-87', layout: K3_87_layout, extended_sign_layout: K3_87_extended_layout, link: 'https://pat.im/1145'});
 additional_layouts.push({KE: 'Ko', type_name: '3-89', full_name: '3-89', layout: K3_89_layout, link: ''});
 additional_layouts.push({KE: 'Ko', type_name: '3-95', full_name: '3-95 자판안 (김창용)', layout: K3_95_proposal_layout, extended_sign_layout: K3_95_extended_layout, link: 'https://bbs.pat.im/viewtopic.php?f=15&t=931'});
 
