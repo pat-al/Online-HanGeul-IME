@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2019/11/21
+ * Last Update : 2020/09/22
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2445,13 +2445,13 @@ function show_options() {
 		opt_name = 'phonemic_writing_adding_space_every_syllable_end';
 		ft = 'inputText_focus()"><label title="낱내(음절) 사이에 빈칸 넣기">낱내 띄기</label></div>';
 		opt = add_option(opts, opt_name, ft);
-		if(is_phonemic_writing_input() && !option.phonemic_writing_directly) opt.style.display = 'block';
+		if(is_phonemic_writing_input() && (!option.phonemic_writing_directly || option.only_NFD_hangeul_encoding)) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt_name = 'phonemic_writing_in_single_phoneme';
 		ft = 'show_options();inputText_focus()"><label title="모든 겹낱자를 풀어서 홑낱자로 나타내기">겹낱자 풀기</label></div>';
 		opt = add_option(opts, opt_name, ft);
-		if(is_phonemic_writing_input() && (!is_old_hangeul_input() || option.only_NFD_hangeul_encoding) && !option.phonemic_writing_directly) opt.style.display = 'block';
+		if(is_phonemic_writing_input() && (!is_old_hangeul_input() || option.only_NFD_hangeul_encoding) && (!option.phonemic_writing_directly || option.only_NFD_hangeul_encoding)) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt_name = 'phonemic_writing_NFD_ggeut_to_cheos';
@@ -2463,7 +2463,7 @@ function show_options() {
 		opt_name = 'phonemic_writing_initial_ieung_ellipsis';
 		ft = 'inputText_focus()"><label title="첫소리 ㅇ(이응) 빼기">첫ㅇ 빼기</label></div>';
 		opt = add_option(opts, opt_name, ft);
-		if(is_phonemic_writing_input() && !option.phonemic_writing_directly) opt.style.display = 'block';
+		if(is_phonemic_writing_input() && (!option.phonemic_writing_directly || option.only_NFD_hangeul_encoding)) opt.style.display = 'block';
 		else opt.style.display = 'none';
 	}
 
