@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2020/09/22
+ * Last Update : 2021/02/10
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -55,7 +55,7 @@ function option() {
 	var phonemic_writing_in_single_phoneme; // 풀어쓰기: 겹낱자를 홑낱자로 풀기
 	var phonemic_writing_in_halfwidth_letter; // 풀어쓰기: 한글 낱자를 반각 문자로 넣기
 	var phonemic_writing_initial_ieung_ellipsis; // 풀어쓰기: 첫소리 ㅇ 넣지 않기
-	var phonemic_writing_adding_space_every_syllable_end; // 풀어쓰기: 낱내(음절)마다 빈칸 넣기
+	var phonemic_writing_adding_space_every_syllable_end; // 풀어쓰기: 낱내자(음절자)마다 빈칸 넣기
 	var phonemic_writing_directly; // 풀어쓰기: 조합하지 않고 낱자를 바로 넣기
 	var abbreviation; // 이어치기 자판에서 줄임말 기능 쓰기
 	var convenience_combination; // 입력 편의를 높이는 추가 낱자 조합 쓰기
@@ -137,11 +137,11 @@ function initialize_options() {
 
 initialize_options();
 
-var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 완성형 한글 낱내의 낱자들을 담는 배열 [첫,첫,첫,가,가,가,끝,끝,끝]
-var ohiRQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 완성형 한글 낱내의 낱자들의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
+var ohiQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 완성형 한글 낱내자의 낱자들을 담는 배열 [첫,첫,첫,가,가,가,끝,끝,끝]
+var ohiRQ = [0,0,0,0,0,0,0,0,0]; // 조합하고 있는 완성형 한글 낱내자의 낱자들의 추가 정보를 담는 배열 (보기: 겹홀소리 조합용 홀소리인지, 받침 붙는 홀소리인지)
 var prev_ohiQ = [];
 var prev_ohiRQ = [];
-var backup_ohiQ = []; // 완성형 한글 낱내를 옛한글 상태로 바꿀 때에 복사해 두는 배열
+var backup_ohiQ = []; // 완성형 한글 낱내자를 옛한글 상태로 바꿀 때에 복사해 두는 배열
 var backup_ohiRQ = [];
 var backspacing_state = 0; // 뒷걸음쇠 처리를 하고 있는지를 알리는 상태 변수 (ohiInsert 함수에 알림)
 var prev_cursor_position = -1; // 앞선 상태의 가리키개 자리 (모아치기 자판이나 줄임말 기능으로 넣은 글을 한꺼번에 지울 때 쓰임)
@@ -249,7 +249,7 @@ function ohiBackspace(f) { // backspace 동작
 		if(!bs_end) return;
 		if(bs_start == bs_end) {
 			if(!NFD_stack.phoneme.length && prev_cursor_position<0) { // 첫가끝 조합 상태가 아닐 때
-			// 첫가끝 조합형으로 넣은 한글을 낱내 단위로 지울 수 있게 낱내의 낱자, 채움 문자, 방점 수를 셈
+			// 첫가끝 조합형으로 넣은 한글을 낱내자 단위로 지울 수 있게 낱내자의 낱자, 채움 문자, 방점 수를 셈
 				var i=0, ggeut=0, bangjeom=0;
 				do {
 					var code = f.value.substr(bs_start-i-1,1).charCodeAt(0);
@@ -451,7 +451,7 @@ function ohiInsert(f,m,q) { // Insert
 					if(Ko_type.substr(0,2)=='2-' && h&&i&&j)
 						for(a=8;a>=0;--a)	if(ohiQ[a]) {	ohiQ[a]=0; break;	}
 					complete_hangeul_syllable(f);
-					// 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+					// 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 					if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end && h && i+j+k) ohiInsert(f,0,32);
 				}
 				ohiQ=[h&&i?i:0,0,0,h&&j?j:0,0,0,h&&k?k:0,0,0];
@@ -514,7 +514,7 @@ function esc_ext_layout() { // 기호 확장 배열 또는 한글 확장 배열�
 	ohiHangeul3_HanExtKey=0;
 }
 
-function change_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NFD) (조합을 막 끝낸 낱내를 바꿈)
+function change_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NFD) (조합을 막 끝낸 낱내자를 바꿈)
 	var _ohiQ = ohiQ.slice(), _ohiRQ = ohiRQ.slice();
 	ohiBackspace(f);
 
@@ -530,7 +530,7 @@ function change_syllable_from_NFC_to_NFD(f) { // 완성형(NFC) → 첫가끝(NF
 	if(i>=0 && _ohiQ[6]+_ohiQ[7]+_ohiQ[8]) ohiInsert(f,0,unicode_ggeut[i]);
 }
 
-function change_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NFC) (조합을 막 끝낸 낱내를 바꿈)
+function change_syllable_from_NFD_to_NFC(f) { // 첫가끝(NFD) → 완성형(NFC) (조합을 막 끝낸 낱내자를 바꿈)
 	var i,j;
 
 	if(unicode_modern_cheos.indexOf(NFD_stack.combined_phoneme[1])>=0 && unicode_modern_ga.indexOf(NFD_stack.combined_phoneme[0])>=0
@@ -614,9 +614,9 @@ function combine_unicode_NFD_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱
 }
 
 function complete_hangeul_syllable(f) {
-// 한글 낱내 조합을 끊음
-// option.only_NFD_hangeul_encoding==0 : 첫가끝 조합형 낱내(NFD)를 완성형 낱내(NFC)로 바꿈
-// option.only_NFD_hangeul_encoding==1 : 완성형 낱내(NFC)를 첫가끝 조합형 낱내(NFD)로 바꿈
+// 한글 낱내자 조합을 끊음
+// option.only_NFD_hangeul_encoding==0 : 첫가끝 조합형 낱내자(NFD)를 완성형 낱내자(NFC)로 바꿈
+// option.only_NFD_hangeul_encoding==1 : 완성형 낱내자(NFC)를 첫가끝 조합형 낱내자(NFD)로 바꿈
 
 	if(typeof f == 'undefined' || !f) f = document.getElementById('inputText');
 	var c,i,j,k;
@@ -722,7 +722,7 @@ function convert_into_single_phonemes(combined_phoneme) {
 }
 
 function convert_NFC_into_NFD(NFC_c) {
-// 유니코드 완성형 낱내 부호값(NFC)을 받아서 첫가끝 조합형 낱내 부호값(NFD)으로 바꾸어 돌려줌
+// 완성형 낱내자 부호값(NFC)을 받아서 첫가끝 조합형 낱자 단위 낱내자 부호값(NFD)으로 바꾸어 돌려줌
 	if(NFC_c<0xAC00 || NFC_c>0xD7A3) return false;
 	var i,j,k;
 	i=parseInt((NFC_c-0xAC00)/588)+0x1100;
@@ -733,7 +733,7 @@ function convert_NFC_into_NFD(NFC_c) {
 }
 
 function convert_NFD_into_NFC(NFD_phonemes) {
-// 첫가끝 조합형 요즘한글 낱내 부호값(NFD)을 받아 유니코드 완성형 낱내 부호값(NFC)으로 돌려줌
+// 첫가끝 조합형 낱자 단위 낱내자 부호값(NFD)을 받아 완성형 낱내자 단위 부호값(NFC)으로 돌려줌
 // 요즘한글에 쓰이지 않는 낱자가 있으면 거짓(false)값을 돌려줌
 	var p=[], h,i,j,k;
 
@@ -817,7 +817,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 		if(!ohiQ[3] || ohiQ[0]<0 || ohiQ[0] && (!ohiQ[6] || !ohiQ[7]) && (ohiQ[6] || c==8 || c==19 || c==25))
 			ohiInsert(f,(ohiQ=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],c)?ohiQ:0),ohiQ=[c,ohiQ?0:1,0,0,0,0,0,0,0]);
 		else if(!ohiQ[0] && ohiQ[3]) {
-		// 닿소리 없이 홀소리가 들어왔고 닿소리가 눌렸을 때 새 낱내로 조합하기
+		// 닿소리 없이 홀소리가 들어왔고 닿소리가 눌렸을 때 새 낱내자로 조합하기
 			complete_hangeul_syllable(f);
 			//ohiInsert(f,ohiQ,ohiQ);
 			ohiInsert(f,0,ohiQ=[c,0,0,0,0,0,0,0,0]);
@@ -887,7 +887,7 @@ function NFD_hangeul2_preprocess(f,e,key) {
 			else {
 			// 먼저 들어온 끝소리와 조합되지 않은 닿소리이면 조합을 끊고 첫소리로 넣음
 				complete_hangeul_syllable(f);
-				if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+				if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 				if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) {
 					c = convert_into_ohi_hangeul_phoneme(c); // 완성형으로 조합하는 요즘한글 자판일 때 호환 자모로 바꿈
 				}
@@ -908,7 +908,7 @@ function NFD_hangeul2_preprocess(f,e,key) {
 			backup_phoneme_R = NFD_stack.phoneme_R[0];
 			ohiHangeul_backspace(f,e); // 앞에 넣은 끝소리를 지움
 			complete_hangeul_syllable(f);
-			if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+			if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 			if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding && unicode_modern_hangeul_phoneme.indexOf(backup_phoneme)>=0 && unicode_modern_hangeul_phoneme.indexOf(c)>=0) {
 			// 요즘한글 자판이고 앞에 들어온 닿소리와 막 들어온 홀소리가 요즘낱자이면 조합을 끊고 완성형으로 바꿈
 				ohiInsert(f,0,ohiQ=[convert_into_ohi_hangeul_phoneme(backup_phoneme)-127,0,0,0,0,0,0,0,0]);
@@ -1272,7 +1272,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 }
 
 function convert_syllable_into_phonemes(f) {
-// 낱내를 낱자로 풀어 넣기 (풀어쓰기)
+// 낱내자를 낱자로 풀어 넣기 (풀어쓰기)
 	var c,i,j,k,chars=[];
 	var single_phonemes=[], hangeul_conversion_function;
 	if(!(ohiQ[0]+ohiQ[3]+ohiQ[6]) && !NFD_stack.phoneme.length) return;
@@ -1528,7 +1528,7 @@ function insert_chars(f,combination_table_chars) { // 여러 문자를 넣음 (�
 	}
 
 	for(i=0;i<chars.length;++i) {
-		// 완성형 낱내 부호값(NFC)을 첫가끝 조합형 부호값(NFD)으로 바꿈
+		// 완성형 낱내자 부호값(NFC)을 첫가끝 조합형 낱자 단위 부호값(NFD)으로 바꿈
 		a = convert_NFC_into_NFD(chars[i]);
 		if(a.constructor == Array && a.length==3 && a[0]+a[1]+a[2]) {
 			chars.splice(i, 1, a[0],a[1]);
@@ -1726,7 +1726,7 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 		if(unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme[0]==0x1160) {
 		// 바로 앞에 가운뎃소리가 들어왔으면 조합 끊음
 			complete_hangeul_syllable(f);
-			if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+			if(is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 		}
 
 		// 한글을 조합하지 않던 상태였으면 첫소리 채움 문자를 넣음
@@ -1761,14 +1761,14 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 		}
 		i = unicode_NFD_hangeul_code.indexOf(c)>=0 && NFD_stack.phoneme.length ? 1 : 0;
 		complete_hangeul_syllable(f);
-		if(i && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+		if(i && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 	}
 
 	if(!combined_phoneme && unicode_ga.indexOf(c)>=0 && unicode_cheos.indexOf(NFD_stack.phoneme[0])<0) {
 	// 앞에 첫소리가 없이 가운뎃소리가 들어왔을 때
 		i = unicode_NFD_hangeul_code.indexOf(c)>=0 && NFD_stack.phoneme.length ? 1 : 0;
 		complete_hangeul_syllable(f);
-		if(i && option.phonemic_writing_adding_space_every_syllable_end && is_phonemic_writing_input()) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+		if(i && option.phonemic_writing_adding_space_every_syllable_end && is_phonemic_writing_input()) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 		ohiInsert(f,0,0x115F); // 첫소리 채움 문자 넣음
 		NFD_stack.combined_phoneme = [];
 		NFD_stack.combined_phoneme.unshift(0x115F);
@@ -1791,7 +1791,7 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 		// 바로 앞에 한글 낱자나 채움 문자가 들어오지 않았을 때 첫소리·가운뎃소리 채움 문자를 넣음
 			i = unicode_NFD_hangeul_code.indexOf(c)>=0 && NFD_stack.phoneme.length ? 1 : 0;
 			complete_hangeul_syllable(f);
-			if(i && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
+			if(i && is_phonemic_writing_input() && option.phonemic_writing_adding_space_every_syllable_end) ohiInsert(f,0,32); // 풀어쓰기할 때 낱내자 뒤에 빈칸 넣기 (한글 조합이 새로 이어질 때)
 			ohiInsert(f,0,0x115F); // 첫소리 채움
 			ohiInsert(f,0,0x1160); // 가운뎃소리 채움
 			NFD_stack.combined_phoneme.unshift(0x1160,0x115F);
@@ -2031,7 +2031,7 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 		c1=-Sin3_sublayout[key-33];
 	}
 	else if(with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(c2)>=0) {
-	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음 (홀소리만 빠진 미완성 낱내 조합)
+	// 첫소리만 들어갔고, 왼손 쪽의 끝소리가 있는 글쇠가 윗글쇠와 함께 눌렸을 때 끝소리를 넣음 (홀소리만 빠진 미완성 낱내자 조합)
 		c1=c2;
 	}
 	else if(option.enable_Sin3_adding_cheos_with_shift_key && (with_shift_key(key) || !c1) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_cheos.indexOf(c2)>=0 && (unicode_ga.indexOf(c1)>=0 || unicode_ga.indexOf(Sin3_sublayout[shift_table[key-33]-33])>=0)) {
@@ -2443,7 +2443,7 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt_name = 'phonemic_writing_adding_space_every_syllable_end';
-		ft = 'inputText_focus()"><label title="낱내(음절) 사이에 빈칸 넣기">낱내 띄기</label></div>';
+		ft = 'inputText_focus()"><label title="낱내자(음절자) 사이에 빈칸 넣기">낱내 띄기</label></div>';
 		opt = add_option(opts, opt_name, ft);
 		if(is_phonemic_writing_input() && (!option.phonemic_writing_directly || option.only_NFD_hangeul_encoding)) opt.style.display = 'block';
 		else opt.style.display = 'none';
@@ -3191,14 +3191,18 @@ function ohiKeyswap(e,key) {
 }
 
 function ohiKeypress(e) {
-	if(option.turn_off_OHI) return false;
 	if(onkeypress_skip) return false;
-	var KE=ohi_KE.substr(0,2);
+	
 	var key_pressed=0; // 특수 기능 글쇠가 아닌 글쇠(일반 글쇠)가 눌렸는지
-	var i,e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, key=e.which||e.which==0?e.which:e.keyCode;
-
+	var KE=ohi_KE.substr(0,2);
+	var e=e||window.event, f=e.target||e.srcElement, n=f.nodeName||f.tagName, key=e.which||e.which==0?e.which:e.keyCode;
 	key=ohiKeyswap(e,key);
-	i = ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length ? 1 : 0;
+
+	tableKey_press(key);
+	if(f.id=='inputText') show_NCR();
+	if(option.turn_off_OHI) return false;
+	
+	var i = ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length ? 1 : 0;
 	if(f.type=='text' && n=='INPUT' || n=='TEXTAREA') {
 		if((key==13 || key==32) && !e.ctrlKey && !e.shiftKey && !e.altKey) { // 줄바꾸개(enter)와 사이띄개(space bar)
 			if(!(browser=="MSIE" && browser_ver<9)) {
@@ -3242,9 +3246,7 @@ function ohiKeypress(e) {
 			if(e.preventDefault) e.preventDefault();
 			key_pressed=1;
 
-			if(is_moachigi_input()) {
-				pressed_key_accumulation(f,e,key);
-			}
+			if(is_moachigi_input()) pressed_key_accumulation(f,e,key);
 			else {
 				if((document.selection && document.selection.createRange().text.length!=1) || (f.selectionEnd+1 && f.selectionEnd-f.selectionStart!=1))
 					ohiInsert(f,0,0);
@@ -3254,11 +3256,6 @@ function ohiKeypress(e) {
 				}
 			}
 		}
-	}
-
-	if(key_pressed) {
-		tableKey_press(key);
-		if(f.id=='inputText') show_NCR();
 	}
 
 	return false;
@@ -3692,7 +3689,7 @@ function ohi_code_tables() {
 
 	unicode_NFD_hangeul_phoneme = unicode_cheos.concat(unicode_ga, unicode_ggeut); // 첫가끝 조합형 한글 낱자
 	unicode_NFD_hangeul_filler = [0x115F,0x1160]; // 첫가끝 조합형 첫소리·가운뎃소리 채움 문자
-	unicode_NFD_hangeul_code = unicode_NFD_hangeul_phoneme.concat(unicode_NFD_hangeul_filler); 	// 첫가끝 조합형에서 한글 낱내를 나타내는 데에 쓰이는 부호
+	unicode_NFD_hangeul_code = unicode_NFD_hangeul_phoneme.concat(unicode_NFD_hangeul_filler); 	// 첫가끝 조합형에서 한글 낱내자를 나타내는 데에 쓰이는 낱자/채움 부호값들
 	unicode_NFD_hangeul_sidedot = [0x302E,0x302F]; // 옛한글에서 성조를 나타내는 방점
 
 	i=0x1100;	while(i<=0x1112) unicode_modern_cheos.push(i++);
