@@ -1023,7 +1023,7 @@ function input_additional_keyboard_layout_info() {
 		0x11BC,	/* 0x61 a: jongseong ieung */
 		0x116E,	/* 0x62 b: jungseong u */
 		0x1166,	/* 0x63 c: jungseong e */
-		0x1175,	/* 0x64 d: jungseong i */
+		0x1162,	/* 0x64 d: jungseong ae */
 		0x1167,	/* 0x65 e: jungseong yeo */
 		0x1161,	/* 0x66 f: jungseong a */
 		0x1173,	/* 0x67 g: jungseong eu */
@@ -1037,7 +1037,7 @@ function input_additional_keyboard_layout_info() {
 		0x110E,	/* 0x6F o: choseong chieuch */
 		0x1111,	/* 0x70 p: choseong pieup */
 		0x11BA,	/* 0x71 q: jongseong sieus */
-		0x1162,	/* 0x72 r: jungseong ae */
+		0x1175,	/* 0x72 r: jungseong i */
 		0x11AB,	/* 0x73 s: jongseong nieun */
 		0x1165,	/* 0x74 t: jungseong eo */
 		0x1100,	/* 0x75 u: choseong gieug */
