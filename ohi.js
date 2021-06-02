@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/02/10
+ * Last Update : 2021/06/02
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1689,7 +1689,7 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 
 	if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) c = convert_into_unicode_hangeul_phoneme(c);
 
-	if(is_old_hangeul_input() && Ko_type.substr(0,2)=='3-' && Number(type_name.substr(2,4))>=2011 && Number(type_name.substr(2,4))<=2014 && Ko_type != '3-2015') {
+	if(is_old_hangeul_input() && ['3-2011','3-2011-y','3-2012','3-2012-y','3-2014','3-2014-y','3-2015P','3-2015P-y'].indexOf(Ko_type)>=0) {
 	// 전환 글쇠를 쓰는 한글 확장 배열 처리 (3-2011 / 3-2012 / 3-2014 / 3-2015P 옛한글)
 		if(key==55 || c==0x1168) {	// 첫째 한글 확장 글쇠(ㅖ 자리 글쇠)가 눌렸을 때
 			if(ohiHangeul3_HanExtKey%0x10==2 || ohiHangeul3_HanExtKey==0x11) { esc_ext_layout(); complete_hangeul_syllable(f); return false;}
@@ -2232,7 +2232,7 @@ function with_shift_key(key) {	// 윗글쇠를 누르고 친 글쇠인지
 
 function is_old_hangeul_input() {
 	if(current_layout.type_name && current_layout.type_name.substr(-2)=='-y') return true;
-	if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined')	return true;
+	if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined') return true;
 	return false;
 }
 
@@ -2763,7 +2763,7 @@ function show_keyboard_layout(type) {
 		}
 	}
 
-	if(KE=='Ko' && is_old_hangeul_input() && (Ko_type.substr(0,6)=='3-2011' || Ko_type.substr(0,6)=='3-2012' || Ko_type.substr(0,6)=='3-2014' || Ko_type.substr(0,7)=='3-2015P')) {
+	if(KE=='Ko' && is_old_hangeul_input() && ['3-2011','3-2011-y','3-2012','3-2012-y','3-2014','3-2014-y','3-2015P','3-2015P-y'].indexOf(Ko_type)>=0) {
 		document.getElementById('dh7').innerHTML = han_ext_tag1;
 		document.getElementById('dh8').innerHTML = han_ext_tag2;
 		document.getElementById('uh7').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅣ)</span>';
