@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/06/02
+ * Last Update : 2021/06/19
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -67,8 +67,9 @@ function option() {
 }
 
 function NCR_option() {
-	var enable_NCR; // HTML 문자 참조 보기
-	var convert_only_NFD_hangeul_encoding; // 첫가끝 조합형으로 들어간 한글만 바꾸기
+	var show_NCR_text; // HTML 문자 참조 보기
+	var convert_only_NFD_hangeul_encoding_in_NCR_text; // 첫가끝 조합형으로 들어간 한글만 바꾸기
+	var show_direct_typing_text; // 쿼티 배열 기준으로 글쇠값 바꾸기
 }
 
 function initialize_options() {
@@ -131,8 +132,9 @@ function initialize_options() {
 	option.square_layout = default_square_layout;
 
 	NCR_option = new NCR_option();
-	NCR_option.enable_NCR = 0;
-	NCR_option.convert_only_NFD_hangeul_encoding = 0;	
+	NCR_option.show_NCR_text = 0;
+	NCR_option.convert_only_NFD_hangeul_encoding_in_NCR_text = 0;	
+	NCR_option.show_direct_typing_text = 0;	
 }
 
 initialize_options();
@@ -1689,7 +1691,7 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 
 	if(!is_old_hangeul_input() && !option.only_NFD_hangeul_encoding) c = convert_into_unicode_hangeul_phoneme(c);
 
-	if(is_old_hangeul_input() && ['3-2011','3-2011-y','3-2012','3-2012-y','3-2014','3-2014-y','3-2015P','3-2015P-y'].indexOf(Ko_type)>=0) {
+	if(is_old_hangeul_input() && Ko_type.substr(0,2)=='3-' && ['3-2011','3-2011-y','3-2012','3-2012-y','3-2014','3-2014-y','3-2015P','3-2015P-y'].indexOf(Ko_type)>=0) {
 	// 전환 글쇠를 쓰는 한글 확장 배열 처리 (3-2011 / 3-2012 / 3-2014 / 3-2015P 옛한글)
 		if(key==55 || c==0x1168) {	// 첫째 한글 확장 글쇠(ㅖ 자리 글쇠)가 눌렸을 때
 			if(ohiHangeul3_HanExtKey%0x10==2 || ohiHangeul3_HanExtKey==0x11) { esc_ext_layout(); complete_hangeul_syllable(f); return false;}
@@ -2232,7 +2234,7 @@ function with_shift_key(key) {	// 윗글쇠를 누르고 친 글쇠인지
 
 function is_old_hangeul_input() {
 	if(current_layout.type_name && current_layout.type_name.substr(-2)=='-y') return true;
-	if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined') return true;
+	if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined')	return true;
 	return false;
 }
 
@@ -2354,14 +2356,14 @@ function ohiChange_enable_double_final_ext(op) { // 겹받침 확장 기능 켜�
 }
 
 
-function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
+function show_NCR_text(op) { // 문자를 유니코드 부호값과 맞대어 나타내기 (Numeric Character Reference)
 	if(typeof op != 'undefined') {
-		if(op) option.enable_NCR=1;
-		else option.enable_NCR=0;
+		if(op) NCR_option.show_NCR_text=1;
+		else NCR_option.show_NCR_text=0;
 	}
 
 	var f = document.getElementById('inputText');
-	var t = document.getElementById('NCR');
+	var t = document.getElementById('NCR_text');
 
 	if(!f || !t) return;
 
@@ -2371,16 +2373,16 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
 		else opts.style.display = 'none';
 
-		var opt = document.getElementById('option_enable_NCR');
-		if(!opt) opt = appendChild(opts,'div','option','option_enable_NCR','<div class="option"><input name="enable_NCR" class="checkbox" onclick="show_NCR(this.checked);inputText_focus()" type="checkbox"' + (option.enable_NCR ? ' checked="checked"' : '') + '><label title="&apos;한글&apos;을 &amp;#xD55C;&amp;#xAE00; 꼴로 나타내기">HTML 문자 참조</label></div>');
+		var opt = document.getElementById('NCR_option_show_NCR_text');
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_show_NCR_text','<div class="option"><input name="show_NCR_text" class="checkbox" onclick="show_NCR_text(this.checked);inputText_focus()" type="checkbox"' + (NCR_option.show_NCR_text ? ' checked="checked"' : '') + '><label title="&apos;한글&apos;을 &amp;#xD55C;&amp;#xAE00; 꼴로 나타내기">HTML 문자 참조</label></div>');
 
-		opt = document.getElementById('NCR_option_convert_only_NFD_hangeul_encoding');
-		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_NFD_hangeul_encoding','<div class="option"><input name="convert_only_NFD_hangeul_encoding" class="checkbox" onclick="NCR_option.convert_only_NFD_hangeul_encoding=this.checked;show_NCR();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_NFD_hangeul_encoding ? ' checked="checked"' : '') + '><label title="완성형으로 나타낼 수 있는 한글은 바꾸지 않기">첫가끝 조합형만 바꾸기</label></div>');
+		opt = document.getElementById('NCR_option_convert_only_NFD_hangeul_encoding_in_NCR_text');
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_convert_only_NFD_hangeul_encoding_in_NCR_text','<div class="option"><input name="convert_only_NFD_hangeul_encoding_in_NCR_text" class="checkbox" onclick="NCR_option.convert_only_NFD_hangeul_encoding_in_NCR_text=this.checked;show_NCR_text();inputText_focus()" type="checkbox"' + (NCR_option.convert_only_NFD_hangeul_encoding_in_NCR_text ? ' checked="checked"' : '') + '><label title="완성형으로 나타낼 수 있는 한글은 바꾸지 않기">첫가끝 조합형만 바꾸기</label></div>');
 	}
 
-	if(t && option.enable_NCR) {
+	if(t && NCR_option.show_NCR_text) {
 		t.style.display='inline-block';
-		opt.style.display='block';
+		opt.style.display='inline-block';
 	}
 	else {
 		t.style.display='none';
@@ -2392,7 +2394,7 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 	for(i=0;i<f.value.length;++i) {
 		char_code = f.value.charCodeAt(i);
 		ref_char = '&amp;#x'+ char_code.toString(16).toUpperCase() + ';';
-		if(NCR_option.convert_only_NFD_hangeul_encoding) {
+		if(NCR_option.convert_only_NFD_hangeul_encoding_in_NCR_text) {
 		// 첫가끝 조합형 한글만 바꿀 때
 			if(unicode_NFD_hangeul_code.indexOf(char_code)<0 && unicode_NFD_hangeul_sidedot.indexOf(char_code)<0) ref_char = f.value.charAt(i);
 		}
@@ -2400,6 +2402,84 @@ function show_NCR(op) { // 문자를 유니코드 부호값과 맞대어 나타�
 	}
 	if(ref_text=='') ref_text='&nbsp;';
 	t.innerHTML = ref_text;
+}
+
+function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문자열 바꾸기 (Numeric Character Reference)
+	if(typeof op != 'undefined') {
+		if(op) NCR_option.show_direct_typing_text=1;
+		else NCR_option.show_direct_typing_text=0;
+	}
+
+	var f = document.getElementById('inputText');
+	var t = document.getElementById('direct_typing_text');
+
+	if(!f || !t) return;
+
+	var opts = document.getElementById('direct_typing_text_options');
+
+	if(opts) {
+		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
+		else opts.style.display = 'none';
+
+		var opt = document.getElementById('NCR_option_show_direct_typing_text');//alert(opt);
+		if(!opt) opt = appendChild(opts,'div','option','NCR_option_show_direct_typing_text','<div class="option"><input name="show_direct_typing_text" class="checkbox" onclick="show_direct_typing_text(this.checked);inputText_focus()" type="checkbox"' + (NCR_option.show_direct_typing_text ? ' checked="checked"' : '') + '><label title="쿼티 배열 기준 직결식 변환">직결식 변환 (미완성 기능)</label></div>');
+	}
+
+	if(t && NCR_option.show_direct_typing_text) {
+		t.style.display='inline-block';
+	}
+	else {
+		t.style.display='none';
+		return;
+	}
+
+	var char_code, conv_char, conv_text='';
+	for(var i=0;i<f.value.length;++i) {
+		char_code = f.value.charCodeAt(i);
+		conv_text += convert_into_direct_typing_chars(char_code);
+	}
+	if(conv_text=='') conv_text='&nbsp;';
+	t.innerHTML = conv_text;
+}
+
+function convert_into_direct_typing_chars(code) {
+	if(typeof code == 'undefined' || code<32) return '';
+	var i, text = '', key, chars = [];
+	
+	if(code<127) {
+		chars.push(code);
+	}
+	else if(code>=0xAC00 && code<=0xD7AF) {	
+		var p = convert_NFC_into_NFD(code);
+		for(i=0; i<p.length; ++i) {
+			if(!p[i]) continue;
+			chars.push(current_layout.layout.indexOf(p[i])+33);
+		}
+		if(current_layout.type_name.substr(0,5)=='Sin3-') {
+			for(i=0; i<chars.length; ++i) {
+/*				if(with_shift_key(chars[i])) {
+					key = shift_table[chars[i]-33];
+					//if(!with_shift_key(key)) chars[i] = key;
+					//else if(typeof current_layout.sublayout != 'undefined') {
+						
+						
+					}
+					chars[i] = shift_table[chars[i]-33];
+				}
+			if()
+				sublayout_key = current_layout.sublayout.indexOf(p[i])+33;
+			if(sublayout_key && with_shift_key(key) && !with_shift_key(sublayout_key)) key=sublayout_key;*/
+				
+			}
+			//c2 = layout[shift_table[key-33]-33]==0x1B ? 0 : layout[shift_table[key-33]-33]; // 윗글 자리
+		}
+	}
+	for(i=0; i<chars.length; ++i) {
+		text += String.fromCharCode(chars[i]);
+	}
+
+
+	return text;
 }
 
 function add_option(opts, opt_name, footer) {
@@ -2416,7 +2496,8 @@ function show_options() {
 	var opts = document.getElementById('top_options');
 	var type_name = typeof current_layout.type_name != 'undefined' ? current_layout.type_name : '';
 	if(typeof ohi_menu_num == 'undefined') ohi_menu_num=0;
-	show_NCR();
+	show_NCR_text();
+	show_direct_typing_text();
 
 	if(opts) {
 		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
@@ -2976,7 +3057,8 @@ function ohiStart() {
 				}
 			}
 
-			show_NCR();
+			show_NCR_text();
+			show_direct_typing_text();
 		}
 	}
 	else ohiTimeout = setTimeout("ohiStart()",100);
@@ -3199,7 +3281,7 @@ function ohiKeypress(e) {
 	key=ohiKeyswap(e,key);
 
 	tableKey_press(key);
-	if(f.id=='inputText') show_NCR();
+	if(f.id=='inputText') {show_NCR_text();show_direct_typing_text();}
 	if(option.turn_off_OHI) return false;
 	
 	var i = ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length ? 1 : 0;
@@ -3263,7 +3345,8 @@ function ohiKeypress(e) {
 
 function ohiKeydown(e) {
 	if(option.turn_off_OHI) {
-		show_NCR();
+		show_NCR_text();
+		show_direct_typing_text();
 		return false;
 	}
 	onkeypress_skip=0; // 참이면 ohiKeypress() 처리를 건너뜀
@@ -3380,7 +3463,7 @@ function ohiKeydown(e) {
 			prev_cursor_position = -1;
 		}
 	}
-	if(f.id=='inputText') show_NCR();
+	if(f.id=='inputText') {show_NCR_text();show_direct_typing_text();}
 }
 
 function ohiKeyup(e) {
@@ -3415,7 +3498,7 @@ function ohiKeyup(e) {
 		pressed_keys.splice(pressed_keys.indexOf(17));
 	}
 
-	if(f.id=='inputText') show_NCR();
+	if(f.id=='inputText') {show_NCR_text();show_direct_typing_text();}
 }
 
 function pressed_key_accumulation(f,e,key) {
@@ -3486,7 +3569,7 @@ function url_query() {
 			option.NCR = TF;
 		}
 		else if(field=='ncr_only_cgg') { // 첫가끝 조합형 한글만 HTML 문자 참조로 바꾸어 보이기
-			NCR_option.convert_only_NFD_hangeul_encoding = TF;
+			NCR_option.convert_only_NFD_hangeul_encoding_in_NCR_text = TF;
 		}
 		else if(field=='y') { // 신세벌식 자판으로 옛한글 겹낱자 조합하기
 			option.enable_old_hangeul_input = TF;
