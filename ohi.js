@@ -2208,6 +2208,7 @@ function is_galmadeuli_input() {
 	if(type_name.substr(-3)=='_gm') return true;
 	if(type_name.substr(0,3)=='3-20' && Number(type_name.substr(2,4))>2013) return true;
 	if(type_name.substr(0,3)=='3-P') return true;
+	if(type_name.substr(0,3)=='3-D') return true;
 	var a=['3-18Na'];
 	if(a.indexOf(type_name)>=0)	return true;
 	return false;
