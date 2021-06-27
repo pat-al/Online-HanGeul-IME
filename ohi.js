@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/06/19
+ * Last Update : 2021/06/26
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2062,13 +2062,14 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 }
 
 
-function hangeul_Gong3_gm(f,key) {
+function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
 	var c1,c2;
 	var layout=current_layout.layout;
 	var sublayout = typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
 
 	c1=convert_into_ohi_hangeul_phoneme(layout[key-33]);
-	c2=convert_into_ohi_hangeul_phoneme(layout[key-33-32]);	// 윗글 자리
+	c2=convert_into_ohi_hangeul_phoneme(layout[shift_table[key-33]-33]);	// 윗글 자리
+	//c2=convert_into_ohi_hangeul_phoneme(layout[key-33-32]);	// 윗글 자리
 
 	if(!ohiQ[3]) ohiRQ[3]=0;
 
@@ -2080,8 +2081,13 @@ function hangeul_Gong3_gm(f,key) {
 	}
 
 	if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && (key==0x2F&&c1==74 || key==0x39&&c1==79 || key==0x38&&c1==84)) {
-	// 첫소리가 들어가고 홀소리는 들어가지 않은 상태에서 겹홀소리 조합용 ㅗ·ㅜ가 눌렸을 때
+	// 첫소리가 들어가고 홀소리는 들어가지 않았는데 겹홀소리 조합용 ㅗ·ㅜ가 눌렸을 때
 		ohiRQ[3]=key;
+	}
+	else if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && sublayout && unicode_ga.indexOf(sublayout[key-33])>=0) {
+	// 첫소리가 들어가고 홀소리는 들어가지 않았는데 보조 배열의 홀소리 있는 글쇠가 눌렸을 때
+		ohiRQ[3]=key;
+		c1=convert_into_ohi_hangeul_phoneme(sublayout[key-33]);
 	}
 	else if(with_shift_key(key)
 	 && (NFD_stack.phoneme.length&&unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || ohiQ[0]&&ohiQ[3]&&!ohiQ[6])
@@ -2681,7 +2687,7 @@ function show_keyboard_layout(type) {
 			if(typeof de[i][j] != 'undefined' && ue[i][j].toLowerCase()==de[i][j].toLowerCase()) de[i][j]='　';
 
 	if(KE=='Ko') {
-		if(sign_ext_state>0) { // 기호 확장 배열
+		if(sign_ext_state > 0) { // 기호 확장 배열
 			if(typeof current_layout.extended_sign_layout != 'undefined') layout = current_layout.extended_sign_layout;
 			if(!layout) return;
 			if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined')
@@ -2702,7 +2708,7 @@ function show_keyboard_layout(type) {
 	}
 
 	if(typeof current_layout.sublayout != 'undefined' && !is_old_hangeul_input()
-	 && (option.enable_double_final_ext || current_layout.type_name.substr(0,3)=='3m-' || current_layout.type_name=='3-18Na')
+	 && (option.enable_double_final_ext || current_layout.type_name.substr(0,3)=='3m-' || current_layout.type_name=='3-18Na' || current_layout.type_name=='3-D1')
 	 && sign_ext_state<=0) {
 		insert_sublayout_table(ue, de, uh, dh, current_layout.sublayout);
 	}

@@ -52,7 +52,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015P', full_name: '3-2015P', l
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'https://pat.im/1128'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'https://pat.im/1128'});
-additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, /*sublayout: K3_D1_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout,*/ link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
+additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, sublayout: K3_D1_sublayout, /*extended_sign_layout: K3_2012y_extended_sign_layout,*/ link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-18Na', full_name: '3-18Na', layout: K3_18Na_layout, sublayout: K3_18Na_sublayout, hangeul_combination_table: K3_18Na_combination_table, link: 'https://kldp.org/node/160815'});
 
@@ -3295,12 +3295,12 @@ function input_additional_keyboard_layout_info() {
 		0x0000,	/* 0x3E greater */
 		0x0000,	/* 0x3F question */
 		0x0000,	/* 0x40 at */
-		0x11B9,	/* 0x41 A: jongseong bieub-sieuh */
+		0x0000,	/* 0x41 A */
 		0x0000,	/* 0x42 B */
-		0x11AA,	/* 0x43 C: jongseong gieug-sieus */
-		0x11B2, /* 0x44 D: jongseong lieul-bieub */
-		0x11B4,	/* 0x45 E: jongseong lieul-tieut */
-		0x11B5,	/* 0x46 F: jongseong lieul-pieup */
+		0x0000,	/* 0x43 C */
+		0x0000, /* 0x44 D */
+		0x0000,	/* 0x45 E */
+		0x0000,	/* 0x46 F */
 		0x0000,	/* 0x47 G */
 		0x0000,	/* 0x48 H */
 		0x1174,	/* 0x49 I: jungseong eui */
@@ -3311,16 +3311,16 @@ function input_additional_keyboard_layout_info() {
 		0x0000,	/* 0x4E N */
 		0x0000,	/* 0x4F O */
 		0x0000,	/* 0x50 P */
-		0x11B6,	/* 0x51 Q: jongseong lieul-hieuh */
-		0x11B3,	/* 0x52 R: jongseong lieul-sieus */
-		0x11AD,	/* 0x53 S: jongseong nieun-hieuh */
-		0x1164,	/* 0x54 T: jungseong yae */
+		0x0000,	/* 0x51 Q */
+		0x0000,	/* 0x52 R */
+		0x0000,	/* 0x53 S */
+		0x0000,	/* 0x54 T */
 		0x0000,	/* 0x55 U */
-		0x11AC,	/* 0x56 V: jongseong nieun-jieuj */
-		0x11B0,	/* 0x57 W: jongseong lieul-gieug */
-		0x11A9,	/* 0x58 X: jongseong ssanggieug */
+		0x0000,	/* 0x56 V */
+		0x0000,	/* 0x57 W */
+		0x0000,	/* 0x58 X */
 		0x0000,	/* 0x59 Y */
-		0x11B1,	/* 0x5A Z: jongseong lieul-mieum */
+		0x0000,	/* 0x5A Z */
 		0x0000,	/* 0x3A colon */
 		0x0000,	/* 0x3B semicolon */
 		0x0000,	/* 0x3C less */
@@ -3332,26 +3332,26 @@ function input_additional_keyboard_layout_info() {
 		0x0000,	/* 0x63 c: */
 		0x0000,	/* 0x64 d: */
 		0x0000,	/* 0x65 e: */
-		0x0000,	/* 0x66 f: */
+		0x0000,	/* 0x66 f */
 		0x0000,	/* 0x67 g */
-		0x0000,	/* 0x68 h */
+		0x1168,	/* 0x68 h: jungseong ye */
 		0x1174,	/* 0x69 i: jungseong eui */
 		0x0000,	/* 0x6A j */
 		0x0000,	/* 0x6B k */
 		0x0000,	/* 0x6C l */
 		0x0000,	/* 0x6D m */
 		0x0000,	/* 0x6E n */
-		0x0000,	/* 0x6F o */
-		0x0000,	/* 0x70 p */
+		0x116E,	/* 0x6F o: jungseong u */
+		0x116E,	/* 0x70 p: jungseong u */
 		0x0000,	/* 0x71 q: */
 		0x0000,	/* 0x72 r: */
 		0x0000,	/* 0x73 s: */
-		0x1164,	/* 0x74 t: jungseong yae */
+		0x0000,	/* 0x74 t */
 		0x0000,	/* 0x75 u */
 		0x0000,	/* 0x76 v: */
 		0x0000,	/* 0x77 w: */
 		0x0000,	/* 0x78 x: */
-		0x0000,	/* 0x79 y */
+		0x1168,	/* 0x79 y: jungseong ye */
 		0x0000,	/* 0x7A z: */
 		0x0000,	/* 0x7B braceleft */
 		0x0000,	/* 0x7C bar */
