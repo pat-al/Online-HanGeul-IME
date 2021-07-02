@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/06/26
+ * Last Update : 2021/07/02
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -79,7 +79,7 @@ function initialize_options() {
 	var default_only_NFD_hangeul_encoding = 0;
 	var default_enable_old_hangeul_input = 0;
 	var default_enable_Sin3_diphthong_key = 1;
-	var default_enable_adding_cheos_with_shift_key = 1;
+	var default_enable_Sin3_adding_cheos_with_shift_key = 0;
 	var default_phonemic_writing = 0;
 	var default_phonemic_writing_in_single_phoneme = 1;
 	var default_phonemic_writing_in_halfwidth_letter = 0;
@@ -115,7 +115,7 @@ function initialize_options() {
 	option.only_NFD_hangeul_encoding = default_only_NFD_hangeul_encoding;
 	option.enable_old_hangeul_input = default_enable_old_hangeul_input;
 	option.enable_Sin3_diphthong_key = default_enable_Sin3_diphthong_key;
-	option.enable_Sin3_adding_cheos_with_shift_key = default_enable_adding_cheos_with_shift_key;
+	option.enable_Sin3_adding_cheos_with_shift_key = default_enable_Sin3_adding_cheos_with_shift_key;
 	option.phonemic_writing = default_phonemic_writing;
 	option.phonemic_writing_in_single_phoneme = default_phonemic_writing_in_single_phoneme;
 	option.phonemic_writing_in_halfwidth_letter = default_phonemic_writing_in_halfwidth_letter;
@@ -757,7 +757,11 @@ function convert_NFD_into_NFC(NFD_phonemes) {
 
 function ohiRoman(f,e,key) { // Roman keyboard basic_layouts (Dvorak, Colemak)
 	var c=key;
-	if(En_type!='QWERTY') c=current_layout.layout[key-33];
+	var layout = current_layout.layout;
+	if(typeof current_layout.capslock_layout != 'undefined' && checkCapsLock()) {
+		layout=current_layout.capslock_layout;
+	}
+	if(En_type!='QWERTY') c=layout[key-33];
 	ohiInsert(f,0,c);
 }
 
@@ -772,6 +776,10 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 	var layout_info = current_layout;
 	if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined')	layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
 	var layout = layout_info.layout;
+
+	if(typeof current_layout.capslock_layout != 'undefined' && checkCapsLock()) {
+		layout=layout_info.capslock_layout;
+	}
 
 	if(typeof layout != 'undefined') {
 		c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
@@ -1053,16 +1061,26 @@ function ohiHangeul3_abbreviation(f,e,key) { // 이어치기 세벌식 자판에
 
 function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 	var i, j, c1=0, c2=0;
-	var layout=current_layout.layout;
 	var sublayout=null;
 	var extended_sign_layout=null;
+
+	var layout=current_layout.layout;
+	if(typeof current_layout.capslock_layout != 'undefined' && checkCapsLock()) {
+		layout=current_layout.capslock_layout;
+	}
 
 	if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined')
 		layout = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).layout;
 
 	if(!abbreviation_processing_state) {
-		if(typeof current_layout.sublayout != 'undefined') sublayout = current_layout.sublayout;
+		if(typeof current_layout.sublayout != 'undefined') {
+			sublayout = current_layout.sublayout;
+			if(checkCapsLock() && typeof current_layout.capslock_sublayout != 'undefined') {
+				sublayout=current_layout.capslock_sublayout;
+			}
+		}
 		if(typeof current_layout.extended_sign_layout != 'undefined') extended_sign_layout = current_layout.extended_sign_layout;
+		if(checkCapsLock() && typeof current_layout.capslock_extended_sign_layout != 'undefined') extended_sign_layout = current_layout.capslock_extended_sign_layout;
 		prev_cursor_position = -1;
 	}
 
@@ -1859,10 +1877,10 @@ function NFD_hangeul_single_phoneme_syllable_input(f,c) {
 
 function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처리
 	var i, j, c1, c2;
-	var Sin3_layout=current_layout.layout;
-	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var Sin3_extended_sign_layout = typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : null;
-	var transform=0; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
+	var transform = 0; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
+	var Sin3_layout = current_layout.layout;
+	var Sin3_sublayout = (checkCapsLock() && typeof current_layout.capslock_sublayout != 'undefined') ? current_layout.capslock_sublayout : typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
+	var Sin3_extended_sign_layout = (checkCapsLock() && typeof current_layout.capslock_sublayout != 'undefined') ? current_layout.capslock_extended_sign_layout : typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : null;
 
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
 	c1=convert_into_ohi_hangeul_phoneme(Sin3_layout[key-33]);
@@ -1994,19 +2012,17 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 
 function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
 	var i, j, c1, c2;
-	var Sin3_layout=current_layout.layout;
-	var Sin3_sublayout=typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
-	var Sin3_extended_sign_layout = typeof current_layout.extended_sign_layout != 'undefined' ? current_layout.extended_sign_layout : null;
-
-	if(typeof current_layout.old_hangeul_layout_type_name != 'undefined') {
-		Sin3_layout = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).layout;
-	}
+	var layout_info = current_layout;
+	if(typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', layout_info.old_hangeul_layout_type_name);
+	var Sin3_layout = layout_info.layout;
+	var Sin3_sublayout = (checkCapsLock() && typeof layout_info.capslock_sublayout != 'undefined') ? layout_info.capslock_sublayout : typeof layout_info.sublayout != 'undefined' ? layout_info.sublayout : null;
+	var Sin3_extended_sign_layout = (checkCapsLock() && typeof layout_info.capslock_sublayout != 'undefined') ? layout_info.capslock_extended_sign_layout : typeof layout_info.extended_sign_layout != 'undefined' ? layout_info.extended_sign_layout : null;
 
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
 	c1=convert_into_unicode_hangeul_phoneme(Sin3_layout[key-33]);
 	c2=convert_into_unicode_hangeul_phoneme(Sin3_layout[shift_table[key-33]-33]);
 
-	if(option.enable_sign_ext && sign_ext_state) {
+	if(option.enable_sign_ext && sign_ext_state && Sin3_extended_sign_layout) {
 	// 신세벌식 기호 확장 배열에서 문자를 넣을 때
 		c1=Sin3_extended_sign_layout[key-33][sign_ext_state-1];
 		ohiBackspace(f);
@@ -2015,7 +2031,7 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 		initialize_NFD_stack();
 		return -1;
 	}
-	else if(option.enable_sign_ext && !sign_ext_state && NFD_stack.phoneme.length==1 && NFD_stack.phoneme[0]==0x110B/*ㅇ*/ && (c1==0x1100/*ㄱ*/ || c1==0x110C/*ㅈ*/ || c1==0x1107/*ㅂ*/)) {
+	else if(option.enable_sign_ext && !sign_ext_state && Sin3_extended_sign_layout && NFD_stack.phoneme.length==1 && NFD_stack.phoneme[0]==0x110B/*ㅇ*/ && (c1==0x1100/*ㄱ*/ || c1==0x110C/*ㅈ*/ || c1==0x1107/*ㅂ*/)) {
 	// 신세벌식 기호 확장 배열을 쓸 조건일 때
 		if(c1==0x1100) sign_ext_state=1;
 		else if(c1==0x110C) sign_ext_state=2;
@@ -2040,10 +2056,10 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 	// 첫소리만 들어갔고, 오른손 쪽의 홀소리가 있는 첫소리 글쇠를 윗글쇠와 함께 눌렀을 때 첫소리를 넣음
 		c1=c2;
 	}	
-	else if(option.enable_Sin3_diphthong_key && key==47 && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0) {
+	/*else if(option.enable_Sin3_diphthong_key && key==47 && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0) {
 	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 다른 홀소리를 따로 지정하지 않았을 때)
 		c1=-0x1169;
-	}
+	}*/
 	else if((!NFD_stack.phoneme.length || unicode_ga.indexOf(NFD_stack.phoneme[0])<0) && (key==79 || key==80 || key==73) && (c1==0x1169/*ㅗ*/ || c1==0x116E/*ㅜ*/ || c1==0x1173/*ㅡ*/ || c1==0x119E/*ㆍ*/)) {
 	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ, ㆍ) 넣기
 		c1=-c1;
@@ -2428,7 +2444,7 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
 		else opts.style.display = 'none';
 
-		var opt = document.getElementById('NCR_option_show_direct_typing_text');//alert(opt);
+		var opt = document.getElementById('NCR_option_show_direct_typing_text');
 		if(!opt) opt = appendChild(opts,'div','option','NCR_option_show_direct_typing_text','<div class="option"><input name="show_direct_typing_text" class="checkbox" onclick="show_direct_typing_text(this.checked);inputText_focus()" type="checkbox"' + (NCR_option.show_direct_typing_text ? ' checked="checked"' : '') + '><label title="쿼티 배열 기준 직결식 변환">직결식 변환 (미완성 기능)</label></div>');
 	}
 
@@ -2462,29 +2478,11 @@ function convert_into_direct_typing_chars(code) {
 			if(!p[i]) continue;
 			chars.push(current_layout.layout.indexOf(p[i])+33);
 		}
-		if(current_layout.type_name.substr(0,5)=='Sin3-') {
-			for(i=0; i<chars.length; ++i) {
-/*				if(with_shift_key(chars[i])) {
-					key = shift_table[chars[i]-33];
-					//if(!with_shift_key(key)) chars[i] = key;
-					//else if(typeof current_layout.sublayout != 'undefined') {
-						
-						
-					}
-					chars[i] = shift_table[chars[i]-33];
-				}
-			if()
-				sublayout_key = current_layout.sublayout.indexOf(p[i])+33;
-			if(sublayout_key && with_shift_key(key) && !with_shift_key(sublayout_key)) key=sublayout_key;*/
-				
-			}
-			//c2 = layout[shift_table[key-33]-33]==0x1B ? 0 : layout[shift_table[key-33]-33]; // 윗글 자리
-		}
 	}
+
 	for(i=0; i<chars.length; ++i) {
 		text += String.fromCharCode(chars[i]);
 	}
-
 
 	return text;
 }
@@ -2635,6 +2633,7 @@ function show_options() {
 }
 
 function show_keyboard_layout(type) {
+	var e=window.event;
 	var rows = document.getElementById('keyboardLayout');
 	if(!rows) return false;
 	rows.style.position = 'relative';
@@ -2668,6 +2667,10 @@ function show_keyboard_layout(type) {
 		opts = document.getElementById('bottom_options');
 		opts.style.display = 'none';
 	}
+
+	var layout_info = current_layout;
+	if(is_old_hangeul_input() && typeof current_layout.old_hangeul_layout_type_name != 'undefined')
+		layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
 
 	var layout=[], ue=[], de=[], uh=[], dh=[], l=[];
 	layout = find_layout_info('En', En_type).layout;
@@ -2858,8 +2861,8 @@ function show_keyboard_layout(type) {
 		document.getElementById('uh8').innerHTML = '<span style="color:#666;font-size:0.8em">(ㅡ)</span>';
 	}
 
-	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') {
-		if( !sign_ext_state && !(!option.enable_Sin3_diphthong_key && is_old_hangeul_input()) ) {
+	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3') { // 신세벌식 자판의 첫소리 자리에서 넣는 홀소리들
+		if(!sign_ext_state && !(!option.enable_Sin3_diphthong_key && is_old_hangeul_input()) && !(checkCapsLock() && typeof layout_info.capslock_extended_sign_layout != 'undefined' && !layout_info.capslock_extended_sign_layout)) {
 			if(typeof current_layout.sublayout != 'undefined') {
 				if(current_layout.sublayout[14]) // 빗금(/) 자리의 겹낱자 확장 배열 홀소리
 					document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_letter(current_layout.sublayout[14]))+')</font>';
@@ -2880,7 +2883,8 @@ function show_keyboard_layout(type) {
 			}
 		}
 
-		if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout) {
+		if(option.enable_sign_ext && typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout && !(checkCapsLock() && typeof layout_info.capslock_extended_sign_layout != 'undefined' && !layout_info.capslock_extended_sign_layout)) {
+			// 신세벌식 기호 확장 배열 전환 글쇠
 			document.getElementById('de35').innerHTML = sign_ext_tag;
 			for(i=0;i<3;++i)
 				document.getElementById('de'+(36+i)).innerHTML = '<span style="padding:0 1px;background:black;color:#fff;font-size:10px;">'+String.fromCharCode(0x2460+i)+'</span>';
@@ -2964,6 +2968,14 @@ function show_keyboard_layout(type) {
 
 	show_keyboard_layout_info();
 }
+
+
+function checkCapsLock() {
+	var e=window.event;
+  if(e.getModifierState && e.getModifierState("CapsLock")) return true;
+  return false;
+}
+
 
 function ohiStart() {
 	var i;
@@ -3420,6 +3432,7 @@ function ohiKeydown(e) {
 
 		if(e.keyCode==20) { // Caps Lock
 			//tableKey_press(e.keyCode);
+			show_keyboard_layout();
 		}
 
 		if((e.keyCode>=35 && e.keyCode<=40) || e.keyCode==45 || e.keyCode==46) { // end(35), home(36), 화살표(37~40), insert(45), del(46)

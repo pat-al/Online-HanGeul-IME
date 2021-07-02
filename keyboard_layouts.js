@@ -57,7 +57,7 @@ keyboard_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, sublayout: K3_Sin3_P2_sublayout, hangeul_combination_table: K3_Sin3_P2_combination_table, extended_sign_layout: K3_Sin3_extended_sign_layout, old_hangeul_layout_type_name: 'Sin3-P2-y', link: 'https://pat.im/1136'});
-keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글 조합', layout: K3_Sin3_P2_y_layout, sublayout: K3_Sin3_P2_sublayout, extended_sign_layout: K3_Sin3_extended_sign_layout, combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-4'});
+keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글 조합', layout: K3_Sin3_P2_y_layout, sublayout: K3_Sin3_P2_sublayout, capslock_layout: K3_Sin3_P2_y_layout, capslock_sublayout: K3_Sin3_P2_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, capslock_extended_sign_layout: null, combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-4'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '3m-Anmatae', full_name: '안마태 소리 글판', layout: K3_Anmatae_layout, moachigi_hangeul_combination_table: K3_Anmatae_combination_table, link: ''});
 
@@ -1273,6 +1273,9 @@ function input_keyboard_layout_info() {
 	K3_Sin3_P2_y_layout = K3_Sin3_P2_layout.slice(0);
 	K3_Sin3_P2_y_layout[52]=0x302E; /* 0x55 U: hangeul single dot tone mark */
 	K3_Sin3_P2_y_layout[56]=0x302F; /* 0x59 Y: hangeul double dot tone mark */
+	
+	//K3_Sin3_P2_y_capslock_layout = K3_Sin3_P2_y_layout.slice(0);
+	
 
 	// 3-P3 자판의 기호 확장 배열
 	K3_P3_extended_sign_layout = [
