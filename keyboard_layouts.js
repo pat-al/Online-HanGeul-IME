@@ -38,9 +38,9 @@ var keyboard_layouts = [];
 keyboard_layouts[0] = new keyboard_layout_info();
 
 keyboard_layouts.push({KE: 'En', type_name: 'QWERTY', full_name: 'QWERTY', layout: En_QWERTY_layout});
-keyboard_layouts.push({KE: 'En', type_name: 'Dvorak', full_name: 'Dvorak', layout: En_Dvorak_layout});
-keyboard_layouts.push({KE: 'En', type_name: 'Colemak', full_name: 'Colemak', layout: En_Colemak_layout});
-keyboard_layouts.push({KE: 'En', type_name: 'Workman', full_name: 'Workman', layout: En_Workman_layout});
+keyboard_layouts.push({KE: 'En', type_name: 'Dvorak', full_name: 'Dvorak', layout: En_Dvorak_layout, capslock_layout: En_Dvorak_capslock_layout});
+keyboard_layouts.push({KE: 'En', type_name: 'Colemak', full_name: 'Colemak', layout: En_Colemak_layout, capslock_layout: En_Colemak_capslock_layout});
+keyboard_layouts.push({KE: 'En', type_name: 'Workman', full_name: 'Workman', layout: En_Workman_layout, capslock_layout: En_Workman_capslock_layout});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '2-KSX5002', full_name: '한국 표준 (KS X 5002)', layout: K2_KSX5002_layout, hangeul_combination_table: K2_hangeul_combination_table, old_hangeul_layout_type_name: '2-KSX5002-y'});
 keyboard_layouts.push({KE: 'Ko', type_name: '2-KSX5002-y', full_name: '두벌식 옛한글 (KS X 5002 응용)', layout: K2_KSX5002_y_layout, link: 'https://pat.im/1179'});
@@ -81,6 +81,8 @@ function input_keyboard_layout_info() {
 	/*i*/99,/*j*/104,/*k*/116,/*l*/110,/*m*/109,/*n*/98,/*o*/114,/*p*/108,
 	/*q*/39,/*r*/112,/*s*/111,/*t*/121,/*u*/103,/*v*/107,/*w*/44,/*x*/113,
 	/*y*/102,/*z*/59,/*{*/63,/*|*/124,/*}*/43,/*~*/126];
+	
+	En_Dvorak_capslock_layout = covert_into_en_capslock_layout(En_Dvorak_layout);
 
 	En_Colemak_layout = [/*!*/33,/*"*/34,/*#*/35,/*$*/36,/*%*/37,/*&*/38,/*'*/39,/*(*/40,
 	/*)*/41,/***/42,/*+*/43,/*,*/44,/*-*/45,/*.*/46,/*/*/47,/*0*/48,
@@ -94,6 +96,8 @@ function input_keyboard_layout_info() {
 	/*i*/117,/*j*/110,/*k*/101,/*l*/105,/*m*/109,/*n*/107,/*o*/121,/*p*/59,
 	/*q*/113,/*r*/112,/*s*/114,/*t*/103,/*u*/108,/*v*/118,/*w*/119,/*x*/120,
 	/*y*/106,/*z*/122,/*{*/123,/*|*/124,/*}*/125,/*~*/126];
+	
+	En_Colemak_capslock_layout = covert_into_en_capslock_layout(En_Colemak_layout);
 
 	En_Workman_layout = [
 		0x21,	/* 0x21 exclam: exclamation mark */
@@ -191,6 +195,8 @@ function input_keyboard_layout_info() {
 		0x7D,	/* 0x7D braceright: right brace */
 		0x7E	/* 0x7E asciitilde: tilde */
 	];
+	
+	En_Workman_capslock_layout = covert_into_en_capslock_layout(En_Workman_layout);
 
 	// 한국 표준 KS X 5002 두벌식
 	K2_KSX5002_layout = [
@@ -4193,3 +4199,15 @@ function input_combination_table_info() {
 	];
 
 } // input_combination_table_info()
+
+function covert_into_en_capslock_layout(layout) {
+	var c,i;
+	var capslock_layout=[];
+	for(i=0; i<layout.length; ++i) {
+		c=layout[i];
+		if(c>64 && c<91) c+=32;
+		else if(c>96 && c<123) c-=32;
+		capslock_layout.push(c);
+	}
+	return capslock_layout;
+}
