@@ -52,7 +52,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015P', full_name: '3-2015P', l
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'https://pat.im/1128'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'https://pat.im/1128'});
-additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, sublayout: K3_D1_sublayout, /*extended_sign_layout: K3_2012y_extended_sign_layout,*/ link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
+additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, sublayout: K3_D1_sublayout, capslock_layout: K3_D1_capslock_layout, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-18Na', full_name: '3-18Na', layout: K3_18Na_layout, sublayout: K3_18Na_sublayout, hangeul_combination_table: K3_18Na_combination_table, link: 'https://kldp.org/node/160815'});
 
@@ -3164,7 +3164,8 @@ function input_additional_keyboard_layout_info() {
 		0x0000,	/* 0x7D braceright */
 		0x0000	/* 0x7E asciitilde */
 	];
-	
+
+
 	// 3-D1 자판
 	K3_D1_layout = [
 		0x0021,	/* 0x21 exclam */
@@ -3263,7 +3264,7 @@ function input_additional_keyboard_layout_info() {
 		0x007E	/* 0x7E asciitilde */
 	];
 
-	// 3-D1 겹낱자 확장 배열
+	// 3-D1 자판 겹낱자 확장 배열
 	K3_D1_sublayout = [
 		0x0000,	/* 0x21 exclam */
 		0x0000,	/* 0x22 quotedbl */
@@ -3323,12 +3324,12 @@ function input_additional_keyboard_layout_info() {
 		0x0000,	/* 0x58 X */
 		0x0000,	/* 0x59 Y */
 		0x0000,	/* 0x5A Z */
-		0x0000,	/* 0x3A colon */
-		0x0000,	/* 0x3B semicolon */
-		0x0000,	/* 0x3C less */
-		0x0000,	/* 0x3D equal */
-		0x0000,	/* 0x3E greater */
-		0x0000,	/* 0x3F question */
+		0x0000,	/* 0x5B bracketleft */
+		0x0000,	/* 0x5C backslash */
+		0x0000,	/* 0x5D bracketright */
+		0x0000,	/* 0x5E asciicircum */
+		0x0000,	/* 0x5F underscore */
+		0x0000,	/* 0x60 quoteleft */
 		0x0000,	/* 0x61 a: */
 		0x0000,	/* 0x62 b */
 		0x0000,	/* 0x63 c: */
@@ -3360,7 +3361,104 @@ function input_additional_keyboard_layout_info() {
 		0x0000,	/* 0x7D braceright */
 		0x0000	/* 0x7E asciitilde */
 	];
-
+	
+	// 3-D1 자판 기호 확장 배열 (캡스 록 켰을 때)
+	K3_D1_capslock_layout = [
+		0x0000,	/* 0x21 exclam */
+		0x0000,	/* 0x22 quotedbl */
+		0x0000,	/* 0x23 numbersign */
+		0x0000,	/* 0x24 dollar */
+		0x0000,	/* 0x25 percent */
+		0x0000,	/* 0x26 ampersand */
+		0x00AE,	/* 0x27 apostrophe */
+		0x0000,	/* 0x28 parenleft */
+		0x0000,	/* 0x29 parenright */
+		0x0000,	/* 0x2A asterisk */
+		0x0000,	/* 0x2B plus */
+		0x3001,	/* 0x2C comma */
+		0x0000,	/* 0x2D minus */
+		0x3002,	/* 0x2E period */
+		0x00A9,	/* 0x2F slash */
+		0x3015,	/* 0x30 0 */
+		0x203D,	/* 0x31 1 */
+		0xFFE1,	/* 0x32 2 */
+		0x20AC,	/* 0x33 3 */
+		0xFFE0,	/* 0x34 4 */
+		0x2030,	/* 0x35 5 */
+		0x00B6,	/* 0x36 6 */
+		0x00A7,	/* 0x37 7 */
+		0x203B,	/* 0x38 8 */
+		0x3014,	/* 0x39 9 */
+		0x0000,	/* 0x3A colon */
+		0x2020,	/* 0x3B semicolon */
+		0x0000,	/* 0x3C less */
+		0x0000,	/* 0x3D equal */
+		0x0000,	/* 0x3E greater */
+		0x0000,	/* 0x3F question */
+		0x0000,	/* 0x40 at */
+		0x2190,	/* 0x41 A */
+		0x2198,	/* 0x42 B */
+		0x2195,	/* 0x43 C */
+		0x2194, /* 0x44 D */
+		0x2022,	/* 0x45 E */
+		0x2196,	/* 0x46 F */
+		0x2197,	/* 0x47 G */
+		0x003E,	/* 0x48 H */
+		0x0000,	/* 0x49 I */
+		0x0000,	/* 0x4A J */
+		0x0000,	/* 0x4B K */
+		0x0000,	/* 0x4C L */
+		0x0000,	/* 0x4D M */
+		0x0000,	/* 0x4E N */
+		0x0000,	/* 0x4F O */
+		0x0000,	/* 0x50 P */
+		0x25B2,	/* 0x51 Q */
+		0x00F7,	/* 0x52 R */
+		0x2192,	/* 0x53 S */
+		0x00B1,	/* 0x54 T */
+		0x0000,	/* 0x55 U */
+		0x2199,	/* 0x56 V */
+		0x25A0,	/* 0x57 W */
+		0x2191,	/* 0x58 X */
+		0x003C,	/* 0x59 Y */
+		0x2193,	/* 0x5A Z */
+		0x0000,	/* 0x5B bracketleft */
+		0x0000,	/* 0x5C backslash */
+		0xFFE6,	/* 0x5D bracketright */
+		0x0000,	/* 0x5E asciicircum */
+		0x0000,	/* 0x5F underscore */
+		0x0000,	/* 0x60 quoteleft */
+		0x300E,	/* 0x61 a */
+		0x2265,	/* 0x62 b */
+		0x300B,	/* 0x63 c */
+		0x300A,	/* 0x64 d */
+		0x25CB,	/* 0x65 e */
+		0x3008,	/* 0x66 f */
+		0x2264,	/* 0x67 g */
+		0x0022,	/* 0x68 h */
+		0x261E,	/* 0x69 i */
+		0x2015,	/* 0x6A j */
+		0x2026,	/* 0x6B k */
+		0x0060,	/* 0x6C l */
+		0x2122,	/* 0x6D m */
+		0x3003,	/* 0x6E n */
+		0x00B0,	/* 0x6F o */
+		0x2021,	/* 0x70 p */
+		0x25B3,	/* 0x71 q */
+		0x00D7,	/* 0x72 r */
+		0x300C,	/* 0x73 s */
+		0x2260,	/* 0x74 t */
+		0x261C,	/* 0x75 u */
+		0x3009,	/* 0x76 v */
+		0x25A1,	/* 0x77 w */
+		0x300D,	/* 0x78 x */
+		0x0027,	/* 0x79 y */
+		0x300F,	/* 0x7A z */
+		0x0000,	/* 0x7B braceleft */
+		0xFFE5,	/* 0x7C bar */
+		0x0000,	/* 0x7D braceright */
+		0x0000	/* 0x7E asciitilde */
+	];
 
 	K3_18Na_layout = [
 		0x0021, /* 0x21 exclam:       exclamation mark */

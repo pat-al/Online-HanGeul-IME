@@ -2080,8 +2080,15 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 
 function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
 	var c1,c2;
-	var layout=current_layout.layout;
-	var sublayout = typeof current_layout.sublayout != 'undefined' ? current_layout.sublayout : null;
+	var layout_info = current_layout;
+	if(typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', layout_info.old_hangeul_layout_type_name);
+	var layout=layout_info.layout;
+	var sublayout = typeof layout_info.sublayout != 'undefined' ? layout_info.sublayout : null;
+
+	if(checkCapsLock()) {
+		if(typeof layout_info.capslock_layout != 'undefined') layout=layout_info.capslock_layout;
+		if(typeof layout_info.capslock_sublayout != 'undefined') layout=layout_info.capslock_sublayout;
+	}
 
 	c1=convert_into_ohi_hangeul_phoneme(layout[key-33]);
 	c2=convert_into_ohi_hangeul_phoneme(layout[shift_table[key-33]-33]);	// 윗글 자리
@@ -2674,6 +2681,7 @@ function show_keyboard_layout(type) {
 
 	var layout=[], ue=[], de=[], uh=[], dh=[], l=[];
 	layout = find_layout_info('En', En_type).layout;
+	
 	for(i=0;i<layout.length;++i) l[i]=String.fromCharCode(layout[i]);
 	push_to_key_table(ue,de,l);
 
@@ -2702,15 +2710,19 @@ function show_keyboard_layout(type) {
 			layout = K3_2012y_extended_hangeul_layout;
 			push_extended_hangeul_layout_to_key_table(uh, dh, layout);
 		}
-		else if(typeof current_layout != 'undefined' && typeof current_layout.layout != 'undefined') { // 옛한글 배열
+		else if(typeof current_layout != 'undefined' && typeof current_layout.layout != 'undefined') { // 기본 배열
 			layout=current_layout.layout;
 			if(option.enable_old_hangeul_input && typeof current_layout.old_hangeul_layout_type_name != 'undefined')
 				layout = find_layout_info(KE, current_layout.old_hangeul_layout_type_name).layout;
+			if(checkCapsLock() && typeof layout_info.capslock_layout != 'undefined') layout=layout_info.capslock_layout;
 			push_layout_to_key_table(uh, dh, layout);
 		}
 	}
 
-	if(typeof current_layout.sublayout != 'undefined' && !is_old_hangeul_input()
+	var sublayout = typeof layout_info.sublayout != 'undefined' ? layout_info.sublayout : null;
+	if(checkCapsLock() && typeof layout_info.capslock_sublayout != 'undefined') sublayout=layout_info.capslock_sublayout;
+
+	if(sublayout && !is_old_hangeul_input()
 	 && (option.enable_double_final_ext || current_layout.type_name.substr(0,3)=='3m-' || current_layout.type_name=='3-18Na' || current_layout.type_name=='3-D1')
 	 && sign_ext_state<=0) {
 		insert_sublayout_table(ue, de, uh, dh, current_layout.sublayout);
