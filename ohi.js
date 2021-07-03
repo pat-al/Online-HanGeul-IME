@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/02
+ * Last Update : 2021/07/03
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2013,7 +2013,7 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
 	var i, j, c1, c2;
 	var layout_info = current_layout;
-	if(typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', layout_info.old_hangeul_layout_type_name);
+	if(is_old_hangeul_input() && typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', layout_info.old_hangeul_layout_type_name);
 	var Sin3_layout = layout_info.layout;
 	var Sin3_sublayout = (checkCapsLock() && typeof layout_info.capslock_sublayout != 'undefined') ? layout_info.capslock_sublayout : typeof layout_info.sublayout != 'undefined' ? layout_info.sublayout : null;
 	var Sin3_extended_sign_layout = (checkCapsLock() && typeof layout_info.capslock_sublayout != 'undefined') ? layout_info.capslock_extended_sign_layout : typeof layout_info.extended_sign_layout != 'undefined' ? layout_info.extended_sign_layout : null;
@@ -2081,18 +2081,17 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
 	var c1,c2;
 	var layout_info = current_layout;
-	if(typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', layout_info.old_hangeul_layout_type_name);
+	if(is_old_hangeul_input() && typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
 	var layout=layout_info.layout;
 	var sublayout = typeof layout_info.sublayout != 'undefined' ? layout_info.sublayout : null;
 
 	if(checkCapsLock()) {
 		if(typeof layout_info.capslock_layout != 'undefined') layout=layout_info.capslock_layout;
-		if(typeof layout_info.capslock_sublayout != 'undefined') layout=layout_info.capslock_sublayout;
+		if(typeof layout_info.capslock_sublayout != 'undefined') sublayout=layout_info.capslock_sublayout;
 	}
 
 	c1=convert_into_ohi_hangeul_phoneme(layout[key-33]);
 	c2=convert_into_ohi_hangeul_phoneme(layout[shift_table[key-33]-33]);	// 윗글 자리
-	//c2=convert_into_ohi_hangeul_phoneme(layout[key-33-32]);	// 윗글 자리
 
 	if(!ohiQ[3]) ohiRQ[3]=0;
 
