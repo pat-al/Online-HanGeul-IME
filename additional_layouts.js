@@ -52,7 +52,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015P', full_name: '3-2015P', l
 additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P 옛한글', layout: K3_2015P_layout, extended_sign_layout: K3_2012y_extended_sign_layout, extended_hangeul_layout: K3_2012y_extended_hangeul_layout, link: 'https://pat.im/1090'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'https://pat.im/1128'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'https://pat.im/1128'});
-additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, sublayout: K3_D1_sublayout, capslock_layout: K3_D1_capslock_layout, old_hangeul_layout_type_name: '3-D1-y', hangeul_combination_table: K3_D1_combination_table, /*hangeul_convenience_combination_table: K3_D1_additional_combination_table,*/ link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
+additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, sublayout: K3_D1_sublayout, capslock_layout: K3_D1_capslock_layout, old_hangeul_layout_type_name: '3-D1-y', hangeul_combination_table: K3_D1_combination_table, hangeul_convenience_combination_table: K3_D1_additional_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 additional_layouts.push({KE: 'Ko', type_name: '3-D1-y', full_name: '3-D1 옛한글', layout: K3_D1_y_layout, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-18Na', full_name: '3-18Na', layout: K3_18Na_layout, sublayout: K3_18Na_sublayout, hangeul_combination_table: K3_18Na_combination_table, link: 'https://kldp.org/node/160815'});
@@ -6123,7 +6123,7 @@ function input_additional_combination_table_info() {
 		[0x119F1175,0xD7C6], /* araea-eo + i = aeara-e */
 	]);
 
-	K3_additional_fortis_combination_table = [	// 3-2015 자판의 첫소리 된소리 추가 조합
+	K3_2015_additional_fortis_combination_table = [	// 3-2015 자판의 첫소리 된소리 추가 조합
 		[0x1100110B,0x1101], /* choseong gieug + ieung = ssanggieug */
 		[0x110B1100,0x1101], /* choseong ieung + gieug = ssanggieug */
 		[0x11031106,0x1104], /* choseong dieud + mieum = ssangdieud */
@@ -6153,7 +6153,7 @@ function input_additional_combination_table_info() {
 	];
 
 	K3_2015_combination_table = hangeul_combination_table_default.slice(0);
-	K3_2015_additional_combination_table = K3_additional_fortis_combination_table.concat(K3_reverse_compound_sound_combination_table);
+	K3_2015_additional_combination_table = K3_2015_additional_fortis_combination_table.concat(K3_reverse_compound_sound_combination_table);
 
 	K3_2015y_combination_table = hangeul_combination_table_full.slice(0);
 	K3_2015y_combination_table.unshift(
@@ -6170,7 +6170,7 @@ function input_additional_combination_table_info() {
 	);
 	
 	K3_D1_combination_table = hangeul_combination_table_default.slice(0);
-	K3_D1_combination_table.unshift(
+	K3_D1_additional_combination_table = [
 		[0x1100110B,0x1101], /* choseong gieug + ieung = ssanggieug */
 		[0x110B1100,0x1101], /* choseong ieung + gieug = ssanggieug */
 		[0x11001103,0x1104], /* choseong gieug + dieud = ssangdieud */
@@ -6181,24 +6181,7 @@ function input_additional_combination_table_info() {
 		[0x11091100,0x110A], /* choseong sieus + gieug = ssangsieus */
 		[0x110C110B,0x110D], /* choseong jieuj + ieung = ssangjieuj */
 		[0x110B110C,0x110D], /* choseong ieung + jieuj = ssangjieuj */
-	);
-	
-	//K3_D1_additional_combination_table = K3_additional_fortis_combination_table.concat(K3_reverse_compound_sound_combination_table);
-	//K3_D1_additional_combination_table.unshift();
-
-	K3_2015y_combination_table = hangeul_combination_table_full.slice(0);
-	K3_2015y_combination_table.unshift(
-		[0x1100110B,0x1101], /* choseong gieug + ieung = ssanggieug */
-		[0x110B1100,0x1101], /* choseong ieung + gieug = ssanggieug */
-		[0x11031106,0x1104], /* choseong dieud + mieum = ssangdieud */
-		[0x11061103,0x1104], /* choseong mieum + dieud = ssangdieud */
-		[0x1107110C,0x1108], /* choseong bieub + jieuj = ssangbieub */
-		[0x110C1107,0x1108], /* choseong jieuj + bieub = ssangbieub */
-		[0x11091112,0x110A], /* choseong sieus + hieuh = ssangsieus */
-		[0x11121109,0x110A], /* choseong hieuh + sieus = ssangsieus */
-		[0x110C1100,0x110D], /* choseong jieuj + gieug = ssangjieuj */
-		[0x1100110C,0x110D]  /* choseong gieug + jieuj = ssangjieuj */
-	);	
+	];
 
 	K3_Sin3_2015_combination_table = hangeul_combination_table_default.concat(K3_2015_additional_combination_table);
 	
