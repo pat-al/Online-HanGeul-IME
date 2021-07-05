@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/03
+ * Last Update : 2021/07/05
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -88,7 +88,7 @@ function initialize_options() {
 	var default_phonemic_writing_directly = 0;
 	var default_phonemic_writing_NFD_ggeut_to_cheos = 1;
 	var default_abbreviation = 0;
-	var default_convenience_combination = 0;
+	var default_convenience_combination = 1;
 	var default_sunalae = 0;
 	var default_square_layout = 0;
 
@@ -2613,7 +2613,7 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt_name = 'convenience_combination';
-		ft = 'inputText_focus()"><label title="입력 편의를 높이기 위한 한글 낱자 조합">편의 낱자 조합</label></div>';
+		ft = 'inputText_focus()"><label title="입력 편의를 높이기 위한 요즘한글 낱자 조합">편의 낱자 조합</label></div>';
 		opt = add_option(opts, opt_name, ft);
 		if(!is_old_hangeul_input() && typeof current_layout.hangeul_convenience_combination_table!='undefined') opt.style.display = 'block';
 		else opt.style.display = 'none';
