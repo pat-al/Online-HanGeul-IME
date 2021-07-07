@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/05
+ * Last Update : 2021/07/07
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -599,8 +599,8 @@ function combine_unicode_NFD_hangeul_phoneme(c1,c2) { // 유니코드 한글 낱
 		if(current_layout.type_name.substr(-2)=='-y' && typeof current_layout.combination_table != 'undefined')
 			combination_table = current_layout.combination_table;
 		else if(option.enable_old_hangeul_input) {
-			if(typeof current_layout.old_hangeul_layout_type_name != 'undefined' && typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).combination_table != 'undefined')
-				combination_table = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).combination_table;
+			if(typeof current_layout.old_hangeul_layout_type_name != 'undefined' && typeof find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).hangeul_combination_table != 'undefined')
+				combination_table = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name).hangeul_combination_table;
 		}
 
 		var combined_phoneme=0x10000*c1+c2;
@@ -1766,9 +1766,6 @@ function NFD_hangeul_input(f,key,c) {	// 첫가끝(세벌식) 부호계를 쓰�
 		ohiSelection(f,NFD_stack.combined_phoneme.length);
 		return;
 	}
-
-	var combination_table=hangeul_combination_table_full;
-	if(typeof current_layout.hangeul_combination_table != 'undefined') combination_table=current_layout.hangeul_combination_table;
 
 	var combined_phoneme=combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c);
 

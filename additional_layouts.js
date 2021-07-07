@@ -53,7 +53,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-2015P-y', full_name: '3-2015P �
 additional_layouts.push({KE: 'Ko', type_name: '3-P3', full_name: '3-P3', layout: K3_P3_layout, sublayout: K3_P3_sublayout, extended_sign_layout: K3_P3_extended_sign_layout, link: 'https://pat.im/1128'});
 additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2', layout: K3_P2_layout, sublayout: K3_P2_sublayout, extended_sign_layout: K3_2012y_extended_sign_layout, link: 'https://pat.im/1128'});
 additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, sublayout: K3_D1_sublayout, capslock_layout: K3_D1_capslock_layout, old_hangeul_layout_type_name: '3-D1-y', hangeul_combination_table: K3_D1_combination_table, hangeul_convenience_combination_table: K3_D1_additional_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
-additional_layouts.push({KE: 'Ko', type_name: '3-D1-y', full_name: '3-D1 옛한글', layout: K3_D1_y_layout, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
+additional_layouts.push({KE: 'Ko', type_name: '3-D1-y', full_name: '3-D1 옛한글', layout: K3_D1_y_layout, hangeul_combination_table: K3_D1_y_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-18Na', full_name: '3-18Na', layout: K3_18Na_layout, sublayout: K3_18Na_sublayout, hangeul_combination_table: K3_18Na_combination_table, link: 'https://kldp.org/node/160815'});
 
@@ -2363,7 +2363,7 @@ function input_additional_keyboard_layout_info() {
 		0x11AE, /* 0x44 D: jongseong dieud */
 		0x11BD,	/* 0x45 E: jongseong jieuj */
 		0x11C1,	/* 0x46 F: jongseong pieup */
-		0X119E,	/* 0x47 G: jungseong araea */
+		0X119E,	/* 0x47 G: jungseong alae-a */
 		0x00B7,	/* 0x48 H: middle dot */
 		0x1154,	/* 0x49 I: choseong ap-chieuch */
 		0x114C,	/* 0x4A J: choseong yes-ieung */
@@ -3363,7 +3363,7 @@ function input_additional_keyboard_layout_info() {
 		0x0000	/* 0x7E asciitilde */
 	];
 	
-	// 3-D1 자판 기호 확장 배열 (캡스 록 켰을 때)
+	// 3-D1 자판 기호 확장 배열 (캡스 록 켜고 쓰는 배열)
 	K3_D1_capslock_layout = [
 		0x0000,	/* 0x21 exclam */
 		0x0000,	/* 0x22 quotedbl */
@@ -3517,7 +3517,7 @@ function input_additional_keyboard_layout_info() {
 		0x11EB,	/* 0x51 Q: jongseong yeolin-sieus */
 		0x1164,	/* 0x52 R: jungseong yae */
 		0x11F9,	/* 0x53 S: jongseong yeolin-hieuh */
-		0x119E,	/* 0x54 T: jungseong araea */
+		0x119E,	/* 0x54 T: jungseong alae-a */
 		0x302E,	/* 0x55 U: hangeul single dot tone mark */
 		0x11BE,	/* 0x56 V: jongseong chieuch */
 		0x11AF,	/* 0x57 W: jongseong lieul */
@@ -4117,7 +4117,7 @@ function input_additional_keyboard_layout_info() {
 		0x11A9,	/* 0x58 X: jongseong ssanggieug */
 		0x0000,	/* 0x59 Y */
 		0x11B1,	/* 0x5A Z: jongseong lieul-mieum */
-		0x119E,	/* 0x5B bracketleft: jungseong araea */
+		0x119E,	/* 0x5B bracketleft: jungseong alae-a */
 		0x0000,	/* 0x5C backslash: */
 		0x0000,	/* 0x5D bracketright: */
 		0x0000,	/* 0x5E asciicircum: */
@@ -4213,7 +4213,7 @@ function input_additional_keyboard_layout_info() {
 		0x1163,	/* 0x57 W: jungseong ya */
 		0x116D,	/* 0x58 X: jungseong yo */
 		0x00D7,	/* 0x59 Y: multiplication */
-		0x119E,	/* 0x5A Z: jungseong araea*/
+		0x119E,	/* 0x5A Z: jungseong alae-a*/
 		0x005B,	/* 0x5B left bracket */
 		0x005C,	/* 0x5C backslash */
 		0x005D,	/* 0x5D right bracket */
@@ -4311,7 +4311,7 @@ function input_additional_keyboard_layout_info() {
 		0x11A9,	/* 0x58 X: jongseong ssanggieug */
 		0x0000,	/* 0x59 Y: */
 		0x11B1,	/* 0x5A Z: jongseong lieul-mieum */
-		0x119E,	/* 0x5B bracketleft: jungseong araea */
+		0x119E,	/* 0x5B bracketleft: jungseong alae-a */
 		0x0000,	/* 0x5C backslash: */
 		0x0000,	/* 0x5D bracketright: */
 		0x0000,	/* 0x5E asciicircum: */
@@ -4412,7 +4412,7 @@ function input_additional_keyboard_layout_info() {
 		0x0022,	/* 0x4D M: quotatioin mark */
 		0x2015,	/* 0x4E N: horizontal bar */
 		0x116E,	/* 0x4F O: jungseong u */
-		0x119E,	/* 0x50 P: jungseong araea */
+		0x119E,	/* 0x50 P: jungseong alae-a */
 		0x1164,	/* 0x51 Q: jungseong yae */
 		0x1165,	/* 0x52 R: jungseong eo */
 		0x1168,	/* 0x53 S: jungseong ye */
@@ -4422,7 +4422,7 @@ function input_additional_keyboard_layout_info() {
 		0x1163,	/* 0x57 W: jungseong ya */
 		0x116D,	/* 0x58 X: jungseong yo */
 		0x00D7,	/* 0x59 Y: multiplication */
-		0x119E,	/* 0x5A Z: jungseong araea */
+		0x119E,	/* 0x5A Z: jungseong alae-a */
 		0x005B,	/* 0x5B bracketleft */
 		0x005C,	/* 0x5C backslash */
 		0x005D,	/* 0x5D bracketright */
@@ -4831,7 +4831,7 @@ function input_additional_keyboard_layout_info() {
 		[[0x119B,0x0000], [0x1195,0x0000]], /* 0x62 b: i+u, eu+u */
 		[[0x1168,0x0000], [0xD7BB,0x0000]], /* 0x63 c: ye, eu+e */
 		[[0xD7C4,0x0000], [0x1174,0x0000]], /* 0x64 d: i+i, eu+i */
-		[[0xD7BF,0x0000], [0x119E,0x11A2]], /* 0x65 e: i+yeo, arae-a, ssangarae-a */
+		[[0xD7BF,0x0000], [0x119E,0x11A2]], /* 0x65 e: i+yeo, alae-a, ssangalae-a */
 		[[0x1198,0x0000], [0xD7B9,0x0000]], /* 0x66 f: i+a, eu+a */
 		[[0x119C,0x0000], [0x1196,0x0000]], /* 0x67 g: i+eu, eu+eu */
 		[[0x0000,0x0000], [0x1159,0xA97C]], /* 0x68 h: choseong yeorinhieuh, choseong ssangyeorinhieuh */
@@ -5242,7 +5242,7 @@ K3_Anmatae_layout = [
 		0x114C, /* 0x47 G: choseong yesieung */
 		0x1165, /* 0x48 H: jungseong eo */
 		0x002F, /* 0x49 I: slash */
-		0x119E, /* 0x4A J: jungseong araea */
+		0x119E, /* 0x4A J: jungseong alae-a */
 		0x1175, /* 0x4B K: jungseong i */
 		0x1169, /* 0x4C L: jungseong o */
 		0x11AB, /* 0x4D M: jongseong nienu */
@@ -5319,8 +5319,8 @@ K3_Anmatae_layout = [
 		0x11B8, /* 0x33 3: jongseong bieub */
 		0x116D, /* 0x34 4: jungseong yo */
 		0x1163, /* 0x35 5: jungseong ya */
-		0x119E, /* 0x36 6: jungseong araea */
-		0x11A2, /* 0x37 7: jungseong ssangaraea */
+		0x119E, /* 0x36 6: jungseong alae-a */
+		0x11A2, /* 0x37 7: jungseong ssangalae-a */
 		0x0038, /* 0x38 8: 8 */
 		0x0039, /* 0x39 9: 9 */
 		0x0034, /* 0x3A colon: 4 */
@@ -6120,7 +6120,7 @@ function input_additional_combination_table_info() {
 		[0xD7B51175,0x118C], /* u-yeo + i = u-ye */
 		[0x118F1175,0x1190], /* yu-eo + i = yu-e */
 		[0x118E1175,0xD7B7], /* yu-a + i = yu-ae */
-		[0x119F1175,0xD7C6], /* araea-eo + i = aeara-e */
+		[0x119F1175,0xD7C6], /* alae-a-eo + i = aeara-e */
 	]);
 
 	K3_2015_additional_fortis_combination_table = [	// 3-2015 자판의 첫소리 된소리 추가 조합
@@ -6182,6 +6182,13 @@ function input_additional_combination_table_info() {
 		[0x110C110B,0x110D], /* choseong jieuj + ieung = ssangjieuj */
 		[0x110B110C,0x110D], /* choseong ieung + jieuj = ssangjieuj */
 	];
+	
+	K3_D1_y_combination_table = hangeul_combination_table_full.slice(0);
+	K3_D1_y_combination_table.unshift(
+		[0x11651165,0x119E], /* jungseong eo + eo = alae-a */
+		[0x11741165,0x11A2], /* jungseong eui + eo = ssangalae-a */
+	
+	);
 
 	K3_Sin3_2015_combination_table = hangeul_combination_table_default.concat(K3_2015_additional_combination_table);
 	
@@ -6263,7 +6270,7 @@ function input_additional_combination_table_info() {
 		{phonemes: [0x116E,0x1166], char: 0x1170}, /* jungseong u   + e   = we */
 		{phonemes: [0x116E,0x1175], char: 0x1171}, /* jungseong u   + i   = wi */
 		{phonemes: [0x1173,0x1175], char: 0x1174}, /* jungseong eu  + i   = eui */
-		{phonemes: [0x1175,0x119E], char: 0x11A1}, /* jungseong i   + araea = araeae */
+		{phonemes: [0x1175,0x119E], char: 0x11A1}, /* jungseong i   + alae-a = alae-ae */
 		{phonemes: [0x11A8,0x11BA], char: 0x11AA}, /* jongseong gieug + sieus = gieug-sieus */
 		{phonemes: [0x11AB,0x11AB], char: 0x11AD}, /* jongseong nieun + nieun = nieun-hieuh */
 		{phonemes: [0x11AB,0x11AF], char: 0x11AC}, /* jongseong nieun + lieul = nieun-jieuj */
@@ -6337,7 +6344,7 @@ function input_additional_combination_table_info() {
 		{phonemes: [0x116E,0x1166], char: 0x1170}, /* jungseong u   + e   = we */
 		{phonemes: [0x116E,0x1175], char: 0x1171}, /* jungseong u   + i   = wi */
 		{phonemes: [0x1173,0x1175], char: 0x1174}, /* jungseong eu  + i   = eui */
-		{phonemes: [0x119E,0x119E], char: 0x11A2}, /* jungseong araea + araea = ssangaraea */
+		{phonemes: [0x119E,0x119E], char: 0x11A2}, /* jungseong alae-a + alae-a = ssangalae-a */
 		{phonemes: [0x11A8,0x11BA], char: 0x11AA}, /* jongseong gieug + sieus = gieug-sieus */
 		{phonemes: [0x11AB,0x11AB], char: 0x11AD}, /* jongseong nieun + nieun = nieun-hieuh */
 		{phonemes: [0x11AB,0x11AF], char: 0x11AC}, /* jongseong nieun + lieul = nieun-jieuj */
