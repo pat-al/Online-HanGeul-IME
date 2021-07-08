@@ -6120,7 +6120,7 @@ function input_additional_combination_table_info() {
 		[0xD7B51175,0x118C], /* u-yeo + i = u-ye */
 		[0x118F1175,0x1190], /* yu-eo + i = yu-e */
 		[0x118E1175,0xD7B7], /* yu-a + i = yu-ae */
-		[0x119F1175,0xD7C6], /* alae-a-eo + i = aeara-e */
+		[0x119F1175,0xD7C6], /* alae-a-eo + i = alae-a-e */
 	]);
 
 	K3_2015_additional_fortis_combination_table = [	// 3-2015 자판의 첫소리 된소리 추가 조합
