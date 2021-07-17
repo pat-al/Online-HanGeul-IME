@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/07
+ * Last Update : 2021/07/17
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2574,7 +2574,7 @@ function show_options() {
 		else opt.style.display = 'none';
 
 		opt_name = 'enable_sign_ext';
-		ft = 'inputText_focus()"><label title="기호 확장 배열">기호 확장</label></div>';
+		ft = 'show_keyboard_layout();inputText_focus()"><label title="기호 확장 배열">기호 확장</label></div>';
 		opt = add_option(opts, opt_name, ft);
 		if(KE=='Ko' && (typeof current_layout.extended_sign_layout != 'undefined' && current_layout.extended_sign_layout) && Ko_type!='Sin3-2015') opt.style.display = 'block';
 		else opt.style.display = 'none';
