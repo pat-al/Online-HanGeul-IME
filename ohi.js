@@ -2102,11 +2102,11 @@ function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
 	// 첫소리가 들어가고 홀소리는 들어가지 않았는데 겹홀소리 조합용 ㅗ·ㅜ가 눌렸을 때
 		ohiRQ[3]=key;
 	}
-	/*else if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && sublayout && unicode_ga.indexOf(sublayout[key-33])>=0) {
-	// 첫소리가 들어가고 홀소리는 들어가지 않았는데 보조 배열의 홀소리 있는 글쇠가 눌렸을 때
+	else if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && unicode_cheos.indexOf(layout[key-33])>=0 && sublayout && unicode_ga.indexOf(sublayout[key-33])>=0) {
+	// 첫소리만 들어갔을 때 기본 배열에 첫소리가 있고 보조 배열에 홀소리가 있는 글쇠가 눌렸을 때 보조 배열의 홀소리를 넣음 (3-D1 자판)
 		ohiRQ[3]=key;
 		c1=convert_into_ohi_hangeul_phoneme(sublayout[key-33]);
-	}*/
+	}
 	else if(with_shift_key(key)
 	 && (NFD_stack.phoneme.length&&unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || ohiQ[0]&&ohiQ[3]&&!ohiQ[6])
 	 && (c1<31 || unicode_ggeut.indexOf(sublayout[key-33])>=0)
