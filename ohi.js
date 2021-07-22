@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/17
+ * Last Update : 2021/07/22
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1240,6 +1240,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		return i;
 	}
 	else if(!NFD_stack.phoneme.length && c>65 && c<87) { // Jung
+		
 		if((!ohiQ[4] || !(ohiQ[3]=-1)) && !(Ko_type.substr(1,2)=='t-' && ohiRQ[3]+ohiRQ[4]>1)) {
 			ohiQ[4]=ohiDoubleJamo(1,ohiQ[3],c-35);
 			i=1;
@@ -2067,7 +2068,6 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 
 
 function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
-	var c1,c2;
 	var layout_info = current_layout;
 	if(is_old_hangeul_input() && typeof layout_info.old_hangeul_layout_type_name != 'undefined') layout_info = find_layout_info('Ko', current_layout.old_hangeul_layout_type_name);
 	var layout=layout_info.layout;
@@ -2078,20 +2078,21 @@ function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
 		if(typeof layout_info.capslock_sublayout != 'undefined') sublayout=layout_info.capslock_sublayout;
 	}
 
-	c1=convert_into_ohi_hangeul_phoneme(layout[key-33]);
-	c2=convert_into_ohi_hangeul_phoneme(layout[shift_table[key-33]-33]);	// 윗글 자리
+	var c1=convert_into_ohi_hangeul_phoneme(layout[key-33]);
+	var c2=convert_into_ohi_hangeul_phoneme(layout[shift_table[key-33]-33]);	// 윗글 자리
 
 	if(!ohiQ[3]) ohiRQ[3]=0;
 
-	if(!is_old_hangeul_input() && (ohiQ[3]==86-35) && !ohiQ[4] && !ohiQ[6] && !with_shift_key(key) && c1==67 && c2==69) {
-	// 요즘한글 배열에서 ㅣ가 들어간 뒤에 ㅐ가 눌렸을 때 ㅣ+ㅐ→ㅒ (ㅒ가 ㅐ의 윗글 자리에 있을 때만)
+	if(!is_old_hangeul_input() && (ohiQ[3]==86-35) && !ohiQ[4] && !ohiQ[6] && !with_shift_key(key) /*&& c1==67 && c2==69*/
+	 && sublayout && convert_into_ohi_hangeul_phoneme(sublayout[key-33])==c2) {
+	// 요즘한글 배열에서 ㅣ가 들어간 뒤의 ㅣ+ㅐ→ㅒ나 ㅣ+ㅓ→ㅒ 같은 조합 (ㅒ가 겹낱자 확장 배열의 눌린 글쇠 자리에 있을 때)
 		ohiQ[4]=ohiQ[3]-68;
 		ohiInsert(f,0,ohiQ);
 		return -1;
 	}
 
-	if(ohiQ[3]==c1-35 && !ohiQ[4] && !ohiQ[6] && c2>65 && c2<87 && c1!=c2) {
-	// 윗글 자리에 홀소리가 있는 글쇠를 홀소리를 넣는 상태에서 거듭 눌렀을 때 (ㅐ+ㅐ→ㅒ 등)
+	if(ohiQ[3]==c1-35 && !ohiQ[4] && !ohiQ[6] && c2>65 && c2<87 && c1!=c2 && sublayout && convert_into_ohi_hangeul_phoneme(sublayout[key-33])==c2) {
+	// 윗글 자리에 홀소리가 있는 글쇠를 홀소리를 넣는 상태에서 거듭 눌렀을 때 (보기: ㅐ+ㅐ→ㅒ)
 		ohiQ[4]=(c2-35)-ohiQ[3];
 		ohiInsert(f,0,ohiQ);
 		return -1;
@@ -2101,11 +2102,11 @@ function hangeul_Gong3_gm(f,key) { // 갈마들이 공세벌식
 	// 첫소리가 들어가고 홀소리는 들어가지 않았는데 겹홀소리 조합용 ㅗ·ㅜ가 눌렸을 때
 		ohiRQ[3]=key;
 	}
-	else if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && sublayout && unicode_ga.indexOf(sublayout[key-33])>=0) {
+	/*else if(!ohiRQ[3] && ohiQ[0] && !ohiQ[3] && sublayout && unicode_ga.indexOf(sublayout[key-33])>=0) {
 	// 첫소리가 들어가고 홀소리는 들어가지 않았는데 보조 배열의 홀소리 있는 글쇠가 눌렸을 때
 		ohiRQ[3]=key;
 		c1=convert_into_ohi_hangeul_phoneme(sublayout[key-33]);
-	}
+	}*/
 	else if(with_shift_key(key)
 	 && (NFD_stack.phoneme.length&&unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || ohiQ[0]&&ohiQ[3]&&!ohiQ[6])
 	 && (c1<31 || unicode_ggeut.indexOf(sublayout[key-33])>=0)
@@ -2229,7 +2230,7 @@ function is_galmadeuli_input() {
 	var type_name = current_layout.type_name;
 	if(type_name.substr(0,5)=='Sin3-') return true;
 	if(type_name.substr(-3)=='_gm') return true;
-	if(type_name.substr(0,3)=='3-20' && Number(type_name.substr(2,4))>2013) return true;
+	if(type_name.substr(0,4)=='3-20' && Number(type_name.substr(2,4))>2013) return true;
 	if(type_name.substr(0,3)=='3-P') return true;
 	if(type_name.substr(0,3)=='3-D') return true;
 	var a=['3-18Na'];
