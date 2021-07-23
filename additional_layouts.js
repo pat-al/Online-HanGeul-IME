@@ -3402,7 +3402,7 @@ function input_additional_keyboard_layout_info() {
 	// 3-D1 자판 - 기호 확장 배열 (캡스 록을 켜고 씀)
 	K3_D1_capslock_layout = [
 		0x0021,	/* 0x21 exclam */
-		0x0022,	/* 0x22 quotedbl */
+		0x002F,	/* 0x22 quotedbl */
 		0x0023,	/* 0x23 numbersign */
 		0x0024,	/* 0x24 dollar */
 		0x0025,	/* 0x25 percent */
