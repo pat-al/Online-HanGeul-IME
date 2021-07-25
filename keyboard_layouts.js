@@ -1184,6 +1184,10 @@ function input_keyboard_layout_info() {
 
 	K3_Sin3_P2_y_capslock_layout = [];
 	for(i=0;i<K3_Sin3_P2_y_layout.length;++i) K3_Sin3_P2_y_capslock_layout.push([K3_Sin3_P2_y_layout[i][0],0]);
+	K3_Sin3_P2_y_capslock_layout[14]=[0x110F,0x0000];	/* 0x2F slash: choseong kieuk */
+	K3_Sin3_P2_y_capslock_layout[40]=[0x0000,0x0000];	/* 0x49 I */
+	K3_Sin3_P2_y_capslock_layout[46]=[0x0000,0x0000];	/* 0x4F O */
+	K3_Sin3_P2_y_capslock_layout[47]=[0x0000,0x0000],	/* 0x50 P */
 
 	K3_Semoe_2018_layout = [
 		0x0021, /* 0x21 exclam: exclamation mark */
@@ -2138,7 +2142,7 @@ function input_combination_table_info() {
 		[0x11FF11BA,0x11C1], // autogen
 		[0x11FF11BB,0x11B0], // autogen
 		[0x11FF11BC,0x11AE], // autogen
-		[0x11FF11C2,0x11A9] // autogen
+		[0x11FF11C2,0x11A9]  // autogen
 ];
 
 	K3_sun2014_combination_table = hangeul_combination_table_default.slice(0);
