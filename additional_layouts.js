@@ -939,7 +939,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1103,	/* 0x6B k: choseong dieud */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -1037,7 +1037,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1103,	/* 0x6B k: choseong dieud */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -1233,7 +1233,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong gieug */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -1721,7 +1721,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong giueg */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -1819,7 +1819,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong gieug */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -2014,7 +2014,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -2111,7 +2111,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -2208,7 +2208,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong gieug */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -2305,7 +2305,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -2402,7 +2402,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -2500,7 +2500,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -2598,7 +2598,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -2696,7 +2696,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x1174],	/* 0x69 i: choseong mieum, jungseong eui */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x116E],	/* 0x6F o: choseong chieuch */
@@ -2821,12 +2821,10 @@ function input_additional_keyboard_layout_info() {
 		0x0023,	/* 0x23 numbersign */
 		0x0024,	/* 0x24 dollar */
 		0x0025,	/* 0x25 percent */
-		//0x0026,	/* 0x26 ampersand */
 		0x005B,	/* 0x26 ampersand */
 		0x1110,	/* 0x27 apostrophe: choseong tieuh */
 		0x0028,	/* 0x28 parenleft */
 		0x0029,	/* 0x29 parenright */
-		//0x002A,	/* 0x2A asterisk */
 		0x005D,	/* 0x2A asterisk */
 		0x002B,	/* 0x2B plus */
 		0x002C,	/* 0x2C comma */
@@ -2851,7 +2849,6 @@ function input_additional_keyboard_layout_info() {
 		0x003F,	/* 0x3F question */
 		0x0040,	/* 0x40 at */
 		0x11F0,	/* 0x41 A: jongseong yes-ieung */
-		//0x003E,	/* 0x42 B: greater */
 		0x0021,	/* 0x42 B: greater */
 		0x11AE,	/* 0x43 C: jongseong dieud */
 		0x11C2, /* 0x44 D: jongseong hieuh */
@@ -2866,7 +2863,6 @@ function input_additional_keyboard_layout_info() {
 		0x1159,	/* 0x4D M: choseong yeolin-hieuh */
 		0x1140,	/* 0x4E N: choseong yeolin-sieus */
 		0x1155,	/* 0x4F O: choseong dwits-chieuch */
-		//0x003B,	/* 0x50 P: semicolon */
 		0x2026,	/* 0x50 P: horizontal epllipsis */
 		0x11EB,	/* 0x51 Q: jongseong yeolin-sieus */
 		0x1164,	/* 0x52 R: jungseong yae */
@@ -2878,11 +2874,8 @@ function input_additional_keyboard_layout_info() {
 		0x11A8,	/* 0x58 X: jongseong gieug */
 		0x302F,	/* 0x59 Y: hangeul double dot tone mark */
 		0x11B7,	/* 0x5A Z: jongseong mieum */
-		//0x005B,	/* 0x5B bracketleft */
 		0x300C,	/* 0x5B bracketleft */
-		//0x005C,	/* 0x5C backslash */
 		0x3002,	/* 0x5C backslash */
-		//0x005D,	/* 0x5D bracketright */
 		0x300D,	/* 0x5D bracketright */
 		0x005E,	/* 0x5E asciicircum */
 		0x005F,	/* 0x5F underscore */
@@ -2898,7 +2891,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong gieug */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -2913,10 +2906,6 @@ function input_additional_keyboard_layout_info() {
 		0x11A8,	/* 0x78 x: jongseong gieug */
 		0x1105,	/* 0x79 y: choseong lieul */
 		0x11B7,	/* 0x7A z: jongseong mieum */
-		//0x007B,	/* 0x7B braceleft */
-		//0x007C,	/* 0x7C bar */
-		//0x007D,	/* 0x7D braceright */
-		//0x007E	/* 0x7E asciitilde */
 		0x300E,	/* 0x7B braceleft */
 		0x3001,	/* 0x7C bar */
 		0x300F,	/* 0x7D braceright */
@@ -3096,7 +3085,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong gieug */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -3194,7 +3183,7 @@ function input_additional_keyboard_layout_info() {
 		0x1106,	/* 0x69 i: choseong mieum */
 		0x110B,	/* 0x6A j: choseong ieung */
 		0x1100,	/* 0x6B k: choseong gieug */
-		0x110C,	/* 0x6C l: choseong jieuc */
+		0x110C,	/* 0x6C l: choseong jieuj */
 		0x1112,	/* 0x6D m: choseong hieuh */
 		0x1109,	/* 0x6E n: choseong sieus */
 		0x110E,	/* 0x6F o: choseong chieuch */
@@ -3292,7 +3281,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -3389,7 +3378,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -3501,7 +3490,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
@@ -3608,7 +3597,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1106,0x0000],	/* 0x69 i: choseong mieum */
 		[0x110B,0x0000],	/* 0x6A j: choseong ieung */
 		[0x1100,0x0000],	/* 0x6B k: choseong gieug */
-		[0x110C,0x0000],	/* 0x6C l: choseong jieuc */
+		[0x110C,0x0000],	/* 0x6C l: choseong jieuj */
 		[0x1112,0x0000],	/* 0x6D m: choseong hieuh */
 		[0x1109,0x0000],	/* 0x6E n: choseong sieus */
 		[0x110E,0x0000],	/* 0x6F o: choseong chieuch */
