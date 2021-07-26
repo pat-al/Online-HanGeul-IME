@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/25
+ * Last Update : 2021/07/26
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1862,31 +1862,35 @@ function NFD_hangeul_single_phoneme_syllable_input(f,c) {
 }
 
 function converting_for_special_sin3_layouts(key, c1, c2, sub_c1, sub_c2, transform) {
+// c1 : 기본 배열 아랫글 자리
+// c2 : 기본 배열 윗글 자리
+// sub_c1 : 보조 배열 아랫글 자리
+// sub_c2 : 보조 배열 윗글 자리
+	
 	var layout = find_current_layout();
 
 	if(Ko_type.substr(0,9)=='Sin3-Cham') { // 참신세벌식
-		if(unicode_ga.indexOf(c1)>=0 && unicode_cheos.indexOf(sub_c1)>=0) {
+		if((ohiQ[0] || NFD_stack.phoneme.length) && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0) {
+			[c1, c2, sub_c1] = [sub_c1, c1, c2];
+		}	else if(unicode_ga.indexOf(c1)>=0 && unicode_cheos.indexOf(sub_c1)>=0) {
 			if(!ohiQ[0] || !NFD_stack.phoneme.length || unicode_cheos.indexOf(NFD_stack.phoneme[0])<0) {
-				// 기본 배열 : 가운뎃소리, 보조 배열: 첫소리 (첫소리 ㅋ과 ㅑ가 있는 b 자리)
+				// 기본 배열(c1)에 가운뎃소리가 있고  보조 배열(sub_c1에 첫소리가 있는 자리 (첫소리 ㅋ과 ㅑ가 있는 b 자리)
 				[c1,sub_c1] = [sub_c1,c1];
 			}
-		} else if(unicode_NFD_hangeul_phoneme.indexOf(c1)<0 && unicode_ggeut.indexOf(sub_c1)>=0
-		 && (ohiQ[0] && ohiQ[3] && !ohiQ[6]) || (unicode_ga.indexOf(NFD_stack.phoneme[0])>=0) ) {
+		}	else if(unicode_NFD_hangeul_phoneme.indexOf(c1)<0 && unicode_ggeut.indexOf(sub_c1)>=0
+		 && (ohiQ[0] && ohiQ[3] && !ohiQ[6] || unicode_ga.indexOf(NFD_stack.phoneme[0])>=0)) {
 		// 끝소리 ㅋ (B 자리)
 		 	 [c1,sub_c1] = [sub_c1,c1];
 		}
-		else if((ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length) && sub_c1==0x1B) {
+		else if(sub_c1==0x1B && (ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length)) {
 		// 조합 중지 (escape)
 			[c1,sub_c1] = [sub_c1,c1];
-		}
-		else if((ohiQ[0] || NFD_stack.phoneme.length) && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0) {
-			[c1, c2, sub_c1] = [sub_c1, c1, c2];
 		}
 
 		return [c1, c2, sub_c1, sub_c2, transform];
 	}
 
-	// 홀소리를 아랫글 자리에 두는 신세벌식 배열인지 아닌지
+	// 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 배열이면 transfrom = true
 	if(typeof layout[64] != 'number') i=layout[64][0], j=layout[shift_table[64]][0];
 	else i=layout[64], j=layout[shift_table[64]];
 	if(!with_shift_key(key) && unicode_ga.indexOf(i)>=0) transform = true;
@@ -1901,7 +1905,7 @@ function converting_for_special_sin3_layouts(key, c1, c2, sub_c1, sub_c2, transf
 	return [c1, c2, sub_c1, sub_c2, transform];
 }
 
-function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처리
+function NFC_Sin3_preprocess(f,e,key) { // 완성형으로 신세벌식 자판 처리
 	var i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
@@ -2016,7 +2020,7 @@ function NFC_Sin3_preprocess(f,e,key) { // 요즘한글 신세벌식 자판 처�
 	return c;
 }
 
-function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 신세벌식 한글 처리 (옛한글)
+function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 조합 방식으로 신세벌식 한글 처리 (요즘한글 + 옛한글)
 	var i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
@@ -2053,26 +2057,14 @@ function NFD_Sin3_preprocess(f,e,key) { // 첫가끝 방식으로 조합하는 �
 	// 가운뎃소리가 들어가지 않았을 때에 오른손 윗글 자리의 가운뎃소리(ㅗ, ㅜ, ㅡ, ㆍ) 넣기
 		c = -c1;
 	}
-	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0) {
-	// 겹홀소리 조합용 가운뎃소리가 먼저 들어간 뒤에 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때
+	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.phoneme[0],c2)) {
+	// 겹홀소리 조합용 가운뎃소리가 먼저 들어갔고 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때
+	// 먼저 들어간 홀소리와 결합되는 홀소리이면 윗글 자리의 홀소리를 넣음
 		c = c2;
 	}
-	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(sub_c1)>=0 && unicode_ggeut.indexOf(c1)>=0) {
-	// 겹홀소리 조합용 가운뎃소리가 먼저 들어간 뒤에 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때 (참신세벌식)
-		c = sub_c1;
-	}
-	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0) {
-	// 겹홀소리 조합용 가운뎃소리가 먼저 들어간 뒤에 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때 (참신세벌식)
-		c = c1;
-	}
-	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(sub_c2)>=0 && unicode_ggeut.indexOf(sub_c1)>=0) {
-	// 겹홀소리 조합용 가운뎃소리가 먼저 들어간 뒤에 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때 (참신세벌식)
-		c = c1;
-	}
-	else if(unicode_ggeut.indexOf(c1)>=0 && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && (unicode_ga.indexOf(c2)>=0 || key==122)) {
-	// 왼손 쪽 아랫글 자리에서 가운뎃소리 넣기
+	else if(unicode_ggeut.indexOf(c1)>=0 && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0) {
+	// 첫소리만 들어갔을 때 왼손 쪽 끝소리가 함께 있는 글쇠 자리에서 가운뎃소리 넣기
 		c = c2;
-		if(key==122 && (c2==0x119E || unicode_NFD_hangeul_phoneme.indexOf(c2)<0)) c=0x119E; // Z 자리 아래아
 	}
 
 	return c;
@@ -2535,7 +2527,7 @@ function show_options() {
 		else opts.style.display = 'none';
 
 		opt_name = 'only_NFD_hangeul_encoding';
-		ft = 'show_keyboard_layout(option.show_layout);inputText_focus()"><label title="한글을 모두 첫가끝 조합형으로 넣기">첫가끝 조합</label></div>';
+		ft = 'complete_hangeul_syllable();show_keyboard_layout(option.show_layout);inputText_focus()"><label title="한글을 모두 첫가끝 조합형으로 넣기">첫가끝 조합</label></div>';
 		add_option(opts, opt_name, ft);
 
 		opt_name = 'phonemic_writing';
@@ -2893,8 +2885,9 @@ function show_keyboard_layout(type) {
 	}
 
 	if(KE=='Ko' && Ko_type.substr(0,4)=='Sin3' && Ko_type.substr(0,9)!='Sin3-Cham') { // 신세벌식 자판의 첫소리 자리에서 넣는 홀소리들
+		
 		if(!sign_ext_state && !(!option.enable_Sin3_diphthong_key && is_old_hangeul_input()) && !(checkCapsLock() && typeof layout_info.capslock_extended_sign_layout != 'undefined' && !layout_info.capslock_extended_sign_layout)) {
-			if(sublayout) {
+			if(sublayout.length) {
 				if(sublayout[14]) // 빗금(/) 자리의 겹낱자 확장 배열 홀소리
 					document.getElementById('uh51').innerHTML = '<font size="1">('+String.fromCharCode(convert_into_compatibility_hangeul_letter(sublayout[14]))+')</font>';
 				if(sublayout[72]) // 신세벌식 P2의 오른쪽 ㅡ 자리 (i 자리)
@@ -2910,7 +2903,7 @@ function show_keyboard_layout(type) {
 			}
 			else {
 				if(En_type=='Dvorak') document.getElementById('de51').innerHTML = '<font size="1">(ㅗ)</font>';
-				else if(current_layout_info.layout == Array && current_layout_info.layout[30]==0x3F) document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
+				else if(typeof current_layout_info.layout[30] == 'number' && current_layout_info.layout[30]==0x3F) document.getElementById('uh51').innerHTML = '<font size="1">(ㅗ)</font>';
 			}
 		}
 
