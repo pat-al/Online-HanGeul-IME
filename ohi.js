@@ -1864,8 +1864,11 @@ function converting_for_special_galmadeuli_layouts(f, key, c1, c2, sub_c1, sub_c
 	var layout = find_current_layout();
 
 	if(Ko_type.substr(0,9)=='Sin3-Cham') { // 참신세벌식
-		if(NFD_stack.phoneme.length==1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.phoneme[0],c1)) {
-			// 홀소리만 들어갔는데 먼저 들어간 것과 조합되는 홀소리이면 홀소리를 넣음
+		if(NFD_stack.phoneme.length==1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(c1)>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.phoneme[0],c1)) {
+			// 홀소리만 들어갔는데 먼저 들어간 것과 조합되는 홀소리이면 홀소리를 넣음	
+		}
+		else if(NFD_stack.phoneme.length && unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(c1)>=0 && !combine_unicode_NFD_hangeul_phoneme(NFD_stack.phoneme[0],sub_c1)) {
+			// 앞의 끌소리와 조합되지 않는 끝소리이면 홀소리를 넣음
 		}
 		else if((ohiQ[0] || NFD_stack.phoneme.length) && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0) {
 			// 한글을 조합하고 있고 가운뎃소리와 끝소리가 있는 글쇠 자리
