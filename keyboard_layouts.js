@@ -57,7 +57,7 @@ keyboard_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '신세벌식 M', layout: K3_Sin3_M_layout, link: 'http://cafe.daum.net/3bulsik/JMKX/77'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, hangeul_combination_table: K3_Sin3_P2_combination_table, extended_sign_layout: K3_Sin3_extended_sign_layout, old_hangeul_layout_type_name: 'Sin3-P2-y', link: 'https://pat.im/1136'});
-keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글 조합', layout: K3_Sin3_P2_y_layout, capslock_layout: K3_Sin3_P2_y_capslock_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, capslock_extended_sign_layout: null, combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-4'});
+keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글 조합', layout: K3_Sin3_P2_y_layout, capslock_layout: K3_Sin3_P2_y_capslock_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, capslock_extended_sign_layout: null, hangeul_combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-4'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이 2018 (세벌식 모아치기 e-2018)', layout: K3_Semoe_2018_layout, sublayout: K3_Semoe_2018_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2018_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2018_moachigi_multikey_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
 
@@ -882,6 +882,7 @@ function input_keyboard_layout_info() {
 		0x203B  /* 0x7E asciitilde: reference mark */
 	];
 
+	// 안종혁 순아래 2014 자판
 	K3_sun2014_layout = [
 		0x0021, /* 0x21 exclam */
 		0x0022, /* 0x22 quotedbl */
@@ -1076,7 +1077,6 @@ function input_keyboard_layout_info() {
 		0x007D,	/* 0x7D braceright */
 		0x007E	/* 0x7E asciitilde */
 	];
-	
 
 	// 신세벌식 P2 자판
 	K3_Sin3_P2_layout = [
@@ -2168,7 +2168,7 @@ function input_combination_table_info() {
 
 	K3_Sin3_P2_yeshangeul_combination_table = hangeul_combination_table_full.slice(0);
 	K3_Sin3_P2_yeshangeul_combination_table.unshift(
-		[0x11001109,0x1140], /* choseong gieug + siues = ssanggieug */
+		[0x11001109,0x1140], /* choseong gieug + sieus = yeolinsieus */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
 		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolinhieuh */
 		[0x11591112,0xA97C], /* choseong yeolinhieuh + hiueh = ssangyeolinhieuh */
