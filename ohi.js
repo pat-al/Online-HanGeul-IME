@@ -774,7 +774,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 
 	var c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
 
-	if(!c || c==0x1B) { // 글쇠값이 0 또는 escape이면 조합 끊기
+	if(c==0x1B) { // 글쇠값이 0 또는 escape이면 조합 끊기
 		complete_hangeul_syllable(f);
 		return;
 	}
@@ -1054,7 +1054,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		else c=layout[key-33];
 	}
 
-	if(!c || c==0x1B) { // 글쇠값이 0 또는 escape이면 조합 끊기
+	if(c==0x1B) { // 글쇠값이 0 또는 escape이면 조합 끊기
 		complete_hangeul_syllable(f);
 		return 0;
 	}
@@ -1855,13 +1855,11 @@ function NFD_hangeul_single_phoneme_syllable_input(f,c) {
 	initialize_NFD_stack();	
 }
 
-function converting_for_special_galmadeuli_layouts(f, key, c1, c2, sub_c1, sub_c2, transform) {
-// c1 : 기본 배열 아랫글 자리
-// c2 : 기본 배열 윗글 자리
-// sub_c1 : 보조 배열 아랫글 자리
-// sub_c2 : 보조 배열 윗글 자리
-	
+function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform) {
+// 신세벌식 자판과 다른 배열 방식을 쓰는 갈마들이 세벌식 자판을 신세벌식 자판의 배열 방식으로 처리할 수 있게 문자값 자리를 바꿈
+
 	var layout = find_current_layout();
+	var _c1, _c2;
 
 	if(Ko_type.substr(0,9)=='Sin3-Cham') { // 참신세벌식
 		if(NFD_stack.phoneme.length==1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(c1)>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.phoneme[0],c1)) {
@@ -1889,14 +1887,45 @@ function converting_for_special_galmadeuli_layouts(f, key, c1, c2, sub_c1, sub_c
 			complete_hangeul_syllable(f);
 		}
 
-		return [c1, c2, sub_c1, sub_c2, transform];
+		return [c1, sub_c1, c2, sub_c2, transform];
 	}
+
+	// 홀소리와 받침의 자리가 신세벌식 자판과 맞바뀐 배열 방식을 쓰는 갈마들이 방식이면 transfrom = true
 
 	if(Ko_type.substr(0,2)=='3-') {
 		transform = true;
+
+		if(Ko_type == '3-18Na') {
+			if(with_shift_key(key) && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c2)>=0/* && unicode_NFD_hangeul_phoneme.indexOf(c1)<0 && unicode_NFD_hangeul_phoneme.indexOf(sub_c1)<0*/) {
+			// 윗글쇠 눌러 겹받침 넣기
+				c1 = sub_c2;
+			}
+			else if((!with_shift_key(key) && unicode_ggeut.indexOf(c2)>=0 && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c1)>=0)
+			 || (with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0 && unicode_ga.indexOf(c2)>=0)) {
+			// 끝소리가 들어갔고 가운뎃소리와 끝소리가 있는 글쇠가 눌렸을 때 
+				if((!with_shift_key(key) && unicode_ggeut.indexOf(sub_c2)>=0 && (NFD_stack.phoneme.length && unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && sub_c2 != NFD_stack.phoneme[0] && c2 == NFD_stack.phoneme[0] && NFD_stack.phoneme[0]==NFD_stack.combined_phoneme[0] || ohiQ[6] && !ohiQ[7] && c2 == convert_into_unicode_hangeul_phoneme(ohiQ[6]))
+				  || with_shift_key(key) && unicode_ggeut.indexOf(sub_c1)>=0 && (NFD_stack.phoneme.length && unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && sub_c1 != NFD_stack.phoneme[0] && c1 == NFD_stack.phoneme[0] && NFD_stack.phoneme[0]==NFD_stack.combined_phoneme[0] || ohiQ[6] && !ohiQ[7] && c1 == convert_into_unicode_hangeul_phoneme(ohiQ[6])))) {
+				// 보조 배열에도 끝소리가 있고 끝소리가 하나만 들어갔을 때
+					// 먼저 들어간 것과 조합되는 끝소리이면 끝소리를 넣고, 그렇지 않으면 가운뎃소리를 넣음 (나빌 입력기에 없는 처리) (조합이 막히는 때를 막음)
+				 	_c1 = with_shift_key(key) ? sub_c1 : sub_c2;
+				 	_c2 = with_shift_key(key) ? sub_c2 : sub_c1;
+				 	if(!combine_unicode_NFD_hangeul_phoneme((ohiQ[6] ? convert_into_unicode_hangeul_phoneme(ohiQ[6]) : NFD_stack.combined_phoneme[0]),_c1)) {
+				 		if(_c1 == convert_into_unicode_hangeul_phoneme(ohiQ[6])) _c1 = c1;
+				 		else ohiHangeul_backspace(f,e);
+				 	} else _c1 = c1;	
+				 	c1 = _c1;
+				}
+			}
+			else if(!with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ga.indexOf(sub_c1)<0 && unicode_ga.indexOf(c2)<0 && unicode_ga.indexOf(sub_c2)<0) {
+				if(unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && NFD_stack.combined_phoneme[0] != c1
+				 || ohiQ[6] && convert_into_ohi_hangeul_phoneme(c1) != ohiQ[6]+ohiQ[7]) {
+			// 끝소리만 있는 받침 ㅈ 자리(; 자리) 글쇠가 거듭 눌렸을 때 조합 끊기
+					complete_hangeul_syllable(f);
+				}
+			}
+		}
 	}
 	else {
-		// 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 배열이면 transfrom = true
 		if(typeof layout[64] != 'number') i=layout[64][0], j=layout[shift_table[64]][0];
 		else i=layout[64], j=layout[shift_table[64]];
 		if(!with_shift_key(key) && unicode_ga.indexOf(i)>=0) transform = true;
@@ -1910,10 +1939,10 @@ function converting_for_special_galmadeuli_layouts(f, key, c1, c2, sub_c1, sub_c
 		[c1,c2] = [c2,c1];
 	}
 
-	return [c1, c2, sub_c1, sub_c2, transform];
+	return [c1, sub_c1, c2, sub_c2, transform];
 }
 
-function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 때의 갈마들이 세벌식 자판 전처리 함수
+function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
 	var i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
@@ -1921,7 +1950,7 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 �
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
 	[c1, c2, sub_c1, sub_c2] = find_galmadeuli_chars(key);
 	if(Sin3_extended_sign_layout_input(f,key,convert_into_ohi_hangeul_phoneme(c1))==-1) return -1;
-	[c1, c2, sub_c1, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, key, c1, c2, sub_c1, sub_c2, transform);
+	[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
 
 	c = c1;
 
@@ -2018,7 +2047,7 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 �
 	return c;
 }
 
-function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때의 갈마들이 세벌식 자판 전처리 함수
+function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
 	var i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리를 아랫글 자리에 둔 바꾼꼴 신세벌식 배열인지 나타내는 변수
@@ -2027,7 +2056,7 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	[c1,c2,sub_c1,sub_c2] = find_galmadeuli_chars(key);
 
 	if(Sin3_extended_sign_layout_input(f,key,c1)==-1) return -1;
-	[c1, c2, sub_c1, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, key, c1, c2, sub_c1, sub_c2, transform);
+	[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
 
 	c = c1;
 
@@ -2053,7 +2082,7 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 		c = c2;
 	}
 	else if(!sublayout.length && option.enable_Sin3_diphthong_key && key==47 && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0) {
-	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열에서 첫소리 ㅋ 자리에 다른 홀소리를 지정하지 않았을 때)
+	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열이 없을 때)
 		c=-0x1169;
 	}
 	else if((!NFD_stack.phoneme.length || unicode_ga.indexOf(NFD_stack.phoneme[0])<0) && (key==79 || key==80 || key==73) && (c1==0x1169/*ㅗ*/ || c1==0x116E/*ㅜ*/ || c1==0x1173/*ㅡ*/ || c1==0x119E/*ㆍ*/)) {
@@ -2255,7 +2284,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 					if(d[i][j]!=u[i][j]) us=u[i][j];
 					ds=d[i][j];
 				}
-				else ds=u[i][j];
+				else us=u[i][j];
 			}
 			else if(d[i][j].charCodeAt(0)) ds=d[i][j];
 
@@ -3032,24 +3061,35 @@ function show_keyboard_layout_info() {
 }
 
 function find_galmadeuli_chars(key) {
-		var c1, c2, sub_c1=0, sub_c2=0;
-		var layout = find_current_layout();
-		var sublayout = find_sublayout();
 
-		if(typeof layout[key-33] == 'number') {
-			c1 = layout[key-33];
-			c2 = layout[shift_table[key-33]-33];
-			if(sublayout) {
-				sub_c1 = sublayout[key-33];
-				sub_c2 = sublayout[shift_table[key-33]-33];
-			}
+// 쿼티 자판 기준으로 p 자리 글쇠가 눌렸다면 
+
+// [c2, sub_c2] [0x003B,0x0000], /* 0x50 P: semicolon */
+// [c1, sub_c1] [0x1111,0x119E], /* 0x70 p: choseong pieup, jungseong alae-a */
+
+// c1 : 기본 배열 아랫글 자리 (0x1111)
+// c2 : 기본 배열 윗글 자리 (0x003B)
+// sub_c1 : 보조 배열 아랫글 자리 (0x119E)
+// sub_c2 : 보조 배열 윗글 자리 (0x0000)
+
+	var c1, c2, sub_c1=0, sub_c2=0;
+	var layout = find_current_layout();
+	var sublayout = find_sublayout();
+
+	if(typeof layout[key-33] == 'number') {
+		c1 = layout[key-33];
+		c2 = layout[shift_table[key-33]-33];
+		if(sublayout.length) {
+			sub_c1 = sublayout[key-33];
+			sub_c2 = sublayout[shift_table[key-33]-33];
 		}
-		else {
-			c1 = layout[key-33][0];
-			c2 = layout[shift_table[key-33]-33][0];
-			sub_c1 = layout[key-33][1];
-			sub_c2 = layout[shift_table[key-33]-33][1];
-		}
+	}
+	else {
+		c1 = layout[key-33][0];
+		c2 = layout[shift_table[key-33]-33][0];
+		sub_c1 = layout[key-33][1];
+		sub_c2 = layout[shift_table[key-33]-33][1];
+	}
 	
 	return [c1, c2, sub_c1, sub_c2];
 }
