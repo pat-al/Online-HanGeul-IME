@@ -1416,7 +1416,7 @@ function input_combination_table_info() {
 		[0x116E1166,0x1170], /* jungseong u + e = we */
 		[0x116E1175,0x1171], /* jungseong u + i = wi */
 		[0x11731175,0x1174], /* jungseong eu + i = eui */
-		//[0x119E1175,0x11A1], /* jungseong alae-a + i = alae-a-i */
+		[0x119E1175,0x11A1], /* jungseong alae-a + i = alae-a-i */
 		[0x119E119E,0x11A2], /* jungseong alae-a + alae-a = ssangalae-a */
 		[0x11A811A8,0x11A9], /* jongseong gieug + gieug = ssangegieug */
 		[0x11A811BA,0x11AA], /* jongseong gieug + sieus = gieug-sieus */
