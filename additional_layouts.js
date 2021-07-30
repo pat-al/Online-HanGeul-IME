@@ -3729,7 +3729,7 @@ function input_additional_keyboard_layout_info() {
 		[0x0024,0x0000],	/* 0x24 dollar */
 		[0x0025,0x0000],	/* 0x25 percent */
 		[0x0026,0x0000],	/* 0x26 ampersand */
-		[0x0027,0x001B],	/* 0x27 apostrophe: apostrophe, escape */
+		[0x0027,0x0000],	/* 0x27 apostrophe: apostrophe */
 		[0x0028,0x0000],	/* 0x28 parenleft */
 		[0x0029,0x0000],	/* 0x29 parenright */
 		[0x002A,0x0000],	/* 0x2A asterisk */
@@ -3767,8 +3767,8 @@ function input_additional_keyboard_layout_info() {
 		[0x00B7,0x0000],	/* 0x4A J: middle dot */
 		[0x2026,0x0000],	/* 0x4B K: semicolon: horizontal epllipsis */
 		[0x002F,0x0000],	/* 0x4C L: slash */
-		[0x00B0,0x0000],	/* 0x4D M: degree sign ° */
-		[0x2606,0x0000],	/* 0x4E N: star ☆ */
+		[0x119E,0x0000],	/* 0x4D M: jungseong alae-a */
+		[0x2606,0x001B],	/* 0x4E N: star ☆, escape */
 		[0x300F,0x0000],	/* 0x4F O: right white corner bracket */
 		[0x003B,0x0000],	/* 0x50 P: semicolon */
 		[0x261E,0x0000],	/* 0x51 Q:  */
@@ -5381,7 +5381,8 @@ function input_additional_combination_table_info() {
 		[0x11AF11BC,0x11B6], /* jongseong lieul + ieung = lieul-hieuh */
 		[0x11C211AF,0x11B6], /* jongseong hieuh + lieul = lieul-hieuh */
 		[0x11BC11B7,0x11B6], /* jongseong ieung + mieum = lieul-hieuh */
-		[0x11BA11B8,0x11B9], /* jongseong lieul + bieub = bieub-sieus */
+		[0x11BA11B8,0x11B9], /* jongseong sieus + bieub = bieub-sieus */
+		[0x11A811B8,0x11BF], /* jongseong gieug + bieub = kieuk */
 	];
 			
 	K3_18Na_combination_table = hangeul_combination_table_default.concat([
