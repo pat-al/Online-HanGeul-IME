@@ -232,7 +232,7 @@ function input_keyboard_layout_info() {
 		0x1172, /* 0x42 B: jungseong yu */
 		0x110E, /* 0x43 C: choseong chieuch */
 		0x110B, /* 0x44 D: choseong ieung */
-		0x1104, /* 0x45 E: choseong ssangdieud */
+		0x1104, /* 0x45 E: choseong ssang_dieud */
 		0x1105, /* 0x46 F: choseong lieul */
 		0x1112, /* 0x47 G: choseong hieuh */
 		0x1169, /* 0x48 H: jungseong o */
@@ -244,13 +244,13 @@ function input_keyboard_layout_info() {
 		0x116E, /* 0x4E N: jungseong u */
 		0x1164, /* 0x4F O: jungseong yae */
 		0x1168, /* 0x50 P: jungseong ye */
-		0x1108, /* 0x51 Q: choseong ssangbieub */
-		0x1101, /* 0x52 R: choseong ssanggieug */
+		0x1108, /* 0x51 Q: choseong ssang_bieub */
+		0x1101, /* 0x52 R: choseong ssang_gieug */
 		0x1102, /* 0x53 S: choseong nieun */
-		0x110A, /* 0x54 T: choseong ssangsieus */
+		0x110A, /* 0x54 T: choseong ssang_sieus */
 		0x1167, /* 0x55 U: jungseong yeo */
 		0x1111, /* 0x56 V: choseong pieup */
-		0x110D, /* 0x57 W: choseong ssangjieuj */
+		0x110D, /* 0x57 W: choseong ssang_jieuj */
 		0x1110, /* 0x58 X: choseong tieut */
 		0x116D, /* 0x59 Y: jungseong yo */
 		0x110F, /* 0x5A Z: choseong kieuk */
@@ -326,32 +326,32 @@ function input_keyboard_layout_info() {
 		0x003E,	/* 0x3E greater: greater-than sign */
 		0x003F,	/* 0x3F question: question mark */
 		0x0040,	/* 0x40 at: commertial at */
-		0x1140, /* 0x41 A: choseong yeolin-sieus */
-		0x1154, /* 0x42 B: choseong ap-chieuch */
-		0x114E, /* 0x43 C: choseong ap-jieuj */
-		0x114C, /* 0x44 D: choseong yes-ieung */
-		0x1104, /* 0x45 E: choseong ssangdieud */
+		0x1140, /* 0x41 A: choseong yeolin_sieus */
+		0x1154, /* 0x42 B: choseong ap_chieuch */
+		0x114E, /* 0x43 C: choseong ap_jieuj */
+		0x114C, /* 0x44 D: choseong yes_ieung */
+		0x1104, /* 0x45 E: choseong ssang_dieud */
 		0x001B, /* 0x46 F: escape */
-		0x1159, /* 0x47 G: choseong yeolin-hieuh */
+		0x1159, /* 0x47 G: choseong yeolin_hieuh */
 		0x1169, /* 0x48 H: jungseong o */
 		0x302E, /* 0x49 I: hangeul single dot tone mark */
 		0x1160, /* 0x4A J: jungseong filler */
 		0x119E, /* 0x4B K: jungseong alae-a */
 		0x1175, /* 0x4C L: jungseong i */
 		0x1173, /* 0x4D M: jungseong eu */
-		0x1155, /* 0x4E N: choseong dwits-chieuch */
+		0x1155, /* 0x4E N: choseong dwis_chieuch */
 		0x1164, /* 0x4F O: jungseong yae */
 		0x1168, /* 0x50 P: jungseong ye */
-		0x1108, /* 0x51 Q: choseong ssangbieub */
-		0x1101, /* 0x52 R: choseong ssanggieug */
+		0x1108, /* 0x51 Q: choseong ssang_bieub */
+		0x1101, /* 0x52 R: choseong ssang_gieug */
 		0x1102, /* 0x53 S: choseong nieun */
-		0x110A, /* 0x54 T: choseong ssangsieus */
+		0x110A, /* 0x54 T: choseong ssang_sieus */
 		0x302F,	/* 0x55 U: hangeul double dot tone mark */
-		0x1150, /* 0x56 V: choseong dwits-jieuj */
-		0x110D, /* 0x57 W: choseong ssangjieuj */
-		0x113E, /* 0x58 X: choseong dwis-sieus */
+		0x1150, /* 0x56 V: choseong dwis_jieuj */
+		0x110D, /* 0x57 W: choseong ssang_jieuj */
+		0x113E, /* 0x58 X: choseong dwis_sieus */
 		0x116D, /* 0x59 Y: jungseong yo */
-		0x113C, /* 0x5A Z: choseong ap-sieus */
+		0x113C, /* 0x5A Z: choseong ap_sieus */
 		0x005B,	/* 0x5B bracketleft: left bracket */
 		0x005C,	/* 0x5C backslash: backslash */
 		0x005D,	/* 0x5D bracketright: right bracket */
@@ -424,13 +424,13 @@ function input_keyboard_layout_info() {
 		0x003E,	/* 0x3E greater: greater-than sign */
 		0x003F,	/* 0x3F question: question mark */
 		0x0040,	/* 0x40 at: commertial at */
-		0x110D, /* 0x41 A: choseong ssangjieuj */
+		0x110D, /* 0x41 A: choseong ssang_jieuj */
 		0x1172, /* 0x42 B: jungseong yu */
 		0x110E, /* 0x43 C: choseong chieuch */
 		0x110B, /* 0x44 D: choseong ieung */
-		0x1104, /* 0x45 E: choseong ssangdieud */
+		0x1104, /* 0x45 E: choseong ssang_dieud */
 		0x1102, /* 0x46 F: choseong nieun */
-		0x110A, /* 0x47 G: choseong ssangsieus */
+		0x110A, /* 0x47 G: choseong ssang_sieus */
 		0x1169, /* 0x48 H: jungseong o */
 		0x1165, /* 0x49 I: jungseong eo */
 		0x1161, /* 0x4A J: jungseong a */
@@ -440,9 +440,9 @@ function input_keyboard_layout_info() {
 		0x116D, /* 0x4E N: jungseong yo */
 		0x1164, /* 0x4F O: jungseong yae */
 		0x1168, /* 0x50 P: jungseong ye */
-		0x1108, /* 0x51 Q: choseong ssangbieub */
+		0x1108, /* 0x51 Q: choseong ssang_bieub */
 		0x1105, /* 0x52 R: choseong lieul */
-		0x1101, /* 0x53 S: choseong ssanggieug */
+		0x1101, /* 0x53 S: choseong ssang_gieug */
 		0x1112, /* 0x54 T: choseong hieuh */
 		0x116E, /* 0x55 U: jungseong u */
 		0x1111, /* 0x56 V: choseong pieup */
@@ -507,7 +507,7 @@ function input_keyboard_layout_info() {
 		0x1169, /* 0x2F slash: jungseong o */
 		0x110F, /* 0x30 0: choseong kieuh */
 		0x11C2, /* 0x31 1: jongseong hieuh */
-		0x11BB, /* 0x32 2: jongseong ssangsieus */
+		0x11BB, /* 0x32 2: jongseong ssang_sieus */
 		0x11B8, /* 0x33 3: jongseong bieub */
 		0x116D, /* 0x34 4: jungseong yo */
 		0x1172, /* 0x35 5: jungseong yu */
@@ -527,7 +527,7 @@ function input_keyboard_layout_info() {
 		0x11B1, /* 0x43 C: jongseong lieul-mieum */
 		0x11B0, /* 0x44 D: jongseong lieul-gieug */
 		0x11BF, /* 0x45 E: jongseong kieuk */
-		0x11A9, /* 0x46 F: jongseong ssanggieug */
+		0x11A9, /* 0x46 F: jongseong ssang_gieug */
 		0x002F, /* 0x47 G: slash */
 		0x0027, /* 0x48 H: apostrophe */
 		0x0038, /* 0x49 I: 8 */
@@ -588,7 +588,7 @@ function input_keyboard_layout_info() {
 
 	// 3-91 자판 (공병우 최종 자판)
 	K3_91_layout = [
-		0x11A9, /* 0x21 exclam: jongseong ssanggieug */
+		0x11A9, /* 0x21 exclam: jongseong ssang_gieug */
 		0x00B7, /* 0x22 quotedbl: middle dot */
 		0x11BD, /* 0x23 numbersign: jognseong jieuj */
 		0x11B5, /* 0x24 dollar: jongseong lieul-pieup */
@@ -605,7 +605,7 @@ function input_keyboard_layout_info() {
 		0x1169, /* 0x2F slash: jungseong o */
 		0x110F, /* 0x30 0: choseong kieuk */
 		0x11C2, /* 0x31 1: jongseong hieuh */
-		0x11BB, /* 0x32 2: jongseong ssangsieus */
+		0x11BB, /* 0x32 2: jongseong ssang_sieus */
 		0x11B8, /* 0x33 3: jongseong bieub */
 		0x116D, /* 0x34 4: jungseong yo */
 		0x1172, /* 0x35 5: jungseong yu */
@@ -703,7 +703,7 @@ function input_keyboard_layout_info() {
 		0x1169,	/* 0x2F slash: jungseong o */
 		0x110F,	/* 0x30 0: choseong kieuk */
 		0x11C2,	/* 0x31 1: jongseong hieuh */
-		0x11BB,	/* 0x32 2: jongseong ssangsieus */
+		0x11BB,	/* 0x32 2: jongseong ssang_sieus */
 		0x11B8,	/* 0x33 3: jongseong bieub */
 		0x116D,	/* 0x34 4: jungseong yo */
 		0x1172,	/* 0x35 5: jungseong yu */
@@ -713,26 +713,26 @@ function input_keyboard_layout_info() {
 		0x116E,	/* 0x39 9: jungseong u */
 		0x003A,	/* 0x3A colon */
 		0x1107,	/* 0x3B semicolon: choseong bieub */
-		0x113C,	/* 0x3C less: choseong ap-sieus */
+		0x113C,	/* 0x3C less: choseong ap_sieus */
 		0x003D,	/* 0x3D equal */
-		0x113E,	/* 0x3E greater: choseong dwis-sieus */
+		0x113E,	/* 0x3E greater: choseong dwis_sieus */
 		0x003F,	/* 0x3F question */
-		0x11EB,	/* 0x40 at: jongseong yeolin-sieus */
+		0x11EB,	/* 0x40 at: jongseong yeolin_sieus */
 		0x11AE,	/* 0x41 A: jongseong dieud */
 		0x0021,	/* 0x42 B: exclam */
 		0x11B1,	/* 0x43 C: jongseong lieul-mieum */
 		0x11B0, /* 0x44 D: jongseong lieul-gieug */
 		0x11BF,	/* 0x45 E: jongseong kieuk */
-		0x11A9,	/* 0x46 F: jongseong ssanggieug */
+		0x11A9,	/* 0x46 F: jongseong ssang_gieug */
 		0x119E,	/* 0x47 G: jungseong alae-a */
 		0x0027,	/* 0x48 H: apostrophe */
-		0x1154,	/* 0x49 I: choseong ap-chieuch */
-		0x114C,	/* 0x4A J: choseong yes-ieung */
-		0x114E,	/* 0x4B K: choseong ap-jieuj */
-		0x1150,	/* 0x4C L: choseong dwis-jieuj */
-		0x1159,	/* 0x4D M: choseong yeolin-hieuh */
-		0x1140,	/* 0x4E N: choseong yeolin-sieus */
-		0x1155,	/* 0x4F O: choseong dwis-chieuch */
+		0x1154,	/* 0x49 I: choseong ap_chieuch */
+		0x114C,	/* 0x4A J: choseong yes_ieung */
+		0x114E,	/* 0x4B K: choseong ap_jieuj */
+		0x1150,	/* 0x4C L: choseong dwis_jieuj */
+		0x1159,	/* 0x4D M: choseong yeolin_hieuh */
+		0x1140,	/* 0x4E N: choseong yeolin_sieus */
+		0x1155,	/* 0x4F O: choseong dwis_chieuch */
 		0x0000,	/* 0x50 P: */
 		0x11C1,	/* 0x51 Q: jongseong pieup */
 		0x1164,	/* 0x52 R: jungseong yae */
@@ -749,7 +749,7 @@ function input_keyboard_layout_info() {
 		0x005D,	/* 0x5D bracketright */
 		0x005E,	/* 0x5E asciicircum */
 		0x005F,	/* 0x5F underscore */
-		0x11F9,	/* 0x60 quoteleft: jongseong yeolin-hieuh */
+		0x11F9,	/* 0x60 quoteleft: jongseong yeolin_hieuh */
 		0x11BC,	/* 0x61 a: jongseong ieung */
 		0x116E,	/* 0x62 b: jungseong u */
 		0x1166,	/* 0x63 c: jungseong e */
@@ -779,12 +779,12 @@ function input_keyboard_layout_info() {
 		0x007B,	/* 0x7B braceleft */
 		0x007C,	/* 0x7C bar */
 		0x007D,	/* 0x7D braceright */
-		0x11F0	/* 0x7E asciitilde: jongseong yes-ieung */
+		0x11F0	/* 0x7E asciitilde: jongseong yes_ieung */
 	];
 
 	// 3-91 자판을 바탕으로 한 예외 낱자 조합 방식 순아래 자판 (youknowone)
 	K3_3_91_noshift_layout = [
-		0x11A9, /* 0x21 exclam: jongseong ssanggieug */
+		0x11A9, /* 0x21 exclam: jongseong ssang_gieug */
 		0x00B7, /* 0x22 quotedbl: middle dot */
 		0x11BD, /* 0x23 numbersign: jognseong jieuj */
 		0x11B5, /* 0x24 dollar: jongseong lieul-pieup */
@@ -801,7 +801,7 @@ function input_keyboard_layout_info() {
 		0x116C, /* 0x2F slash: jungseong oe */
 		0x110F, /* 0x30 0: choseong kieuk */
 		0x11C2, /* 0x31 1: jongseong hieuh */
-		0x11BB, /* 0x32 2: jongseong ssangsieus */
+		0x11BB, /* 0x32 2: jongseong ssang_sieus */
 		0x11B8, /* 0x33 3: jongseong bieup */
 		0x116D, /* 0x34 4: jungseong yo */
 		0x1172, /* 0x35 5: jungseong yu */
@@ -899,7 +899,7 @@ function input_keyboard_layout_info() {
 		0x1169, /* 0x2F slash: jungseong o */
 		0x110F, /* 0x30 0: choseong kieuk */
 		0x11C2, /* 0x31 1: jongseong hieuh */
-		0x11BB, /* 0x32 2: jongseong ssangsieus */
+		0x11BB, /* 0x32 2: jongseong ssang_sieus */
 		0x11B8, /* 0x33 3: jongseong pieup */
 		0x116D, /* 0x34 4: jungseong yo */
 		0x1172, /* 0x35 5: jungseong yu */
@@ -919,7 +919,7 @@ function input_keyboard_layout_info() {
 		0x0000, /* 0x43 C: jongseong lieul-mieum */
 		0x0000, /* 0x44 D: jongseong lieul-gieug */
 		0x0000, /* 0x45 E: jongseong kieuk */
-		0x0000, /* 0x46 F: jongseong ssanggieug */
+		0x0000, /* 0x46 F: jongseong ssang_gieug */
 		0x002F,	/* 0x47 G: slash */
 		0x0027,	/* 0x48 H: apostrophe */
 		0x0038,	/* 0x49 I: 8 */
@@ -1014,7 +1014,7 @@ function input_keyboard_layout_info() {
 		[0x0040,0x0000],	/* 0x40 at */
 		[0x1172,0x11AA],	/* 0x41 A: jungseong yu, jongseong gieug-sieus */
 		[0x116E,0x0000],	/* 0x42 B: jungseong u */
-		[0x1166,0x11A9],	/* 0x43 C: jungseong e, jongseong ssanggieug */
+		[0x1166,0x11A9],	/* 0x43 C: jungseong e, jongseong ssang_gieug */
 		[0x1175,0x11B6],	/* 0x44 D: jungseong i, jongseong lieul-hieuh */
 		[0x1162,0x11B2],	/* 0x45 E: jungseong ae, jongseong lieul-bieub */
 		[0x1161,0x11B5],	/* 0x46 F: jungseong a, jongseong lieul-pieup */
@@ -1046,7 +1046,7 @@ function input_keyboard_layout_info() {
 		[0x0060,0x0000],	/* 0x60 quoteleft */
 		[0x11BC,0x11AA],	/* 0x61 a: jongseong ieung, jongseong gieug-sieus */
 		[0x11BE,0x0000],	/* 0x62 b: jongseong chieuch */
-		[0x11A8,0x11A9],	/* 0x63 c: jongseong gieug, jongseong ssanggieug */
+		[0x11A8,0x11A9],	/* 0x63 c: jongseong gieug, jongseong ssang_gieug */
 		[0x11C2,0x11B6],	/* 0x64 d: jongseong hieuh, jongseong lieul-hieuh */
 		[0x11B8,0x11B2],	/* 0x65 e: jongseong bieub, jongseong lieul-bieub */
 		[0x11C1,0x11B5],	/* 0x66 f: jongseong pieup, jongseong lieul-pieup */
@@ -1067,7 +1067,7 @@ function input_keyboard_layout_info() {
 		[0x1103,0x0000],	/* 0x75 u: choseong dieud */
 		[0x11BD,0x11AC],	/* 0x76 v: jongseong jieuj, jongseong nieun-jieuj */
 		[0x11AF,0x11B0],	/* 0x77 w: jongseong lieul, jongseong lieul-gieug */
-		[0x11BB,0x11B9],	/* 0x78 x: jongseong ssangsieus, jongseong bieub-sieus */
+		[0x11BB,0x11B9],	/* 0x78 x: jongseong ssang_sieus, jongseong bieub-sieus */
 		[0x1105,0x0000],	/* 0x79 y: choseong lieul */
 		[0x11B7,0x11B1],	/* 0x7A z: jongseong mieum, jongseong lieul-mieum */
 		[0x007B,0x0000],	/* 0x7B braceleft */
@@ -1116,7 +1116,7 @@ function input_keyboard_layout_info() {
 		0x0038, /* 0x38 8: 8 */
 		0x0039, /* 0x39 9: 9 */
 		0x003A, /* 0x3A colon: colon */
-		0x11BB, /* 0x3B semicolon: jongseong ssangsieus */
+		0x11BB, /* 0x3B semicolon: jongseong ssang_sieus */
 		0x003C, /* 0x3C less: less-than sign */
 		0x003D, /* 0x3D equal: euals sign */
 		0x003E, /* 0x3E greater: greater-than sign */
@@ -1404,11 +1404,11 @@ function input_keyboard_layout_info() {
 function input_combination_table_info() {
 
 	hangeul_combination_table_default = [
-		[0x11001100,0x1101], /* choseong gieug + gieug = ssanggieug */
-		[0x11031103,0x1104], /* choseong dieud + dieud = ssangdieud */
-		[0x11071107,0x1108], /* choseong bieup + bieup = ssangbieup */
-		[0x11091109,0x110A], /* choseong sieus + sieus = ssangsieus */
-		[0x110C110C,0x110D], /* choseong jieuj + jieuj = ssangjieuj */
+		[0x11001100,0x1101], /* choseong gieug + gieug = ssang_gieug */
+		[0x11031103,0x1104], /* choseong dieud + dieud = ssang_dieud */
+		[0x11071107,0x1108], /* choseong bieup + bieup = ssang_bieup */
+		[0x11091109,0x110A], /* choseong sieus + sieus = ssang_sieus */
+		[0x110C110C,0x110D], /* choseong jieuj + jieuj = ssang_jieuj */
 		[0x11691161,0x116A], /* jungseong o + a = wa */
 		[0x11691162,0x116B], /* jungseong o + ae = wae */
 		[0x11691175,0x116C], /* jungseong o + i = oe */
@@ -1417,8 +1417,8 @@ function input_combination_table_info() {
 		[0x116E1175,0x1171], /* jungseong u + i = wi */
 		[0x11731175,0x1174], /* jungseong eu + i = eui */
 		[0x119E1175,0x11A1], /* jungseong alae-a + i = alae-a-i */
-		[0x119E119E,0x11A2], /* jungseong alae-a + alae-a = ssangalae-a */
-		[0x11A811A8,0x11A9], /* jongseong gieug + gieug = ssangegieug */
+		[0x119E119E,0x11A2], /* jungseong alae-a + alae-a = ssang_alae-a */
+		[0x11A811A8,0x11A9], /* jongseong gieug + gieug = ssang_egieug */
 		[0x11A811BA,0x11AA], /* jongseong gieug + sieus = gieug-sieus */
 		[0x11AB11BD,0x11AC], /* jongseong nieun + jieuj = jieun-jieuj */
 		[0x11AB11C2,0x11AD], /* jongseong nieun + hieuh = nieun-hieuh */
@@ -1430,35 +1430,35 @@ function input_combination_table_info() {
 		[0x11AF11C1,0x11B5], /* jongseong lieul + pieup = lieul-pieup */
 		[0x11AF11C2,0x11B6], /* jongseong lieul + hieuh = lieul-hieuh */
 		[0x11B811BA,0x11B9], /* jongseong bieub + sieus = bieub-sieus */
-		[0x11BA11BA,0x11BB]  /* jongseong sieus + sieus = ssangsieus */
+		[0x11BA11BA,0x11BB]  /* jongseong sieus + sieus = ssang_sieus */
 	];
 
 	hangeul_combination_table_full = [
-		[0x11001100,0x1101], /* choseong gieug + gieug = ssanggieug */
+		[0x11001100,0x1101], /* choseong gieug + gieug = ssang_gieug */
 		[0x11001103,0x115A], /* choseong gieug + dieud = gieug-dieud */
 		[0x11021100,0x1113], /* choseong nieun + gieug = nieun-gieug */
-		[0x11021102,0x1114], /* choseong nieun + nieun = ssangnieun */
+		[0x11021102,0x1114], /* choseong nieun + nieun = ssang_nieun */
 		[0x11021103,0x1115], /* choseong nieun + dieud = nieun-dieud */
 		[0x11021107,0x1116], /* choseong nieun + bieub = nieun-bieub */
 		[0x11021109,0x115B], /* choseong nieun + sieus = nieun-sieus */
 		[0x1102110C,0x115C], /* choseong nieun + jieuj = nieun-jieuj */
 		[0x11021112,0x115D], /* choseong nieun + hieuh = nieun-hieuh */
 		[0x11031100,0x1117], /* choseong dieud + gieug = dieud-gieug */
-		[0x11031103,0x1104], /* choseong dieud + dieud = ssangdieud */
+		[0x11031103,0x1104], /* choseong dieud + dieud = ssang_dieud */
 		[0x11031105,0x115E], /* choseong dieud + lieul = dieud-lieul */
 		[0x11031106,0xA960], /* choseong dieud + mieum = dieud-mieum */
 		[0x11031107,0xA961], /* choseong dieud + bieub = dieud-bieub */
 		[0x11031109,0xA962], /* choseong dieud + sieus = dieud-sieus */
 		[0x1103110C,0xA963], /* choseong dieud + jieuj = dieud-jieuj */
 		[0x11051100,0xA964], /* choseong lieul + gieug = lieul-gieug */
-		[0x11051101,0xA965], /* choseong lieul + ssanggieug = lieul-ssanggieug */
+		[0x11051101,0xA965], /* choseong lieul + ssang_gieug = lieul-ssang_gieug */
 		[0x11051102,0x1118], /* choseong lieul + nieun = lieul-nieun */
 		[0x11051103,0xA966], /* choseong lieul + dieud = lieul-dieud */
-		[0x11051104,0xA967], /* choseong lieul + ssangdieud = lieul-ssangdieud */
-		[0x11051105,0x1119], /* choseong lieul + lieul = ssanglieul */
+		[0x11051104,0xA967], /* choseong lieul + ssang_dieud = lieul-ssang_dieud */
+		[0x11051105,0x1119], /* choseong lieul + lieul = ssang_lieul */
 		[0x11051106,0xA968], /* choseong lieul + mieum = lieul-mieum */
 		[0x11051107,0xA969], /* choseong lieul + bieub = lieul-bieub */
-		[0x11051108,0xA96A], /* choseong lieul + ssangbieub = lieul-ssangbieub */
+		[0x11051108,0xA96A], /* choseong lieul + ssang_bieub = lieul-ssang_bieub */
 		[0x11051109,0xA96C], /* choseong lieul + sieus = lieul-sieus */
 		[0x1105110B,0x111B], /* choseong lieul + ieung = gabyeounlieul */
 		[0x1105110C,0xA96D], /* choseong lieul + jieuj = lieul-jieuj */
@@ -1473,9 +1473,9 @@ function input_combination_table_info() {
 		[0x11071100,0x111E], /* choseong bieub + gieug = bieub-gieug */
 		[0x11071102,0x111F], /* choseong bieub + nieun = bieub-nieun */
 		[0x11071103,0x1120], /* choseong bieub + dieud = bieub-dieud */
-		[0x11071107,0x1108], /* choseong bieub + bieub = ssangbieub */
+		[0x11071107,0x1108], /* choseong bieub + bieub = ssang_bieub */
 		[0x11071109,0x1121], /* choseong bieub + sieus = bieub-sieus */
-		[0x1107110A,0x1125], /* choseong bieub + ssangsieus = bieub-ssangsieus */
+		[0x1107110A,0x1125], /* choseong bieub + ssang_sieus = bieub-ssang_sieus */
 		[0x1107110B,0x112B], /* choseong bieub + ieung = gabyeounbieub */
 		[0x1107110C,0x1127], /* choseong bieub + jieuj = bieub-jieuj */
 		[0x1107110E,0x1128], /* choseong bieub + chieuch = bieub-chieuch */
@@ -1483,21 +1483,21 @@ function input_combination_table_info() {
 		[0x11071110,0x1129], /* choseong bieub + tieut = bieub-tieut */
 		[0x11071111,0x112A], /* choseong bieub + pieup = bieub-pieup */
 		[0x11071112,0xA974], /* choseong bieub + hieuh = bieub-hieuh */
-		[0x1107112B,0x112C], /* choseong bieub + gabyeounbieub = gabyeounssangbieub */
+		[0x1107112B,0x112C], /* choseong bieub + gabyeounbieub = gabyeounssang_bieub */
 		[0x1107112D,0x1122], /* choseong bieub + sieus-gieug = bieub-sieus-gieug */
 		[0x1107112F,0x1123], /* choseong bieub + sieus-dieud = bieub-sieus-dieud */
 		[0x11071132,0x1124], /* choseong bieub + sieus-bieub = bieub-sieus-bieub */
 		[0x11071136,0x1126], /* choseong bieub + sieus-jieuj = bieub-sieus-jieuj */
 		[0x11071139,0xA972], /* choseong bieub + sieus-tieut = bieub-sieus-tieut */
-		[0x1108110B,0x112C], /* choseong ssangbieub + ieung = gabyeounssangbieub */
+		[0x1108110B,0x112C], /* choseong ssang_bieub + ieung = gabyeounssang_bieub */
 		[0x11091100,0x112D], /* choseong sieus + gieug = sieus-gieug */
 		[0x11091102,0x112E], /* choseong sieus + nieun = sieus-nieun */
 		[0x11091103,0x112F], /* choseong sieus + dieud = sieus-dieud */
 		[0x11091105,0x1130], /* choseong sieus + lieul = sieus-lieul */
 		[0x11091106,0x1131], /* choseong sieus + mieum = sieus-mieum */
 		[0x11091107,0x1132], /* choseong sieus + bieub = sieus-bieub */
-		[0x11091109,0x110A], /* choseong sieus + sieus = ssangsieus */
-		[0x1109110A,0x1134], /* choseong sieus + ssangsieus = sieus-ssangsieus */
+		[0x11091109,0x110A], /* choseong sieus + sieus = ssang_sieus */
+		[0x1109110A,0x1134], /* choseong sieus + ssang_sieus = sieus-ssang_sieus */
 		[0x1109110B,0x1135], /* choseong sieus + ieung = sieus-ieung */
 		[0x1109110C,0x1136], /* choseong sieus + jieuj = sieus-jieuj */
 		[0x1109110E,0x1137], /* choseong sieus + chieuch = sieus-chieuch */
@@ -1506,16 +1506,16 @@ function input_combination_table_info() {
 		[0x11091111,0x113A], /* choseong sieus + pieup = sieus-pieup */
 		[0x11091112,0x113B], /* choseong sieus + hieuh = sieus-hieuh */
 		[0x1109111E,0x1133], /* choseong sieus + bieub-gieug = sieus-bieub-gieug */
-		[0x11091132,0xA975], /* choseong sieus + sieus-bieub = ssangsieus-bieub */
-		[0x110A1107,0xA975], /* choseong ssangsieus + bieub = ssangsieus-bieub */
-		[0x110A1109,0x1134], /* choseong ssangsieus + sieus = sieus-ssangsieus */
+		[0x11091132,0xA975], /* choseong sieus + sieus-bieub = ssang_sieus-bieub */
+		[0x110A1107,0xA975], /* choseong ssang_sieus + bieub = ssang_sieus-bieub */
+		[0x110A1109,0x1134], /* choseong ssang_sieus + sieus = sieus-ssang_sieus */
 		[0x110B1100,0x1141], /* choseong ieung + gieug = ieung-gieug */
 		[0x110B1103,0x1142], /* choseong ieung + dieud = ieung-dieud */
 		[0x110B1105,0xA976], /* choseong ieung + lieul = ieung-lieul */
 		[0x110B1106,0x1143], /* choseong ieung + mieum = ieung-mieum */
 		[0x110B1107,0x1144], /* choseong ieung + bieub = ieung-bieub */
 		[0x110B1109,0x1145], /* choseong ieung + sieus = ieung-sieus */
-		[0x110B110B,0x1147], /* choseong ieung + ieung = ssangieung */
+		[0x110B110B,0x1147], /* choseong ieung + ieung = ssang_ieung */
 		[0x110B110C,0x1148], /* choseong ieung + jieuj = ieung-jieuj */
 		[0x110B110E,0x1149], /* choseong ieung + chieuch = ieung-chieuch */
 		[0x110B1110,0x114A], /* choseong ieung + tieut = ieung-tieut */
@@ -1523,28 +1523,28 @@ function input_combination_table_info() {
 		[0x110B1112,0xA977], /* choseong ieung + hieuh = ieung-hieuh */
 		[0x110B1140,0x1146], /* choseong ieung + bansieus = ieung-bansieus */
 		[0x110C110B,0x114D], /* choseong jieuj + ieung = jieuj-ieung */
-		[0x110C110C,0x110D], /* choseong jieuj + jieuj = ssangjieuj */
-		[0x110D1112,0xA978], /* choseong ssangjieuj + hieuh = ssangjieuj-hieuh */
+		[0x110C110C,0x110D], /* choseong jieuj + jieuj = ssang_jieuj */
+		[0x110D1112,0xA978], /* choseong ssang_jieuj + hieuh = ssang_jieuj-hieuh */
 		[0x110E110F,0x1152], /* choseong chieuch + kieuk = chieuch-kieuk */
 		[0x110E1112,0x1153], /* choseong chieuch + hieuh = chieuch-hieuh */
-		[0x11101110,0xA979], /* choseong tieut + tieut = ssangtieut */
+		[0x11101110,0xA979], /* choseong tieut + tieut = ssang_tieut */
 		[0x11111107,0x1156], /* choseong pieup + bieub = pieup-bieub */
 		[0x1111110B,0x1157], /* choseong pieup + ieung = gabyeounpieup */
 		[0x11111112,0xA97A], /* choseong pieup + hieuh = pieup-hieuh */
 		[0x11121109,0xA97B], /* choseong hieuh + sieus = hieuh-sieus */
-		[0x11121112,0x1158], /* choseong hieuh + hieuh = ssanghieuh */
+		[0x11121112,0x1158], /* choseong hieuh + hieuh = ssang_hieuh */
 		[0x11211100,0x1122], /* choseong bieub-sieus + gieug = bieub-sieus-gieug */
 		[0x11211103,0x1123], /* choseong bieub-sieus + dieud = bieub-sieus-dieud */
 		[0x11211107,0x1124], /* choseong bieub-sieus + bieub = bieub-sieus-bieub */
-		[0x11211109,0x1125], /* choseong bieub-sieus + sieus = bieub-ssangsieus */
+		[0x11211109,0x1125], /* choseong bieub-sieus + sieus = bieub-ssang_sieus */
 		[0x1121110C,0x1126], /* choseong bieub-sieus + jieuj = bieub-sieus-jieuj */
 		[0x11211110,0xA972], /* choseong bieub-sieus + tieut = bieub-sieus-tieut */
 		[0x11321100,0x1133], /* choseong sieus-bieub + gieug = sieus-bieub-gieug */
-		[0x113C113C,0x113D], /* choseong chidueumsieus + chidueumsieus = chidueumssangsieus */
-		[0x113E113E,0x113F], /* choseong jeongchieumsieus + jeongchieumsieus = jeongchieumssangsieus */
-		[0x114E114E,0x114F], /* choseong chidueumjieuj + chidueumjieuj = chidueumssangjieuj */
-		[0x11501150,0x1151], /* choseong jeongchieumjieuj + jeongchieumjieuj = jeongchieumssangjieuj */
-		[0x11591159,0xA97C], /* choseong yeorinhieuh + yeorinhieuh = ssangyeorinhieuh */
+		[0x113C113C,0x113D], /* choseong ap_sieus + ap_sieus = ap_ssang_sieus */
+		[0x113E113E,0x113F], /* choseong dwis_sieus + dwis_sieus = dwis_ssang_sieus */
+		[0x114E114E,0x114F], /* choseong ap_jieuj + ap_jieuj = ap_ssang_jieuj */
+		[0x11501150,0x1151], /* choseong dwis_jieuj + dwis_jieuj = dwis_ssang_jieuj */
+		[0x11591159,0xA97C], /* choseong yeolin_hieuh + yeolin_hieuh = ssang_yeolin_hieuh */
 		[0x11611161,0x119E], /* jungseong a + a  = alae-a */
 		[0x11611169,0x1176], /* jungseong a + o  = a-o */
 		[0x1161116E,0x1177], /* jungseong a + u  = a-u */
@@ -1633,8 +1633,8 @@ function input_combination_table_info() {
 		[0x119E1166,0xD7C6], /* jungseong alae-a + e = alae-a-e */
 		[0x119E116E,0x11A0], /* jungseong alae-a + u = alae-a-u */
 		[0x119E1175,0x11A1], /* jungseong alae-a + i = alae-a-i */
-		[0x119E119E,0x11A2], /* jungseong alae-a + alae-a = ssangalae-a */
-		[0x11A811A8,0x11A9], /* jongseong gieug + gieug = ssanggieug */
+		[0x119E119E,0x11A2], /* jungseong alae-a + alae-a = ssang_alae-a */
+		[0x11A811A8,0x11A9], /* jongseong gieug + gieug = ssang_gieug */
 		[0x11A811AB,0x11FA], /* jongseong gieug + nieun = gieug-nieun */
 		[0x11A811AF,0x11C3], /* jongseong gieug + lieul = gieug-lieul */
 		[0x11A811B8,0x11FB], /* jongseong gieug + bieub = gieug-bieub */
@@ -1645,7 +1645,7 @@ function input_combination_table_info() {
 		[0x11A811E7,0x11C4], /* jongseong gieug + sieus-gieug = gieug-sieus-gieug */
 		[0x11AA11A8,0x11C4], /* jongseong gieug-sieus + gieug = gieug-sieus-gieug */
 		[0x11AB11A8,0x11C5], /* jongseong nieun + gieug = nieun-gieug */
-		[0x11AB11AB,0x11FF], /* jongseong nieun + nieun = ssangnieun */
+		[0x11AB11AB,0x11FF], /* jongseong nieun + nieun = ssang_nieun */
 		[0x11AB11AE,0x11C6], /* jongseong nieun + dieud = nieun-dieud */
 		[0x11AB11AF,0xD7CB], /* jongseong nieun + lieul = nieun-lieul */
 		[0x11AB11BA,0x11C7], /* jongseong nieun + sieus = nieun-sieus */
@@ -1655,7 +1655,7 @@ function input_combination_table_info() {
 		[0x11AB11C2,0x11AD], /* jongseong nieun + hieuh = nieun-hieuh */
 		[0x11AB11EB,0x11C8], /* jongseong nieun + bansieus = nieun-bansieus */
 		[0x11AE11A8,0x11CA], /* jongseong dieud + gieug = dieud-gieug */
-		[0x11AE11AE,0xD7CD], /* jongseong dieud + dieud = ssangdieud */
+		[0x11AE11AE,0xD7CD], /* jongseong dieud + dieud = ssang_dieud */
 		[0x11AE11AF,0x11CB], /* jongseong dieud + lieul = dieud-lieul */
 		[0x11AE11B8,0xD7CF], /* jongseong dieud + bieub = dieud-bieub */
 		[0x11AE11BA,0xD7D0], /* jongseong dieud + sieus = dieud-sieus */
@@ -1663,24 +1663,24 @@ function input_combination_table_info() {
 		[0x11AE11BE,0xD7D3], /* jongseong dieud + chieuch = dieud-chieuch */
 		[0x11AE11C0,0xD7D4], /* jongseong dieud + tieut = dieud-tieut */
 		[0x11AE11E7,0xD7D1], /* jongseong dieud + sieus-gieug = dieud-sieus-gieug */
-		[0x11AED7CF,0xD7CE], /* jongseong dieud + dieud-bieub = ssangdieud-bieub */
+		[0x11AED7CF,0xD7CE], /* jongseong dieud + dieud-bieub = ssang_dieud-bieub */
 		[0x11AF11A8,0x11B0], /* jongseong lieul + gieug = lieul-gieug */
-		[0x11AF11A9,0xD7D5], /* jongseong lieul + ssanggieug = lieul-ssanggieug */
+		[0x11AF11A9,0xD7D5], /* jongseong lieul + ssang_gieug = lieul-ssang_gieug */
 		[0x11AF11AA,0x11CC], /* jongseong lieul + gieug-sieus = lieul-gieug-sieus */
 		[0x11AF11AB,0x11CD], /* jongseong lieul + nieun = lieul-nieun */
 		[0x11AF11AE,0x11CE], /* jongseong lieul + dieud = lieul-dieud */
-		[0x11AF11AF,0x11D0], /* jongseong lieul + lieul = ssanglieul */
+		[0x11AF11AF,0x11D0], /* jongseong lieul + lieul = ssang_lieul */
 		[0x11AF11B7,0x11B1], /* jongseong lieul + mieum = lieul-mieum */
 		[0x11AF11B8,0x11B2], /* jongseong lieul + bieub = lieul-bieub */
 		[0x11AF11B9,0x11D3], /* jongseong lieul + bieub-sieus = lieul-bieub-sieus */
 		[0x11AF11BA,0x11B3], /* jongseong lieul + sieus = lieul-sieus */
-		[0x11AF11BB,0x11D6], /* jongseong lieul + ssangsieus = lieul-ssangsieus */
+		[0x11AF11BB,0x11D6], /* jongseong lieul + ssang_sieus = lieul-ssang_sieus */
 		[0x11AF11BC,0xD7DD], /* jongseong lieul + ieung = gabyeounlieul */
 		[0x11AF11BF,0x11D8], /* jongseong lieul + kieuk = lieul-kieuk */
 		[0x11AF11C0,0x11B4], /* jongseong lieul + tieut = lieul-tieut */
 		[0x11AF11C1,0x11B5], /* jongseong lieul + pieup = lieul-pieup */
 		[0x11AF11C2,0x11B6], /* jongseong lieul + hieuh = lieul-hieuh */
-		[0x11AF11D8,0xD7D7], /* jongseong lieul + lieul-kieuk = ssanglieul-kieuk */
+		[0x11AF11D8,0xD7D7], /* jongseong lieul + lieul-kieuk = ssang_lieul-kieuk */
 		[0x11AF11DA,0x11D1], /* jongseong lieul + mieum-gieug = lieul-mieum-gieug */
 		[0x11AF11DD,0x11D2], /* jongseong lieul + mieum-sieus = lieul-mieum-sieus */
 		[0x11AF11E1,0xD7D8], /* jongseong lieul + mieum-hieuh = lieul-mieum-hieuh */
@@ -1689,10 +1689,10 @@ function input_combination_table_info() {
 		[0x11AF11E6,0x11D5], /* jongseong lieul + gabyeounbieub = lieul-gabyeounbieub */
 		[0x11AF11EB,0x11D7], /* jongseong lieul + bansieus = lieul-bansieus */
 		[0x11AF11F0,0xD7DB], /* jongseong lieul + yesieung = lieul-yesieung */
-		[0x11AF11F9,0x11D9], /* jongseong lieul + yeorinhieuh = lieul-yeorinhieuh */
+		[0x11AF11F9,0x11D9], /* jongseong lieul + yeolin_hieuh = lieul-yeolin_hieuh */
 		[0x11AF11FE,0xD7D6], /* jongseong lieul + gieug-hieuh = lieul-gieug-hieuh */
 		[0x11AFD7E3,0xD7D9], /* jongseong lieul + bieub-dieud = lieul-bieub-dieud */
-		[0x11B011A8,0xD7D5], /* jongseong lieul-gieug + gieug = lieul-ssanggieug */
+		[0x11B011A8,0xD7D5], /* jongseong lieul-gieug + gieug = lieul-ssang_gieug */
 		[0x11B011BA,0x11CC], /* jongseong lieul-gieug + sieus = lieul-gieug-sieus */
 		[0x11B011C2,0xD7D6], /* jongseong lieul-gieug + hieuh = lieul-gieug-hieuh */
 		[0x11B111A8,0x11D1], /* jongseong lieul-mieum + gieug = lieul-mieum-gieug */
@@ -1703,26 +1703,26 @@ function input_combination_table_info() {
 		[0x11B211BC,0x11D5], /* jongseong lieul-bieub + ieung = lieul-gabyeounbieub */
 		[0x11B211C1,0xD7DA], /* jongseong lieul-bieub + pieup = lieul-bieub-pieup */
 		[0x11B211C2,0x11D4], /* jongseong lieul-bieub + hieuh = lieul-bieub-hieuh */
-		[0x11B311BA,0x11D6], /* jongseong lieul-sieus + sieus = lieul-ssangsieus */
+		[0x11B311BA,0x11D6], /* jongseong lieul-sieus + sieus = lieul-ssang_sieus */
 		[0x11B711A8,0x11DA], /* jongseong mieum + gieug = mieum-gieug */
 		[0x11B711AB,0xD7DE], /* jongseong mieum + nieun = mieum-nieun */
 		[0x11B711AF,0x11DB], /* jongseong mieum + lieul = mieum-lieul */
-		[0x11B711B7,0xD7E0], /* jongseong mieum + mieum = ssangmieum */
+		[0x11B711B7,0xD7E0], /* jongseong mieum + mieum = ssang_mieum */
 		[0x11B711B8,0x11DC], /* jongseong mieum + bieub = mieum-bieub */
 		[0x11B711B9,0xD7E1], /* jongseong mieum + bieub-sieus = mieum-bieub-sieus */
 		[0x11B711BA,0x11DD], /* jongseong mieum + sieus = mieum-sieus */
-		[0x11B711BB,0x11DE], /* jongseong mieum + ssangsieus = mieum-ssangsieus */
+		[0x11B711BB,0x11DE], /* jongseong mieum + ssang_sieus = mieum-ssang_sieus */
 		[0x11B711BC,0x11E2], /* jongseong mieum + ieung = gabyeounmieum */
 		[0x11B711BD,0xD7E2], /* jongseong mieum + jieuj = mieum-jieuj */
 		[0x11B711BE,0x11E0], /* jongseong mieum + chieuch = mieum-chieuch */
 		[0x11B711C2,0x11E1], /* jongseong mieum + hieuh = mieum-hieuh */
 		[0x11B711EB,0x11DF], /* jongseong mieum + bansieus = mieum-bansieus */
-		[0x11B711FF,0xD7DF], /* jongseong mieum + ssangnieun = mieum-ssangnieun */
+		[0x11B711FF,0xD7DF], /* jongseong mieum + ssang_nieun = mieum-ssang_nieun */
 		[0x11B811AE,0xD7E3], /* jongseong bieub + dieud = bieub-dieud */
 		[0x11B811AF,0x11E3], /* jongseong bieub + lieul = bieub-lieul */
 		[0x11B811B5,0xD7E4], /* jongseong bieub + lieul-pieup = bieub-lieul-pieup */
 		[0x11B811B7,0xD7E5], /* jongseong bieub + mieum = bieub-mieum */
-		[0x11B811B8,0xD7E6], /* jongseong bieub + bieub = ssangbieub */
+		[0x11B811B8,0xD7E6], /* jongseong bieub + bieub = ssang_bieub */
 		[0x11B811BA,0x11B9], /* jongseong bieub + sieus = bieub-sieus */
 		[0x11B811BC,0x11E6], /* jongseong bieub + ieung = gabyeounbieub */
 		[0x11B811BD,0xD7E8], /* jongseong bieub + jieuj = bieub-jieuj */
@@ -1736,20 +1736,20 @@ function input_combination_table_info() {
 		[0x11BA11AF,0x11E9], /* jongseong sieus + lieul = sieus-lieul */
 		[0x11BA11B7,0xD7EA], /* jongseong sieus + mieum = sieus-mieum */
 		[0x11BA11B8,0x11EA], /* jongseong sieus + bieub = sieus-bieub */
-		[0x11BA11BA,0x11BB], /* jongseong sieus + sieus = ssangsieus */
+		[0x11BA11BA,0x11BB], /* jongseong sieus + sieus = ssang_sieus */
 		[0x11BA11BD,0xD7EF], /* jongseong sieus + jieuj = sieus-jieuj */
 		[0x11BA11BE,0xD7F0], /* jongseong sieus + chieuch = sieus-chieuch */
 		[0x11BA11C0,0xD7F1], /* jongseong sieus + tieut = sieus-tieut */
 		[0x11BA11C2,0xD7F2], /* jongseong sieus + hieuh = sieus-hieuh */
 		[0x11BA11E6,0xD7EB], /* jongseong sieus + gabyeounbieub = sieus-gabyeounbieub */
-		[0x11BA11E7,0xD7EC], /* jongseong sieus + sieus-gieug = ssangsieus-gieug */
-		[0x11BA11E8,0xD7ED], /* jongseong sieus + sieus-dieud = ssangsieus-dieud */
+		[0x11BA11E7,0xD7EC], /* jongseong sieus + sieus-gieug = ssang_sieus-gieug */
+		[0x11BA11E8,0xD7ED], /* jongseong sieus + sieus-dieud = ssang_sieus-dieud */
 		[0x11BA11EB,0xD7EE], /* jongseong sieus + bansieus = sieus-bansieus */
-		[0x11BB11A8,0xD7EC], /* jongseong ssangsieus + gieug = ssangsieus-gieug */
-		[0x11BB11AE,0xD7ED], /* jongseong ssangsieus + dieud = ssangsieus-dieud */
+		[0x11BB11A8,0xD7EC], /* jongseong ssang_sieus + gieug = ssang_sieus-gieug */
+		[0x11BB11AE,0xD7ED], /* jongseong ssang_sieus + dieud = ssang_sieus-dieud */
 		[0x11BD11B8,0xD7F7], /* jongseong jieuj + bieub = jieuj-bieub */
-		[0x11BD11BD,0xD7F9], /* jongseong jieuj + jieuj = ssangjieuj */
-		[0x11BDD7E6,0xD7F8], /* jongseong jieuj + ssangbieub = jieuj-ssangbieub */
+		[0x11BD11BD,0xD7F9], /* jongseong jieuj + jieuj = ssang_jieuj */
+		[0x11BDD7E6,0xD7F8], /* jongseong jieuj + ssang_bieub = jieuj-ssang_bieub */
 		[0x11C111B8,0x11F3], /* jongseong pieup + bieub = pieup-bieub */
 		[0x11C111BA,0xD7FA], /* jongseong pieup + sieus = bieub-sieus */
 		[0x11C111BC,0x11F4], /* jongseong pieup + ieung = gabyeounpieup */
@@ -1759,57 +1759,57 @@ function input_combination_table_info() {
 		[0x11C211B7,0x11F7], /* jongseong hieuh + mieum = hieuh-mieum */
 		[0x11C211B8,0x11F8], /* jongseong hieuh + bieub = hieuh-bieub */
 		[0x11CE11C2,0x11CF], /* jongseong lieul-dieud + hieuh = lieul-dieud-hieuh */
-		[0x11D011BF,0xD7D7], /* jongseong ssanglieul + kieuk = ssanglieul-kieuk */
-		[0x11D911C2,0xD7DC], /* jongseong lieul-yeorinhieuh + hieuh = lieul-yeorinhieuh-hieuh */
+		[0x11D011BF,0xD7D7], /* jongseong ssang_lieul + kieuk = ssang_lieul-kieuk */
+		[0x11D911C2,0xD7DC], /* jongseong lieul-yeolin_hieuh + hieuh = lieul-yeolin_hieuh-hieuh */
 		[0x11DC11BA,0xD7E1], /* jongseong mieum-bieub + sieus = mieum-bieub-sieus */
-		[0x11DD11BA,0x11DE], /* jongseong mieum-sieus + sieus = mieum-ssangsieus */
+		[0x11DD11BA,0x11DE], /* jongseong mieum-sieus + sieus = mieum-ssang_sieus */
 		[0x11E311C1,0xD7E4], /* jongseong bieub-lieul + pieup = bieub-lieul-pieup */
 		[0x11EA11BC,0xD7EB], /* jongseong sieus-bieub + ieung = sieus-gabyeounbieub */
 		[0x11EB11B8,0xD7F3], /* jongseong bansieus + bieub = bansieus-bieub */
 		[0x11EB11E6,0xD7F4], /* jongseong bansieus + gabyeounbieub = bansieus-gabyeounbieub */
-		[0x11EC11A8,0x11ED], /* jongseong ieung-gieug + gieug = ieung-ssanggieug */
+		[0x11EC11A8,0x11ED], /* jongseong ieung-gieug + gieug = ieung-ssang_gieug */
 		[0x11F011A8,0x11EC], /* jongseong yesieung + gieug = yesieung-gieug */
-		[0x11F011A9,0x11ED], /* jongseong yesieung + ssanggieug = yesieung-ssanggieug */
+		[0x11F011A9,0x11ED], /* jongseong yesieung + ssang_gieug = yesieung-ssang_gieug */
 		[0x11F011B7,0xD7F5], /* jongseong yesieung + mieum = yesieung-mieum */
 		[0x11F011BA,0x11F1], /* jongseong yesieung + sieus = yesieung-sieus */
 		[0x11F011BF,0x11EF], /* jongseong yesieung + kieuk = yesieung-kieuk */
 		[0x11F011C2,0xD7F6], /* jongseong yesieung + hieuh = yesieung-hieuh */
 		[0x11F011EB,0x11F2], /* jongseong yesieung + bansieus = yesieung-bansieus */
-		[0x11F011F0,0x11EE], /* jongseong yesieung + yesieung = ssangyesieung */
-		[0xA9641100,0xA965], /* choseong lieul-gieug + gieug = lieul-ssanggieug */
-		[0xA9661103,0xA967], /* choseong lieul-dieud + dieud = lieul-ssangdieud */
-		[0xA9691107,0xA96A], /* choseong lieul-bieub + bieub = lieul-ssangbieub */
+		[0x11F011F0,0x11EE], /* jongseong yesieung + yesieung = ssang_yesieung */
+		[0xA9641100,0xA965], /* choseong lieul-gieug + gieug = lieul-ssang_gieug */
+		[0xA9661103,0xA967], /* choseong lieul-dieud + dieud = lieul-ssang_dieud */
+		[0xA9691107,0xA96A], /* choseong lieul-bieub + bieub = lieul-ssang_bieub */
 		[0xA969110B,0xA96B], /* choseong lieul-bieub + ieung = lieul-gabyeounbieub */
-		[0xD7C51161,0x11A2], /* jungseong alae-a-a + a = ssangalae-a */
-		[0xD7CD11B8,0xD7CE], /* jongseong ssangdieud + bieub = ssangdieud-bieub */
+		[0xD7C51161,0x11A2], /* jungseong alae-a-a + a = ssang_alae-a */
+		[0xD7CD11B8,0xD7CE], /* jongseong ssang_dieud + bieub = ssang_dieud-bieub */
 		[0xD7D011A8,0xD7D1], /* jongseong dieud-sieus + gieug = dieud-sieus-gieug */
-		[0xD7DE11AB,0xD7DF], /* jongseong mieum-nieun + nieun = mieum-ssangnieun */
+		[0xD7DE11AB,0xD7DF], /* jongseong mieum-nieun + nieun = mieum-ssang_nieun */
 		[0xD7F311BC,0xD7F4], /* jongseong bansieus-bieub + ieung = bansieus-gabyeounbieub */
-		[0xD7F711B8,0xD7F8]  /* jongseong jieuj-bieub + bieub = jieuj-ssangbieub */
+		[0xD7F711B8,0xD7F8]  /* jongseong jieuj-bieub + bieub = jieuj-ssang_bieub */
 	];
 
 	K2_hangeul_combination_table = hangeul_combination_table_default.slice(0);
 	K2_hangeul_combination_table.unshift(
 		[0x11611161,0x119E], /* jungseong a + a = alae-a */
-		[0x11751175,0x11A2] /* jungseong i + i = ssangalae-a */
+		[0x11751175,0x11A2] /* jungseong i + i = ssang_alae-a */
 	);	
 
 	K3_3_91_noshift_combination_table = [
-		[0x11001100,0x1101], /* choseong gieug + gieug = ssanggieug */
-		[0x1100110B,0x1101], /* choseong gieug + ieung = ssanggieug */
-		[0x1100110C,0x110D], /* choseong gieug + jieuj = ssangjieuj */
-		[0x11031103,0x1104], /* choseong dieud + dieud = ssangdieud */
-		[0x11031106,0x1104], /* choseong dieud + mieum = ssangdieud */
-		[0x11061103,0x1104], /* choseong mieum + dieud = ssangdieud */
-		[0x11071107,0x1108], /* choseong bieup + bieup = ssangbieup */
-		[0x1107110C,0x1108], /* choseong bieup + jieuj = ssangbieup */
-		[0x11091109,0x110A], /* choseong sieus + sieus	= ssangsieus */
-		[0x11091112,0x110A], /* choseong sieus + hieuh = ssangsieus */
-		[0x110B1100,0x1101], /* choseong ieung + gieug = ssanggieug */
-		[0x110C1100,0x110D], /* choseong jieuj + gieug = ssangjieuj */
-		[0x110C1107,0x1108], /* choseong jieuj + bieup = ssangbieup */
-		[0x110C110C,0x110D], /* choseong jieuj + jieuj = ssangjieuj */
-		[0x11121109,0x110A], /* choseong hieuh + sieus = ssangsieus */
+		[0x11001100,0x1101], /* choseong gieug + gieug = ssang_gieug */
+		[0x1100110B,0x1101], /* choseong gieug + ieung = ssang_gieug */
+		[0x1100110C,0x110D], /* choseong gieug + jieuj = ssang_jieuj */
+		[0x11031103,0x1104], /* choseong dieud + dieud = ssang_dieud */
+		[0x11031106,0x1104], /* choseong dieud + mieum = ssang_dieud */
+		[0x11061103,0x1104], /* choseong mieum + dieud = ssang_dieud */
+		[0x11071107,0x1108], /* choseong bieup + bieup = ssang_bieup */
+		[0x1107110C,0x1108], /* choseong bieup + jieuj = ssang_bieup */
+		[0x11091109,0x110A], /* choseong sieus + sieus	= ssang_sieus */
+		[0x11091112,0x110A], /* choseong sieus + hieuh = ssang_sieus */
+		[0x110B1100,0x1101], /* choseong ieung + gieug = ssang_gieug */
+		[0x110C1100,0x110D], /* choseong jieuj + gieug = ssang_jieuj */
+		[0x110C1107,0x1108], /* choseong jieuj + bieup = ssang_bieup */
+		[0x110C110C,0x110D], /* choseong jieuj + jieuj = ssang_jieuj */
+		[0x11121109,0x110A], /* choseong hieuh + sieus = ssang_sieus */
 		[0x1161116C,0x116A], /* jungseong a  ㅏ + oe ㅚ = wa  ㅘ */
 		[0x1162116C,0x116B], /* jungseong ae ㅐ + oe ㅚ = wae ㅙ */
 		[0x11651171,0x116F], /* jungseong eo ㅓ + wi ㅟ = weo ㅝ */
@@ -2051,8 +2051,8 @@ function input_combination_table_info() {
 		[0x11BC11BC,0x11AE], /* jongseong ieung + ieung = dieud */
 		[0x11BA11BA,0x11BD], /* jongseong sieus + sieus = jieuj */
 		[0x11AF11AF,0x11BE], /* jongseong lieul + lieul = chieuch */
-		[0x11BB11BB,0x11BE], /* jongseong ssangsieus + ssangsieus = chieuch */
-		[0x11A911A8,0x11BF], /* jongseong ssanggieug + gieug = kieuk */
+		[0x11BB11BB,0x11BE], /* jongseong ssang_sieus + ssang_sieus = chieuch */
+		[0x11A911A8,0x11BF], /* jongseong ssang_gieug + gieug = kieuk */
 		[0x11AB11AB,0x11C0], /* jongseong nieun + nerun = tieut */
 		[0x11B711B7,0x11C1], /* jongseong mieum + mieum = pieup */
 		[0x11AB11BA,0x11AC], /* jongseong nieun + sieus = nieun-jieuj */
@@ -2063,59 +2063,59 @@ function input_combination_table_info() {
 	K3_Sin3_P2_combination_table = hangeul_combination_table_default.slice(0);
 	K3_Sin3_P2_combination_table.unshift(
 		[0x119E1175,0x11A1], /* jungseong alae-a + i = alae-a-i */
-		[0x119E119E,0x11A2]  /* jungseong alae-a + alae-a = ssangalae-a */
+		[0x119E119E,0x11A2]  /* jungseong alae-a + alae-a = ssang_alae-a */
 	);
 
 	K3_Sin3_P2_yeshangeul_combination_table = hangeul_combination_table_full.slice(0);
 	K3_Sin3_P2_yeshangeul_combination_table.unshift(
-		[0x11001109,0x1140], /* choseong gieug + sieus = yeolinsieus */
+		[0x11001109,0x1140], /* choseong gieug + sieus = yeolin_sieus */
 		[0x1100110B,0x114C], /* choseong gieug + ieung = yesieung */
-		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolinhieuh */
-		[0x11591112,0xA97C], /* choseong yeolinhieuh + hiueh = ssangyeolinhieuh */
-		[0x11411109,0x1146], /* choseong ieung-gieug + sieus = ieung-yeolinsieus */
-		[0x110C1109,0x113C], /* choseong jieuj + siues = ap-sieus */
-		[0x113C1109,0x113D], /* choseong ap-sieus + sieus = ssang-ap-sieus */
-		[0x110E1109,0x113E], /* choseong chieuch + siues = dwis-sieus */
-		[0x113E1109,0x113F], /* choseong dwis-sieus + sieus = ssang-dwis-sieus */
-		[0x110C1103,0x114E], /* choseong jieuj + dieug = ap-jieuj */
-		[0x110D1103,0x114F], /* choseong ssangjieuj + dieud = ssang-ap-jieuj */
-		[0x110C1100,0x1150], /* choseong jieuj + gieug = dwis-jieuj */
-		[0x110D1100,0x1151], /* choseong ssangjieuj + gieug = ssang-dwis-jieuj */
-		[0x110E1103,0x1154], /* choseong chieuch + dieug = ap-chieuch */
-		[0x110E1100,0x1155], /* choseong chieuch + gieug = dwis-chieuch */
-		[0x11BA11C1,0x11EB], /* jongseong sieus + pieup = yeolinsieus */
-		[0x110A11C1,0xD7EE], /* jongseong ssangsieus + pieup = sieus-yeolinsieus */
-		[0x11C711C1,0x11C8], /* jongseong nieun-sieus + pieup = nieun-yeolinsieus */
-		[0x11B311C1,0x11D7], /* jongseong lieul-sieus + pieup = lieul-yeolinsieus */
-		[0x11DD11C1,0x11DF], /* jongseong mieum-sieus + pieup = mieum-yeolinsieus */
-		[0x11BB11C1,0xD7EE], /* jongseong ssangsiues + pieup = sieus-yeolinsieus */
-		[0x11F111C1,0x11F2], /* jongseong yesieung-sieus + pieup = yesieung-yeolinsieus */
+		[0x11001112,0x1159], /* choseong gieug + hiueh = yeolin_hieuh */
+		[0x11591112,0xA97C], /* choseong yeolin_hieuh + hiueh = ssang_yeolin_hieuh */
+		[0x11411109,0x1146], /* choseong ieung-gieug + sieus = ieung-yeolin_sieus */
+		[0x110C1109,0x113C], /* choseong jieuj + siues = ap_sieus */
+		[0x113C1109,0x113D], /* choseong ap_sieus + sieus = ssang_ap_sieus */
+		[0x110E1109,0x113E], /* choseong chieuch + siues = dwis_sieus */
+		[0x113E1109,0x113F], /* choseong dwis_sieus + sieus = ssang_dwis_sieus */
+		[0x110C1103,0x114E], /* choseong jieuj + dieug = ap_jieuj */
+		[0x110D1103,0x114F], /* choseong ssang_jieuj + dieud = ssang_ap_jieuj */
+		[0x110C1100,0x1150], /* choseong jieuj + gieug = dwis_jieuj */
+		[0x110D1100,0x1151], /* choseong ssang_jieuj + gieug = ssang_dwis_jieuj */
+		[0x110E1103,0x1154], /* choseong chieuch + dieug = ap_chieuch */
+		[0x110E1100,0x1155], /* choseong chieuch + gieug = dwis_chieuch */
+		[0x11BA11C1,0x11EB], /* jongseong sieus + pieup = yeolin_sieus */
+		[0x110A11C1,0xD7EE], /* jongseong ssang_sieus + pieup = sieus-yeolin_sieus */
+		[0x11C711C1,0x11C8], /* jongseong nieun-sieus + pieup = nieun-yeolin_sieus */
+		[0x11B311C1,0x11D7], /* jongseong lieul-sieus + pieup = lieul-yeolin_sieus */
+		[0x11DD11C1,0x11DF], /* jongseong mieum-sieus + pieup = mieum-yeolin_sieus */
+		[0x11BB11C1,0xD7EE], /* jongseong ssang_siues + pieup = sieus-yeolin_sieus */
+		[0x11F111C1,0x11F2], /* jongseong yesieung-sieus + pieup = yesieung-yeolin_sieus */
 		[0x11BC11C1,0x11F0], /* jongseong ieung + pieup = yesieung */
-		[0x11F011C1,0x11EE], /* jongseong yesieung + pieup = ssangyesieung */
-		[0xD7DD11C1,0xD7DB], /* jongseong yeolinlieul + pieup = lieul-yesieung */
-		[0x11C211C1,0x11F9], /* jongseong hieuh + pieup = yeolinhieuh */
-		[0x11B611C1,0x11D9], /* jongseong lieul-hieuh + pieup = lieul-yeolinhieuh */
+		[0x11F011C1,0x11EE], /* jongseong yesieung + pieup = ssang_yesieung */
+		[0xD7DD11C1,0xD7DB], /* jongseong yeolin_lieul + pieup = lieul-yesieung */
+		[0x11C211C1,0x11F9], /* jongseong hieuh + pieup = yeolin_hieuh */
+		[0x11B611C1,0x11D9], /* jongseong lieul-hieuh + pieup = lieul-yeolin_hieuh */
 		
 		[0x11BC11A8,0x11EC], /* jongseong ieung + gieug = yesieung-gieug */
-		[0x11BC11A9,0x11EC], /* jongseong ieung + ssanggieug = yesieung-ssanggieug */
+		[0x11BC11A9,0x11EC], /* jongseong ieung + ssang_gieug = yesieung-ssang_gieug */
 		[0x11BC11B7,0xD7F5], /* jongseong ieung + mieum = yesieung-mieum */
 		[0x11BC11BA,0x11F1], /* jongseong ieung + sieus = yesieung-sieus */
-		[0x11BC11BC,0x11EE], /* jongseong ieung + ieung = ssangyesieung */
-		[0x11BC11BF,0x11EF], /* jongseong ieung + ieung = ssangyesieung */
-		[0x11BC11C2,0xD7F6]  /* jongseong ieung + ieung = ssangyesieung */
+		[0x11BC11BC,0x11EE], /* jongseong ieung + ieung = ssang_yesieung */
+		[0x11BC11BF,0x11EF], /* jongseong ieung + ieung = ssang_yesieung */
+		[0x11BC11C2,0xD7F6]  /* jongseong ieung + ieung = ssang_yesieung */
 	);
 
 	moachigi_combination_table_default = [
-		{phonemes: [0x1100,0x1100], char: 0x1101}, /* choseong gieug + gieug = ssanggieug */
-		{phonemes: [0x1103,0x1103], char: 0x1104}, /* choseong dieud + dieud = ssangdieud */
-		{phonemes: [0x1107,0x1107], char: 0x1108}, /* choseong bieub + bieub = ssangbieub */
-		{phonemes: [0x1109,0x1109], char: 0x110A}, /* choseong sieus + sieus = ssangsieus */
-		{phonemes: [0x110C,0x110C], char: 0x110D}, /* choseong jieuj + jieuj = ssangjieuj */
+		{phonemes: [0x1100,0x1100], char: 0x1101}, /* choseong gieug + gieug = ssang_gieug */
+		{phonemes: [0x1103,0x1103], char: 0x1104}, /* choseong dieud + dieud = ssang_dieud */
+		{phonemes: [0x1107,0x1107], char: 0x1108}, /* choseong bieub + bieub = ssang_bieub */
+		{phonemes: [0x1109,0x1109], char: 0x110A}, /* choseong sieus + sieus = ssang_sieus */
+		{phonemes: [0x110C,0x110C], char: 0x110D}, /* choseong jieuj + jieuj = ssang_jieuj */
 		{phonemes: [0x1169,0x1161], char: 0x116A}, /* jungseong o   + a   = wa */
 		{phonemes: [0x1169,0x1162], char: 0x116B}, /* jungseong o   + ae  = wae */
 		{phonemes: [0x1169,0x1175], char: 0x116C}, /* jungseong o   + i   = oe */
 		{phonemes: [0x119E,0x1175], char: 0x11A1}, /* jungseong alae-a + i = alae-a-i */
-		{phonemes: [0x119E,0x119E], char: 0x11A2}, /* jungseong alae-a + alae-a = ssangalae-a */
+		{phonemes: [0x119E,0x119E], char: 0x11A2}, /* jungseong alae-a + alae-a = ssang_alae-a */
 		{phonemes: [0x116E,0x1165], char: 0x116F}, /* jungseong u   + eo  = weo */
 		{phonemes: [0x116E,0x1166], char: 0x1170}, /* jungseong u   + e   = we */
 		{phonemes: [0x116E,0x1175], char: 0x1171}, /* jungseong u   + i   = wi */
@@ -2132,7 +2132,7 @@ function input_combination_table_info() {
 		{phonemes: [0x11AF,0x11C1], char: 0x11B5}, /* jongseong lieul + pieup = lieul-pieup */
 		{phonemes: [0x11AF,0x11C2], char: 0x11B6}, /* jongseong lieul + hieuh = lieul-hieuh */
 		{phonemes: [0x11B8,0x11BA], char: 0x11B9}, /* jongseong bieub + sieus = bieub-sieus */
-		{phonemes: [0x11BA,0x11BA], char: 0x11BB}  /* jongseong sieus + sieus = ssangsieus */
+		{phonemes: [0x11BA,0x11BA], char: 0x11BB}  /* jongseong sieus + sieus = ssang_sieus */
 	];
 
 	K3_Anmatae_combination_table = [
@@ -2140,13 +2140,13 @@ function input_combination_table_info() {
 		{phonemes: [0x116E,0x1165,0x1175], char: 0x1170}, /* jungseong u + eo + i = we */
 		{phonemes: [0x11AF,0x11C2,0x11AE], char: 0x11B4}, /* jongseong lieul + hieuh + dieud = lieul-tieut */
 		{phonemes: [0x11AF,0x11C2,0x11B8], char: 0x11B5}, /* jongseong lieul + hieuh + bieub = lieul-pieup */
-		{phonemes: [0x1100,0x1103], char: 0x1104}, /* choseong gieug + dieud = ssangdieud */
-		{phonemes: [0x1100,0x110B], char: 0x1101}, /* choseong gieug + ieung = ssanggieug */
+		{phonemes: [0x1100,0x1103], char: 0x1104}, /* choseong gieug + dieud = ssang_dieud */
+		{phonemes: [0x1100,0x110B], char: 0x1101}, /* choseong gieug + ieung = ssang_gieug */
 		{phonemes: [0x1100,0x1112], char: 0x110F}, /* choseong gieug + hieuh = kieuk */
-		{phonemes: [0x1102,0x1109], char: 0x110A}, /* choseong nieun + sieus = ssangsieus */
-		{phonemes: [0x1103,0x110C], char: 0x110D}, /* choseong dieud + jieuj = ssangjieuj */
+		{phonemes: [0x1102,0x1109], char: 0x110A}, /* choseong nieun + sieus = ssang_sieus */
+		{phonemes: [0x1103,0x110C], char: 0x110D}, /* choseong dieud + jieuj = ssang_jieuj */
 		{phonemes: [0x1103,0x1112], char: 0x1110}, /* choseong dieud + hieuh = tieut */
-		{phonemes: [0x1107,0x110C], char: 0x1108}, /* choseong bieub + jieuj = ssangbieub */
+		{phonemes: [0x1107,0x110C], char: 0x1108}, /* choseong bieub + jieuj = ssang_bieub */
 		{phonemes: [0x1107,0x1112], char: 0x1111}, /* choseong bieub + hieuh = pieup */
 		{phonemes: [0x110C,0x1112], char: 0x110E}, /* choseong jieuj + hieuh = chieuch */
 		{phonemes: [0x1161,0x1175], char: 0x1162}, /* jungseong a   + i   = ae */
@@ -2157,9 +2157,9 @@ function input_combination_table_info() {
 		{phonemes: [0x1167,0x1175], char: 0x1168}, /* jungseong yeo + i   = ye */
 		{phonemes: [0x116A,0x1175], char: 0x116B}, /* jungseong wa  + i   = wae */
 		{phonemes: [0x116F,0x1175], char: 0x1170}, /* jungseong wo  + i   = we */
-		{phonemes: [0x11A8,0x11BC], char: 0x11A9}, /* jongseong gieug + ieung = ssanggieug */
+		{phonemes: [0x11A8,0x11BC], char: 0x11A9}, /* jongseong gieug + ieung = ssang_gieug */
 		{phonemes: [0x11A8,0x11C2], char: 0x11BF}, /* jongseong gieug + hieuh = kieuk */
-		{phonemes: [0x11AB,0x11BA], char: 0x11BB}, /* jongseong nieun + sieus = ssangsieus */
+		{phonemes: [0x11AB,0x11BA], char: 0x11BB}, /* jongseong nieun + sieus = ssang_sieus */
 		{phonemes: [0x11AE,0x11AF], char: 0x11ce}, /* jongseong dieud + lieul = lieul-dieud */
 		{phonemes: [0x11AE,0x11C2], char: 0x11C0}, /* jongseong dieud + hieuh = tieut */
 		{phonemes: [0x11B2,0x11C2], char: 0x11B5}, /* jongseong lieul-bieub + hieuh = lieul-pieup */
@@ -2172,15 +2172,15 @@ function input_combination_table_info() {
 
 	K3_Semoe_2018_combination_table = [
 		{phonemes: [0x1169,0x1161,0x1175], char: 0x116B}, /* jungseong o + a + i = wae */
-		{phonemes: [0x11A8,0x11b7,0x11BB], char: 0x11AA}, /* jongseong gieug + mieum + ssangsieus = gieug-sieus */
-		{phonemes: [0x11AF,0x11B8,0x11BB], char: 0x11C0}, /* jongseong lieul + bieub + ssangsieus = tieut */
-		{phonemes: [0x11AF,0x11BA,0x11BB], char: 0x11A9}, /* jongseong lieul + sieus + ssangsieus = ssangegieug */
-		{phonemes: [0x11B8,0x11BA,0x11BB], char: 0x11B1}, /* jongseong bieub + sieus + ssangsieus = lieul-mieum */
-		{phonemes: [0x110B,0x1100], char: 0x1101}, /* choseong ieung + gieug = ssanggieug */
-		{phonemes: [0x110B,0x1103], char: 0x1104}, /* choseong ieung + dieud = ssangdieud */
-		{phonemes: [0x110B,0x1107], char: 0x1108}, /* choseong ieung + bieub = ssangbieub */
-		{phonemes: [0x110B,0x1109], char: 0x110A}, /* choseong ieung + sieus = ssangsieus */
-		{phonemes: [0x110B,0x110C], char: 0x110D}, /* choseong ieung + jieuj = ssangjieuj */
+		{phonemes: [0x11A8,0x11b7,0x11BB], char: 0x11AA}, /* jongseong gieug + mieum + ssang_sieus = gieug-sieus */
+		{phonemes: [0x11AF,0x11B8,0x11BB], char: 0x11C0}, /* jongseong lieul + bieub + ssang_sieus = tieut */
+		{phonemes: [0x11AF,0x11BA,0x11BB], char: 0x11A9}, /* jongseong lieul + sieus + ssang_sieus = ssang_egieug */
+		{phonemes: [0x11B8,0x11BA,0x11BB], char: 0x11B1}, /* jongseong bieub + sieus + ssang_sieus = lieul-mieum */
+		{phonemes: [0x110B,0x1100], char: 0x1101}, /* choseong ieung + gieug = ssang_gieug */
+		{phonemes: [0x110B,0x1103], char: 0x1104}, /* choseong ieung + dieud = ssang_dieud */
+		{phonemes: [0x110B,0x1107], char: 0x1108}, /* choseong ieung + bieub = ssang_bieub */
+		{phonemes: [0x110B,0x1109], char: 0x110A}, /* choseong ieung + sieus = ssang_sieus */
+		{phonemes: [0x110B,0x110C], char: 0x110D}, /* choseong ieung + jieuj = ssang_jieuj */
 		{phonemes: [0x1112,0x1100], char: 0x110F}, /* choseong hieuh + gieug = kieuk */
 		{phonemes: [0x1112,0x1103], char: 0x1110}, /* choseong hieuh + dieud = tieut */
 		{phonemes: [0x1112,0x1107], char: 0x1111}, /* choseong hieuh + bieub = pieup */
@@ -2203,19 +2203,19 @@ function input_combination_table_info() {
 		{phonemes: [0x11AB,0x11B7], char: 0x11C0}, /* jongseong nieun + mieum = tieut */
 		{phonemes: [0x11AF,0x11BC], char: 0x11A8}, /* jongseong lieul + ieung = gieug */
 		{phonemes: [0x11B7,0x11A8], char: 0x11B0}, /* jongseong mieum + gieug = lieul-gieug */
-		{phonemes: [0x11BB,0x11A8], char: 0x11BF}, /* jongseong ssangsieus + gieug = kieuk */
-		{phonemes: [0x11BB,0x11AB], char: 0x11C2}, /* jongseong ssangsieus + nieun = hieuh */
-		{phonemes: [0x11BB,0x11AF], char: 0x11BD}, /* jongseong ssangsieus + lieul = jieuj */
-		{phonemes: [0x11BB,0x11B7], char: 0x11AE}, /* jongseong ssangsieus + mieum = dieud */
-		{phonemes: [0x11BB,0x11B8], char: 0x11C1}, /* jongseong ssangsieus + bieub = pieup */
-		{phonemes: [0x11BB,0x11BA], char: 0x11BE}, /* jongseong ssangsieus + sieus = chieuch */
-		{phonemes: [0x11BB,0x11BC], char: 0x11B6}, /* jongseong ssangsieus + ieung = lieul-hieuh */
-		{phonemes: [0x11BC,0x11A8], char: 0x11A9}, /* jongseong ieung + gieug = ssangegieug */
+		{phonemes: [0x11BB,0x11A8], char: 0x11BF}, /* jongseong ssang_sieus + gieug = kieuk */
+		{phonemes: [0x11BB,0x11AB], char: 0x11C2}, /* jongseong ssang_sieus + nieun = hieuh */
+		{phonemes: [0x11BB,0x11AF], char: 0x11BD}, /* jongseong ssang_sieus + lieul = jieuj */
+		{phonemes: [0x11BB,0x11B7], char: 0x11AE}, /* jongseong ssang_sieus + mieum = dieud */
+		{phonemes: [0x11BB,0x11B8], char: 0x11C1}, /* jongseong ssang_sieus + bieub = pieup */
+		{phonemes: [0x11BB,0x11BA], char: 0x11BE}, /* jongseong ssang_sieus + sieus = chieuch */
+		{phonemes: [0x11BB,0x11BC], char: 0x11B6}, /* jongseong ssang_sieus + ieung = lieul-hieuh */
+		{phonemes: [0x11BC,0x11A8], char: 0x11A9}, /* jongseong ieung + gieug = ssang_egieug */
 		{phonemes: [0x11BC,0x11AB], char: 0x11AD}, /* jongseong ieung + nieun = nieun-hieuh */
 		{phonemes: [0x11BC,0x11B7], char: 0x11B4}, /* jongseong ieung + mieum = lieul-tikeut */
 		{phonemes: [0x11BC,0x11B8], char: 0x11B5}, /* jongseong ieung + bieub = lieul-pieup */
-		{phonemes: [0x11BC,0x11BA], char: 0x11BB}, /* jongseong ieung + sieus = ssangsieus */
-		{phonemes: [0x11BC,0x11BB], char: 0x11B6}, /* jongseong ieung + ssangsieus = lieul-hieuh */
+		{phonemes: [0x11BC,0x11BA], char: 0x11BB}, /* jongseong ieung + sieus = ssang_sieus */
+		{phonemes: [0x11BC,0x11BB], char: 0x11B6}, /* jongseong ieung + ssang_sieus = lieul-hieuh */
 		{phonemes: [0x11C2,0x11A8], char: 0x11BF}, /* jongseong hieuh + gieug = kieuk */
 		{phonemes: [0x11C2,0x11AE], char: 0x11C0}, /* jongseong hieuh + dieud = tieut */
 		{phonemes: [0x11C2,0x11B8], char: 0x11C1}  /* jongseong hieuh + bieub = pieup */
