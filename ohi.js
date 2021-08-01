@@ -2038,6 +2038,13 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 �
 			return -1;
 		} else if(unicode_ga.indexOf(c2)>=0) c=c2; // 홀소리 넣음
 	}
+	else if(transform && with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
+	// 본래 신세벌식 자판과 홀소리와 받침 자리가 뒤바뀐 꼴이고 홀소리와 받침이 있는 글쇠가 윗글쇠와 함께 눌렸을 때
+		// 마지막으로 들어간 홀소리와 조합되는 것이면 홀소리를 넣음
+		if(ohiQ[3] && combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[3]+ohiQ[4]+35),c2)) {
+			c = c2;
+		}
+	}
 
 	return c;
 }
@@ -2080,7 +2087,7 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열이 없을 때)
 		c=-0x1169;
 	}
-	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0 && sub_c1 != c2 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2)) {
+	else if(NFD_stack.combined_phoneme.length>1 && NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0 && sub_c1 != c2 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2)) {
 	// 겹홀소리 조합용 가운뎃소리가 먼저 들어갔고 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때
 	// 1타에 한하여 먼저 들어간 홀소리와 결합되는 홀소리이면 윗글 자리의 홀소리를 넣게 함
 		c = c2;
@@ -2089,7 +2096,18 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// 첫소리만 들어갔을 때 왼손 쪽 끝소리가 함께 있는 글쇠 자리에서 가운뎃소리 넣기
 		c = c2;
 	}
-	//else if(transform) alert();
+	else if(transform && unicode_ggeut.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
+	// 본래 신세벌식 자판과 홀소리와 받침 자리가 뒤바뀐 꼴이고 홀소리와 받침이 있는 글쇠가 눌렸을 때
+		
+		if(with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[NFD_stack.phoneme.length-1])>=0 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2)) {
+		// 윗글쇠와 함께 눌렸고 마지막으로 들어간 홀소리와 조합되는 것이면 홀소리를 넣음
+			c = c2;
+		}
+		else if(!with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[NFD_stack.phoneme.length-1])<0 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0) {
+		// 윗글쇠를 누르지 않았고 첫소리 없이 홀소리만 들어갔다면 홀소리를 넣음
+			c = c2;			
+		}
+	}
 
 	return c;
 }
