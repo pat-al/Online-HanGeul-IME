@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/07/30
+ * Last Update : 2021/08/01
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1932,7 +1932,7 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 	}
 
 	// 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 신세벌식 자판을 함께 처리하기 위한 작업
-	if(transform && !with_shift_key(key) && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(c2)>=0
+	if(transform && /*!with_shift_key(key) && */unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(c2)>=0
 	 && (NFD_stack.phoneme.length && (unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme.length>1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2))
 	  || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
 		[c1,c2] = [c2,c1];
@@ -2080,15 +2080,16 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열이 없을 때)
 		c=-0x1169;
 	}
-	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0 && NFD_stack.combined_phoneme[0] != c2 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.phoneme[0],c2)) {
+	else if(NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0 && sub_c1 != c2 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2)) {
 	// 겹홀소리 조합용 가운뎃소리가 먼저 들어갔고 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때
-	// 1타에 한하여 먼저 들어간 홀소리와 결합되는 홀소리이면 윗글 자리의 홀소리를 넣음
+	// 1타에 한하여 먼저 들어간 홀소리와 결합되는 홀소리이면 윗글 자리의 홀소리를 넣게 함
 		c = c2;
 	}
 	else if(!with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(c2)>=0) {
 	// 첫소리만 들어갔을 때 왼손 쪽 끝소리가 함께 있는 글쇠 자리에서 가운뎃소리 넣기
 		c = c2;
 	}
+	//else if(transform) alert();
 
 	return c;
 }
