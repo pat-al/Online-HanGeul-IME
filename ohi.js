@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/01
+ * Last Update : 2021/08/02
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -1935,7 +1935,8 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 	if(transform && /*!with_shift_key(key) && */unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(c2)>=0
 	 && (NFD_stack.phoneme.length && (unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme.length>1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2))
 	  || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
-		[c1,c2] = [c2,c1];
+		// 한글을 차례대로 조합하고 있는데 현재 들어간 낱자와 조합되는 낱자일 때
+			[c1,c2] = [c2,c1];
 	}
 
 	return [c1, sub_c1, c2, sub_c2, transform];
@@ -2029,14 +2030,11 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 �
 		ohiInsert(f,0,ohiQ);
 		return -1;
 	}
-	else if(transform && ohi_c1<31 && ohiQ[6] && !ohiQ[7]) {
-	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 받침 처리
-		i=combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),c1);
-		if(i || with_shift_key(key)) { // 조합되는 받침이거나 윗글쇠를 함께 누른 때는 받침을 넣음
-			ohiQ[7]=convert_into_ohi_hangeul_phoneme(i)-ohiQ[6];
-			ohiInsert(f,0,ohiQ);
-			return -1;
-		} else if(unicode_ga.indexOf(c2)>=0) c=c2; // 홀소리 넣음
+	else if(transform && ohi_c1<31 && ohiQ[6] && !ohiQ[7] && (i=combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),c1))) {
+	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 조합되는 받침 처리
+		ohiQ[7]=convert_into_ohi_hangeul_phoneme(i)-ohiQ[6];
+		ohiInsert(f,0,ohiQ);
+		return -1;
 	}
 	else if(transform && with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
 	// 본래 신세벌식 자판과 홀소리와 받침 자리가 뒤바뀐 꼴이고 홀소리와 받침이 있는 글쇠가 윗글쇠와 함께 눌렸을 때
