@@ -2167,7 +2167,7 @@ function input_additional_keyboard_layout_info() {
 		0x113E,	/* 0x3E greater: choseong dwis_sieus */
 		0x003F,	/* 0x3F question */
 		0x0040,	/* 0x40 at */
-		0x11f0,	/* 0x41 A: jongseong yes_ieung */
+		0x11F0,	/* 0x41 A: jongseong yes_ieung */
 		0x0021,	/* 0x42 B: exclam */
 		0x11C0,	/* 0x43 C: jongseong tieut */
 		0x11AE, /* 0x44 D: jongseong dieud */
