@@ -2462,7 +2462,7 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 		keys = [];
 		if(unicode_non_combined_phoneme.indexOf(codes[i])<0) { // 요즘한글 홑낱자가 아닌 한글 낱자와 기호
 			if(mainlayout.indexOf(-1)>=0 && typeof layout_info.extended_hangeul_layout != 'undefined') { // 한글 확장 배열
-				key = layout_info.extended_hangeul_layout.findIndex(function(n){return n.indexOf(codes[i])>=0;});
+				key = layout_info.extended_hangeul_layout.findIndex(function(n){return n.indexOf(codes[i])>=0;})+33;
 				if(key>32) {
 					for(j=0;j<layout_info.extended_hangeul_layout[key-33].indexOf(codes[i])+1;++j) keys.push(mainlayout.indexOf(-1)+33);
 					keys.push(key);
@@ -2490,7 +2490,7 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 		for(j=0;j<single_phonemes.length;++j) { // 배열에 따로 없는 낱자를 홑낱자로 나누어서 글쇠 치는 차례를 찾음
 			if(mainlayout.indexOf(-1)>=0 && typeof layout_info.extended_hangeul_layout != 'undefined' && mainlayout.indexOf(single_phonemes[j])<0 && sublayout.indexOf(single_phonemes[j])<0) {
 				key = layout_info.extended_hangeul_layout.findIndex(function(n){return n.indexOf(single_phonemes[j])>=0;})+33;
-				if(key>-1) keys.push(mainlayout.indexOf(-1)+33, key);
+				if(key>32) keys.push(mainlayout.indexOf(-1)+33, key);
 			}
 			else if(mainlayout.indexOf(single_phonemes[j])>=0) {
 				key = -1;
@@ -2527,20 +2527,20 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 				table.push({code: ggeut, keys: table[i].keys.slice()});
 			}
 		}
-		for(i=0;i<unicode_ggeut.length;++i) {
+		for(i=0;i<unicode_ggeut.length;++i) { // 첫소리에 없는 겹받칩
 			keys=[];
 			if(unicode_non_combined_ggeut.indexOf(unicode_ggeut[i])>=0) continue;
 			single_phonemes = convert_into_single_phonemes(unicode_ggeut[i]);
 			for(j=0;j<single_phonemes.length;++j) { // 배열에 따로 없는 낱자를 홑낱자로 나누어서 글쇠 치는 차례를 찾음
-				var r = table.findIndex(e => e.code==single_phonemes[j]);
-				if(r>-1) keys.push(table[r].keys[0]);
+				k = table.findIndex(e => e.code==single_phonemes[j]);
+				if(k>-1) keys.push(table[k].keys[0]);
 			}
 			if(keys.length) table.push({code: unicode_ggeut[i], keys: keys.slice()});
 		}
-	} 
+	}
 }
 
-function convert_into_direct_typing_chars(key_table, text, nth) {
+function convert_into_direct_typing_chars(key_table, text, nth) { // 받은 문자를 글쇠 자리에 있는 문자로 바꿈 (쿼티 기준 직결식 문자 변환)
 	var char_code = text.charCodeAt(nth);
 	var i, j, r, key;
 	var codes = [], chars = [];
@@ -2567,6 +2567,7 @@ function convert_into_direct_typing_chars(key_table, text, nth) {
 		 	}
 		}
 	}
+	if(!str.length) str = '■'; // 자판 배열에 대응되지 않은 문자를 ■로 바꿈
 	return str;
 }
 
