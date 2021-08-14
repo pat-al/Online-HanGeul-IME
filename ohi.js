@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/13
+ * Last Update : 2021/08/14
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2542,14 +2542,24 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 
 function convert_into_direct_typing_chars(key_table, text, nth) { // 받은 문자를 글쇠 자리에 있는 문자로 바꿈 (쿼티 기준 직결식 문자 변환)
 	var char_code = text.charCodeAt(nth);
+	var layout_info = find_current_layout_info();
 	var i, j, r, key;
-	var codes = [], chars = [];
+	var codes = [], chars = [], keys = [];
 	var str = '';
 
 	if(typeof char_code == 'undefined') return '';
 	if(char_code==32) return ' '; // 사이띄개(Space Bar)
 	if(char_code==10) return '\n'; // Line Feed
 	if(char_code==9) return '\t'; // Tab
+	
+	if(char_code==0x115F) return ''; // 첫소리 채움 문자
+	if(char_code==0x1160) { // 가운뎃소리 채움 문자
+		if(layout_info.type_name.substr(0,1)=='3' || layout_info.type_name.substr(0,4)=='Sin3') return '';
+		if(layout_info.type_name.substr(0,1)=='2') {
+			if(unicode_cheos.indexOf(text.charCodeAt(nth-1))>=0 && text.length>=nth && unicode_ggeut.indexOf(text.charCodeAt(nth+1))<0) return '';
+		}
+	}
+	
 	if(char_code>=0xAC00 && char_code<=0xD7AF) { // 완성형 한글 낱내자
 		var p = convert_NFC_into_NFD(char_code);
 		for(i=0; i<p.length; ++i) {
@@ -2558,12 +2568,17 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 받은 문�
 		}
 	}
 	else codes.push(char_code);
-
 	for(i=0; i<codes.length; ++i) {
 		r = key_table.find(e => e.code==codes[i]);
 		if(typeof r != 'undefined') {
 			for(j=0;j<r.keys.length;++j) {
-				if(r.keys[j]>-1) str += String.fromCharCode(r.keys[j]);
+				if(r.keys[j]>-1) {
+					key = r.keys[j];
+					if(!j && nth>1 && layout_info.type_name.substr(0,4)=='Sin3')
+						if(unicode_cheos.indexOf(text.charCodeAt(nth-2))>=0 && text.charCodeAt(nth-1)==0x1160 && unicode_ggeut.indexOf(char_code)>=0)
+							key = shift_table[r.keys[0]-33]; // 가운뎃소리가 빠진 미완성 낱내자 (신세벌식 자판)
+					str += String.fromCharCode(key);
+				}
 		 	}
 		}
 	}
