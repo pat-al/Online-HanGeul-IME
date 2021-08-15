@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/14
+ * Last Update : 2021/08/15
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak keyboard basic_layouts.
@@ -2520,9 +2520,9 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 		if(keys.length) table.push({code: codes[i], keys: keys.slice()});
 	}
 	
-	if(layout_info.type_name.substr(0,1)=='2') { // 2벌식 자판 끝소리→첫소리
+	if(layout_info.type_name.substr(0,1)=='2') { // 2벌식 자판
 		for(i=0;i<table.length;++i) {
-			if(unicode_cheos.indexOf(table[i].code)>=0) {
+			if(unicode_cheos.indexOf(table[i].code)>=0) { // 끝소리→첫소리
 				var ggeut = unicode_cheos_to_ggeut[unicode_cheos.indexOf(table[i].code)];
 				table.push({code: ggeut, keys: table[i].keys.slice()});
 			}
@@ -2540,12 +2540,24 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 	}
 }
 
-function convert_into_direct_typing_chars(key_table, text, nth) { // 받은 문자를 글쇠 자리에 있는 문자로 바꿈 (쿼티 기준 직결식 문자 변환)
-	var char_code = text.charCodeAt(nth);
+function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들어간 문자를 쿼티 기준으로 글쇠 자리에 있는 문자로 바꿈 (직결식 문자 변환)
 	var layout_info = find_current_layout_info();
 	var i, j, r, key;
-	var codes = [], chars = [], keys = [];
+	var char_codes = [], codes = [];
 	var str = '';
+
+	if(nth>0) {
+		var prev_char_code = text.charCodeAt(nth-1);
+		char_codes.push(prev_char_code);
+	}	else char_codes.push(-1);
+	
+	var char_code = text.charCodeAt(nth);
+	char_codes.push(char_code);
+		
+	if(text.length>=nth) {
+		var next_char_code = text.charCodeAt(nth+1);	
+		char_codes.push(next_char_code);
+	} else char_codes.push(-1);
 
 	if(typeof char_code == 'undefined') return '';
 	if(char_code==32) return ' '; // 사이띄개(Space Bar)
@@ -2555,34 +2567,47 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 받은 문�
 	if(char_code==0x115F) return ''; // 첫소리 채움 문자
 	if(char_code==0x1160) { // 가운뎃소리 채움 문자
 		if(layout_info.type_name.substr(0,1)=='3' || layout_info.type_name.substr(0,4)=='Sin3') return '';
-		if(layout_info.type_name.substr(0,1)=='2') {
-			if(unicode_cheos.indexOf(text.charCodeAt(nth-1))>=0 && text.length>=nth && unicode_ggeut.indexOf(text.charCodeAt(nth+1))<0) return '';
+		if(layout_info.type_name.substr(0,1)=='2') { // 2벌식 자판 : 앞 문자가 첫소리이고 뒤 문자가 끝소리가 아니면 가운뎃소리 채움 문자를 다루지 않음
+			if(unicode_cheos.indexOf(text.charCodeAt(nth-1))>=0 && text.length>=nth && unicode_ggeut.indexOf(next_char_code<0)) return '';
 		}
 	}
-	
-	if(char_code>=0xAC00 && char_code<=0xD7AF) { // 완성형 한글 낱내자
-		var p = convert_NFC_into_NFD(char_code);
-		for(i=0; i<p.length; ++i) {
-			if(!p[i]) continue;
-			codes.push(p[i]);
-		}
+
+	for(i=0;i<char_codes.length;++i) {
+		codes[i] = [];
+		if(char_codes[i]<0) continue;
+		if(char_codes[i]>=0xAC00 && char_codes[i]<=0xD7AF) { // 완성형 한글 낱내자
+			var p = convert_NFC_into_NFD(char_codes[i]);
+			for(j=0; j<p.length; ++j) {
+				if(!p[j]) continue;
+				codes[i].push(p[j]);
+			}
+		}	else codes[i].push(char_codes[i]);
 	}
-	else codes.push(char_code);
-	for(i=0; i<codes.length; ++i) {
-		r = key_table.find(e => e.code==codes[i]);
+
+	for(i=0; i<codes[1].length; ++i) {
+		r = key_table.find(e => e.code==codes[1][i]);
 		if(typeof r != 'undefined') {
 			for(j=0;j<r.keys.length;++j) {
 				if(r.keys[j]>-1) {
 					key = r.keys[j];
 					if(!j && nth>1 && layout_info.type_name.substr(0,4)=='Sin3')
-						if(unicode_cheos.indexOf(text.charCodeAt(nth-2))>=0 && text.charCodeAt(nth-1)==0x1160 && unicode_ggeut.indexOf(char_code)>=0)
-							key = shift_table[r.keys[0]-33]; // 가운뎃소리가 빠진 미완성 낱내자 (신세벌식 자판)
+						if(unicode_cheos.indexOf(text.charCodeAt(nth-2))>=0 && prev_char_code(nth-1)==0x1160 && unicode_ggeut.indexOf(char_code)>=0)
+							key = shift_table[r.keys[0]-33]; // 신세벌식 자판 : 가운뎃소리가 빠진 미완성 낱내자의 끝소리는 윗글쇠를 눌러 넣음
 					str += String.fromCharCode(key);
 				}
 		 	}
 		}
 	}
-	if(!str.length) str = '■'; // 자판 배열에 대응되지 않은 문자를 ■로 바꿈
+
+	if(layout_info.type_name.substr(0,1)=='2') { // 2벌식 자판
+		if(str.length && unicode_ggeut.indexOf(codes[1][codes.length-1])>=0 && unicode_cheos.indexOf(codes[2][0])>=0) {
+		// 현재 낱자가 끝소리이고 다음 낱자가 첫소리일 때
+			// 끝소리/첫소리 조합 경계를 따로 끊어 주어야 하는 때
+			if(combine_unicode_NFD_hangeul_phoneme(codes[1][codes.length-1], unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[0])])) str += '🄴';
+		}
+	}
+
+	if(!str.length) str = '■'; // 대응하는 글쇠 자리나 조합 규칙을 찾지 못한 문자를 ■로 바꿈
 	return str;
 }
 
