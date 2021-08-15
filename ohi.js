@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/15
+ * Last Update : 2021/08/16
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2439,7 +2439,7 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 		else opt.style.display='none';
 		
 		var opt = document.getElementById('converting_option_combination_table_reflection_priority');
-		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_priority','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_priority=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="자판 배열에 따로 있는 겹낱자까지 낱자 조합 규칙으로 넣기">낱자 조합 우선</label></div>');
+		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_priority','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_priority=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="자판 배열에 따로 있는 겹낱자까지 낱자 조합 규칙을 우선 반영하기">낱자 조합 우선</label></div>');
 		
 		if(converting_option.show_direct_typing_text && converting_option.combination_table_reflection) opt.style.display='inline-block';
 		else opt.style.display='none';
@@ -2493,14 +2493,7 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 	for(i=0; i<codes.length; ++i) { // 유니코드 한글 낱자들과 기본/보조 배열에 들어간 문자들을 살핌
 		keys = [];
 		if(unicode_non_combined_phoneme.indexOf(codes[i])<0) { // 요즘한글 홑낱자가 아닌 한글 낱자와 기호
-			if(converting_option.extended_hangeul_layout_reflection && mainlayout.indexOf(-1)>=0 && typeof layout_info.extended_hangeul_layout != 'undefined') { // 한글 확장 배열
-				key = layout_info.extended_hangeul_layout.findIndex(function(n){return n.indexOf(codes[i])>=0;})+33;
-				if(key>32) {
-					for(j=0;j<layout_info.extended_hangeul_layout[key-33].indexOf(codes[i])+1;++j) keys.push(mainlayout.indexOf(-1)+33);
-					keys.push(key);
-				}
-			}
-			else if(is_galmadeuli_input() && unicode_ggeut.indexOf(codes[i])>=0 && option.enable_double_final_ext && sublayout.indexOf(codes[i])>=0 && with_shift_key(sublayout.indexOf(codes[i])+33)) { // 겹받침 확장
+			if(is_galmadeuli_input() && unicode_ggeut.indexOf(codes[i])>=0 && option.enable_double_final_ext && sublayout.indexOf(codes[i])>=0 && with_shift_key(sublayout.indexOf(codes[i])+33)) { // 겹받침 확장
 				keys.push(sublayout.indexOf(codes[i])+33);
 			}
 			else if(mainlayout.indexOf(codes[i])>=0) {
@@ -2509,23 +2502,12 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 					keys.push(shift_table[key-33]);
 				else keys.push(key);
 			}
-
-			if(converting_option.combination_table_reflection && combination_table.length && unicode_NFD_hangeul_phoneme.indexOf(codes[i])>=0) {
-			// 낱자 조합 규칙
-				var divided_phonemes = [codes[i]];
-				do {
-					for(j=0,k=0;j<combination_table.length;++j) {
-						if(combination_table[j][1]==divided_phonemes[0]) {
-							divided_phonemes.splice(0,1,parseInt(combination_table[j][0]/0x10000),combination_table[j][0]%0x10000);
-							++k;
-						}
-					}
-				} while(k);
-				if(divided_phonemes.length && find_direct_typing_keys(divided_phonemes)) {
-					if(!keys.length || converting_option.combination_table_reflection_priority) {
-						table.push({code: codes[i], keys: find_direct_typing_keys(divided_phonemes)});
-						continue;
-					}
+			else if(converting_option.extended_hangeul_layout_reflection && mainlayout.indexOf(-1)>=0 && typeof layout_info.extended_hangeul_layout != 'undefined') {
+			// 한글 확장 배열
+				key = layout_info.extended_hangeul_layout.findIndex(function(n){return n.indexOf(codes[i])>=0;})+33;
+				if(key>32) {
+					for(j=0;j<layout_info.extended_hangeul_layout[key-33].indexOf(codes[i])+1;++j) keys.push(mainlayout.indexOf(-1)+33);
+					keys.push(key);
 				}
 			}
 
@@ -2556,6 +2538,25 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 				if(k>-1) keys.push(table[k].keys[0]);
 			}
 			if(keys.length) table.push({code: unicode_ggeut[i], keys: keys.slice()});
+		}
+	}
+
+	for(i=0; i<codes.length; ++i) { // 낱자 조합 규칙
+		if(converting_option.combination_table_reflection && combination_table.length && unicode_NFD_hangeul_phoneme.indexOf(codes[i])>=0) {
+			var divided_phonemes = [codes[i]];
+			do {
+				for(j=0,k=0;j<combination_table.length;++j) {
+					if(combination_table[j][1]==divided_phonemes[0]) {
+						divided_phonemes.splice(0,1,parseInt(combination_table[j][0]/0x10000),combination_table[j][0]%0x10000);
+						++k;
+					}
+				}
+			} while(k);
+			if(divided_phonemes.length && find_direct_typing_keys(divided_phonemes)) {
+				if(converting_option.combination_table_reflection_priority)
+					table.unshift({code: codes[i], keys: find_direct_typing_keys(divided_phonemes)});
+				else table.push({code: codes[i], keys: find_direct_typing_keys(divided_phonemes)});
+			}
 		}
 	}
 }
@@ -2661,10 +2662,14 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들�
 	}
 
 	if(layout_info.type_name.substr(0,1)=='2') { // 2벌식 자판
-		if(str.length && unicode_ggeut.indexOf(codes[1][codes.length-1])>=0 && unicode_cheos.indexOf(codes[2][0])>=0) {
+		if(str.length && unicode_ggeut.indexOf(codes[1][codes.length-1])>=0 && codes[2].length>=1 && unicode_cheos.indexOf(codes[2][0])>=0) {
 		// 현재 낱자가 끝소리이고 다음 낱자가 첫소리일 때
 			// 끝소리/첫소리 조합 경계를 따로 끊어 주어야 하는 때
-			if(combine_unicode_NFD_hangeul_phoneme(codes[1][codes.length-1], unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[0])])) str += '🄴';
+			if(convert_into_single_phonemes(codes[2][0]).length>1) {
+				i = combine_unicode_NFD_hangeul_phoneme(codes[1][codes.length-1], unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[0])]);
+				j = combine_unicode_NFD_hangeul_phoneme(i, unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[1])]);
+				if(i && j) str += '🄴';
+			}
 		}
 	}
 
@@ -3175,7 +3180,7 @@ function show_keyboard_layout(type) {
 
 function checkCapsLock() {
 	var e=window.event;
-	if(e.getModifierState && e.getModifierState("CapsLock")) return true;
+	if(typeof e != 'undefined' && e.getModifierState && e.getModifierState("CapsLock")) return true;
   return false;
 }
 
