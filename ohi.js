@@ -140,10 +140,10 @@ function initialize_options() {
 	converting_option.convert_only_NFD_hangeul_encoding_in_NCR_text = 0;	
 
 	converting_option.show_direct_typing_text = 0;	
+	converting_option.extended_hangeul_layout_reflection = 0;
 	converting_option.combination_table_reflection = 1;
 	converting_option.combination_table_reflection_priority = 0;
 	converting_option.combination_table_reflection_ggeut_ss_exception = 1;
-	converting_option.extended_hangeul_layout_reflection = 0;
 }
 
 initialize_options();
@@ -2467,7 +2467,7 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 
 		var opt = document.getElementById('converting_option_show_direct_typing_text');
 		if(!opt) {
-			opt = appendChild(opts,'div','option','converting_option_show_direct_typing_text','<div class="option"><input name="show_direct_typing_text" class="checkbox" onclick="show_direct_typing_text(this.checked);inputText_focus()" type="checkbox"' + (converting_option.show_direct_typing_text ? ' checked="checked"' : '') + '><label title="쿼티 배열 기준 글쇠값으로 바꾸기 ">직결식 문자 변환</label></div>');
+			opt = appendChild(opts,'div','option','converting_option_show_direct_typing_text','<div class="option"><input name="show_direct_typing_text" class="checkbox" onclick="show_direct_typing_text(this.checked);inputText_focus()" type="checkbox"' + (converting_option.show_direct_typing_text ? ' checked="checked"' : '') + '><label title="쿼티 배열 기준 글쇠값으로 바꾸기 ">글쇠 기준 문자 변환</label></div>');
 			opt.style.display='inline-block';
 		}
 
@@ -2516,7 +2516,7 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 	t.innerHTML = conv_text;
 }
 
-function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부호값-글쇠 대응표 만들기
+function making_key_table(table) { // 글쇠 기준 문자 변환에 쓰이는 부호값-글쇠 대응표 만들기
 	var i, j, k, key;
 	var layout_info = find_current_layout_info();
 	var mainlayout = find_mainlayout();
@@ -2658,7 +2658,7 @@ function find_direct_typing_keys(single_phonemes) {
 	return keys;
 }
 
-function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들어간 문자를 쿼티 기준으로 글쇠 자리에 있는 문자로 바꿈 (직결식 문자 변환)
+function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들어간 문자를 쿼티 기준으로 글쇠 자리에 있는 문자로 바꿈 (글쇠 기준 문자 변환)
 	var layout_info = find_current_layout_info();
 	var i, j, r, key;
 	var char_codes = [], codes = [];
