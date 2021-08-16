@@ -2612,16 +2612,16 @@ function find_direct_typing_keys(single_phonemes) {
 				if(mainlayout[j]==single_phonemes[i] && sublayout[j]!=single_phonemes[i]) key = j+33;
 			if(key<0) key = mainlayout.indexOf(single_phonemes[i])+33;
 			if(with_shift_key(key) && mainlayout[key-33]==mainlayout[shift_table[key-33]-33]) {
-			// 윗글쇠를 눌렀고 
+			// 윗글쇠를 눌렀고 아랫글 자리에도 같은 문자가 있을 때 아랫글 글쇠로 넣음
 				key = shift_table[key-33];
 			}
 			else if(with_shift_key(key) && is_galmadeuli_input()) {
-			// 윗글쇠를 눌렀고 갈마들이를 쓰고 있을 때
+			// 윗글쇠를 눌렀고 갈마들이를 쓰고 있을 때 아랫글 글쇠로 넣음
 				if(unicode_ga.indexOf(single_phonemes[i])>=0 && (i>(sublayout.indexOf(single_phonemes[0])>=0 ? 1 : 0) || is_old_hangeul_input() && !option.enable_Sin3_diphthong_key && layout_info.type_name.substr(0,4)=='Sin3')) {}
 				else key = shift_table[key-33];
 			}
 			else if(!with_shift_key(key) && !is_galmadeuli_input() && !i && unicode_ga.indexOf(single_phonemes[i])>=0 && mainlayout.lastIndexOf(single_phonemes[i])>=0 && mainlayout.indexOf(single_phonemes[i]) != mainlayout.lastIndexOf(single_phonemes[i])) {
-			// 갈마들이를 쓰지 않는 세벌식 자판의 같은 것이 2개 있는 홑홀소리 (ㅗ, ㅜ 등)
+			// 갈마들이를 쓰지 않는 세벌식 자판의 같은 것이 2개 있는 홑홀소리(ㅗ, ㅜ 등) 가려 넣기
 				j = ((unicode_cheos.indexOf(mainlayout[0x6A-33])>=0) + (single_phonemes.length>1) + is_left_key(mainlayout.indexOf(single_phonemes[i])+33));
 				if(j%2) key = mainlayout.lastIndexOf(single_phonemes[i])+33;
 				else key = mainlayout.indexOf(single_phonemes[i])+33;
