@@ -55,7 +55,7 @@ additional_layouts.push({KE: 'Ko', type_name: '3-P2', full_name: '3-P2', layout:
 additional_layouts.push({KE: 'Ko', type_name: '3-D1', full_name: '3-D1', layout: K3_D1_layout, capslock_layout: K3_D1_capslock_layout, old_hangeul_layout_type_name: '3-D1-y', hangeul_combination_table: K3_D1_combination_table, hangeul_convenience_combination_table: K3_D1_additional_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 additional_layouts.push({KE: 'Ko', type_name: '3-D1-y', full_name: '3-D1 옛한글', layout: K3_D1_y_layout, hangeul_combination_table: K3_D1_y_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/180', link: 'https://ds1tpt.tistory.com/10'});
 additional_layouts.push({KE: 'Ko', type_name: '3-D2', full_name: '3-D2', layout: K3_D2_layout, capslock_layout: K3_D2_capslock_layout, old_hangeul_layout_type_name: '3-D2-y', hangeul_combination_table: K3_D1_combination_table, hangeul_convenience_combination_table: K3_D1_additional_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/198'});
-additional_layouts.push({KE: 'Ko', type_name: '3-D2-y', full_name: '3-D2 옛한글', layout: K3_D2_y_layout, capslock_layout: K3_D2_capslock_layout, hangeul_combination_table: K3_D1_y_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/198'});
+additional_layouts.push({KE: 'Ko', type_name: '3-D2-y', full_name: '3-D2 옛한글', layout: K3_D2_y_layout, capslock_layout: K3_D2_capslock_layout, hangeul_combination_table: K3_D2_y_combination_table, link: 'https://cafe.daum.net/3bulsik/JMKX/198'});
 
 additional_layouts.push({KE: 'Ko', type_name: '3-18Na', full_name: '3-18Na', layout: K3_18Na_layout, hangeul_combination_table: K3_18Na_combination_table, link: 'https://kldp.org/node/160815'});
 
@@ -5545,8 +5545,16 @@ function input_additional_combination_table_info() {
 	K3_D1_y_combination_table.unshift(
 		[0x11651165,0x119E], /* jungseong eo + eo = alae_a */
 		[0x11741165,0x11A2], /* jungseong eui + eo = ssang_alae_a */
-	
 	);
+
+	K3_D2_y_combination_table = hangeul_combination_table_full.concat([
+		[0x114E1109,0x113C], /* choseong ap_jieuj + sieus = ap_sieus */
+		[0x11501109,0x113E], /* choseong dwis_jieuj + sieus = dwis_sieus */
+		[0x113C1109,0x113D], /* choseong ap_sieus + sieus = ssang_ap_sieus */
+		[0x113E1109,0x113F], /* choseong dwis_sieus + sieus = ssang_dwis_sieus */
+		[0x114E110E,0x1154], /* choseong ap_jieuj + chieuch = ap_chieuch */
+		[0x1150110E,0x1155], /* choseong dwis_jieuj + chieuch = dwis_chieuch */
+	]);
 
 	K3_Sin3_2015_combination_table = hangeul_combination_table_default.concat(K3_2015_additional_combination_table);
 	
