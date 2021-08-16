@@ -142,6 +142,7 @@ function initialize_options() {
 	converting_option.show_direct_typing_text = 0;	
 	converting_option.combination_table_reflection = 1;
 	converting_option.combination_table_reflection_priority = 0;
+	converting_option.combination_table_reflection_ggeut_ss_exception = 1;
 	converting_option.extended_hangeul_layout_reflection = 0;
 }
 
@@ -2458,6 +2459,7 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 	if(!f || !t) return;
 
 	var opts = document.getElementById('direct_typing_text_options');
+	var mainlayout = find_mainlayout();
 
 	if(opts) {
 		if(ohi_menu_num && ohi_menu_num<3 && !is_moachigi_input()) opts.style.display = 'block';
@@ -2469,24 +2471,30 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 			opt.style.display='inline-block';
 		}
 
-		var opt = document.getElementById('converting_option_combination_table_reflection');
-		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection','<div class="option"><input name="combination_table_reflection" class="checkbox" onclick="converting_option.combination_table_reflection=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection ? ' checked="checked"' : '') + '><label title="직결식 변환에 낱자 조합 규칙 반영하기">낱자 조합</label></div>');
-		
-		if(converting_option.show_direct_typing_text) opt.style.display='inline-block';
-		else opt.style.display='none';
-		
-		var opt = document.getElementById('converting_option_combination_table_reflection_priority');
-		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_priority','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_priority=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="자판 배열에 따로 있는 겹낱자까지 낱자 조합 규칙을 우선 반영하기">낱자 조합 우선</label></div>');
-		
-		if(converting_option.show_direct_typing_text && converting_option.combination_table_reflection) opt.style.display='inline-block';
-		else opt.style.display='none';
-			
 		var opt = document.getElementById('converting_option_extended_hangeul_layout_reflection');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_extended_hangeul_layout_reflection','<div class="option"><input name="extended_hangeul_layout" class="checkbox" onclick="converting_option.extended_hangeul_layout_reflection=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="한글 확장 배열 반영하기">한글 확장 배열</label></div>');
-		
-		var mainlayout = find_mainlayout();
+
 		if(converting_option.show_direct_typing_text && mainlayout.indexOf(-1)>=0) opt.style.display='inline-block';
-		else opt.style.display='none';		
+		else opt.style.display='none';	
+
+		var opt = document.getElementById('converting_option_combination_table_reflection');
+		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection','<div class="option"><input name="combination_table_reflection" class="checkbox" onclick="converting_option.combination_table_reflection=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection ? ' checked="checked"' : '') + '><label title="낱자 조합 규칙 반영하기">낱자 조합</label></div>');
+
+		if(converting_option.show_direct_typing_text) opt.style.display='inline-block';
+		else opt.style.display='none';
+
+		var opt = document.getElementById('converting_option_combination_table_reflection_priority');
+		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_priority','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_priority=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="자판 배열에 따로 있는 겹낱자에까지 낱자 조합 규칙을 우선 반영하기">낱자 조합 우선</label></div>');
+
+		if(converting_option.show_direct_typing_text && converting_option.combination_table_reflection) opt.style.display='inline-block';
+		else opt.style.display='none';
+
+		var opt = document.getElementById('converting_option_combination_table_reflection_ggeut_ss_exception');
+		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_ggeut_ss_exception','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_ggeut_ss_exception=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_ggeut_ss_exception ? ' checked="checked"' : '') + '><label title="받침 ㅆ이 아랫글 자리에 따로 있으면 조합하여 넣은 것으로 셈하지 않음">받침 ㅆ 예외</label></div>');
+
+		if(converting_option.show_direct_typing_text && converting_option.combination_table_reflection && converting_option.combination_table_reflection_priority
+		 && mainlayout.indexOf(0x11BB)>=0 && !with_shift_key(mainlayout.indexOf(0x11BB)+33)) opt.style.display='inline-block';
+		else opt.style.display='none';
 	}
 
 	if(t && converting_option.show_direct_typing_text && !is_moachigi_input()) {
@@ -2590,8 +2598,10 @@ function making_key_table(table) { // 직결식 문자 변환에 쓰이는 부�
 				}
 			} while(k);
 			if(divided_phonemes.length && find_direct_typing_keys(divided_phonemes).length) {
-				if(converting_option.combination_table_reflection_priority) // 낱자 조합 규칙을 우선 적용하기
-					table.unshift({code: codes[i], keys: find_direct_typing_keys(divided_phonemes)});
+				if(converting_option.combination_table_reflection_priority) { // 낱자 조합 규칙을 우선 적용하기
+					if(codes[i]!=0x11BB || !converting_option.combination_table_reflection_ggeut_ss_exception) // 받침 ㅆ 예외에 걸리지 않으면
+						table.unshift({code: codes[i], keys: find_direct_typing_keys(divided_phonemes)});
+				}
 				else table.push({code: codes[i], keys: find_direct_typing_keys(divided_phonemes)});
 			}
 		}
