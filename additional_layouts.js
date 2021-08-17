@@ -3793,16 +3793,6 @@ function input_additional_keyboard_layout_info() {
 		[0x007E,0x0000]  /* 0x7E asciitilde */
 	];
 
-
-
-
-
-
-		[0x110E,0x116E], /* 0x6F o: choseong chieuch, jungseong u */
-		[0x1111,0x1169], /* 0x70 p: choseong pieup, jungseong o */
-
-
-	
 	// 신세벌식 M 자판 (up↔down)
 	K3_Sin3_M_layout = [
 		[0x0021,0x0000], /* 0x21 exclam */
@@ -4169,7 +4159,7 @@ function input_additional_keyboard_layout_info() {
 		[0x3009,0x0000], /* 0x58 X:  */
 		[0x203B,0x0000], /* 0x59 Y:  */
 		[0x3008,0x0000], /* 0x5A Z:  */
-		[0x005B,0x119E], /* 0x5B bracketleft, alae_a */
+		[0x005B,0x0000], /* 0x5B bracketleft */
 		[0x005C,0x0000], /* 0x5C backslash */
 		[0x005D,0x0000], /* 0x5D bracketright */
 		[0x005E,0x0000], /* 0x5E asciicircum */
