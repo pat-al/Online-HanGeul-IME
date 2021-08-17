@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/16
+ * Last Update : 2021/08/17
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -1966,7 +1966,7 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 	return [c1, sub_c1, c2, sub_c2, transform];
 }
 
-function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
+function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 부호계를 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
 	var i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리와 받침의 자리가 신세벌식 자판과 맞바뀐 배열 방식을 쓰는지
@@ -1999,19 +1999,9 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형을 쓸 �
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = ohi_sub_c1;
 	}
-	else if(!sublayout.length && !with_shift_key(key) && ohiQ[0] && !ohiQ[3] && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
-	// 첫소리가 들어갔을 때에 오른손 자리에 있는 겹홀소리 조합용 가운뎃소리(ㅗ, ㅜ, ㅡ, ㅢ 등) 넣기 (보조 배열이 없을 때)
-		c = ohi_c2;
-		ohiRQ[3]=1;
-	}
 	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && unicode_ga.indexOf(sub_c1)>=0) {
 	// 첫소리만 들어갔을 때 보조 배열(sublayout)에서 겹홀소리 조합용 ㅗ, ㅜ, ㅡ, ㆍ 등을 넣음
 		c = ohi_sub_c1;
-		ohiRQ[3]=1;
-	}
-	else if(!sublayout.length && key==47 && ohiQ[0] && !ohiQ[3]) {
-	// 오른손 쪽 ㅋ 자리에서 ㅗ 넣기 (보조 배열이 없을 때)
-		c = 74;
 		ohiRQ[3]=1;
 	}
 	else if((ohiRQ[3] || backup_ohiRQ[3]) && ohi_c1<31 && NFD_stack.phoneme[0]==0x119E && !(NFD_stack.phoneme.length>1 && (unicode_ga.indexOf(NFD_stack.phoneme[1])>=0 || unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0))) {
@@ -2089,10 +2079,6 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = sub_c1;
 	}
-	else if(!sublayout.length && option.enable_Sin3_diphthong_key && !with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
-	// 첫소리가 들어갔을 때에 오른손 윗글 자리에 있는 겹홀소리 조합용 가운뎃소리(ㅗ, ㅜ, ㅡ, ㆍ 등) 넣기
-		c = -c2;
-	}
 	else if(option.enable_Sin3_diphthong_key && !with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(sub_c1)>=0) {
 	// 첫소리만 들어갔을 때 보조 배열(sublayout)에서 겹홀소리 조합용 ㅗ, ㅜ, ㅡ, ㆍ 등을 넣음
 		c = -sub_c1;
@@ -2104,10 +2090,6 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	else if(option.enable_Sin3_adding_cheos_with_shift_key && (with_shift_key(key) || !c1) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_cheos.indexOf(c2)>=0 && (unicode_ga.indexOf(c1)>=0 || unicode_ga.indexOf(sub_c2)>=0)) {
 	// 첫소리만 들어갔고, 오른손 쪽의 홀소리가 있는 첫소리 글쇠를 윗글쇠와 함께 눌렀을 때 첫소리를 넣음
 		c = c2;
-	}
-	else if(!sublayout.length && option.enable_Sin3_diphthong_key && key==47 && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0) {
-	// 오른손 쪽 첫소리 ㅋ 자리에서 ㅗ 넣기 (보조 배열이 없을 때)
-		c=-0x1169;
 	}
 	else if(NFD_stack.combined_phoneme.length>1 && NFD_stack.phoneme_R[0] && unicode_ga.indexOf(c2)>=0 && sub_c1 != c2 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2)) {
 	// 겹홀소리 조합용 가운뎃소리가 먼저 들어갔고 윗글 자리에 있는 홀소리가 있는 글쇠가 눌렸을 때
