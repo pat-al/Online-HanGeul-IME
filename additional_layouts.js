@@ -5628,7 +5628,7 @@ function input_additional_combination_table_info() {
 	K3_D1_y_combination_table = hangeul_combination_table_full.slice(0);
 	K3_D1_y_combination_table.unshift(
 		[0x11651165,0x119E], /* jungseong eo + eo = alae_a */
-		[0x11741165,0x11A2], /* jungseong eui + eo = ssang_alae_a */
+		[0x11741165,0x11A2]  /* jungseong eui + eo = ssang_alae_a */
 	);
 
 	K3_D2_y_combination_table = hangeul_combination_table_full.concat([

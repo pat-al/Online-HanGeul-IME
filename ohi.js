@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/17
+ * Last Update : 2021/08/18
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -1967,14 +1967,18 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 }
 
 function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 부호계를 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
-	var i, j, c, c1, c2, sub_c1, sub_c2;
+	var a, i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리와 받침의 자리가 신세벌식 자판과 맞바뀐 배열 방식을 쓰는지
 
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
-	[c1, c2, sub_c1, sub_c2] = find_galmadeuli_chars(key);
+	//[c1, c2, sub_c1, sub_c2] = find_galmadeuli_chars(key);
+	a = find_galmadeuli_chars(key);
+	c1 = a[0], c2 = a[1], sub_c1 = a[2], sub_c2 = a[3];
 	if(Sin3_extended_sign_layout_input(f,key,convert_into_ohi_hangeul_phoneme(c1))==-1) return -1;
-	[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
+	//[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
+	a = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
+	c1 = a[0], sub_c1 = a[1], c2 = a[2], sub_c2 = a[3], transform = a[4];
 
 	c = c1;
 
@@ -2062,15 +2066,20 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 }
 
 function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
-	var i, j, c, c1, c2, sub_c1, sub_c2;
+	var a, i, j, c, c1, c2, sub_c1, sub_c2;
 	var sublayout = find_sublayout();
 	var transform = false; // 홀소리와 받침의 자리가 신세벌식 자판과 맞바뀐 배열 방식을 쓰는지
 
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
-	[c1,c2,sub_c1,sub_c2] = find_galmadeuli_chars(key);
+	a = find_galmadeuli_chars(key);
+	c1 = a[0], c2 = a[1], sub_c1 = a[2], sub_c2 = a[3];
+	//[c1,c2,sub_c1,sub_c2] = find_galmadeuli_chars(key);
 
 	if(Sin3_extended_sign_layout_input(f,key,c1)==-1) return -1;
-	[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
+	//[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
+	a = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
+	c1 = a[0], sub_c1 = a[1], c2 = a[2], sub_c2 = a[3], transform = a[4];
+
 
 	c = c1;
 
@@ -2392,27 +2401,34 @@ function show_NCR_text(op) { // 문자를 유니코드 부호값과 맞대어 �
 
 	if(!f || !t) return;
 
-	var opts = document.getElementById('NCR_options');
+	var opt, opts = document.getElementById('NCR_options');
 
 	if(opts) {
 		if(ohi_menu_num && ohi_menu_num<3) opts.style.display = 'block';
 		else opts.style.display = 'none';
 
-		var opt = document.getElementById('converting_option_show_NCR_text');
+		opt = document.getElementById('converting_option_show_NCR_text');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_show_NCR_text','<div class="option"><input name="show_NCR_text" class="checkbox" onclick="show_NCR_text(this.checked);inputText_focus()" type="checkbox"' + (converting_option.show_NCR_text ? ' checked="checked"' : '') + '><label title="&apos;한글&apos;을 &amp;#xD55C;&amp;#xAE00; 꼴로 나타내기">HTML 문자 참조</label></div>');
 
 		opt = document.getElementById('converting_option_convert_only_NFD_hangeul_encoding_in_NCR_text');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_convert_only_NFD_hangeul_encoding_in_NCR_text','<div class="option"><input name="convert_only_NFD_hangeul_encoding_in_NCR_text" class="checkbox" onclick="converting_option.convert_only_NFD_hangeul_encoding_in_NCR_text=this.checked;show_NCR_text();inputText_focus()" type="checkbox"' + (converting_option.convert_only_NFD_hangeul_encoding_in_NCR_text ? ' checked="checked"' : '') + '><label title="완성형으로 나타낼 수 있는 한글은 바꾸지 않기">첫가끝 조합형만 바꾸기</label></div>');
-	}
+		if(t && converting_option.show_NCR_text) {
+			t.style.display='inline-block';
+			opt.style.display='inline-block';
+		}
+		else {
+			t.style.display='none';
+			opt.style.display='none';
+			//return;
+		}
 
-	if(t && converting_option.show_NCR_text) {
-		t.style.display='inline-block';
-		opt.style.display='inline-block';
-	}
-	else {
-		t.style.display='none';
-		opt.style.display='none';
-		return;
+		opt = document.getElementById('NCR_text_copy_button');
+		if(!opt) {
+			opt = appendChild(opts,'div','option','NCR_text_copy_button','<button onclick="copyToClipboard(document.getElementById(\'NCR_text\'))">복사</button>');
+			opt.style.cssFloat = 'right';
+		}
+		if(converting_option.show_NCR_text) opt.style.display='inline-block';
+		else opt.style.display='none';
 	}
 
 	var ref_char, char_code, ref_text='';
@@ -2429,7 +2445,7 @@ function show_NCR_text(op) { // 문자를 유니코드 부호값과 맞대어 �
 	t.innerHTML = ref_text;
 }
 
-function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문자열 바꾸기 (Numeric Character Reference)
+function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문자열 바꾸기
 	if(typeof op != 'undefined') {
 		if(op) converting_option.show_direct_typing_text=1;
 		else converting_option.show_direct_typing_text=0;
@@ -2440,42 +2456,47 @@ function show_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으로 문�
 
 	if(!f || !t) return;
 
-	var opts = document.getElementById('direct_typing_text_options');
+	var opt, opts = document.getElementById('direct_typing_text_options');
 	var mainlayout = find_mainlayout();
 
 	if(opts) {
 		if(ohi_menu_num && ohi_menu_num<3 && !is_moachigi_input()) opts.style.display = 'block';
 		else opts.style.display = 'none';
 
-		var opt = document.getElementById('converting_option_show_direct_typing_text');
+		opt = document.getElementById('converting_option_show_direct_typing_text');
 		if(!opt) {
 			opt = appendChild(opts,'div','option','converting_option_show_direct_typing_text','<div class="option"><input name="show_direct_typing_text" class="checkbox" onclick="show_direct_typing_text(this.checked);inputText_focus()" type="checkbox"' + (converting_option.show_direct_typing_text ? ' checked="checked"' : '') + '><label title="쿼티 배열 기준 글쇠값으로 바꾸기 ">글쇠 기준 문자 변환</label></div>');
 			opt.style.display='inline-block';
 		}
 
-		var opt = document.getElementById('converting_option_extended_hangeul_layout_reflection');
+		opt = document.getElementById('converting_option_extended_hangeul_layout_reflection');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_extended_hangeul_layout_reflection','<div class="option"><input name="extended_hangeul_layout" class="checkbox" onclick="converting_option.extended_hangeul_layout_reflection=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="한글 확장 배열 반영하기">한글 확장 배열</label></div>');
-
 		if(converting_option.show_direct_typing_text && mainlayout.indexOf(-1)>=0) opt.style.display='inline-block';
 		else opt.style.display='none';	
 
-		var opt = document.getElementById('converting_option_combination_table_reflection');
+		opt = document.getElementById('converting_option_combination_table_reflection');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection','<div class="option"><input name="combination_table_reflection" class="checkbox" onclick="converting_option.combination_table_reflection=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection ? ' checked="checked"' : '') + '><label title="낱자 조합 규칙 반영하기">낱자 조합</label></div>');
-
 		if(converting_option.show_direct_typing_text) opt.style.display='inline-block';
 		else opt.style.display='none';
 
-		var opt = document.getElementById('converting_option_combination_table_reflection_priority');
+		opt = document.getElementById('converting_option_combination_table_reflection_priority');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_priority','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_priority=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_priority ? ' checked="checked"' : '') + '><label title="자판 배열에 따로 있는 겹낱자에까지 낱자 조합 규칙을 우선 반영하기">낱자 조합 우선</label></div>');
-
 		if(converting_option.show_direct_typing_text && converting_option.combination_table_reflection) opt.style.display='inline-block';
 		else opt.style.display='none';
 
-		var opt = document.getElementById('converting_option_combination_table_reflection_ggeut_ss_exception');
+		opt = document.getElementById('converting_option_combination_table_reflection_ggeut_ss_exception');
 		if(!opt) opt = appendChild(opts,'div','option','converting_option_combination_table_reflection_ggeut_ss_exception','<div class="option"><input name="combination_table_reflection_priority" class="checkbox" onclick="converting_option.combination_table_reflection_ggeut_ss_exception=this.checked;show_keyboard_layout();inputText_focus()" type="checkbox"' + (converting_option.combination_table_reflection_ggeut_ss_exception ? ' checked="checked"' : '') + '><label title="받침 ㅆ이 아랫글 자리에 따로 있으면 조합하여 넣은 것으로 셈하지 않음">받침 ㅆ 예외</label></div>');
 
 		if(converting_option.show_direct_typing_text && converting_option.combination_table_reflection && converting_option.combination_table_reflection_priority
 		 && mainlayout.indexOf(0x11BB)>=0 && !with_shift_key(mainlayout.indexOf(0x11BB)+33)) opt.style.display='inline-block';
+		else opt.style.display='none';
+
+		opt = document.getElementById('direct_typing_text_copy_button');
+		if(!opt) {
+			opt = appendChild(opts,'div','option','direct_typing_text_copy_button','<button onclick="copyToClipboard(document.getElementById(\'direct_typing_text\'))">복사</button>');
+			opt.style.cssFloat = 'right';
+		}
+		if(converting_option.show_direct_typing_text) opt.style.display='inline-block';
 		else opt.style.display='none';
 	}
 
@@ -2561,8 +2582,10 @@ function making_key_table(table) { // 글쇠 기준 문자 변환에 쓰이는 �
 			if(unicode_non_combined_ggeut.indexOf(unicode_ggeut[i])>=0) continue;
 			single_phonemes = convert_into_single_phonemes(unicode_ggeut[i]);
 			for(j=0;j<single_phonemes.length;++j) { // 배열에 따로 없는 낱자를 홑낱자로 나누어서 글쇠 치는 차례를 찾음
-				k = table.findIndex(e => e.code==single_phonemes[j]);
-				if(k>-1) keys.push(table[k].keys[0]);
+				//k = table.findIndex(e => e.code==single_phonemes[j]);
+				//if(k>-1) keys.push(table[k].keys[0]);
+				k = table.filter(function (e) {return e.code == single_phonemes[j]});
+				if(typeof k.length) keys.push(k[0].keys[0]);
 			}
 			if(keys.length) table.push({code: unicode_ggeut[i], keys: keys.slice()});
 		}
@@ -2685,7 +2708,8 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들�
 	}
 
 	for(i=0; i<codes[1].length; ++i) {
-		r = key_table.find(e => e.code==codes[1][i]);
+		//r = key_table.find(e => e.code==codes[1][i]);
+		r = key_table.filter(function (e) {return e.code==codes[1][i]})[0];
 		if(typeof r != 'undefined') {
 			for(j=0;j<r.keys.length;++j) {
 				if(r.keys[j]>-1) {
@@ -2786,6 +2810,12 @@ function show_options() {
 
 	if(opts) {
 		opts.style.display = 'block';
+
+		opt = document.getElementById('text_copy_button');
+		if(!opt) {
+			opt = appendChild(opts,'div','option','text_copy_button','<button onclick="copyToClipboard(document.getElementById(\'inputText\'))">글 복사</button>');
+			opt.style.marginLeft = '7px';
+		}
 
 		opt_name = 'turn_off_OHI';
 		ft = 'ohiStart();inputText_focus()"><label title="온라인 한글 입력기의 입력 기능 끄기">OHI 끄기</label></div>';
@@ -3220,6 +3250,21 @@ function checkCapsLock() {
 	var e=window.event;
 	if(typeof e != 'undefined' && e.getModifierState && e.getModifierState("CapsLock")) return true;
   return false;
+}
+
+function copyToClipboard(text) {
+	var t;
+  if(typeof text.value == 'undefined') {
+  	t = document.createElement("textarea");
+  	document.body.appendChild(t);
+  	t.value = text.innerHTML;
+  }
+  else t=text;
+ 
+  t.select();
+	t.setSelectionRange(0, 99999); /* For mobile devices */ 
+  document.execCommand('copy');
+  if(typeof text.value == 'undefined') document.body.removeChild(t);
 }
 
 
