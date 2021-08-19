@@ -2364,7 +2364,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 			us = ue[i][j];
 			if(ue[i][j].charCodeAt(0)) {
 				if(d[i][j].charCodeAt(0)) {
-					if(d[i][j]!=u[i][j]) us=u[i][j];
+					if(u[i][j].charCodeAt(0) && d[i][j]!=u[i][j]) us=u[i][j];
 					ds=d[i][j];
 				}
 				else us=u[i][j];
@@ -2372,7 +2372,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 			else if(d[i][j].charCodeAt(0)) ds=d[i][j];
 
 			if(!(us==ue[i][j] || us==uh[i][j] || us==dh[i][j])) ue[i][j] = us;
-			if(!(ds==ue[i][j] || ds==uh[i][j] || ds==dh[i][j])) de[i][j] = ds;
+			if(!(ds==ue[i][j] || ds==uh[i][j] || ds==dh[i][j])) de[i][j] = ds; 
 		}
 	}
 }
@@ -2929,7 +2929,7 @@ function show_keyboard_layout(type) {
 	var layout_info = find_current_layout_info();
 
 	var layout=[], ue=[], de=[], uh=[], dh=[], l=[];
-	layout = find_layout_info('En', En_type).layout;
+	layout = find_layout_info('En', En_type).layout; // 영문 자판 배열
 
 	for(i=0;i<layout.length;++i) l[i]=String.fromCharCode(layout[i]);
 	push_to_key_table(ue,de,l);
@@ -2960,10 +2960,7 @@ function show_keyboard_layout(type) {
 			push_extended_hangeul_layout_to_key_table(uh, dh, layout);
 		}
 		else if(typeof current_layout_info != 'undefined' && typeof current_layout_info.layout != 'undefined') { // 기본 배열
-			layout=current_layout_info.layout;
-			if(option.enable_old_hangeul_input && typeof current_layout_info.old_hangeul_layout_type_name != 'undefined')
-				layout = find_layout_info(KE, current_layout_info.old_hangeul_layout_type_name).layout;
-			if(checkCapsLock() && typeof layout_info.capslock_layout != 'undefined') layout=layout_info.capslock_layout;
+			layout = find_current_layout();
 			push_layout_to_key_table(uh, dh, layout);
 		}
 	}
@@ -2976,7 +2973,7 @@ function show_keyboard_layout(type) {
 	var sublayout = find_sublayout();
 	
 	if(sublayout.length && !is_old_hangeul_input()
-	 && (option.enable_double_final_ext || current_layout_info.type_name.substr(0,3)=='3m-' || current_layout_info.type_name=='3-18Na' || current_layout_info.type_name=='3-D1' || current_layout_info.type_name.substr(0,9)=='Sin3-Cham')
+	 && (option.enable_double_final_ext || current_layout_info.type_name.substr(0,3)=='3m-' || current_layout_info.type_name=='3-18Na' || current_layout_info.type_name.substr(0,3)=='3-D' || current_layout_info.type_name.substr(0,9)=='Sin3-Cham')
 	 && sign_ext_state<=0) {
 		insert_sublayout_table(ue, de, uh, dh, sublayout);
 	}
@@ -3531,16 +3528,15 @@ function find_sublayout(layout_info) {
 	if(typeof layout_info == 'undefined') layout_info = find_current_layout_info();
 	var sublayout = [];
 
-	if(typeof layout_info.sublayout != 'undefined') sublayout=layout_info.sublayout;
-	else if(typeof layout_info.layout != 'undefined' && typeof layout_info.layout[0] != 'number') {
-		for(i=0;i<layout_info.layout.length;++i) sublayout.push(layout_info.layout[i][1]);
-	}
-
 	if(checkCapsLock()) {
 		if(typeof layout_info.capslock_sublayout != 'undefined') sublayout=layout_info.capslock_sublayout;
 		else if(typeof layout_info.capslock_layout != 'undefined' && typeof layout_info.capslock_layout[0] != 'number') {
 			for(i=0;i<layout_info.capslock_layout.length;++i) sublayout.push(layout_info.capslock_layout[i][1]);
 		}
+	}
+	else if(typeof layout_info.sublayout != 'undefined') sublayout=layout_info.sublayout;
+	else if(typeof layout_info.layout != 'undefined' && typeof layout_info.layout[0] != 'number') {
+		for(i=0;i<layout_info.layout.length;++i) sublayout.push(layout_info.layout[i][1]);
 	}
 
 	return sublayout;
