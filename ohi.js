@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/18
+ * Last Update : 2021/08/19
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -1883,6 +1883,7 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 // 신세벌식 자판과 다른 배열 방식을 쓰는 갈마들이 세벌식 자판을 신세벌식 자판의 배열 방식으로 처리할 수 있게 문자값 자리를 바꿈
 
 	var layout = find_current_layout();
+	var a = [c1, sub_c1, c2, sub_c2];
 	var _c1, _c2;
 
 	if(Ko_type.substr(0,9)=='Sin3-Cham') { // 참신세벌식
@@ -1894,24 +1895,24 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 		}
 		else if((ohiQ[0] || NFD_stack.phoneme.length) && unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0) {
 			// 한글을 조합하고 있고 가운뎃소리와 끝소리가 있는 글쇠 자리
-			[c1, c2, sub_c1] = [sub_c1, c1, c2];
+			a = [sub_c1, c2, c1, sub_c2];
 		}	else if(unicode_ga.indexOf(c1)>=0 && unicode_cheos.indexOf(sub_c1)>=0) {
 			if(!ohiQ[0] || !NFD_stack.phoneme.length || unicode_cheos.indexOf(NFD_stack.phoneme[0])<0) {
 				// 기본 배열(c1)에 가운뎃소리가 있고  보조 배열(sub_c1)에 첫소리가 있는 자리 (첫소리 ㅋ과 ㅑ가 있는 b 자리)
-				[c1,sub_c1] = [sub_c1,c1];
+				a = [sub_c1, c1, c2, sub_c2];
 			}
 		}	else if(unicode_NFD_hangeul_phoneme.indexOf(c1)<0 && unicode_ggeut.indexOf(sub_c1)>=0
 		 && (ohiQ[0] && ohiQ[3] && !ohiQ[6] || unicode_ga.indexOf(NFD_stack.phoneme[0])>=0)) {
 			// 끝소리 ㅋ (B 자리)
-		 	 [c1,sub_c1] = [sub_c1,c1];
+		 	 a = [sub_c1, c1, c2, sub_c2];
 		}
 		else if(sub_c1==0x1B && (ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length)) {
 			// 한글 조합을 멈춤 (escape)
-			[c1,sub_c1] = [0,0];
+			a = [0, 0, c2, sub_c2];
 			complete_hangeul_syllable(f);
 		}
 
-		return [c1, sub_c1, c2, sub_c2, transform];
+		return [a[0], a[1], a[2], a[3], transform];
 	}
 
 	if(Ko_type.substr(0,2)=='3-') {
@@ -1920,7 +1921,7 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 		if(Ko_type == '3-18Na') {
 			if(with_shift_key(key) && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c2)>=0) {
 			// 윗글쇠 눌러 겹받침 넣기
-				c1 = sub_c2;
+				a = [sub_c2, sub_c1, c2, c1];
 			}
 			else if((!with_shift_key(key) && unicode_ggeut.indexOf(c2)>=0 && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c1)>=0)
 			 || (with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0 && unicode_ga.indexOf(c2)>=0)) {
@@ -1935,7 +1936,7 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 				 		if(_c1 == convert_into_unicode_hangeul_phoneme(ohiQ[6])) _c1 = c1;
 				 		else ohiHangeul_backspace(f,e);
 				 	} else _c1 = c1;	
-				 	c1 = _c1;
+				 	a[0] = _c1;
 				}
 			}
 			else if(!with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ga.indexOf(sub_c1)<0 && unicode_ga.indexOf(c2)<0 && unicode_ga.indexOf(sub_c2)<0) {
@@ -1960,10 +1961,10 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 	 && (NFD_stack.phoneme.length && (unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme.length>1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2))
 	  || ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || ohiQ[0]&&ohiQ[3]&&ohiQ[6]&&!ohiQ[7])) {
 		// 한글을 차례대로 조합하고 있는데 현재 들어간 낱자와 조합되는 낱자일 때
-			[c1,c2] = [c2,c1];
+			a = [c2, sub_c1, c1, sub_c2];
 	}
 
-	return [c1, sub_c1, c2, sub_c2, transform];
+	return [a[0], a[1], a[2], a[3], transform];
 }
 
 function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 부호계를 쓸 때의 갈마들이 세벌식 자판 전처리 함수 (신세벌식 자판을 기준으로 함)
@@ -1972,11 +1973,9 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 	var transform = false; // 홀소리와 받침의 자리가 신세벌식 자판과 맞바뀐 배열 방식을 쓰는지
 
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
-	//[c1, c2, sub_c1, sub_c2] = find_galmadeuli_chars(key);
 	a = find_galmadeuli_chars(key);
 	c1 = a[0], c2 = a[1], sub_c1 = a[2], sub_c2 = a[3];
 	if(Sin3_extended_sign_layout_input(f,key,convert_into_ohi_hangeul_phoneme(c1))==-1) return -1;
-	//[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
 	a = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
 	c1 = a[0], sub_c1 = a[1], c2 = a[2], sub_c2 = a[3], transform = a[4];
 
@@ -2582,9 +2581,7 @@ function making_key_table(table) { // 글쇠 기준 문자 변환에 쓰이는 �
 			if(unicode_non_combined_ggeut.indexOf(unicode_ggeut[i])>=0) continue;
 			single_phonemes = convert_into_single_phonemes(unicode_ggeut[i]);
 			for(j=0;j<single_phonemes.length;++j) { // 배열에 따로 없는 낱자를 홑낱자로 나누어서 글쇠 치는 차례를 찾음
-				//k = table.findIndex(e => e.code==single_phonemes[j]);
-				//if(k>-1) keys.push(table[k].keys[0]);
-				k = table.filter(function (e) {return e.code == single_phonemes[j]});
+				k = table.filter(function(e) {return e.code == single_phonemes[j];});
 				if(typeof k.length) keys.push(k[0].keys[0]);
 			}
 			if(keys.length) table.push({code: unicode_ggeut[i], keys: keys.slice()});
@@ -2708,8 +2705,7 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들�
 	}
 
 	for(i=0; i<codes[1].length; ++i) {
-		//r = key_table.find(e => e.code==codes[1][i]);
-		r = key_table.filter(function (e) {return e.code==codes[1][i]})[0];
+		r = key_table.filter(function(e) {return e.code==codes[1][i];})[0];
 		if(typeof r != 'undefined') {
 			for(j=0;j<r.keys.length;++j) {
 				if(r.keys[j]>-1) {
