@@ -162,7 +162,6 @@ var abbreviation_processing_state = 0; // 줄임말 처리를 하고 있는지�
 var ohiStatus = document.createElement('div');
 var ohiTimeout = 0;
 
-var character_combination_state = 0; // 문자를 조합하는 상태인지를 나타냄
 var sign_ext_state = 0; // 기호 확장 배열을 쓰고 있는지를 나타냄
 var bangjeom_input_state = 0 // 방점을 넣고 있는지를 나타냄 (ohiInsert 함수에 알림)
 var phoneme_input_state = 0 // 풀어쓰기로 넣고 있는지를 나타냄 (ohiInsert 함수에 알림)
@@ -262,7 +261,7 @@ function ohiBackspace(f) { // backspace 동작
 		if(bs_start == bs_end) {
 			if(!NFD_stack.phoneme.length && prev_cursor_position<0) { // 첫가끝 조합 상태가 아닐 때
 			// 첫가끝 조합형으로 넣은 한글을 낱내자 단위로 지울 수 있게 낱내자의 낱자, 채움 문자, 방점 수를 셈
-				var i=0, ggeut=0; //, bangjeom=0;
+				var i=0, ggeut=0;
 				do {
 					var code = f.value.substr(bs_start-i-1,1).charCodeAt(0);
 					if(!i && unicode_ggeut.indexOf(code)>=0) {ggeut=1; continue;}
@@ -403,7 +402,7 @@ function ohiInsert(f,m,q) { // Insert
 
 	if(!sign_ext_state && c && typeof c == 'number' && unicode_NFD_hangeul_phoneme.indexOf(c)<0 && character_combination_table.length) { // 한글이 아닌 문자를 조합하여 넣기
 		a = character_combination_table.filter(function(e) {return e[0]==c});
-		b = character_combination_queue.length ? character_combination_table.filter(function(e) {return e[1]==c && e[0]==character_combination_queue[character_combination_queue.length-1]}) : []; 
+		b = character_combination_queue.length ? character_combination_table.filter(function(e) {return e[1]==c && e[0]==character_combination_queue[character_combination_queue.length-1]}) : [];
 
 		if(character_combination_queue.length) {
 			if(b.length && c==b[0][1] && b[0][0]==character_combination_queue[character_combination_queue.length-1]) {
@@ -2064,12 +2063,6 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 		if(key==122 && (c2==0x119E || c2>157)) c = 0x119E; // Z 자리 아래아
 		ohiRQ[3]=0;
 	}
-	/*else if(option.enable_double_final_ext && ohi_sub_c2 && !ohiRQ[3] && ohiQ[0] && ohiQ[3] && ohiQ[6] && !ohiQ[7] && ohi_c2==ohiQ[6]) {
-	// 같은 글쇠를 거듭 눌러 겹받침 넣기
-		ohiQ[7]=ohi_sub_c1-ohiQ[6];
-		ohiInsert(f,0,ohiQ);
-		return -1;
-	}*/
 	else if(transform && ohi_c1<31 && ohiQ[6] && !ohiQ[7] && (i=combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),c1))) {
 	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 조합되는 받침 처리
 		ohiQ[7]=convert_into_ohi_hangeul_phoneme(i)-ohiQ[6];
@@ -2095,10 +2088,8 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// c1가 아랫글 자리이면 c2는 윗글 자리, 아니면 그 반대임
 	a = find_galmadeuli_chars(key);
 	c1 = a[0], c2 = a[1], sub_c1 = a[2], sub_c2 = a[3];
-	//[c1,c2,sub_c1,sub_c2] = find_galmadeuli_chars(key);
 
 	if(Sin3_extended_sign_layout_input(f,key,c1)==-1) return -1;
-	//[c1, sub_c1, c2, sub_c2, transform] = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
 	a = converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, sub_c2, transform);
 	c1 = a[0], sub_c1 = a[1], c2 = a[2], sub_c2 = a[3], transform = a[4];
 
@@ -2395,7 +2386,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 			else if(d[i][j].charCodeAt(0)) ds=d[i][j];
 
 			if(!(us==ue[i][j] || us==uh[i][j] || us==dh[i][j])) ue[i][j] = us;
-			if(!(ds==ue[i][j] || ds==uh[i][j] || ds==dh[i][j])) de[i][j] = ds; 
+			if(!(ds==ue[i][j] || ds==uh[i][j] || ds==dh[i][j])) de[i][j] = ds;
 		}
 	}
 }
@@ -2605,7 +2596,7 @@ function making_key_table(table) { // 글쇠 기준 문자 변환에 쓰이는 �
 			single_phonemes = convert_into_single_phonemes(unicode_ggeut[i]);
 			for(j=0;j<single_phonemes.length;++j) { // 배열에 따로 없는 낱자를 홑낱자로 나누어서 글쇠 치는 차례를 찾음
 				k = table.filter(function(e) {return e.code == single_phonemes[j]});
-				if(typeof k.length) keys.push(k[0].keys[0]);
+				if(k.length) keys.push(k[0].keys[0]);
 			}
 			if(keys.length) table.push({code: unicode_ggeut[i], keys: keys.slice()});
 		}
@@ -2728,7 +2719,7 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들�
 	}
 
 	for(i=0; i<codes[1].length; ++i) {
-		r = key_table.filter(function(e) {return e.code==codes[1][i];})[0];
+		r = key_table.filter(function(e) {return e.code==codes[1][i]})[0];
 		if(typeof r != 'undefined') {
 			for(j=0;j<r.keys.length;++j) {
 				if(r.keys[j]>-1) {
