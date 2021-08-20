@@ -55,7 +55,7 @@ keyboard_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 
 keyboard_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, hangeul_combination_table: K3_Sin3_P2_combination_table, extended_sign_layout: K3_Sin3_extended_sign_layout, old_hangeul_layout_type_name: 'Sin3-P2-y', link: 'https://pat.im/1136'});
-keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글 확장', layout: K3_Sin3_P2_y_layout, capslock_layout: K3_Sin3_P2_y_capslock_layout, extended_hangeul_layout: K3_Sin3_P2_extended_hangeul_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, capslock_extended_sign_layout: null, hangeul_combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-5'});
+keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2-y', full_name: '신세벌식 P2 옛한글', layout: K3_Sin3_P2_y_layout, capslock_layout: K3_Sin3_P2_y_capslock_layout, extended_hangeul_layout: K3_Sin3_P2_extended_hangeul_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, capslock_extended_sign_layout: null, hangeul_combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-5'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: '3m-Semoe', full_name: '세모이 2018 (세벌식 모아치기 e-2018)', layout: K3_Semoe_2018_layout, sublayout: K3_Semoe_2018_sublayout, extended_sign_layout: K3_Semoe_extended_sign_layout, moachigi_hangeul_combination_table: K3_Semoe_2018_combination_table, moachigi_multikey_abbreviation_table: K3_Semoe_2018_moachigi_multikey_abbreviation_table, link: 'http://ssg.wo.tc/220526834927'});
 
@@ -3820,6 +3820,11 @@ function input_combination_table_info() {
 		{keys: ['a','m','n','r'], chars: [0xC131,0xB839]}, /* 성령 */
 		{keys: ['s','u'], chars: [0xB0B4,0xB144]} /* 내년 */
 	];
+
+	yeshangeul_sign_combination = [
+		[0x302E,0x302E,0x302F], /* hangeul single dot tone mark + hangeul single dot tone mark = hangeul double dot tone mark */
+	];
+
 
 } // input_combination_table_info()
 
