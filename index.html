@@ -49,7 +49,7 @@
 
 	<style>
 		body { margin: 8pt 0; overflow:scroll; }
-		body, th, td, input {	font-family:'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장'; }
+		body, input, textarea {	font-family:'segoe ui',tahoma,'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장';}
 		span.emph { color:black; }
 		div.title { color:tan; font-weight:bold; font-size:18pt; font-family:NanumGothic,나눔고딕;line-height:14pt; padding-bottom:6pt; }
 		div#content { margin:5px auto 0 auto; width:600px; }
@@ -72,8 +72,8 @@
 
 		div#ohi_content { clear:both; border:solid 2px wheat; background-color:oldlace; padding:0 6px 0 4px; margin-top:1px; }
 
-		input.text, textarea#inputText { border:solid 1px wheat; ime-mode:disabled; resize:vertical; }
-		textarea#inputText { width:572px; margin:0 0 0 5px; font-family:'맑은 고딕','Malgun Gothic','함초롬돋움 LVT','HCR Dotum LVT','함초롬바탕 LVT','본고딕','Source Han Sans K','본고딕 KR','Source Han Sans KR','Noto Sans CJK KR','나눔바른고딕 옛한글','NanumBarunGothic YetHangul','나눔명조 옛한글','NanumMyeongjo YetHangul','HCR dotum','함초롬돋움','함초롬돋움 확장','함초롬바탕','함초롬바탕 확장','Un Jamo Batang Ex','은 자모 바탕 확장',Unbatang,'은 바탕',Undotum,'은 돋움'; }
+		input.text, textarea#inputText { border:solid 1px wheat; ime-mode:disabled; resize:vertical;}
+		textarea#inputText { width:572px; margin:0 0 0 5px; font-family:'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장';}
 		form { margin: 0; padding: 0; }
 
 		div#manual { display:block; margin: 0 0 0.4em 5px; }
@@ -125,7 +125,7 @@
 		div#keyboardLayoutInfo a {text-decoration:none;}
 		div#keyboardLayoutVisibility { float:right; }
 
-		#keyboardLayoutTable { clear:both; width:586px; margin:0 auto; }
+		#keyboardLayoutTable { clear:both; width:586px; margin:0 auto;}
 		#keyboardLayoutTable .row { margin:0; }
 
 		div.e1, div.e2, div.e3, div.h1, div.h2, div.h3 {
@@ -151,14 +151,14 @@
 		/*@-moz-document url-prefix() { div.up { margin:1px 1px 1px 2px; } }*/
 		div.down { margin:0 1px 0px 2px; }
 		div.ue, div.de { clear:both; float:left; color:#777; }
-		div.ue {margin-top:1px;font-family:'Consolas',monospace,sans-serif,'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장';}
+		div.ue {margin-top:1px;}
 		div.e2 div.ue { color:#000; }
 		div.dh, div.uh { float:right; }
 
 		div#row4 div.ue, div#row4 div.de { margin:0px auto; width:100%; text-align:center; }
 		div#row4 #ue56 { text-align:left; }
 		div#row4 div.up, div#row4 div.down {}
-		div#row4 .special div.ue, div#row4 .special div.de  { font-size:12px; font-family:'맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장'}
+		div#row4 .special div.ue, div#row4 .special div.de  { font-size:12px; /*font-family:consolas,'Courier New','맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장'*/}
 
 		span.menu, kbd.menu { cursor: pointer; background-color:bisque; }
 
