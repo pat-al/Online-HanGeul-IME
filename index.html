@@ -102,21 +102,26 @@
 
 		#top_options { margin:0 0.5em 0 0; }
 		#middle_options { margin:0 0.5em 1.7em 0; }
-		#bottom_options {margin-bottom:1em;}
+		#bottom_options {margin-bottom:1em; }
 		
 		hr {border:1px solid #ccc;}
 
 		#top_options .option, #middle_options .option { float:right; }
+
+		#converting_options > div { text-align:right; }
+		#converting_options div.converting_text { margin-bottom:11px; text-align:left; }
+		#converting_options div.option:last-child { margin-left:10px;}
+
 		#NCR_options {}
-		#NCR_options .option {display:inline-block;}
+		#NCR_options .option { display:inline-block; }
 
 		#direct_typing_text_options {}
-		div#NCR_text, div#direct_typing_text { font-family:'lucida sans typewriter',consolas,'Courier New','맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장';
+		div#NCR_text, div#direct_typing_text, div#reverse_direct_typing_text { font-family:'lucida sans typewriter',consolas,'Courier New','맑은 고딕','Malgun Gothic','함초롬돋움','함초롬돋움 LVT','HCR Dotum LVT','Un Jamo Batang Ex','은 자모 바탕 확장';
 			white-space:pre-wrap; background-color:#FFFEFD; display:none; width:580px; border:solid 2px wheat; margin:0.3em 0; word-break:break-all; }
 		.option label { font-size:12px; }
 		.option label a { text-decoration:none; }
 		.option input.checkbox { margin-left:15px; vertical-align:middle; }
-		.option button { font-size:11px; }
+		.option button { font-size:11px; margin-left:6px }
 
 		div#keyboardLayout { margin:2px 0 3px 0; clear:both; }
 		div#keyboardLayout .show_layout { height:1.5em; }
@@ -253,7 +258,7 @@
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','3-P3')" onmouseover="this.className='over'" onmouseout="this.className='menu'">3-P3</kbd>,
 							</li>
 							<li>
-								신세벌식 : 		
+								신세벌식 : 
 								<kbd class="menu" onclick="javascript:ohiChange('Ko','Sin3-P2')" onmouseover="this.className='over'" onmouseout="this.className='menu'">P2</kbd>,
 							</li>
 							<li>
@@ -555,11 +560,16 @@
 			<div id="keyboardLayout"></div>
 			<div id="bottom_options"></div>
 
-			<div id="NCR_options"></div>
-			<div id="NCR_text"></div>
+			<div id="converting_options">
+				<div id="NCR_options" class="options"></div>
+				<div id="NCR_text" class="converting_text"></div>
 			
-			<div id="direct_typing_text_options"></div>
-			<div id="direct_typing_text"></div>
+				<div id="direct_typing_text_options" class="options"></div>
+				<div id="direct_typing_text" class="converting_text"></div>
+
+				<div id="reverse_direct_typing_text_options" class="options"></div>
+				<div id="reverse_direct_typing_text" class="converting_text"></div>
+			</div>
 
 			<div class="ref">
 				<p>※ 모아치기 자판을 쓸 때는 글쇠를 눌렀다가 모두 떼었을 때에 문자가 들어갑니다.</p>
