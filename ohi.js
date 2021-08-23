@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/22
+ * Last Update : 2021/08/23
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2603,7 +2603,7 @@ function show_reverse_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으
 }
 
 function making_key_table(table) { // 글쇠 기준 문자 변환에 쓰이는 부호값-글쇠 대응표 만들기
-	var i, j, k, key;
+	var i, j, k, key, keys = [];
 	var layout_info = find_current_layout_info();
 	var mainlayout = find_mainlayout();
 	var sublayout = find_sublayout();
@@ -2614,6 +2614,32 @@ function making_key_table(table) { // 글쇠 기준 문자 변환에 쓰이는 �
 		key = mainlayout.indexOf(i)+33;
 		if(i>0x40 && i<0x5B || i>0x60 && i<0x7B) table.push({code: i, keys: [i]}); // 영문자
 		else table.push({code: i, keys: [key]}); // 숫자, 기호
+	}
+
+	for(i=0;i<compatibility_dah.length;++i) { // 호환 자모 닿소리
+		keys = [];
+		for(j=0;j<compatibility_dah_to_NFD_hotbatchim[i].length;++j) {
+			if(mainlayout.indexOf(compatibility_dah_to_NFD_hotbatchim[i][0])>=0) 
+				key = mainlayout.indexOf(compatibility_dah_to_NFD_hotbatchim[i][j])+33;
+			else
+				key = mainlayout.indexOf(unicode_ggeut_to_cheos[unicode_ggeut.indexOf(compatibility_dah_to_NFD_hotbatchim[i][j])])+33;
+			if(key<33) break;
+			if(layout_info.type_name.substr(0,2)=='2-' && with_shift_key(key) && mainlayout[key-33]==mainlayout[shift_table[key-33]-33]) key = shift_table[key-33];
+			else if(j && layout_info.type_name.substr(0,4)=='Sin3' && !with_shift_key(key)) key = shift_table[key-33];
+			keys.push(key);
+		}
+		if(j==compatibility_dah_to_NFD_hotbatchim[i].length && keys.length) table.push({code: compatibility_modern_dah[i], keys: keys}); // 끝소리로 넣음		
+	}
+
+	for(i=0;i<compatibility_hol.length;++i) { // 호환 자모 홀소리
+		keys = [];	
+		for(j=0;j<compatibility_hol_to_NFD_hothol[i].length;++j) {
+			key = mainlayout.indexOf(compatibility_hol_to_NFD_hothol[i][j])+33;
+			if(key<33) break;
+			if(layout_info.type_name.substr(0,2)=='2-' && with_shift_key(key) && mainlayout[key-33]==mainlayout[shift_table[key-33]-33]) key = shift_table[key-33];
+			keys.push(key);
+		}
+		if(j==compatibility_hol_to_NFD_hothol[i].length && keys.length) table.push({code: compatibility_modern_hol[i], keys: keys}); // 끝소리로 넣음		
 	}
 
 	codes = unicode_NFD_hangeul_phoneme.concat(mainlayout, sublayout);
@@ -4281,12 +4307,27 @@ function ohi_code_tables() {
 	unicode_modern_hotbatchim = [/*ㄱ*/0x11A8,/*ㄴ*/0x11AB,/*ㄷ*/0x11AE,/*ㄹ*/0x11AF,/*ㅁ*/0x11B7,/*ㅂ*/0x11B8,/*ㅅ*/0x11BA,/*ㅇ*/0x11BC,/*ㅈ*/0x11BD,/*ㅊ*/0x11BE,/*ㅋ*/0x11BF,/*ㅌ*/0x11C0,/*ㅍ*/0x11C1,/*ㅎ*/0x11C2];
 
 	compatibility_cheos = [0x3131,0x3132,0x3134,0x3137,0x3138,0x3139,0x3141,0x3142,0x3143,0x3145,0x3146,0x3147,0x3148,0x3149,0x314A,0x314B,0x314C,0x314D,0x314E,
-	 0x317F, 0x3181, 0x3186];
+	 0x317F,0x3181,0x3186];
 	i=0x314F;	while(i<=0x3163) compatibility_ga.push(i++); compatibility_ga.push(0x318D);
 	compatibility_ggeut = [0x3131,0x3132,0x3133,0x3134,0x3135,0x3136,0x3137,0x3139,0x313A,0x313B,0x313C,0x313D,0x313E,0x313F,0x3140,0x3141,0x3142,0x3144,0x3145,0x3146,0x3147,0x3148,0x314A,0x314B,0x314C,0x314D,0x314E,
 	 0x317F,0x3181,0x3186];
-	compatibility_hangeul_phoneme = compatibility_cheos.concat(compatibility_ga, compatibility_ggeut);
 
+	compatibility_dah = [], compatibility_modern_dah = [], compatibility_hol = [], compatibility_modern_hol = [];
+	i=0x3131;	while(i<=0x314E) {compatibility_dah.push(i); compatibility_modern_dah.push(i++);}
+	i=0x3165;	while(i<=0x3186) compatibility_dah.push(i++);
+	
+	i=0x314F;	while(i<=0x3163) {compatibility_hol.push(i); compatibility_modern_hol.push(i++);}
+	i=0x3187;	while(i<=0x318E) compatibility_hol.push(i++);
+	
+	//compatibility_hangeul_phoneme = compatibility_cheos.concat(compatibility_ga, compatibility_ggeut);
+	compatibility_hangeul_phoneme = compatibility_dah.concat(compatibility_hol);
+	compatibility_modern_hangeul_phoneme = compatibility_modern_dah.concat(compatibility_modern_hol);
+	
+	compatibility_dah_to_NFD_hotbatchim = [[0x11A8],[0x11A8,0x11A8],[0x11A8,0x11BA],[0x11AB],[0x11AB,0x11BD],[0x11AB,0x11C2],[0x11AE],[0x11AE,0x11AE],[0x11AF],[0x11AF,0x11A8],[0x11AF,0x11B7],[0x11AF,0x11B8],[0x11AF,0x11BA],[0x11AF,0x11C0],[0x11AF,0x11C1],[0x11AF,0x11C2],[0x11AE],[0x11B8],[0x11B8,0x11B8],[0x11B8,0x11BA],[0x11BA],[0x11BA,0x11BA],[0x11BC],[0x11BD],[0x11BD,0x11BD],[0x11BE],[0x11BF],[0x11C0],[0x11C1],[0x11C2],
+	 /*ㅥ*/[0x11AB,0x11AB],/*ㅦ*/[0x11AB,0x11AE],/*ㅧ*/[0x11AB,0x11BA],/*ㅨ*/[0x11AB,0x11EB],/*ㅩ*/[0x11AF,0x11A8,0x11BA],/*ㅪ*/[0x11AF,0x11AE],/*ㅫ*/[0x11AF,0x11B8,0x11BA],/*ㅬ*/[0x11AF,0x11EB],/*ㅭ*/[0x11AF,0x11F9],/*ㅮ*/[0x11B7,0x11B8],/*ㅯ*/[0x11B7,0x11BA],/*ㅰ*/[0x11B7,0x11EB],/*ㅱ*/[0x11B7,0x11BC],/*ㅲ*/[0x11B8,0x11A8],/*ㅳ*/[0x11B8,0x11AE],/*ㅴ*/[0x11B8,0x11BA,0x11A8],/*ㅵ*/[0x11B8,0x11BA,0x11AE],/*ㅶ*/[0x11B8,0x11BD],/*ㅷ*/[0x11B8,0x11C0],/*ㅸ*/[0x11B8,0x11BC],/*ㅹ*/[0x11B8,0x11B8,0x11BC],/*ㅺ*/[0x11BA,0x11A8],/*ㅻ*/[0x11BA,0x11AB],/*ㅼ*/[0x11BA,0x11AE],/*ㅽ*/[0x11BA,0x11B8],/*ㅾ*/[0x11BA,0x11BD],/*ㅿ*/[0x11EB],/*ㆀ*/[0x11BC,0x11BC],/*ㆁ*/[0x11F0],/*ㆂ*/[0x11F0,0x11BA],/*ㆃ*/[0x11F0,0x11EB],/*ㆄ*/[0x11C1,0x11BC],/*ㆅ*/[0x11C2,0x11C2],/*ㆆ*/[0x11F9]];
+	compatibility_hol_to_NFD_hothol = [[0x1161],[0x1162],[0x1163],[0x1164],[0x1165],[0x1166],[0x1167],[0x1168],[0x1169],[0x1169,0x1161],[0x1169,0x1162],[0x1169,0x1175],[0x116D],[0x116E],[0x116E,0x1165],[0x116E,0x1166],[0x116E,0x1175],[0x1172],[0x1173],[0x1173,0x1175],[0x1175],
+	 /*ㆇ*/[0x116D,0x1163],/*ㆈ*/[0x116D,0x1164],/*ㆉ*/[0x116D,0x1175],/*ㆊ*/[0x1172,0x1167],/*ㆋ*/[0x1172,0x1168],/*ㆌ*/[0x1172,0x1175],/*ㆍ*/[0x119E],/*ㆎ*/[0x119E,0x1175]];
+	
 	halfwidth_cheos = [0xFFA1,0xFFA2,0xFFA4,0xFFA7,0xFFA8,0xFFA9,0xFFB1,0xFFB2,0xFFB3,0xFFB5,0xFFB6,0xFFB7,0xFFB8,0xFFB9,0xFFBA,0xFFBB,0xFFBC,0xFFBD,0xFFBE];
 	for(i=0;i<4;++i) for(j=0;j<(i==3?3:6);++j) halfwidth_ga.push(0xFFC2+i*8+j);
 	halfwidth_ggeut = [0xFFA1,0xFFA2,0xFFA3,0xFFA4,0xFFA5,0xFFA6,0xFFA7,0xFFA9,0xFFAA,0xFFAB,0xFFAC,0xFFAD,0xFFAE,0xFFAF,0xFFB0,
