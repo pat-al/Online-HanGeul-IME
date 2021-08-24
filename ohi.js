@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/23
+ * Last Update : 2021/08/24
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2829,15 +2829,20 @@ function convert_into_direct_typing_chars(key_table, text, nth) { // 글에 들�
 		}
 	}
 
-	if(layout_info.type_name.substr(0,1)=='2') { // 2벌식 자판
-		if(str.length && unicode_ggeut.indexOf(codes[1][codes.length-1])>=0 && codes[2].length>=1 && unicode_cheos.indexOf(codes[2][0])>=0) {
+	if(layout_info.type_name.substr(0,1)=='2' && str.length && (unicode_modern_hangeul_phoneme.indexOf(codes[2][0])<0 || converting_option.combination_table_reflection_priority)) { // 2벌식 자판
+		if(unicode_ggeut.indexOf(codes[1][codes[1].length-1])>=0 && codes[2].length>=1 && unicode_cheos.indexOf(codes[2][0])>=0) {
 		// 현재 낱자가 끝소리이고 다음 낱자가 첫소리일 때
-			// 끝소리/첫소리 조합 경계를 따로 끊어 주어야 하는 때
+			// 끝소리/첫소리 조합 경계를 따로 끊어 주어야 하는 때 (이ᄣᅢ, 입ᄯᅢ)
 			if(convert_into_single_phonemes(codes[2][0]).length>1) {
-				i = combine_unicode_NFD_hangeul_phoneme(codes[1][codes.length-1], unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[0])]);
+				i = combine_unicode_NFD_hangeul_phoneme(codes[1][codes[1].length-1], unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[0])]);
 				j = combine_unicode_NFD_hangeul_phoneme(i, unicode_cheos_to_ggeut[unicode_cheos.indexOf(convert_into_single_phonemes(codes[2][0])[1])]);
-				if(i && j) str += '🄴';
+				if(i || j) str += '🄴';
 			}
+		}
+		if(unicode_ga.indexOf(codes[1][codes[1].length-1])>=0 && unicode_cheos.indexOf(codes[2][0])>=0) {
+		// 현재 낱자가 홀소리이고 다음 낱자가 첫소리일 때
+			// 홀소리를 넣은 다음에 낱내자 조합 경계를 따로 끊어 주어야 하는 때 (차ᄡᅡᆯ)
+			if(convert_into_single_phonemes(codes[2][0]).length>1) str += '🄴';
 		}
 	}
 
