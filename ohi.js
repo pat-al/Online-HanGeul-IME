@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/08/24
+ * Last Update : 2021/09/03
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2889,7 +2889,7 @@ function show_options() {
 		else opts.style.display = 'none';
 
 		opt_name = 'only_NFD_hangeul_encoding';
-		ft = '"><label title="한글을 모두 첫가끝 조합형으로 넣기">첫가끝 조합</label>';
+		ft = 'inputText_focus()"><label title="한글을 모두 첫가끝 조합형으로 넣기">첫가끝 조합</label>';
 		add_option(opts, opt_name, ft);
 
 		opt_name = 'phonemic_writing';
