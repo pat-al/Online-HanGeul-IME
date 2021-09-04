@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/09/03
+ * Last Update : 2021/09/05
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -67,13 +67,14 @@ function option() {
 }
 
 function converting_option() {
-	var show_NCR_text; // HTML 문자 참조 보기
+	var NCR_text; // HTML 문자 참조 보기
 	var convert_only_NFD_hangeul_encoding_in_NCR_text; // 첫가끝 조합형으로 들어간 한글만 바꾸기
 
 	var direct_typing_text; // 쿼티 배열 기준으로 글쇠값 바꾸기
+	var extended_hangeul_layout_reflection; // 한글 확장 배열 반영하기
 	var combination_table_reflection; // 낱자 조합 규칙 반영하기
 	var combination_table_reflection_priority; // 겹낱자까지 낱자 조합 규칙을 우선 반영하기
-	var extended_hangeul_layout_reflection; // 한글 확장 배열 반영하기
+	var combination_table_reflection_ggeut_ss_exception; // 낱자 조합 규칙을 적용하더라도 받침 ㅆ은 조합해서 넣지 않는 것으로 셈하기
 }
 
 function initialize_options() {
@@ -112,7 +113,7 @@ function initialize_options() {
 	if(typeof phonemic_writing_directly != 'undefined') default_phonemic_writing_directly = phonemic_writing_directly;
 	if(typeof square_layout != 'undefined') default_square_layout = square_layout;
 
-	option=new option();
+	option = new option();
 	option.enable_double_final_ext = default_enable_double_final_ext;
 	option.enable_sign_ext = default_enable_sign_ext;
 	option.force_normal_typing = default_force_normal_typing;
@@ -1187,14 +1188,14 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		if(Ko_type=='3-91_noshift') {
 			if(key==0x5B && ( (ohiQ[0]&&ohiQ[3]&&!ohiQ[6] || unicode_ga.indexOf(NFD_stack.combined_phoneme[0])>=0) )) {
 			// 첫소리와 가운뎃소리까지 들어간 채로 [ 자리 글쇠가 눌렸을 때
-				c=0x11ff;
+				c=0x11FF;
 			}
 		}
 	}
 
 	if(!c) { // 부호값이 0이면 조합 끊기
 		complete_hangeul_syllable(f);
-		return;
+		return 0;
 	}
 
 	// 요즘한글 자판에서 처음 들어온 옛낱자 처리
