@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/09/05
+ * Last Update : 2021/09/06
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2597,6 +2597,7 @@ function show_reverse_direct_typing_text(op) { // 쿼티 글쇠 배열 기준으
 	for(var i=0;i<f.value.length;++i) {
 		convert_into_reverse_direct_typing_chars(temp_t, f.value, i);
 	}
+	complete_hangeul_syllable(temp_t);
 
 	t.innerHTML = temp_t.value;
 	if(t.innerHTML=='') t.innerHTML='&nbsp;';
