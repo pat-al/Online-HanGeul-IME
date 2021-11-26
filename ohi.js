@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/09/06
+ * Last Update : 2021/11/26
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -1973,11 +1973,15 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 	}
 	else {
 		// 신세벌식 원안과 달리 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 배열 방식이면 transform = true
-		if(typeof layout[64] != 'number') i=layout[64][0], j=layout[shift_table[64]][0];
+		if(typeof layout[64] != 'number') i=layout[64][0], j=layout[shift_table[64]][0]; // a 자리
 		else i=layout[64], j=layout[shift_table[64]];
+		if(typeof layout[85] != 'number') i=layout[85][0], j=layout[shift_table[85]][0]; // r 자리
+		else i=layout[85], j=layout[shift_table[85]];	
 		if(!with_shift_key(key) && unicode_ga.indexOf(i)>=0) transform = true;
 		else if(with_shift_key(key) && unicode_ga.indexOf(j)>=0) transform = true;
 	}
+
+	//if(Ko_type.substr(0,5)=='LGG3-') {transfrom=1;return [a[0], a[1], a[2], a[3], transform];}
 
 	// 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 신세벌식 자판을 함께 처리하기 위한 작업
 	if(transform && /*!with_shift_key(key) && */unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(c2)>=0
@@ -2024,6 +2028,10 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 	 && (ohiQ[0] || NFD_stack.phoneme.length&&unicode_cheos.indexOf(NFD_stack.phoneme[NFD_stack.phoneme.length-1])>=0) && (ohiQ[3] && !ohiQ[6] || with_shift_key(key) && NFD_stack.phoneme.length&&unicode_ga.indexOf(NFD_stack.phoneme[0])>=0)) {
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = ohi_sub_c1;
+	}
+	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) { // 이건구 한손 세벌식
+	// 첫소리만 들어갔을 때 첫소리와 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (조합용 홀소리가 아님)
+		c = c2;
 	}
 	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && unicode_ga.indexOf(sub_c1)>=0) {
 	// 첫소리만 들어갔을 때 보조 배열(sublayout)에서 겹홀소리 조합용 ㅗ, ㅜ, ㅡ, ㆍ 등을 넣음
@@ -2101,6 +2109,10 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	 && (NFD_stack.phoneme.length&&unicode_cheos.indexOf(NFD_stack.phoneme[NFD_stack.phoneme.length-1])>=0) && (ohiQ[3] && !ohiQ[6] || with_shift_key(key) && NFD_stack.phoneme.length&&unicode_ga.indexOf(NFD_stack.phoneme[0])>=0)) {
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = sub_c1;
+	}
+	else if(!with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) { // 이건구 한손 세벌식
+	// 첫소리만 들어갔을 때 첫소리와 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (조합용 홀소리가 아님)
+		c = c2;
 	}
 	else if(option.enable_Sin3_diphthong_key && !with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(sub_c1)>=0) {
 	// 첫소리만 들어갔을 때 보조 배열(sublayout)에서 겹홀소리 조합용 ㅗ, ㅜ, ㅡ, ㆍ 등을 넣음
@@ -2187,6 +2199,7 @@ function hangeul_typewriter(f,key) { // 타자기 자판
 function is_galmadeuli_input() {
 	var type_name = current_layout_info.type_name;
 	if(type_name.substr(0,5)=='Sin3-') return true;
+	if(type_name.substr(0,5)=='LGG3-') return true;
 	if(type_name.substr(-3)=='_gm') return true;
 	if(type_name.substr(0,4)=='3-20' && Number(type_name.substr(2,4))>2013) return true;
 	if(type_name.substr(0,3)=='3-P') return true;
