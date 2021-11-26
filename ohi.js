@@ -1981,8 +1981,6 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 		else if(with_shift_key(key) && unicode_ga.indexOf(j)>=0) transform = true;
 	}
 
-	//if(Ko_type.substr(0,5)=='LGG3-') {transfrom=1;return [a[0], a[1], a[2], a[3], transform];}
-
 	// 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 신세벌식 자판을 함께 처리하기 위한 작업
 	if(transform && /*!with_shift_key(key) && */unicode_ga.indexOf(c1)>=0 && unicode_ggeut.indexOf(c2)>=0
 	 && (NFD_stack.phoneme.length && (unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 || NFD_stack.phoneme.length>1 && unicode_ga.indexOf(NFD_stack.phoneme[0])>=0 || unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && combine_unicode_NFD_hangeul_phoneme(NFD_stack.combined_phoneme[0],c2))
