@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/11/26
+ * Last Update : 2021/11/28
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2060,7 +2060,7 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 			}
 		}
 	}
-	else if(ohiRQ[3] && ohi_c1<31 && !ohiQ[4] && !ohiQ[6] && combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[3]+35),c2)) {
+	else if(ohiRQ[3] && /*ohi_c1<31 &&*/ !ohiQ[4] && !ohiQ[6] && combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[3]+35),c2)) {
 	// 먼저 들어간 조합용 홀소리와 겹홀소리를 이룰 수 있는 홀소리일 때
 		c = ohi_c2;
 	}
@@ -3199,7 +3199,7 @@ function show_keyboard_layout(type) {
 				if(k==41) col.style.width = '69px'; // 왼쪽 shift
 				if(k==52) col.style.width = '109px'; // 오른쪽 shift
 			}
-			
+
 			if(ue[i][j]=='Back' || ue[i][j]=='Tab' || ue[i][j]=='Enter' || ue[i][j]=='Shift') col.style.textAlign = 'center';
 
 			if(i==4) {
