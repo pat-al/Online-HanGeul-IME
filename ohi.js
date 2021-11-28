@@ -3129,27 +3129,22 @@ function show_keyboard_layout(type) {
 	inner_html += '<div id="keyboardLayoutTable">';
 	for(i=0;i<5;++i) inner_html += '<div id="row'+i+'" class="row"></div>';
 	inner_html += '</div>';
-
 	rows.innerHTML = inner_html;
+
+	var charCode;
 
  	for(i=0, k=-1; ue[i]; i++) {
 		var row = document.getElementById('row'+i);
 		for(j=0; ue[i][j]; j++) {
 			var tdclass = 'e1';
 			var tdid = 'key'+(++k);
-			var charCode;
 			if(dh[i] && dh[i][j]) {
 				if(typeof dh[i][j].charCodeAt == 'function') {
 					charCode = dh[i][j].charCodeAt(0);
-					if(unicode_NFD_hangeul_phoneme.indexOf(charCode)>=0) charCode=convert_into_compatibility_hangeul_letter(charCode);
-					dh[i][j] = String.fromCharCode(charCode);
+					dh[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_letter(charCode));
 					if(compatibility_hangeul_phoneme.indexOf(dh[i][j].charCodeAt(0))<0) dh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + dh[i][j];
 				}
 				else charCode = dh[i][j];
-
-				if(charCode>0x3130) tdclass = (type.substr(0,1)=='2' || type.substr(-7)=='2-KSX5002' || type=='2-KPS9256' || j>5 && !(i<2&&j>10 || i==3&&j==10&&type.substr(0,5)!='Sin3-')) ? 'h1':'h3';
-				if(charCode>0x314E) tdclass = 'h2';
-				if(i==3 && j==10 && type=='3-sun1990') tdclass = 'h3';
 
 				if(unicode_cheos.indexOf(charCode)>=0) tdclass = 'h1';
 				else if(Ko_type.substr(1,2)=='t-' && charCode>=0x314F && charCode<0x3164) tdclass = 'h2 gin-hol';
