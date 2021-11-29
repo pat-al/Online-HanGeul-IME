@@ -1984,7 +1984,11 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 			}
 		}
 	}
-	
+
+	if(Ko_type.substr(0,5)=='LGG3-') {
+		if(ohiQ[6] && ohiQ[7] && unicode_ggeut.indexOf(c1)>=0) {complete_hangeul_syllable(f);}
+	}
+
 	if(Ko_type.substr(0,5)=='Sin3-') {
 		// 신세벌식 원안과 달리 홀소리를 아랫글 자리에 두고 받침을 윗글 자리에 두는 배열 방식이면 transform = true
 		if(typeof layout[64] != 'number') i=layout[64][0], j=layout[shift_table[64]][0]; // a 자리
@@ -2030,7 +2034,7 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 		return -1;
 	}
 
-	if(ohi_c1<31 && !with_shift_key(key) && !ohiQ[0] && !ohiQ[3] && ohiQ[6] && !ohiQ[7]) {
+	if(Ko_type.substr(0,5)=='Sin3-' && ohi_c1<31 && !with_shift_key(key) && !ohiQ[0] && !ohiQ[3] && ohiQ[6] && !ohiQ[7]) {
 	// 홑받침만 들어가 있는데 윗글쇠를 누르지 않은 채로 받침 자리 글쇠가 눌렸을 때 조합 끊기 (홑받침 쓰는 초성체 조합)
 		complete_hangeul_syllable(f);
 	}
@@ -2039,8 +2043,8 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = ohi_sub_c1;
 	}
-	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) { // 이건구 한손 세벌식
-	// 첫소리만 들어갔을 때 첫소리와 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (조합용 홀소리가 아님)
+	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
+	// 첫소리만 들어갔을 때 첫소리와 조합용이 아닌 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (이건구 한 손 세벌식 자판)
 		c = c2;
 	}
 	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && unicode_ga.indexOf(sub_c1)>=0) {
@@ -2082,14 +2086,14 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 		if(key==122 && (c2==0x119E || c2>157)) c = 0x119E; // Z 자리 아래아
 		ohiRQ[3]=0;
 	}
-	else if(transform && ohi_c1<31 && ohiQ[6] && !ohiQ[7] && (i=combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),c1))) {
-	// 받침을 윗글 자리에 두는 바꾼꼴 신세벌식 자판의 두번째 들어온 조합되는 받침 처리
+	else if((transform || Ko_type.substr(0,5)=='LGG3-') && ohi_c1<31 && ohiQ[6] && !ohiQ[7] && (i=combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),c1))) {
+	// 받침을 윗글 자리에 두는 신세벌식 자판 또는 이건구 한 손 세벌식 자판의 두번째 들어온 조합되는 받침 처리
 		ohiQ[7]=convert_into_ohi_hangeul_phoneme(i)-ohiQ[6];
 		ohiInsert(f,0,ohiQ);
 		return -1;
 	}
 	else if(transform && with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
-	// 본래 신세벌식 자판과 홀소리와 받침 자리가 뒤바뀐 꼴이고 홀소리와 받침이 있는 글쇠가 윗글쇠와 함께 눌렸을 때
+	// 받침을 윗글 자리에 두는 신세벌식 자판이고 홀소리와 받침이 있는 글쇠가 윗글쇠와 함께 눌렸을 때
 		// 마지막으로 들어간 홀소리와 조합되는 것이면 홀소리를 넣음
 		if(ohiQ[3] && combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[3]+ohiQ[4]+35),c2)) {
 			c = c2;
@@ -2118,8 +2122,8 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = sub_c1;
 	}
-	else if(!with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) { // 이건구 한손 세벌식
-	// 첫소리만 들어갔을 때 첫소리와 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (조합용 홀소리가 아님)
+	else if(!with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
+	// 첫소리만 들어갔을 때 첫소리와 조합용이 아닌 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (이건구 한손 세벌식 자판)
 		c = c2;
 	}
 	else if(option.enable_Sin3_diphthong_key && !with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && unicode_ga.indexOf(sub_c1)>=0) {
