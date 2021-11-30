@@ -177,7 +177,6 @@ var shiftlock_click = 0; // 배열표에서 Shift Lock을 누른 상태
 var browser = '', browser_ver = 0, nu = navigator.userAgent;
 var dkey, ukey;
 
-var special_keys = [8,13,32]; // 뒷걸음쇠(8), 줄바꾸개(13, 0x0D), 사이띄개(32)
 var pressed_keys = []; // 모아친 글쇠들의 값
 var prev_pressed_keys = []; // 바로 앞에 모아친 글쇠들의 값
 var prev_class = []; // 바로 앞에 모아친 줄임말의 종류(품사 등)
@@ -830,7 +829,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 
 	var c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
 
-	if(special_keys.indexOf(c)>=0) 
+	if(special_chars.indexOf(c)>=0) 
 		if(ohiSpecialKey(f,e,c)) return;
 
 	if(is_old_hangeul_input() || option.only_NFD_hangeul_encoding || NFD_stack.phoneme.length) {
@@ -1124,7 +1123,7 @@ function ohiHangeul3(f,e,key) { // 세벌식 자판 - 낱자 단위 처리
 		if(ohiHangeul3_HanExtKey) return c;
 	}
 
-	if(special_keys.indexOf(c)>=0) 
+	if(special_chars.indexOf(c)>=0) 
 		if(ohiSpecialKey(f,e,c)) return;
 
 	if((c>64 && c<91 || c>96 && c<123) && !(option.enable_sign_ext && sign_ext_state && extended_sign_layout)) {
@@ -1396,6 +1395,7 @@ function ohiHangeul3_moa(f,e) { // 모아치기 세벌식 자판 처리
 	var pressed_chars = [];
 	var temp_pressed_chars = [];
 	var backup_prev_pressed_keys = [];
+	var special_keys = [32,13,8]; // 사이띄개(32), 줄바꾸개(13), 뒷걸음쇠(8)
 
 	var chars=[];
 	var cheos = [], ga = [], ggeut = [];
@@ -2408,7 +2408,7 @@ function insert_sublayout_table(ue, de, uh, dh, sublayout) {
 
 	for(i=0;i<94;++i) {
 		c = sublayout[i];
-		if(control_chars.indexOf(c)>=0) c = general_chars[control_chars.indexOf(c)];
+		if(special_chars.indexOf(c)>=0) c = general_chars[special_chars.indexOf(c)];
 		s=String.fromCharCode(convert_into_unicode_hangeul_phoneme(c));
 		sub.push(s);
 	}
@@ -3141,11 +3141,6 @@ function show_keyboard_layout(type) {
 		}
 	}
 
-	var han_ext_tag = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:0px;font-size:0.7em;">한글</span>';
-
-	char_converting_table_original_code = [-1, 0x08, 0x0D, 0x1B, 0x1160];
-	char_converting_table_target_string = [han_ext_tag, '⌫', '⏎', '🄴', '🄵'];
-
 	var sublayout = find_sublayout();
 	
 	if(sublayout.length && !is_old_hangeul_input()
@@ -3183,7 +3178,7 @@ function show_keyboard_layout(type) {
 				else if(unicode_ga.indexOf(charCode)>=0) tdclass = 'h2';
 				else if(unicode_ggeut.indexOf(charCode)>=0) tdclass = 'h3';
 
-				if(char_converting_table_original_code.indexOf(charCode)>=0) dh[i][j] = char_converting_table_target_string[char_converting_table_original_code.indexOf(charCode)];
+				if(special_chars.indexOf(charCode)>=0) dh[i][j] = special_chars_string[special_chars.indexOf(charCode)];
 
 				if(tdclass.substr(0,1)!='h')
 					if(unicode_modern_ggeut.indexOf(uh[i][j].charCodeAt(0))>=0) tdclass = 'h3';
@@ -3245,7 +3240,7 @@ function show_keyboard_layout(type) {
 					}
 					else charCode = uh[i][j];
 					
-					if(char_converting_table_original_code.indexOf(charCode)>=0) uh[i][j] = char_converting_table_target_string[char_converting_table_original_code.indexOf(charCode)];
+					if(special_chars.indexOf(charCode)>=0) uh[i][j] = special_chars_string[special_chars.indexOf(charCode)];
 					if(uh[i][j]==dh[i][j] && uh[i][j]!=de[i][j]) uh[i][j]=' '; // 한글 배열에서 윗글과 아랫글 자리의 문자가 같을 때 윗글 자리를 나타내지 않음
 					if( (Ko_type.substr(0,2)=='3-' && is_galmadeuli_input() || typeof current_layout_info.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbatchim.indexOf(charCode)<0) {
 						// 갈마들이 공세벌식 자판의 기본 배열에 들어가는 겹받침을 회색으로 나타냄
@@ -4405,8 +4400,10 @@ function ohi_code_tables() {
 	unicode_non_combined_ggeut = [0x11A8,0x11AB,0x11AE,0x11AF,0x11B7,0x11B8,0x11BA,0x11BC,0x11BD,0x11BE,0x11BF,0x11C0,0x11C1,0x11C2];
 	unicode_non_combined_phoneme = unicode_non_combined_cheos.concat(unicode_non_combined_ga, unicode_non_combined_ggeut);
 
-	control_chars = [0x1B];
-	general_chars = [0x1F134];
+	var han_ext_tag = '<span style="margin:0;padding:0;background:black;color:#fff;letter-spacing:0px;font-size:0.7em;">한글</span>';
+
+	special_chars = [-1, 0x08, 0x0D, 0x1B, 0x1160];
+	special_chars_string = [han_ext_tag, '⌫', '⏎', '🄴', '🄵'];
 
 	// 쿼티를 기준으로 한 화상 배열표의 아랫글 자리 부호값
 	dkey = [96,49,50,51,52,53,54,55,56,57,48,45,61,8,
