@@ -164,7 +164,6 @@ var ohiStatus = document.createElement('div');
 var ohiTimeout = 0;
 
 var sign_ext_state = 0; // 기호 확장 배열을 쓰고 있는지를 나타냄
-var bangjeom_input_state = 0 // 방점을 넣고 있는지를 나타냄 (ohiInsert 함수에 알림)
 var phoneme_input_state = 0 // 풀어쓰기로 넣고 있는지를 나타냄 (ohiInsert 함수에 알림)
 
 var onkeypress_skip = 0; // ohiKeypress() 처리를 건너뛰기 (보기: 오른쪽 숫자판을 눌렀을 때)
