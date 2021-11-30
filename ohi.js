@@ -3213,18 +3213,14 @@ function show_keyboard_layout(type) {
 				if(k==52) col.style.width = '91px'; // 오른쪽 shift
 			}
 			else { // 가지런한 배열표
-				if(k==0) col.style.width = '69px'; // ` 글쇠
-				if(k==13) { // backspace
-					col.style.letterSpacing = '-2px';
-					col.style.width = '33px';
-				}
-				if(k==12 || k==26) col.style.width = '32px'; // =, ] 글쇠
-				if(k==14) col.style.width = '69px'; // tab
-				if(k==27) col.style.width = '33px'; // \ 글쇠
-				if(k==28) col.style.width = '69px'; // shift lock
-				if(k==40) col.style.width = '69px'; // Enter
-				if(k==41) col.style.width = '69px'; // 왼쪽 shift
-				if(k==52) col.style.width = '109px'; // 오른쪽 shift
+				if(k==0) col.style.width = '62px'; // ` 글쇠
+				if(k==13) col.style.letterSpacing = '-1px'; // backspace
+				if(k==14) col.style.width = '62px'; // tab
+				if(k==27) col.style.width = '36px'; // \ 글쇠
+				if(k==28) col.style.width = '62px'; // shift lock
+				if(k==40) col.style.width = '76px'; // Enter
+				if(k==41) col.style.width = '62px'; // 왼쪽 shift
+				if(k==52) col.style.width = '116px'; // 오른쪽 shift
 			}
 
 			if(ue[i][j]=='Back' || ue[i][j]=='Tab' || ue[i][j]=='Enter' || ue[i][j]=='Shift') col.style.textAlign = 'center';
