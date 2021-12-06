@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/11/30
+ * Last Update : 2021/12/06
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2101,7 +2101,7 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 	else if(!with_shift_key(key) && ohi_c1<31 && ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] && (ohi_c2>65 && ohi_c2<87 || key==122)) {
 	// 왼손 쪽 아랫글 자리에서 가운뎃소리 넣기
 		c = ohi_c2;
-		if(key==122 && (c2==0x119E || c2>157)) c = 0x119E; // Z 자리 아래아
+		if(key==122 && (c2==0x119E /*|| c2>157*/)) c = 0x119E; // Z 자리 아래아
 		ohiRQ[3]=0;
 	}
 	else if((transform || Ko_type.substr(0,5)=='LGG3-') && ohi_c1<31 && ohiQ[6] && !ohiQ[7] && (i=combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]),c1))) {
