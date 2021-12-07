@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/12/06
+ * Last Update : 2021/12/07
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -1960,14 +1960,15 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 		transform = true;
 
 		if(Ko_type == '3-18Na') {
-			if(with_shift_key(key) && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c2)>=0 && (NFD_stack.phoneme.length || (ohiQ[0]+ohiQ[3])&&!ohiQ[6])) {
+			if(with_shift_key(key) && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c2)>=0
+			  && (NFD_stack.phoneme.length && unicode_ggeut.indexOf(NFD_stack.phoneme[0])<0 || (ohiQ[0]+ohiQ[3])&&!ohiQ[6])) {
 			// 윗글쇠 눌러 겹받침 넣기
 				a = [sub_c2, sub_c1, c2, c1];
 			}
 			else if((!with_shift_key(key) && unicode_ggeut.indexOf(c2)>=0 && unicode_ggeut.indexOf(sub_c2)>=0 && unicode_ga.indexOf(c1)>=0)
 			 || (with_shift_key(key) && unicode_ggeut.indexOf(c1)>=0 && unicode_ggeut.indexOf(sub_c1)>=0 && unicode_ga.indexOf(c2)>=0)) {
 			// 끝소리가 들어갔고 가운뎃소리와 끝소리가 있는 글쇠가 눌렸을 때
-				if( unicode_non_combined_ggeut.indexOf(convert_into_unicode_hangeul_phoneme(ohiQ[6]))>=0 && 
+				if( (unicode_non_combined_ggeut.indexOf(convert_into_unicode_hangeul_phoneme(ohiQ[6]))>=0 || NFD_stack.phoneme.length && unicode_non_combined_ggeut.indexOf(NFD_stack.combined_phoneme[0])>=0) && 
 				   (!with_shift_key(key) && unicode_ggeut.indexOf(sub_c2)>=0 && (NFD_stack.phoneme.length && unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && sub_c2 != NFD_stack.phoneme[0] && c2 == NFD_stack.phoneme[0] && c2==NFD_stack.combined_phoneme[0] || ohiQ[6] && !ohiQ[7] /*&& sub_c2 != convert_into_unicode_hangeul_phoneme(ohiQ[6]) && c2 == convert_into_unicode_hangeul_phoneme(ohiQ[6])*/)
 				  || with_shift_key(key) && unicode_ggeut.indexOf(sub_c1)>=0 && (NFD_stack.phoneme.length && unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0 && sub_c1 != NFD_stack.phoneme[0] && c1 == NFD_stack.phoneme[0] && c1==NFD_stack.combined_phoneme[0] || ohiQ[6] && !ohiQ[7] /*&& sub_c1 != convert_into_unicode_hangeul_phoneme(ohiQ[6]) && c1 == convert_into_unicode_hangeul_phoneme(ohiQ[6])*/)) ) {
 				// 보조 배열에도 끝소리가 있고 끝소리가 하나만 들어갔을 때
@@ -1975,9 +1976,9 @@ function converting_for_special_galmadeuli_layouts(f, e, key, c1, c2, sub_c1, su
 					_c1 = with_shift_key(key) ? sub_c1 : sub_c2;
 				 	_c2 = with_shift_key(key) ? sub_c2 : sub_c1;
 				 	if(!combine_unicode_NFD_hangeul_phoneme((ohiQ[6] ? convert_into_unicode_hangeul_phoneme(ohiQ[6]) : NFD_stack.combined_phoneme[0]), _c1)) {
-				 		if(_c1 == convert_into_unicode_hangeul_phoneme(ohiQ[6])) {_c1 = c1;}
+				 		if(_c1 == convert_into_unicode_hangeul_phoneme(ohiQ[6]) || _c1 == NFD_stack.combined_phoneme[0]) {_c1 = c1;}
 				 		else {
-				 			if(!ohiQ[0]) ohiBackspace(f,e);
+				 			if(!ohiQ[0] && !NFD_stack.phoneme.length) ohiBackspace(f,e);
 				 			else ohiHangeul_backspace(f,e);
 				 		}
 				 	} else if(combine_unicode_NFD_hangeul_phoneme(convert_into_unicode_hangeul_phoneme(ohiQ[6]), sub_c2)) {
