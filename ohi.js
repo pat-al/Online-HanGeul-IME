@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2021/12/07
+ * Last Update : 2021/12/15
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -2062,7 +2062,7 @@ function NFC_galmadeuli_preprocess(f,e,key) { // 유니코드 완성형 한글 �
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = ohi_sub_c1;
 	}
-	else if(!with_shift_key(key) && ohiQ[0] && !ohiQ[3] && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
+	else if(Ko_type.substr(0,5)=='LGG3-' && !with_shift_key(key) && ohiQ[0] && !ohiQ[3] && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
 	// 첫소리만 들어갔을 때 첫소리와 조합용이 아닌 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (이건구 한 손 세벌식 자판)
 		c = c2;
 	}
@@ -2141,7 +2141,7 @@ function NFD_galmadeuli_preprocess(f,e,key) { // 첫가끝 조합형을 쓸 때�
 	// 윗글쇠를 함께 눌렀을 때 왼쪽 윗글 자리의 겹받침 넣기 (겹받침 확장 입력)
 		c = sub_c1;
 	}
-	else if(!with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
+	else if(Ko_type.substr(0,5)=='LGG3-' && !with_shift_key(key) && NFD_stack.phoneme.length && unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0 && !sub_c1 && unicode_cheos.indexOf(c1)>=0 && unicode_ga.indexOf(c2)>=0) {
 	// 첫소리만 들어갔을 때 첫소리와 조합용이 아닌 홀소리가 든 글쇠가 눌리면 홀소리를 넣음 (이건구 한손 세벌식 자판)
 		c = c2;
 	}
