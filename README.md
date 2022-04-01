@@ -1,4 +1,4 @@
-<strong>온라인 한글 입력기(Online Hangeul IME)</strong>는 웹에서 바로 쓸 수 있는 화상 자판 입력기입니다.
+<strong>온라인 한글 입력기(Online HanGeul IME)</strong>는 웹에서 바로 쓸 수 있는 화상 자판 입력기입니다.
 
 이호석 님의 <strong>온라인 한글 입력(Online Hangul Input)</strong>을 고친 판입니다.
 
