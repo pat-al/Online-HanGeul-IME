@@ -51,7 +51,7 @@ keyboard_layouts.push({KE: 'Ko', type_name: '3-90', full_name: '3-90 (한글 문
 keyboard_layouts.push({KE: 'Ko', type_name: '3-93-y', full_name: '3-93 옛한글 (3-90 응용)', layout: K3_93y_layout, link: 'http://asadal.busan.ac.kr/~gimgs0/hangeul/kbd/'});
 keyboard_layouts.push({KE: 'Ko', type_name: '3-sun2014', full_name: '안종혁 순아래 2014 (3-90 응용)', layout: K3_sun2014_layout, hangeul_combination_table: K3_sun2014_combination_table, link: 'http://cafe.daum.net/3bulsik/JMKX/18'});
 
-keyboard_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판) (한글 문화원, 매킨토시 세벌식)', layout: K3_91_layout, link: ''});
+keyboard_layouts.push({KE: 'Ko', type_name: '3-91', full_name: '3-91 (공병우 최종 자판) (한글 문화원, 매킨토시 세벌식)', layout: K3_91_layout, extended_sign_layout: K3_91_extended_layout, link: ''});
 keyboard_layouts.push({KE: 'Ko', type_name: '3-91_noshift', full_name: '3-91 조합 순아래', layout: K3_3_91_noshift_layout, hangeul_combination_table: K3_3_91_noshift_combination_table, link: 'http://text.youknowone.org/post/106848470561/3final-noshift'});
 
 keyboard_layouts.push({KE: 'Ko', type_name: 'Sin3-P2', full_name: '신세벌식 P2', layout: K3_Sin3_P2_layout, hangeul_combination_table: K3_Sin3_P2_combination_table, extended_sign_layout: K3_Sin3_extended_sign_layout, old_hangeul_layout_type_name: 'Sin3-P2-y', link: 'https://pat.im/1136'});
@@ -682,6 +682,104 @@ function input_keyboard_layout_info() {
 		0x005C, /* 0x7C bar: backslash */
 		0x002F, /* 0x7D braceright: slash */
 		0x203B  /* 0x7E asciitilde: reference mark */
+	];
+
+	// 3-91 자판 확장 배열
+	K3_91_extended_layout = [
+		[[0xFFE5],[0x0000]],	/* 0x21 exclam: fullwidth yen sign */
+		[[0x2019],[0x0000]],	/* 0x22 quotedbl: right single quotation mark ’ */
+		[[0x0023],[0x0000]],	/* 0x23 numbersign: number sign */
+		[[0x0024],[0x0000]],	/* 0x24 dollar: dollar */
+		[[0xACF5],[0x0000]],	/* 0x25 percent: 공 */
+		[[0x2026],[0x0000]],	/* 0x26 ampersand: horizontal ellipsis … */
+		[[0x300D],[0x0000]],	/* 0x27 apostrophe: right corner bracker 」 */
+		[[0x25B2],[0x0000]],	/* 0x28 parenleft: black up-pointing ▲ */
+		[[0x00B0],[0x0000]],	/* 0x29 parenright: degree sign ° */
+		[[0x002A],[0x0000]],	/* 0x2A asterisk: asterisk */
+		[[0x003D],[0x0000]],	/* 0x2B plus: equal sign */
+		[[0x003C],[0x0000]],	/* 0x2C comma: less-than sign */
+		[[0x2610],[0x0000]],	/* 0x2D minus: ballot box ☐ */
+		[[0x003E],[0x0000]],	/* 0x2E period: greater-than sign */
+		[[0x25FE],[0x0000]],	/* 0x2F slash: black medium small square ◾ */
+		[[0x2070],[0x0000]],	/* 0x30 0: superscript zero ⁰ */
+		[[0x00B9],[0x0000]],	/* 0x31 1: superscript one ¹ */
+		[[0x00B2],[0x0000]],	/* 0x32 2: superscript two ² */
+		[[0x00B3],[0x0000]],	/* 0x33 3: superscript three ³ */
+		[[0x2074],[0x0000]],	/* 0x34 4: superscript four ⁴ */
+		[[0x2075],[0x0000]],	/* 0x35 5: superscript five ⁵ */
+		[[0x2076],[0x0000]],	/* 0x36 6: superscript six ⁶ */
+		[[0x2077],[0x0000]],	/* 0x37 7: superscript six ⁷ */
+		[[0x2078],[0x0000]],	/* 0x38 8: superscript six ⁸ */
+		[[0x2079],[0x0000]],	/* 0x39 9: superscript nine ⁹ */
+		[[0x2018],[0x0000]],	/* 0x3A colon: left single quotation mark ‘ */
+		[[0x300C],[0x0000]],	/* 0x3B semicolon: left corner bracker 「 */
+		[[0xFFE6],[0x0000]],	/* 0x3C less: fullwidth won sign ￦ */
+		[[0x2713],[0x0000]],	/* 0x3D equal: check mark ✓ */
+		[[0x2015],[0x0000]],	/* 0x3E greater: horizontal bar ― */
+		[[0x00B1],[0x0000]],	/* 0x3F question: plus minus sign ± */
+		[[0x0040],[0x0000]],	/* 0x40 at: at */
+		[[0x0041],[0x0000]],	/* 0x41 A: */
+		[[0x0042],[0x0000]],	/* 0x42 B: */
+		[[0x0043],[0x0000]],	/* 0x43 C: */
+		[[0x0044],[0x0000]],	/* 0x44 D: */
+		[[0x0045],[0x0000]],	/* 0x45 E: */
+		[[0x0046],[0x0000]],	/* 0x46 F: */
+		[[0x0047],[0x0000]],	/* 0x47 G: */
+		[[0x0048],[0x0000]],	/* 0x48 H: */
+		[[0x0049],[0x0000]],	/* 0x49 I: */
+		[[0x004A],[0x0000]],	/* 0x4A J: */
+		[[0x004B],[0x0000]],	/* 0x4B K: */
+		[[0x004C],[0x0000]],	/* 0x4C L: */
+		[[0x004D],[0x0000]],	/* 0x4D M: */
+		[[0x004E],[0x0000]],	/* 0x4E N: */
+		[[0x004F],[0x0000]],	/* 0x4F O: */
+		[[0x0050],[0x0000]],	/* 0x50 P: */
+		[[0x0051],[0x0000]],	/* 0x51 Q: */
+		[[0x0052],[0x0000]],	/* 0x52 R: */
+		[[0x0053],[0x0000]],	/* 0x53 S: */
+		[[0x0054],[0x0000]],	/* 0x54 T: */
+		[[0x0055],[0x0000]],	/* 0x55 U: */
+		[[0x0056],[0x0000]],	/* 0x56 V: */
+		[[0x0057],[0x0000]],	/* 0x57 W: */
+		[[0x0058],[0x0000]],	/* 0x58 X: */
+		[[0x0059],[0x0000]],	/* 0x59 Y: */
+		[[0x005A],[0x0000]],	/* 0x5A Z: */
+		[[0x005B],[0x0000]],	/* 0x5B bracketleft: bracketleft */
+		[[0x005C],[0x0000]],	/* 0x5C backslash: backslash,  */
+		[[0x005D],[0x0000]],	/* 0x5D bracketright: bracketright */
+		[[0x2731],[0x0000]],	/* 0x5E asciicircum: heavy asterisk ✱ */
+		[[0x007E],[0x0000]],	/* 0x5F underscore: tilde */
+		[[0x0000],[0x0000]],	/* 0x60 quoteleft: */
+		[[0x0061],[0x0000]],	/* 0x61 a: */
+		[[0x0062],[0x0000]],	/* 0x62 b: */
+		[[0x0063],[0x0000]],	/* 0x63 c: */
+		[[0x0064],[0x0000]],	/* 0x64 d: */
+		[[0x0065],[0x0000]],	/* 0x65 e: */
+		[[0x0066],[0x0000]],	/* 0x66 f: */
+		[[0x0067],[0x0000]],	/* 0x67 g: */
+		[[0x0068],[0x0000]],	/* 0x68 h: */
+		[[0x0069],[0x0000]],	/* 0x69 i: */
+		[[0x006A],[0x0000]],	/* 0x6A j: */
+		[[0x006B],[0x0000]],	/* 0x6B k: */
+		[[0x006C],[0x0000]],	/* 0x6C l: */
+		[[0x006D],[0x0000]],	/* 0x6D m: */
+		[[0x006E],[0x0000]],	/* 0x6E n: */
+		[[0x006F],[0x0000]],	/* 0x6F o: */
+		[[0x0070],[0x0000]],	/* 0x70 p: */
+		[[0x0071],[0x0000]],	/* 0x71 q: */
+		[[0x0072],[0x0000]],	/* 0x72 r: */
+		[[0x0073],[0x0000]],	/* 0x73 s: */
+		[[0x0074],[0x0000]],	/* 0x74 t: */
+		[[0x0075],[0x0000]],	/* 0x75 u: */
+		[[0x0076],[0x0000]],	/* 0x76 v: */
+		[[0x0077],[0x0000]],	/* 0x77 w: */
+		[[0x0078],[0x0000]],	/* 0x78 x: */
+		[[0x0079],[0x0000]],	/* 0x79 y: */
+		[[0x007A],[0x0000]],	/* 0x7A z: */
+		[[0x300C],[0x0000]],	/* 0x7B braceleft: left corner bracker 「 */
+		[[0x007C],[0x0000]],	/* 0x7C bar: vertical bar */
+		[[0x300D],[0x0000]],	/* 0x7D braceright: right corner bracker 」 */
+		[[0x0000],[0x0000]]		/* 0x7E asciitilde */
 	];
 
 	// 3-93 옛한글 자판
