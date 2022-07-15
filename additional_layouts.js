@@ -69,7 +69,7 @@ additional_layouts.push({KE: 'Ko', type_name: 'Sin3-M', full_name: '신세벌식
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-P', full_name: '신세벌식 P', layout: K3_Sin3_P_layout, extended_hangeul_layout: K3_Sin3_P_y_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, /*extended_hangeul_combination_table: K3_Sin3_P_extended_combination_table,*/ old_hangeul_layout_type_name: 'Sin3-P-y', link: 'https://pat.im/1110'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-P-y', full_name: '신세벌식 P 옛한글 조합', layout: K3_Sin3_P_y_layout, capslock_layout: K3_Sin3_P_y_capslock_layout, extended_sign_layout: K3_Sin3_extended_sign_layout, capslock_extended_sign_layout: null, hangeul_combination_table: K3_Sin3_P2_yeshangeul_combination_table, link: 'https://pat.im/1136#2-4'});
 additional_layouts.push({KE: 'Ko', type_name: 'Sin3-Gongdong', full_name: '신세벌식 공동개발안 (연구)', layout: K3_Sin3_Gongdong_layout, ieochigi_hangeul_abbreviation_table: K3_Sin3_Gongdong_abbreviation_table, hangeul_convenience_combination_table: K3_Sin3_Gongdong_additional_combination_table, link: 'http://cafe.daum.net/3bulsikmini0A0/JYgd/31'});
-additional_layouts.push({KE: 'Ko', type_name: 'Sin3-Cham', full_name: '참신세벌식', layout: K3_Sin3_Cham_layout, hangeul_combination_table: K3_Sin3_Cham_combination_table, hangeul_convenience_combination_table: K3_Sin3_Cham_additional_combination_table, link: 'https://doc9107.tistory.com/67?category=692391'});
+additional_layouts.push({KE: 'Ko', type_name: 'Sin3-Cham', full_name: '참신세벌식 v17', layout: K3_Sin3_Cham_layout, hangeul_combination_table: K3_Sin3_Cham_combination_table, hangeul_convenience_combination_table: K3_Sin3_Cham_additional_combination_table, link: 'https://doc9107.tistory.com/67'});
 
 additional_layouts.push({KE: 'Ko', type_name: 'LGG3-OH-R', full_name: '이건구 한 손 세벌식 오른손', layout: K3_LGG_OH_r, capslock_layout: K3_LGG_OH_r_capslock_layout, hangeul_combination_table: K3_LGG_OH_combination_table, link: 'https://ds1tpt.tistory.com/32'});
 additional_layouts.push({KE: 'Ko', type_name: 'LGG3-OH-L', full_name: '이건구 한 손 세벌식 왼손', layout: K3_LGG_OH_l, capslock_layout: K3_LGG_OH_l_capslock_layout, hangeul_combination_table: K3_LGG_OH_combination_table, link: 'https://ds1tpt.tistory.com/32'});
@@ -4368,11 +4368,11 @@ function input_additional_keyboard_layout_info() {
 		[0x0060,0x0000], /* 0x60 quoteleft */
 		[0x116D,0x11B7], /* 0x61 a: jungseong yo, jongseong mieum */
 		[0x1163,0x110F], /* 0x62 b: jungseong ya, choseong kieuk */
-		[0x1165,0x11C2], /* 0x63 c: jungseong eo, jongseong hieuh */
+		[0x1173,0x11C2], /* 0x63 c: jungseong eu, jongseong hieuh */
 		[0x1175,0x11BC], /* 0x64 d: jungseong i, jongseong ieung */
  		[0x1166,0x11A8], /* 0x65 e: jungseong e, jongseong gieug */
  		[0x1161,0x11AE], /* 0x66 f: jungseong a, jongseong dieud */
-		[0x1173,0x11BD], /* 0x67 g: jungseong eu: jongseong jieuj */
+		[0x1169,0x11C1], /* 0x67 g: jungseong o, jongseong pieup */
 		[0x1112,0x0000], /* 0x68 h: choseong dieud */
 		[0x1103,0x0000], /* 0x69 i: choseong mieum */
 		[0x110B,0x0000], /* 0x6A j: choseong ieung */
@@ -4387,7 +4387,7 @@ function input_additional_keyboard_layout_info() {
 		[0x1162,0x11AB], /* 0x73 s: jungseong ae, jongseong nieun */
 		[0x1167,0x11BE], /* 0x74 t: jungseong yeo, jongseong chieuch */
 		[0x1106,0x0000], /* 0x75 u: choseong hieuh */
-		[0x1169,0x11C1], /* 0x76 v: jungseong o, jongseong pieup */
+		[0x1165,0x11BD], /* 0x76 v: jungseong eo, jongseong jieuj */
 		[0x1174,0x11AF], /* 0x77 w: jungseong eui, jongseong lieul */
 		[0x1164,0x11BA], /* 0x78 x: jungseong yae, jongseong sieus */
 		[0x110E,0x0000], /* 0x79 y: choseong chieuch */
