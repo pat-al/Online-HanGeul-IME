@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2022/07/03
+ * Last Update : 2022/12/10
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -402,6 +402,7 @@ function ohiInsert(f,m,q) { // Insert
 	var character_combination_table = find_character_combination_table();
 
 	if(!sign_ext_state && c && typeof c == 'number' && unicode_NFD_hangeul_phoneme.indexOf(c)<0 && character_combination_table.length) { // 한글이 아닌 문자를 조합하여 넣기
+		complete_hangeul_syllable(f);
 		a = character_combination_table.filter(function(e) {return e[0]==c});
 		b = character_combination_queue.length ? character_combination_table.filter(function(e) {return e[1]==c && e[0]==character_combination_queue[character_combination_queue.length-1]}) : [];
 
@@ -421,7 +422,6 @@ function ohiInsert(f,m,q) { // Insert
 		}
 
 		if(!character_combination_queue.length && a.length && c==a[0][0]) {
-			complete_hangeul_syllable(f);
 			ohiInput(f,0,c);
 			ohiSelection(f,1);
 			character_combination_queue.push(c);
