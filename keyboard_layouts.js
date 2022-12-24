@@ -2182,11 +2182,9 @@ function input_combination_table_info() {
 		//[0x110E1103,0x1154], /* choseong chieuch + dieug = ap_chieuch */
 		//[0x110E1100,0x1155], /* choseong chieuch + gieug = dwis_chieuch */
 		[0x110C1112,0x113E], /* choseong jieuj + hiueh = dwis_sieus */
-		[0x113E1109,0x113F], /* choseong dwis_sieus + sieus = ssang_dwis_sieus */
 		[0x113E1112,0x113F], /* choseong dwis_sieus + hieuh = ssang_dwis_sieus */
 		[0x110C1100,0x114E], /* choseong jieuj + gieug = ap_jieuj */
 		[0x114E1100,0x114F], /* choseong ap_jieuj + gieug = ssang_ap_jieuj */
-		[0x114E110C,0x114F], /* choseong ap_jieuj + jieuj = ssang_ap_jieuj */
 		[0x1100110C,0x1150], /* choseong gieuj + jieug = dwis_jieuj */
 		[0x1150110C,0x1151], /* choseong dwis_jieuj + jieuj = ssang_dwis_jieuj */
 		[0x110E1100,0x1154], /* choseong chieuch + gieug = ap_chieuch */
