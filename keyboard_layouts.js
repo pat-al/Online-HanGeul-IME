@@ -2190,7 +2190,7 @@ function input_combination_table_info() {
 		[0x110E1100,0x1154], /* choseong chieuch + gieug = ap_chieuch */
 		[0x1106110C,0x1155], /* choseong mieum + jieuj = dwis_chieuch */
 		[0x11BA11C1,0x11EB], /* jongseong sieus + pieup = yeolin_sieus */
-		[0x110A11C1,0xD7EE], /* jongseong ssang_sieus + pieup = sieus-yeolin_sieus */
+		//[0x110A11C1,0xD7EE], /* jongseong ssang_sieus + pieup = sieus-yeolin_sieus */
 		[0x11C711C1,0x11C8], /* jongseong nieun-sieus + pieup = nieun-yeolin_sieus */
 		[0x11B311C1,0x11D7], /* jongseong lieul-sieus + pieup = lieul-yeolin_sieus */
 		[0x11DD11C1,0x11DF], /* jongseong mieum-sieus + pieup = mieum-yeolin_sieus */
