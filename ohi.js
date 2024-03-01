@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2022/12/10
+ * Last Update : 2024/03/01
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -3719,11 +3719,9 @@ function find_sublayout(layout_info) {
 	if(typeof layout_info == 'undefined') layout_info = find_current_layout_info();
 	var sublayout = [];
 
-	if(checkCapsLock()) {
-		if(typeof layout_info.capslock_sublayout != 'undefined') sublayout=layout_info.capslock_sublayout;
-		else if(typeof layout_info.capslock_layout != 'undefined' && typeof layout_info.capslock_layout[0] != 'number') {
-			for(i=0;i<layout_info.capslock_layout.length;++i) sublayout.push(layout_info.capslock_layout[i][1]);
-		}
+	if(checkCapsLock() && typeof layout_info.capslock_sublayout != 'undefined') sublayout=layout_info.capslock_sublayout;
+	else if(checkCapsLock() && typeof layout_info.capslock_layout != 'undefined' && typeof layout_info.capslock_layout[0] != 'number') {
+		for(i=0;i<layout_info.capslock_layout.length;++i) sublayout.push(layout_info.capslock_layout[i][1]);
 	}
 	else if(typeof layout_info.sublayout != 'undefined') sublayout=layout_info.sublayout;
 	else if(typeof layout_info.layout != 'undefined' && typeof layout_info.layout[0] != 'number') {
