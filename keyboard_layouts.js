@@ -1124,7 +1124,7 @@ function input_keyboard_layout_info() {
 		[0x00B7,0x0000],	/* 0x4C L: middle dot */
 		[0x2026,0x0000],	/* 0x4D M: horizontal epllipsis */
 		[0x2015,0x0000],	/* 0x4E N: horizontal bar */
-		[0x0000,0x0000],	/* 0x4F O: jungseong u */
+		[0x0000,0x0000],	/* 0x4F O: */
 		[0x003B,0x0000],	/* 0x50 P: semicolon */
 		[0x1164,0x11B3],	/* 0x51 Q: jungseong yae, jongseong lieul-sieus */
 		[0x1165,0x11B4],	/* 0x52 R: jungseong eo, jongseong lieul-tieut */
@@ -1182,10 +1182,9 @@ function input_keyboard_layout_info() {
 
 	K3_Sin3_P2_y_capslock_layout = [];
 	for(i=0;i<K3_Sin3_P2_y_layout.length;++i) K3_Sin3_P2_y_capslock_layout.push([K3_Sin3_P2_y_layout[i][0],0]);
-	K3_Sin3_P2_y_capslock_layout[14]=[0x110F,0x0000];	/* 0x2F slash: choseong kieuk */
+	//K3_Sin3_P2_y_capslock_layout[14]=[0x110F,0x0000];	/* 0x2F slash: choseong kieuk */
 	K3_Sin3_P2_y_capslock_layout[40]=[0x0000,0x0000];	/* 0x49 I */
 	K3_Sin3_P2_y_capslock_layout[46]=[0x0000,0x0000];	/* 0x4F O */
-	K3_Sin3_P2_y_capslock_layout[47]=[0x0000,0x0000],	/* 0x50 P */
 
 	K3_Semoe_2018_layout = [
 		0x0021, /* 0x21 exclam: exclamation mark */
