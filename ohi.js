@@ -4094,9 +4094,7 @@ function ohiKeydown(e) {
 			pressed_keys=[];
 			pressing_keys=0;
 			if(ohiQ[0]+ohiQ[3]+ohiQ[6] || NFD_stack.phoneme.length) {
-				if(e.keyCode!=65) ohiSelection(f,0); // ctrl + a가 아니면 블록 없앰
-				if(ohiQ[0]+ohiQ[3]+ohiQ[6]) ohiInsert(f,0,0);
-				initialize_NFD_stack();
+				complete_hangeul_syllable(f);
 			}
 		}
 		
