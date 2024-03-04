@@ -1366,13 +1366,13 @@ function convert_syllable_into_phonemes(f) {
 			if(_combined_phoneme[i]==0x115F || _combined_phoneme[i]==0x1160) continue;
 
 			single_phonemes = [];
-			if(option.only_NFD_hangeul_encoding && !option.phonemic_writing_in_single_phoneme) single_phonemes.push(_combined_phoneme[i]);
+			if(!option.phonemic_writing_in_single_phoneme) single_phonemes.push(_combined_phoneme[i]);
 			else single_phonemes = convert_into_single_phonemes(_combined_phoneme[i]);
 			for(j=0;j<single_phonemes.length;++j) {
 				if(option.only_NFD_hangeul_encoding) NFD_hangeul_single_phoneme_syllable_input(f,single_phonemes[j]);
 				else {
 					c = hangeul_conversion_function(single_phonemes[j]);
-					ohiInput(f,0,c);
+					if(compatibility_hangeul_phoneme.indexOf(c)>=0 || unicode_NFD_hangeul_phoneme.indexOf(c)>=0) ohiInput(f,0,c);
 					// 호환 자모에 없는 첫소리에 채움 문자를 붙임
 					if(single_phonemes.length==1 && unicode_NFD_hangeul_phoneme.indexOf(single_phonemes[0]>=0) && unicode_cheos.indexOf(c)>=0) ohiInput(f,0,0x1160);
 				}
@@ -1930,7 +1930,7 @@ function NFD_hangeul_single_phoneme_syllable_input(f,c) {
 	var a=[],i;
 	c=convert_into_unicode_hangeul_phoneme(c);
 
-	if(is_phonemic_writing_input() && option.only_NFD_hangeul_encoding && option.phonemic_writing_in_single_phoneme && option.phonemic_writing_NFD_ggeut_to_cheos) {
+	if(is_phonemic_writing_input() && option.phonemic_writing_in_single_phoneme && option.phonemic_writing_NFD_ggeut_to_cheos) {
 		if(unicode_ggeut.indexOf(c)>=0) {	// 풀어쓰기 끝소리 → 첫소리
 			a=convert_into_single_phonemes(c);
 			if(a.length>1) for(i=0;i<a.length;++i) NFD_hangeul_single_phoneme_syllable_input(f,a[i]);
@@ -3025,7 +3025,7 @@ function show_options() {
 		opt_name = 'phonemic_writing_in_single_phoneme';
 		ft = 'show_options();inputText_focus()"><label title="모든 겹낱자를 풀어서 홑낱자로 나타내기">겹낱자 풀기</label>';
 		opt = add_option(opts, opt_name, ft);
-		if(is_phonemic_writing_input() && (!is_old_hangeul_input() || option.only_NFD_hangeul_encoding) && (!option.phonemic_writing_directly || option.only_NFD_hangeul_encoding)) opt.style.display = 'block';
+		if(is_phonemic_writing_input() && /*(!is_old_hangeul_input() || option.only_NFD_hangeul_encoding) &&*/ (!option.phonemic_writing_directly || option.only_NFD_hangeul_encoding)) opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt_name = 'phonemic_writing_NFD_ggeut_to_cheos';
