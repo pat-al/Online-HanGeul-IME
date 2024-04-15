@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2024/03/04
+ * Last Update : 2024/04/16
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -841,6 +841,20 @@ function ohiSpecialKey(f,e,c) {
 	return false;
 }
 
+function Hangeul2_galmadeuli_selection(a) {
+	if(typeof a.length == 'undefined') return 0;
+	if(a.length==1) return a[0];
+	var i, dah=0, hol=0;
+	for(i=a.length-1;i>=0;--i) {
+		c = convert_into_unicode_hangeul_phoneme(a[i]);
+		if(unicode_cheos.indexOf(c)>=0) dah=c;
+		else if(unicode_ga.indexOf(c)>=0) hol=c;
+	}
+	if(!dah || !hol) return dah+hol;
+	if(ohiQ[0]&&!ohiQ[3]&&!ohiQ[6] || unicode_cheos.indexOf(NFD_stack.phoneme[0])>=0) return hol;
+	return dah;
+}
+
 function ohiHangeul2(f,e,key) { // 2-Beolsik
 	if((Ko_type.indexOf('KSX5002')>=0 || Ko_type=='2-KPS9256') && (key<65 || (key-1)%32>25)) {
 		complete_hangeul_syllable(f);
@@ -851,7 +865,9 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 	var layout_info = find_current_layout_info();
 	var layout = find_current_layout();
 
-	var c = convert_into_ohi_hangeul_phoneme(layout[key-33]);
+	var c = layout[key-33];
+	if(typeof c == 'object') c = Hangeul2_galmadeuli_selection(c);
+	c = convert_into_ohi_hangeul_phoneme(c);
 
 	if(special_chars.indexOf(c)>=0) 
 		if(ohiSpecialKey(f,e,c)) return;
@@ -896,7 +912,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 			}
 		}
 
-		if(option.sunalae || Ko_type=='2-KPS9256' || Ko_type.substr(0,5)=='2-sun' || Ko_type=='2-Gaon26KM') {
+		if(option.sunalae || Ko_type=='2-KPS9256' || Ko_type.substr(0,5)=='2-sun' || Ko_type=='2-Gaon26KM' || Ko_type=='2-ggyuddeu') {
 			if((ohiQ[3]==37 || ohiQ[3]==33) && c==51 && !ohiQ[6]) {
 			// ㅕ+ㅣ→ㅖ, ㅑ+ㅣ→ㅒ
 				ohiQ[4]=1;
@@ -932,7 +948,10 @@ function NFD_hangeul2_preprocess(f,e,key) {
 	var layout = find_current_layout();
 
 	var combined_phoneme, backup_phoneme, backup_phoneme_R;
-	var c = convert_into_unicode_hangeul_phoneme(layout[key-33]);
+
+	var c = layout[key-33];
+	if(typeof c == 'object') c = Hangeul2_galmadeuli_selection(c);
+	c = convert_into_unicode_hangeul_phoneme(c);
 
 	if(unicode_cheos.indexOf(c)>=0) { // 닿소리일 때
 		if(unicode_ggeut.indexOf(NFD_stack.phoneme[0])>=0) { // 바로 앞에 끝소리가 들어왔다면
@@ -2291,6 +2310,11 @@ function hangeul_typewriter(f,key) { // 타자기 자판
 
 function is_galmadeuli_input() {
 	var type_name = current_layout_info.type_name;
+	if(type_name.substr(0,2)=='2-') {
+		for(var i=0; i<current_layout_info.layout.length; ++i)
+			if(typeof current_layout_info.layout[i] == 'object') return true;
+		return false;
+	}
 	if(type_name.substr(0,5)=='Sin3-') return true;
 	if(type_name.substr(0,5)=='LGG3-') return true;
 	if(type_name.substr(-3)=='_gm') return true;
@@ -3061,7 +3085,7 @@ function show_options() {
 		opt_name = 'sunalae';
 		ft = 'show_options();inputText_focus()"><label title="두벌식 자판으로 홀소리 글쇠를 거듭 눌러 겹닿소리(된소리) 넣기">순아래 조합 <a href="https://sites.google.com/site/tinyduckn/dubeolsig-sun-alae" target="_blank">ⓘ</a></label>';
 		opt = add_option(opts, opt_name, ft);
-		if(!is_old_hangeul_input() && !is_phonemic_writing_input() && type_name.substr(0,2)=='2-' && type_name.substr(0,5)!='2-sun') opt.style.display = 'block';
+		if(!is_old_hangeul_input() && !is_phonemic_writing_input() && !is_galmadeuli_input() && type_name.substr(0,2)=='2-' && type_name.substr(0,5)!='2-sun') opt.style.display = 'block';
 		else opt.style.display = 'none';
 
 		opt_name = 'enable_sign_ext';
@@ -4086,7 +4110,7 @@ function ohiKeydown(e) {
 			esc_ext_state();
 		}
 
-		if(e.keyCode==17) { // ctrl		
+		if(e.keyCode==17) { // ctrl
 			if(!pressing_keys && pressed_keys.indexOf(17)<0) pressed_key_accumulation(f,e,key);
 		}
 		
