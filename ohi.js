@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2024/04/16
+ * Last Update : 2024/04/24
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -386,8 +386,26 @@ function ohiHangeul_backspace(f,e) {
 }
 
 function ohiDoubleJamo(a,c,d) {
-	var i, j=[ // Double Jamos
-		[ [1,7,18,21,24],1,7,18,21,24 ], // Cho
+	var i,j;
+
+	if(typeof current_layout_info.hangeul_combination_table != 'undefined') { // 낱자 조합 규칙이 따로 있으면
+		var c1, c2, c3, combination_table = current_layout_info.hangeul_combination_table;
+		for(i=0; i<combination_table.length; ++i) {
+			c1 = convert_into_ohi_hangeul_phoneme(parseInt(combination_table[i][0]/0x10000));
+			c2 = convert_into_ohi_hangeul_phoneme(combination_table[i][0]%0x10000);
+			c3 = convert_into_ohi_hangeul_phoneme(combination_table[i][1]);
+			if(!c1 || !c2 || !c3) continue;
+			if(a==0 && ohi_cheos.indexOf(c3)>=0) j=127;
+			else if(a==1 && ohi_ga.indexOf(c3)>=0) j=35;
+			else if(a==2 && ohi_ggeut.indexOf(c3)>=0) j=0;
+			else continue;
+			if(c1==c+j && c2==d+j) return c3-c1;
+		}
+		return 0;
+	}
+
+	var j=[ // Double Jamos
+		[ [1,7,18,21,24],1,7,17,21,24 ], // Cho
 		[ [39,44,49],[31,32,51],[35,36,51],51 ], // Jung
 		[ [1,4,9,18,21],[1,21],[24,30],[1,17,18,21,28,29,30],[0,21],21 ] // Jong
 	];
@@ -856,6 +874,7 @@ function Hangeul2_galmadeuli_selection(a) {
 }
 
 function ohiHangeul2(f,e,key) { // 2-Beolsik
+	var i;
 	if((Ko_type.indexOf('KSX5002')>=0 || Ko_type=='2-KPS9256') && (key<65 || (key-1)%32>25)) {
 		complete_hangeul_syllable(f);
 		ohiInsert(f,0,key);
@@ -891,12 +910,13 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 
 	if(c<31) { // Jaum
 		if((!ohiQ[7] || !(ohiQ[0]=-1)) && ohiQ[3]) ohiQ[7]=ohiDoubleJamo(2,ohiQ[6],c);
-		if(!ohiQ[3] || ohiQ[0]<0 || ohiQ[0] && (!ohiQ[6] || !ohiQ[7]) && (ohiQ[6] || c==8 || c==19 || c==25))
-			ohiInsert(f,(ohiQ=ohiQ[1]||ohiQ[3]||!ohiDoubleJamo(0,ohiQ[0],c)?ohiQ:0),ohiQ=[c,ohiQ?0:1,0,0,0,0,0,0,0]);
+		if(!ohiQ[3] || ohiQ[0]<0 || ohiQ[0] && (!ohiQ[6] || !ohiQ[7]) && (ohiQ[6] || c==8 || c==19 || c==25)) {
+			i = ohiDoubleJamo(0,ohiQ[0],c);
+			ohiInsert(f,(ohiQ=ohiQ[1]||ohiQ[3]||!i?ohiQ:0),ohiQ=[c,ohiQ?0:i,0,0,0,0,0,0,0]);
+		}
 		else if(!ohiQ[0] && ohiQ[3]) {
 		// 닿소리 없이 홀소리가 들어왔고 닿소리가 눌렸을 때 새 낱내자로 조합하기
 			complete_hangeul_syllable(f);
-			//ohiInsert(f,ohiQ,ohiQ);
 			ohiInsert(f,0,ohiQ=[c,0,0,0,0,0,0,0,0]);
 		}
 		else if(!ohiQ[0] && (ohiQ[0]=c) || (ohiQ[6]=ohiQ[6]||c)) ohiInsert(f,0,ohiQ);
@@ -912,7 +932,7 @@ function ohiHangeul2(f,e,key) { // 2-Beolsik
 			}
 		}
 
-		if(option.sunalae || Ko_type=='2-KPS9256' || Ko_type.substr(0,5)=='2-sun' || Ko_type=='2-Gaon26KM' || Ko_type=='2-ggyuddeu') {
+		if(option.sunalae || Ko_type=='2-KPS9256' || Ko_type.substr(0,5)=='2-sun' || Ko_type=='2-Gaon26KM') {
 			if((ohiQ[3]==37 || ohiQ[3]==33) && c==51 && !ohiQ[6]) {
 			// ㅕ+ㅣ→ㅖ, ㅑ+ㅣ→ㅒ
 				ohiQ[4]=1;
@@ -3251,7 +3271,7 @@ function show_keyboard_layout(type) {
 	inner_html += '</div>';
 	rows.innerHTML = inner_html;
 
-	var charCode;
+	var charCode, charCode_uh;
 
  	for(i=0, k=-1; ue[i]; i++) {
 		var row = document.getElementById('row'+i);
@@ -3281,7 +3301,6 @@ function show_keyboard_layout(type) {
 			if(KE=='En' && ue[i][j].length==1)
 				if(charCode>64 && charCode<91 || charCode>96 && charCode<123) tdclass = 'e2';
 			if(unicode_NFD_hangeul_phoneme.indexOf(charCode)>=0) {
-				charCode = ue[i][j].charCodeAt(0);
 				ue[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_letter(charCode));
 			}
 			var col = appendChild(row,'div',tdclass,tdid,'','36px','0 0 0 0');
@@ -3327,18 +3346,24 @@ function show_keyboard_layout(type) {
 				if(uh[i][j]) {
 					if(typeof uh[i][j].charCodeAt == 'function') {
 						charCode = uh[i][j].charCodeAt(0);
-						if(unicode_NFD_hangeul_phoneme.indexOf(charCode)>=0) charCode=convert_into_compatibility_hangeul_letter(charCode);
 						uh[i][j] = String.fromCharCode(charCode);
 						if(compatibility_hangeul_phoneme.indexOf(uh[i][j].charCodeAt(0))<0) uh[i][j] = (unicode_ga.indexOf(charCode)>=0 ? String.fromCharCode(0x115F) : '') + (unicode_ggeut.indexOf(charCode)>=0 ? String.fromCharCode(0x115F)+String.fromCharCode(0x1160) : '') + uh[i][j];
 					}
 					else charCode = uh[i][j];
 
 					if(special_chars.indexOf(charCode)>=0) uh[i][j] = special_chars_string[special_chars.indexOf(charCode)];
-					if(uh[i][j]==dh[i][j] && uh[i][j]!=de[i][j]) uh[i][j]=' '; // 한글 배열에서 윗글과 아랫글 자리의 문자가 같을 때 윗글 자리를 나타내지 않음
+					if(Ko_type.substr(0,2)=='2-' && is_galmadeuli_input() && unicode_ga.indexOf(charCode)>=0) { // 두벌식 갈마들이 자판
+						// 윗글 자리에 홀소리가 있으면 홀소리 글쇠로 나타냄
+						if(unicode_ga.indexOf(charCode)>=0) document.getElementById('key'+k).className = 'h2';
+					}
 					if( (Ko_type.substr(0,2)=='3-' && is_galmadeuli_input() || typeof current_layout_info.sublayout != 'undefined') && unicode_modern_ggeut.indexOf(charCode)>=0 && unicode_modern_hotbadchim.indexOf(charCode)<0) {
 						// 갈마들이 공세벌식 자판의 기본 배열에 들어가는 겹받침을 회색으로 나타냄
 						uh[i][j] = '<span style="color:gray;">'+uh[i][j]+'</span>';
 					}
+					if(unicode_NFD_hangeul_phoneme.indexOf(charCode)>=0) {
+						uh[i][j] = String.fromCharCode(convert_into_compatibility_hangeul_letter(charCode));
+					}
+					if(uh[i][j]==dh[i][j] && uh[i][j]!=de[i][j]) uh[i][j]=' '; // 한글 배열에서 윗글과 아랫글 자리의 문자가 같을 때 윗글 자리를 나타내지 않음
 				}
 				if(!sign_ext_state&&uh[i][j]==ue[i][j] || uh[i][j]=='&'&&ue[i][j]=='&amp;' || uh[i][j]=='<'&&ue[i][j]=='&lt;' || uh[i][j]=='>'&&ue[i][j]=='&gt;') uh[i][j]=' ';
 				appendChild(up,'div','uh','uh'+k,uh[i][j]);
