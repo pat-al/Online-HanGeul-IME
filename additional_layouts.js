@@ -21,7 +21,7 @@ additional_layouts.push({KE: 'Ko', type_name: '2-HGS_1952', full_name: '한당�
 additional_layouts.push({KE: 'Ko', type_name: '2-Jang_1953', full_name: '장봉선 풀어쓰기 전신 타자기 (1953) (체신부 통신용)', layout: K2_Jang_1953_teletypewriter_layout, link: 'https://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Bag_Song_1968', full_name: '박영효·송계범 전신 타자기 자판 설계안 (1968)', layout: K2_Bag_Song_1968_layout, link: 'https://pat.im/1025'});
 additional_layouts.push({KE: 'Ko', type_name: '2-Gaon26KM', full_name: '가온한글26KM', layout: K2_Gaon_KSX5002_layout, link: 'http://cafe.daum.net/kbd-p/8OTK/10'});
-additional_layouts.push({KE: 'Ko', type_name: '2-ggdd', full_name: '뀨뜨', layout: K2_ggdd_layout, link: 'https://blog.naver.com/tinyduckn/222854157484'});
+additional_layouts.push({KE: 'Ko', type_name: '2-bbjj', full_name: '뿌쯔', layout: K2_bbjj_layout, hangeul_combination_table: K2_galmageuli_combination_table, link: 'https://blog.naver.com/tinyduckn/222854157484'});
 
 additional_layouts.push({KE: 'Ko', type_name: '4t-1969', full_name: '1969 네벌식 타자기 표준 (과학기술처)', layout: K4_1969_Typewriter_layout,  hangeul_combination_table: K4_1969_Typewriter_combination_table, link: 'https://pat.im/965'});
 additional_layouts.push({KE: 'Ko', type_name: '3t-Oesol', full_name: '외솔 타자기 (1981, 최동식·김광성)', layout: K3_Oesol_Typewriter_layout, hangeul_combination_table: K3_Oesol_Typewriter_combination_table, link: 'https://pat.im/1026'});
@@ -578,8 +578,8 @@ function input_additional_keyboard_layout_info() {
 		0x007E	/* 0x7E asciitilde: tilde */
 	];
 	
-	// 뀨뜨 (두벌식 갈마들이)
-	K2_ggdd_layout = [
+	// 뿌쯔 (두벌식 갈마들이)
+	K2_bbjj_layout = [
 		[0x0021,0],	/* 0x21 exclam: exclamation mark */
 		[0x0022,0],	/* 0x22 quotedbl: quotatioin mark */
 		[0x0023,0],	/* 0x23 numbersign: number sign */
@@ -645,30 +645,30 @@ function input_additional_keyboard_layout_info() {
 		[0x005F,0],	/* 0x5F underscore: underscore */
 		[0x0060,0],	/* 0x60 quoteleft: grave accent */
 		[0x1106,0], /* 0x61 a: choseong mieum */
-		[0x1101,0x1172], /* 0x62 b: choseong ssang_gieug, jungseong yu */
+		[0x1172,0], /* 0x62 b: jungseong yu */
 		[0x110E,0], /* 0x63 c: choseong chieuch */
 		[0x110B,0], /* 0x64 d: choseong ieung */
 		[0x1103,0], /* 0x65 e: choseong dieud */
 		[0x1105,0], /* 0x66 f: choseong lieul */
 		[0x1112,0], /* 0x67 g: choseong hieuh */
 		[0x1169,0], /* 0x68 h: jungseong o */
-		[0x1108,0x1163], /* 0x69 i: choseong ssang_bieub, jungseong ya */
+		[0x110A,0x1163], /* 0x69 i: choseong ssang_sieus, jungseong ya */
 		[0x1165,0], /* 0x6A j: jungseong eo */
 		[0x1161,0], /* 0x6B k: jungseong a */
 		[0x1175,0], /* 0x6C l: jungseong i */
-		[0x1104,0x1173], /* 0x6D m: choseong ssang_dieud, jungseong eu */
-		[0x116E,0], /* 0x6E n: jungseong u */
+		[0x110D,0x1173], /* 0x6D m: choseong ssang_jieuj, jungseong eu */
+		[0x1108,0x116E], /* 0x6E n: choseong ssang_bieub, jungseong u */
 		[0x1162,0], /* 0x6F o: jungseong ae */
 		[0x1166,0], /* 0x70 p: jungseong e */
 		[0x1107,0], /* 0x71 q: choseong bieub */
 		[0x1100,0], /* 0x72 r: choseong gieug */
 		[0x1102,0], /* 0x73 s: choseong nieun */
 		[0x1109,0], /* 0x74 t: choseong sieus */
-		[0x110D,0x1167], /* 0x75 u: choseong ssang_jieuj, jungseong yeo */
+		[0x1101,0x1167], /* 0x75 u: choseong ssang_gieug, jungseong yeo */
 		[0x1111,0], /* 0x76 v: choseong pieup */
 		[0x110C,0], /* 0x77 w: choseong jieuj */
 		[0x1110,0], /* 0x78 x: choseong tieut */
-		[0x110A,0x116D], /* 0x79 y: choseong ssang_sieus, jungseong yo */
+		[0x1104,0x116D], /* 0x79 y: choseong ssang_dieud, jungseong yo */
 		[0x110F,0], /* 0x7A z: choseong kieuk */
 		[0x007B,0],	/* 0x7B braceleft: left brace */
 		[0x007C,0],	/* 0x7C bar: vertical line(bar) */
@@ -6400,6 +6400,11 @@ K3_Anmatae_layout = [
 
 
 function input_additional_combination_table_info() {
+
+	K2_galmageuli_combination_table = hangeul_combination_table_default.concat([
+		[0x11631175,0x1164], /* jungseong ya + i = yae */
+		[0x11671175,0x1168], /* jungseong yeo + i = ye */
+	]);
 
 	//K4_1969_Typewriter_combination_table = hangeul_combination_table_default.concat([
 	K4_1969_Typewriter_combination_table = hangeul_combination_table_default.concat([
