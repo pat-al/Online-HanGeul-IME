@@ -1,7 +1,7 @@
 /** Modified Version (http://ohi.pat.im)
 
  * Modifier : Pat-Al <pat@pat.im> (https://pat.im/910)
- * Last Update : 2024/04/24
+ * Last Update : 2024/08/07
 
  * Added support for more keyboard layouts by custom keyboard layout tables.
  * Added support for Dvorak and Colemak and Workman keyboard layouts.
@@ -405,7 +405,7 @@ function ohiDoubleJamo(a,c,d) {
 	}
 
 	var j=[ // Double Jamos
-		[ [1,7,18,21,24],1,7,17,21,24 ], // Cho
+		[ [1,7,18,21,24],1,7,18,21,24 ], // Cho
 		[ [39,44,49],[31,32,51],[35,36,51],51 ], // Jung
 		[ [1,4,9,18,21],[1,21],[24,30],[1,17,18,21,28,29,30],[0,21],21 ] // Jong
 	];
